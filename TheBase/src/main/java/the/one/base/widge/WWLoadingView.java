@@ -3,27 +3,27 @@ package the.one.base.widge;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
+
+import the.one.base.R;
 
 /**
  * Created by cgine on 17/1/18.
  */
 
-public class WWLoadingView extends View   {
+public class WWLoadingView extends View  implements QMUIPullRefreshLayout.IRefreshView  {
     private static final int DURATION = 600;
     private Ball[] mBalls = new Ball[4];
-    private int mSize = 40;
+    private int mSize = getResources().getDimensionPixelSize(R.dimen.pull_size);
     private ValueAnimator mAnimator;
     private float mOriginInset;
     private float mCurrentPercent = 0;
@@ -62,6 +62,7 @@ public class WWLoadingView extends View   {
         mBalls[1] = new Ball(ballRadius, ballSmallRadius, 0xFF2DBC00, op2);
         mBalls[2] = new Ball(ballRadius, ballSmallRadius, 0xFFFFCC00, op3);
         mBalls[3] = new Ball(ballRadius, ballSmallRadius, 0xFFFB6500, op4);
+        startAnim();
     }
 
     private void startAnim() {
@@ -110,9 +111,6 @@ public class WWLoadingView extends View   {
     private void stopAnim() {
         if (mAnimator != null) {
             mAnimator.removeAllUpdateListeners();
-            if (Build.VERSION.SDK_INT >= 19) {
-                mAnimator.pause();
-            }
             mAnimator.end();
             mAnimator.cancel();
             mAnimator = null;
@@ -148,6 +146,34 @@ public class WWLoadingView extends View   {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(mSize, mSize);
+    }
+
+    @Override
+    public void stop() {
+        stopAnim();
+    }
+
+    @Override
+    public void doRefresh() {
+        startAnim();
+    }
+
+    @Override
+    public void onPull(int offset, int total, int overPull) {
+        if (mAnimator != null && mAnimator.isRunning()) {
+            return;
+        }
+        int dis = offset;
+        if (overPull > 0) {
+            dis = total + overPull;
+        }
+        float useDis = dis * 0.3f;
+        mCurrentPercent = useDis / total;
+        for (int i = 0; i < mBalls.length; i++) {
+            Ball ball = mBalls[i];
+            ball.calculate(mCurrentPercent);
+        }
+        invalidate();
     }
 
     private static class OriginPoint {

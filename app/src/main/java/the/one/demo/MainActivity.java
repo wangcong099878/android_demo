@@ -1,13 +1,14 @@
 package the.one.demo;
 
-import me.yokeyword.fragmentation.SupportFragment;
-import the.one.base.base.ProxyActivity;
+import the.one.base.base.fragment.BaseFragment;
+import the.one.base.base.activity.BaseFragmentActivity;
+import the.one.demo.fragment.MainFragment;
 
-public class MainActivity extends ProxyActivity {
+public class MainActivity extends BaseFragmentActivity {
+
 
     @Override
-    protected SupportFragment setDelegate() {
-        return new IndexDelegate();
+    protected BaseFragment getBaseFragment() {
+        return new MainFragment();
     }
-
 }

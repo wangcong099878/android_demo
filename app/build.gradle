@@ -21,4 +21,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':TheBase')
+    implementation 'org.jsoup:jsoup:1.9.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

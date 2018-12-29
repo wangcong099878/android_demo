@@ -22,4 +22,9 @@
     <color name="app_color_theme_7">#5A9AEF</color> <!-- Blue Jeans -->
     <color name="app_color_theme_8">#AC8FEF</color> <!-- Lavender -->
     <color name="app_color_theme_9">#EE85C1</color> <!-- Pink Rose -->
+
+
+    <color name="we_chat_black">#232323</color>
+    <color name="tab_selected_text_color">@color/app_color_blue</color>
+    <color name="tab_normal_text_color">@color/we_chat_black</color>
 </resources>

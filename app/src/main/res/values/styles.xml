@@ -2,14 +2,22 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
-
-
         <item name="QMUITopBarStyle">@style/QDTopBar</item>
+        <item name="QMUITabSegmentStyle">@style/SegmentStyle</item>
+        <item name="qmui_config_color_blue">@color/qmui_config_color_red</item>
+
+    </style>
+
+    <style name="SegmentStyle" parent="QMUI.TabSegment">
+        <item name="qmui_tab_has_indicator">true</item>
+        <item name="qmui_tab_indicator_height">2dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
 
     </style>
 
     <style name="QDTopBar" parent="QMUI.TopBar">
-        <item name="qmui_topbar_bg_color">@color/app_color_theme_5</item>
+        <item name="qmui_topbar_bg_color">@color/classic_color_7</item>
         <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_height">48dp</item>
