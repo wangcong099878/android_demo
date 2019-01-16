@@ -40,7 +40,7 @@ import the.one.demo.fragment.titleTabViewPager.SimpleTabFragment;
  */
 public class MainFragment extends BaseGroupListFragment implements View.OnClickListener {
 
-    QMUICommonListItemView DATA_FRAGMENT, BOTTOM_INDEX, TAB, ACTIVITY,Calendar;
+    QMUICommonListItemView DATA_FRAGMENT, BOTTOM_INDEX, TAB, ACTIVITY,Calendar,Contact;
 
     @Override
     protected void addGroupListView() {
@@ -51,6 +51,7 @@ public class MainFragment extends BaseGroupListFragment implements View.OnClickL
         TAB = CreateItemView(TYPE_CHEVRON, "TitleBar+TabLayout+ViewPager");
 
         Calendar = CreateItemView(TYPE_CHEVRON,"日历");
+        Contact = CreateItemView(TYPE_CHEVRON,"联系人");
 
         QMUIGroupListView.newSection(getContext())
                 .addItemView(BOTTOM_INDEX, this)
@@ -58,6 +59,7 @@ public class MainFragment extends BaseGroupListFragment implements View.OnClickL
                 .addItemView(TAB, this)
                 .addItemView(ACTIVITY, this)
                 .addItemView(Calendar, this)
+                .addItemView(Contact, this)
                 .addTo(mGroupListView);
 
     }
@@ -74,6 +76,8 @@ public class MainFragment extends BaseGroupListFragment implements View.OnClickL
             startActivity(SimpleActivity.class);
         }else if(view == Calendar){
             startActivity(CalendarActivity.class);
+        }else if (view == Contact) {
+            startFragment(new LetterSearchFragment());
         }
     }
 }

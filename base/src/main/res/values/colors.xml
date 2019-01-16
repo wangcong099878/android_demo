@@ -25,4 +25,7 @@
     <color name="we_chat_black">#232323</color>
     <color name="tab_selected_text_color">@color/qmui_config_color_blue</color>
     <color name="tab_normal_text_color">@color/we_chat_black</color>
+
+
+    <color name="divider_color">#eee</color>
 </resources>

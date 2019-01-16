@@ -1,6 +1,9 @@
 package the.one.base.util;
 
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 拼音的相关类
@@ -179,6 +183,21 @@ public class PinYingUtil {
             returnStr = returnStr.substring(0, returnStr.length() - 1);
         }
         return returnStr;
+    }
+
+    /**
+     * 获取拼音的首字母（大写）
+     * @param pinyin
+     * @return
+     */
+    public static String getFirstLetter(final String pinyin){
+        if (TextUtils.isEmpty(pinyin)) return "#";
+        String c = pinyin.substring(0, 1);
+        Pattern pattern = Pattern.compile("^[A-Za-z]+$");
+        if (pattern.matcher(c).matches()){
+            return c.toUpperCase();
+        }
+        return "#";
     }
 
 }

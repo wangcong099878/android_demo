@@ -120,7 +120,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
 
     @Override
     public void hideLoadingDialog() {
-        if (null == loadingDialog)
+        if (null != loadingDialog)
             loadingDialog.dismiss();
     }
 
