@@ -1,6 +1,10 @@
-package the.one.demo;
+package the.one.base;
 
-import the.one.base.BaseApplication;
+import android.support.multidex.MultiDexApplication;
+
+import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
+
+import the.one.base.util.NotificationManager;
 
 
 //  ┏┓　　　┏┓
@@ -23,16 +27,17 @@ import the.one.base.BaseApplication;
 
 /**
  * @author The one
- * @date 2018/12/28 0028
+ * @date 2019/1/7 0007
  * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public class App extends BaseApplication {
+public class BaseApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
+        QMUISwipeBackActivityManager.init(this);
+        NotificationManager.getInstance(this).register();
     }
-
 }

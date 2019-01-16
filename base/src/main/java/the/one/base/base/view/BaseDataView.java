@@ -1,7 +1,4 @@
-package the.one.demo;
-
-import the.one.base.BaseApplication;
-
+package the.one.base.base.view;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -21,6 +18,10 @@ import the.one.base.BaseApplication;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import java.util.List;
+
+import the.one.base.model.PageInfoBean;
+
 /**
  * @author The one
  * @date 2018/12/28 0028
@@ -28,11 +29,15 @@ import the.one.base.BaseApplication;
  * @email 625805189@qq.com
  * @remark
  */
-public class App extends BaseApplication {
+public interface BaseDataView<T> extends BaseView {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
+    void onComplete(List<T> data);
+    void onComplete(List<T> data, PageInfoBean pageInfoBean);
+    void onComplete(List<T> data, PageInfoBean pageInfoBean,String emptyString);
+
+    void onFail(Exception e);
+    void onFail(String errorMsg);
+
+    void onNormal();
 
 }

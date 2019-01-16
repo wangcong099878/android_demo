@@ -1,1 +1,1 @@
-include ':app', ':TheBase',':TheNet'
+include ':app', ':base'

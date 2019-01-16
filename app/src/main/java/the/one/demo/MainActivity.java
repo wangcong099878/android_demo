@@ -6,7 +6,6 @@ import the.one.demo.fragment.MainFragment;
 
 public class MainActivity extends BaseFragmentActivity {
 
-
     @Override
     protected BaseFragment getBaseFragment() {
         return new MainFragment();

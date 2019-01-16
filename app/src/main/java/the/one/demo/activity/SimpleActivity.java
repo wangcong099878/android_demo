@@ -1,6 +1,7 @@
-package the.one.demo;
+package the.one.demo.activity;
 
-import the.one.base.BaseApplication;
+import the.one.base.base.activity.BaseActivity;
+import the.one.demo.R;
 
 
 //  ┏┓　　　┏┓
@@ -23,16 +24,21 @@ import the.one.base.BaseApplication;
 
 /**
  * @author The one
- * @date 2018/12/28 0028
+ * @date 2019/1/7 0007
  * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public class App extends BaseApplication {
+public  class SimpleActivity extends BaseActivity {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    protected int getLayoutId() {
+        return R.layout.activity_simple;
+    }
+
+    @Override
+    protected void initView() {
+
     }
 
 }

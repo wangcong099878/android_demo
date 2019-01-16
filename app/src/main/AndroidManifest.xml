@@ -18,6 +18,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.SimpleActivity"/>
+        <activity android:name=".activity.CalendarActivity"/>
+
     </application>
 
 </manifest>
