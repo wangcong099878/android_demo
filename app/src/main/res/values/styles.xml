@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
         <item name="QMUITopBarStyle">@style/QDTopBar</item>
-        <item name="QMUITabSegmentStyle">@style/SegmentStyle</item>
+        <!--<item name="QMUITabSegmentStyle">@style/SegmentStyle</item>-->
         <!--主色调-->
         <item name="qmui_config_color_blue">@color/app_color_theme_6</item>
 

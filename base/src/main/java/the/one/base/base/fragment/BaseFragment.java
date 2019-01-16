@@ -253,6 +253,12 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     public void onDestroy() {
         super.onDestroy();
         if (getPresenter() != null) getPresenter().detachView();
-        if (null != mUnbinder) mUnbinder.unbind();
+        if (null != mUnbinder){
+            try{
+                mUnbinder.unbind();
+            }catch (Exception e){
+
+            }
+        }
     }
 }

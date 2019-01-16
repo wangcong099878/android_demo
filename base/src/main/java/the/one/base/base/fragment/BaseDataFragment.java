@@ -18,12 +18,16 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -150,7 +154,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
         // 打开动画效果
         adapter.openLoadAnimation();
         // 动画一直执行
-        adapter.isFirstOnly(false);
+        adapter.isFirstOnly(true);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
         pullLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {
@@ -172,8 +176,21 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
             }
         });
         initRecycleView();
+        if(mTopLayout.getVisibility()!=View.VISIBLE){
+            setMargins(mStatusLayout,0, 0,0,0);
+        }
         refresh();
+
     }
+
+    public static void setMargins (View v, int l, int t, int r, int b) {
+        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(l, t, r, b);
+            v.requestLayout();
+        }
+    }
+
 
     private void initRecycleView() {
         switch (setType()) {

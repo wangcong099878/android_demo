@@ -1,7 +1,9 @@
 package the.one.demo.fragment;
 
 import android.Manifest;
+import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.Animation;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -47,7 +49,14 @@ public class LetterSearchFragment extends BaseLetterSearchFragment {
     protected void initView(View rootView) {
         super.initView(rootView);
         initFragmentBack("联系人");
+        goneView(sideLetterBar);
         showLoadingDialog("加载联系人中");
+
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        super.onEnterAnimationEnd(animation);
         final RxPermissions permissions = new RxPermissions(this);
         permissions
                 .request(
@@ -78,8 +87,10 @@ public class LetterSearchFragment extends BaseLetterSearchFragment {
 
     private void importContacts() {
         List<Contact> contacts = ContactsUtil.getContacts(getActivity());
-        notifyData(contacts, "添加联系人，方便记录", "点我添加", null);
         hideLoadingDialog();
+        showView(sideLetterBar);
+        notifyData(contacts, "添加联系人，方便记录", "点我添加", null);
+
     }
 
 

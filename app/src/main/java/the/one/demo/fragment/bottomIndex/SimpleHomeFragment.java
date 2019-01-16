@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BaseHomeFragment;
 import the.one.demo.R;
+import the.one.demo.fragment.SimpleDataFragment;
 
 
 //  ┏┓　　　┏┓
@@ -34,17 +35,13 @@ import the.one.demo.R;
  */
 public class SimpleHomeFragment extends BaseHomeFragment {
 
-    @Override
-    protected boolean setViewPagerSwipe() {
-        return true;
-    }
 
     @Override
     protected void addTabs() {
-        addTab(R.drawable.nav_home,R.drawable.nav_home_activated,"主页");
-        addTab(R.drawable.nav_cart,R.drawable.nav_cart_activate,"采购");
-        addTab(R.drawable.nav_out_car,R.drawable.nav_out_car_activate,"出库");
-        addTab(R.drawable.nav_personal,R.drawable.nav_personal_activated,"我的");
+        addTab(R.drawable.nav_home, R.drawable.nav_home_activated, "主页");
+        addTab(R.drawable.nav_cart, R.drawable.nav_cart_activate, "采购");
+        addTab(R.drawable.nav_out_car, R.drawable.nav_out_car_activate, "出库");
+        addTab(R.drawable.nav_personal, R.drawable.nav_personal_activated, "我的");
     }
 
 

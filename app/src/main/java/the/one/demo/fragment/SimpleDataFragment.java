@@ -43,10 +43,11 @@ import the.one.demo.presenter.GirlPresenter;
  */
 public class SimpleDataFragment extends BaseDataFragment<GirlItemData> {
 
-    public static SimpleDataFragment newInstance(int type) {
+    public static SimpleDataFragment newInstance(int type,boolean showTitle) {
         SimpleDataFragment fragment = new SimpleDataFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(DataConstant.DATA, type);
+        bundle.putBoolean(DataConstant.TYPE, showTitle);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -63,6 +64,7 @@ public class SimpleDataFragment extends BaseDataFragment<GirlItemData> {
         initFragmentBack("Girls");
         assert getArguments() != null;
         type = getArguments().getInt(DataConstant.DATA);
+        mTopLayout.setVisibility(getArguments().getBoolean(DataConstant.TYPE)?View.VISIBLE:View.GONE);
         super.initView(rootView);
     }
 

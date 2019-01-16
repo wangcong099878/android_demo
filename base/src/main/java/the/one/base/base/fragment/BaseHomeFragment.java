@@ -57,6 +57,7 @@ public abstract class BaseHomeFragment extends BaseTabFragment {
     @Override
     protected void initTabAndPager() {
         mTabSegment.setMode(QMUITabSegment.MODE_FIXED);
+        //是否有 Indicator
         mTabSegment.setHasIndicator(false);
         super.initTabAndPager();
     }

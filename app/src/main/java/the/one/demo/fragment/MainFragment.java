@@ -69,7 +69,7 @@ public class MainFragment extends BaseGroupListFragment implements View.OnClickL
         if (view == BOTTOM_INDEX) {
             startFragment(new SimpleHomeFragment());
         } else if (view == DATA_FRAGMENT) {
-            startFragment(SimpleDataFragment.newInstance(2));
+            startFragment(SimpleDataFragment.newInstance(2,true));
         } else if (view == TAB) {
             startFragment(new SimpleTabFragment());
         } else if (view == ACTIVITY) {

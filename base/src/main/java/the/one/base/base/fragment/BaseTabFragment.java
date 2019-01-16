@@ -18,13 +18,17 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.animation.Animation;
 
 import com.qmuiteam.qmui.widget.QMUITabSegment;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
 
 import java.util.ArrayList;
 
+import the.one.base.R;
 import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.base.presenter.BasePresenter;
 
@@ -65,6 +69,8 @@ public abstract class BaseTabFragment extends BaseFragment {
         return true;
     }
 
+    protected boolean isDestroyItem(){return true;}
+
     protected void requestServer() { }
 
     @Override
@@ -76,6 +82,12 @@ public abstract class BaseTabFragment extends BaseFragment {
     protected void initView(View rootView) {
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
+
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        super.onEnterAnimationEnd(animation);
         if (!tabFromNet()) {
             startInit();
         } else {
@@ -90,12 +102,12 @@ public abstract class BaseTabFragment extends BaseFragment {
     }
 
     protected void initTabAndPager() {
+        pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments,isDestroyItem());
+        mViewPager.setAdapter(pageAdapter);
+        mViewPager.setSwipeable(setViewPagerSwipe());
         for (QMUITabSegment.Tab tab : mTabs) {
             mTabSegment.addTab(tab);
         }
-        pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments);
-        mViewPager.setAdapter(pageAdapter);
-        mViewPager.setSwipeable(setViewPagerSwipe());
         mTabSegment.addOnTabSelectedListener(new QMUITabSegment.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int index) {
