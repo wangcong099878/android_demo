@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.qmuiteam.qmui.layout.QMUIButton;
+import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +56,7 @@ public class StatusLayout extends RelativeLayout {
     ImageView errorStateImageView;
     TextView errorStateTitleTextView;
     TextView errorStateContentTextView;
-    QMUIButton errorStateButton;
+    QMUIRoundButton errorStateButton;
 
     int loadingStateProgressBarWidth;
     int loadingStateProgressBarHeight;
@@ -349,6 +349,8 @@ public class StatusLayout extends RelativeLayout {
                 errorStateTitleTextView.setVisibility(VISIBLE);
                 errorStateTitleTextView.setText(errorText);
                 errorStateContentTextView.setText(errorTextContent);
+                if(null == errorButtonText || errorButtonText.isEmpty())
+                    errorStateButton.setVisibility(GONE);
                 errorStateButton.setText(errorButtonText);
                 errorStateButton.setOnClickListener(onClickListener);
                 setContentVisibility(false, skipIds);
@@ -427,7 +429,7 @@ public class StatusLayout extends RelativeLayout {
             errorStateImageView = (ImageView) view.findViewById(R.id.errorStateImageView);
             errorStateTitleTextView = (TextView) view.findViewById(R.id.errorStateTitleTextView);
             errorStateContentTextView = (TextView) view.findViewById(R.id.errorStateContentTextView);
-            errorStateButton = (QMUIButton) view.findViewById(R.id.errorStateButton);
+            errorStateButton =  view.findViewById(R.id.errorStateButton);
 
             //Set error state image width and height
             errorStateImageView.getLayoutParams().width = errorStateImageWidth;

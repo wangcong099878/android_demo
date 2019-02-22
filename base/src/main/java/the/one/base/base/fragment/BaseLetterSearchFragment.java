@@ -35,6 +35,8 @@ import the.one.base.R;
 import the.one.base.adapter.LetterSearchAdapter;
 import the.one.base.widge.SideLetterBar;
 
+import static the.one.base.base.fragment.BaseDataFragment.setMargins;
+
 /**
  * @author The one
  * @date 2019/1/16 0016
@@ -44,12 +46,12 @@ import the.one.base.widge.SideLetterBar;
  */
 public abstract class BaseLetterSearchFragment<T extends IContacts> extends BaseFragment implements BaseQuickAdapter.OnItemChildClickListener, BaseQuickAdapter.OnItemChildLongClickListener{
 
-    protected FrameLayout topLayout;
+    protected FrameLayout flBottomLayout;
     protected RecyclerView recyclerView;
     protected TextView tvLetterOverlay;
     protected SideLetterBar sideLetterBar;
 
-    public LetterSearchAdapter adapter;
+    public LetterSearchAdapter<T> mAdapter;
 
     public List<T> datas;
 
@@ -61,14 +63,15 @@ public abstract class BaseLetterSearchFragment<T extends IContacts> extends Base
 
     @Override
     protected void initView(View rootView) {
-        topLayout = rootView.findViewById(R.id.top_layout);
+        flBottomLayout = rootView.findViewById(R.id.fl_bottom_layout);
         recyclerView = rootView.findViewById(R.id.recycle_view);
         tvLetterOverlay = rootView.findViewById(R.id.tv_letter_overlay);
         sideLetterBar = rootView.findViewById(R.id.side_letter_bar);
-        adapter = new LetterSearchAdapter();
+        mAdapter = new LetterSearchAdapter<T>();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemChildClickListener(this);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemChildClickListener(this);
+        mAdapter.setOnItemChildLongClickListener(this);
         sideLetterBar.setOverlay(tvLetterOverlay);
         sideLetterBar.setOnLetterChangedListener(new SideLetterBar.OnLetterChangedListener() {
             @Override
@@ -76,22 +79,27 @@ public abstract class BaseLetterSearchFragment<T extends IContacts> extends Base
                 if(letter.equals(SideLetterBar.b[0])){
                     recyclerView.scrollToPosition(0);
                 }else{
-                    int selection = adapter.getLetterPosition(letter);
+                    int selection = mAdapter.getLetterPosition(letter);
                     if (selection != -1)
                         recyclerView.scrollToPosition(selection);
                 }
 
             }
         });
+        if(mTopLayout.getVisibility()!=View.VISIBLE){
+            setMargins(mStatusLayout,0, 0,0,0);
+        }
+        goneView(sideLetterBar);
     }
 
-    public void notifyData(List<T> strings, String emptyTitle, String btnString, View.OnClickListener listener) {
-        if (null == strings || strings.size() == 0) {
+    public void notifyData(List<T> datas, String emptyTitle, String btnString, View.OnClickListener listener) {
+        if (null == datas || datas.size() == 0) {
             showEmptyPage(emptyTitle, btnString, listener);
         } else {
-            datas = strings;
             Collections.sort(datas, new NameComparator());
-            adapter.setData(datas);
+            this.datas = datas;
+            mAdapter.setData(datas);
+            showView(sideLetterBar);
             showContentPage();
         }
     }

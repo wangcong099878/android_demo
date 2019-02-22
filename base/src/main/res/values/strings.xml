@@ -6,4 +6,18 @@
     <string name="update_app_service_name">APP更新</string>
 
     <string name="spanUtils_rmb">¥</string><!-- ¥相当于&#xA5 -->
+
+    <string name="btn_confirm_string">确&#8195;定</string>
+
+    <string name="phone">手机号码</string>
+    <string name="password">密码</string>
+    <string name="name">姓名</string>
+    <string name="verify_code">验证码</string>
+    <string name="get_verify_code">获取验证码</string>
+    <string name="get_code_again">重新获取</string>
+    <string name="forget_password">忘记密码？</string>
+    <string name="btn_login">登&#8195;录</string>
+    <string name="btn_register">注&#8195;册</string>
+    <string name="login_string">登录</string>
+    <string name="register_string">注册</string>
 </resources>

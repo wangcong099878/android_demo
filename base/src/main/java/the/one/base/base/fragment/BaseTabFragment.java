@@ -18,17 +18,13 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.animation.Animation;
 
 import com.qmuiteam.qmui.widget.QMUITabSegment;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
 
 import java.util.ArrayList;
 
-import the.one.base.R;
 import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.base.presenter.BasePresenter;
 
@@ -82,18 +78,18 @@ public abstract class BaseTabFragment extends BaseFragment {
     protected void initView(View rootView) {
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
-
-    }
-
-    @Override
-    protected void onEnterAnimationEnd(@Nullable Animation animation) {
-        super.onEnterAnimationEnd(animation);
         if (!tabFromNet()) {
             startInit();
         } else {
             requestServer();
         }
     }
+//
+//    @Override
+//    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+//        super.onEnterAnimationEnd(animation);
+//
+//    }
 
     protected void startInit() {
         addTabs();
@@ -108,6 +104,7 @@ public abstract class BaseTabFragment extends BaseFragment {
         for (QMUITabSegment.Tab tab : mTabs) {
             mTabSegment.addTab(tab);
         }
+        mTabSegment.setupWithViewPager(mViewPager, false);
         mTabSegment.addOnTabSelectedListener(new QMUITabSegment.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int index) {
@@ -130,7 +127,6 @@ public abstract class BaseTabFragment extends BaseFragment {
 
             }
         });
-        mTabSegment.setupWithViewPager(mViewPager, false);
     }
 
     protected abstract void addTabs();

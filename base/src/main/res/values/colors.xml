@@ -28,4 +28,7 @@
 
 
     <color name="divider_color">#eee</color>
+
+    <color name="mz_round_colorfulbg_color">#43b56b</color>
+
 </resources>

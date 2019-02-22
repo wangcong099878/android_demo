@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BaseHomeFragment;
 import the.one.demo.R;
-import the.one.demo.fragment.SimpleDataFragment;
 
 
 //  ┏┓　　　┏┓
@@ -34,7 +33,6 @@ import the.one.demo.fragment.SimpleDataFragment;
  * @remark
  */
 public class SimpleHomeFragment extends BaseHomeFragment {
-
 
     @Override
     protected void addTabs() {

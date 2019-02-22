@@ -12,6 +12,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
 
+        <activity android:name=".base.activity.BaseWebViewActivity"/>
+
         <service android:name=".service.UpdateApkService"
             android:label="@string/update_app_service_name"
             android:exported="false"/>

@@ -18,8 +18,6 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +25,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -38,9 +35,9 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
-import the.one.base.model.PageInfoBean;
 import the.one.base.util.NetFailUtil;
 import the.one.base.widge.WWPullRefreshLayout;
+import the.one.library.entity.PageInfoBean;
 
 /**
  * @author The one
@@ -156,6 +153,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
         // 动画一直执行
         adapter.isFirstOnly(true);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        adapter.setNotDoAnimationCount(10);
         pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
         pullLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {
             @Override
@@ -209,6 +207,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
         recycleView.setAdapter(adapter);
     }
 
+    @Override
     public void refresh() {
         page = 1;
         isFirst = true;
@@ -271,6 +270,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
      * @param pageInfoBean
      * @param emptyStr     空页面提示语
      */
+    @Override
     public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
             Log.e(TAG, "onComplete: data.size() == 0" + TAG);
@@ -308,7 +308,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
      */
     public void setPageInfo(PageInfoBean mPageInfo) {
         this.pageInfoBean = mPageInfo;
-        if (null == mPageInfo || mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
+        if (null != mPageInfo && mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
             isLoadMore = true;
             adapter.loadMoreComplete();
         } else {

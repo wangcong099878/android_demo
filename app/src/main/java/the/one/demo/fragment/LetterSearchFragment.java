@@ -8,15 +8,10 @@ import android.view.animation.Animation;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.List;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import the.one.base.base.fragment.BaseLetterSearchFragment;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.demo.model.Contact;
-import the.one.demo.util.ContactsUtil;
-import the.one.library.OkHttpHttpRequestCore;
 
 
 //  ┏┓　　　┏┓
@@ -87,11 +82,10 @@ public class LetterSearchFragment extends BaseLetterSearchFragment {
     }
 
     private void importContacts() {
-        List<Contact> contacts = ContactsUtil.getContacts(getActivity());
+//        List<Contact> contacts = ContactsUtil.getContacts(getActivity());
         hideLoadingDialog();
         showView(sideLetterBar);
-        notifyData(contacts, "添加联系人，方便记录", "点我添加", null);
-
+//        notifyData(contacts, "添加联系人，方便记录", "点我添加", null);
     }
 
 

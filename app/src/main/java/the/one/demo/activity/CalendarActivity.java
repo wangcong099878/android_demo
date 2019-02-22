@@ -60,13 +60,58 @@ public class CalendarActivity extends BaseActivity  implements
     private int mYear;
     CalendarLayout mCalendarLayout;
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_calendar;
+    private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
+        Calendar calendar = new Calendar();
+        calendar.setYear(year);
+        calendar.setMonth(month);
+        calendar.setDay(day);
+        calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
+        calendar.setScheme(text);
+        calendar.addScheme(new Calendar.Scheme());
+        calendar.addScheme(0xFF008800, "假");
+        calendar.addScheme(0xFF008800, "节");
+        return calendar;
     }
 
     @Override
-    protected void initView() {
+    public void onClick(View view) {
+
+    }
+
+
+    @Override
+    public void onCalendarOutOfRange(Calendar calendar) {
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onCalendarSelect(Calendar calendar, boolean isClick) {
+        mTextLunar.setVisibility(View.VISIBLE);
+        mTextYear.setVisibility(View.VISIBLE);
+        mTextMonthDay.setText(calendar.getMonth() + "月" + calendar.getDay() + "日");
+        mTextYear.setText(String.valueOf(calendar.getYear()));
+        mTextLunar.setText(calendar.getLunar());
+        mYear = calendar.getYear();
+    }
+
+    @Override
+    public void onYearChange(int year) {
+        mTextMonthDay.setText(String.valueOf(year));
+    }
+
+    @Override
+    protected boolean showTitleBar() {
+        return false;
+    }
+
+    @Override
+    protected int getContentViewId() {
+         return R.layout.activity_calendar;
+    }
+
+    @Override
+    protected void initView(View mRootView) {
         mTextMonthDay = (TextView) findViewById(R.id.tv_month_day);
         mTextYear = (TextView) findViewById(R.id.tv_year);
         mTextLunar = (TextView) findViewById(R.id.tv_lunar);
@@ -125,45 +170,5 @@ public class CalendarActivity extends BaseActivity  implements
                 getSchemeCalendar(year, month, 27, 0xFF13acf0, "多"));
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         mCalendarView.setSchemeDate(map);
-    }
-
-    private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
-        Calendar calendar = new Calendar();
-        calendar.setYear(year);
-        calendar.setMonth(month);
-        calendar.setDay(day);
-        calendar.setSchemeColor(color);//如果单独标记颜色、则会使用这个颜色
-        calendar.setScheme(text);
-        calendar.addScheme(new Calendar.Scheme());
-        calendar.addScheme(0xFF008800, "假");
-        calendar.addScheme(0xFF008800, "节");
-        return calendar;
-    }
-
-    @Override
-    public void onClick(View view) {
-
-    }
-
-
-    @Override
-    public void onCalendarOutOfRange(Calendar calendar) {
-
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onCalendarSelect(Calendar calendar, boolean isClick) {
-        mTextLunar.setVisibility(View.VISIBLE);
-        mTextYear.setVisibility(View.VISIBLE);
-        mTextMonthDay.setText(calendar.getMonth() + "月" + calendar.getDay() + "日");
-        mTextYear.setText(String.valueOf(calendar.getYear()));
-        mTextLunar.setText(calendar.getLunar());
-        mYear = calendar.getYear();
-    }
-
-    @Override
-    public void onYearChange(int year) {
-        mTextMonthDay.setText(String.valueOf(year));
     }
 }

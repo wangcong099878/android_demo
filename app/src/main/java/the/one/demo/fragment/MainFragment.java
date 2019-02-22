@@ -5,6 +5,7 @@ import android.view.View;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
+import the.one.base.base.fragment.AddressBookFragment;
 import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.demo.R;
 import the.one.demo.activity.CalendarActivity;
@@ -77,7 +78,7 @@ public class MainFragment extends BaseGroupListFragment implements View.OnClickL
         }else if(view == Calendar){
             startActivity(CalendarActivity.class);
         }else if (view == Contact) {
-            startFragment(new LetterSearchFragment());
+            startFragment(new ChooseFragment());
         }
     }
 }

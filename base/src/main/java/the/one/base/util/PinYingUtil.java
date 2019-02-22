@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
  * 拼音的相关类
  */
 public class PinYingUtil {
+
     /**
      * 汉字转换位汉语拼音首字母，英文字符不变，特殊字符丢失 支持多音字，生成方式如（长沙市长:cssc,zssz,zssc,cssz）
      *
@@ -187,10 +188,11 @@ public class PinYingUtil {
 
     /**
      * 获取拼音的首字母（大写）
-     * @param pinyin
+     * @param chines
      * @return
      */
-    public static String getFirstLetter(final String pinyin){
+    public static String getFirstLetter(final String chines){
+        String pinyin = PinYingUtil.converterToSpell(chines);
         if (TextUtils.isEmpty(pinyin)) return "#";
         String c = pinyin.substring(0, 1);
         Pattern pattern = Pattern.compile("^[A-Za-z]+$");

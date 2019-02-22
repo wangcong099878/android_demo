@@ -19,8 +19,10 @@ package the.one.base.base.activity;
 //      ┗┻┛　┗┻┛
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import com.qmuiteam.qmui.arch.QMUIFragmentActivity;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import the.one.base.R;
 import the.one.base.base.fragment.BaseFragment;
@@ -36,6 +38,10 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
 
     protected abstract BaseFragment getBaseFragment();
 
+    protected boolean LightMode() {
+        return false;
+    }
+
     @Override
     protected int getContextViewId() {
         return R.id.main_container;
@@ -44,6 +50,8 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (LightMode())
+            QMUIStatusBarHelper.setStatusBarLightMode(this);
         if (savedInstanceState == null) {
             BaseFragment fragment = getBaseFragment();
             getSupportFragmentManager()

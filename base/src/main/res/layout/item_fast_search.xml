@@ -3,36 +3,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
-    <TextView
+    <the.one.base.widge.CircleTextView
         android:id="@+id/tv_item_city_listview_letter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginLeft="20dp"
+        android:padding="7dp"
+        app:backColor="@color/qmui_config_color_red"
+        tools:text="E"
+        android:textColor="@color/qmui_config_color_white"
+        android:focusable="false"/>
+
+    <RelativeLayout
+        android:id="@+id/ll_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/qmui_config_color_white"
-        android:textSize="15sp"
-        android:text="E"
-        android:textColor="#5c5c5c"
-        android:clickable="false"/>
-
-    <TextView
-        android:id="@+id/tv_item_city_listview_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="@dimen/side_letter_bar_width"
+        android:padding="12dp"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/city_text_size"/>
+        android:paddingEnd="@dimen/side_letter_bar_width"
+        android:orientation="horizontal">
+
+        <the.one.base.widge.CircleTextView
+            android:id="@+id/tv_name"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:textSize="16sp"
+            app:backColor="@color/qmui_config_color_red"
+            tools:text="杨"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/qmui_config_color_white"
+            android:focusable="false"/>
+        <the.one.base.widge.SmoothCheckBox
+            android:id="@+id/check_box"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:padding="@dimen/dp_10"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:id="@+id/tv_item_city_listview_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/we_chat_black"
+            android:layout_toRightOf="@id/tv_name"
+            android:layout_centerVertical="true"
+            android:focusable="true"
+            android:text="战三"
+            android:textSize="@dimen/city_text_size"/>
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginRight="@dimen/side_letter_bar_width"
         android:background="@color/divider_color"/>
 </LinearLayout>

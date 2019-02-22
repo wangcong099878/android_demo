@@ -1,0 +1,45 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api files('libs/gson-2.6.2.jar')
+    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support:design:27.1.1'
+    api 'com.android.support:support-v4:27.1.1'
+    api 'com.jude:swipebackhelper:2.1.5'
+    api 'com.qmuiteam:qmui:1.1.5'
+    api 'homhomlin.lib:sldinglayout:0.9.0'
+    api 'com.ogaclejapan.smarttablayout:library:1.6.1'
+    api 'com.wx.goodview:goodview:1.0.0'
+    api 'com.github.huburt-Hu:NewbieGuide:v2.1.0'
+    api 'com.jakewharton:butterknife:8.8.1'
+    api 'com.zhy:okhttputils:2.6.2'
+    api 'com.alibaba:fastjson:1.2.47'
+    api 'com.google.android:flexbox:0.2.6'
+    api 'com.github.bumptech.glide:glide:4.7.1'
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'
+    api 'jsc.kit.datetimepicker:DateTimePickerLibrary:0.4.5'
+    //    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+}

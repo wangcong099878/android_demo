@@ -1,15 +1,20 @@
 package the.one.base.base.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import butterknife.ButterKnife;
@@ -17,10 +22,15 @@ import butterknife.Unbinder;
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
+import the.one.base.util.EventBusUtil;
+import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.ToastUtil;
+import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
+import the.one.library.callback.Callback;
+import the.one.library.entity.PageInfoBean;
 
 
 //  ┏┓　　　┏┓
@@ -50,7 +60,7 @@ import the.one.base.widge.StatusLayout;
  */
 public abstract class BaseFragment extends QMUIFragment implements BaseView {
 
-    protected final String TAG = this.getClass().getSimpleName();
+    public final String TAG = this.getClass().getSimpleName();
 
     protected abstract int getContentViewId();
 
@@ -60,15 +70,24 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     public abstract BasePresenter getPresenter();
 
     protected abstract void initView(View rootView);
+    /**
+     * 是否注册事件分发
+     *
+     * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
+     */
+    protected boolean isRegisterEventBus() {
+        return false;
+    }
 
     protected boolean showTitleBar() {
         return true;
     }
 
     protected StatusLayout mStatusLayout;
-    protected QMUITopBarLayout mTopLayout;
+    protected MyTopBarLayout mTopLayout;
     protected QMUITipDialog loadingDialog;
     protected the.one.base.widge.ProgressDialog progressDialog;
+    protected Activity _mActivity;
 
     private Unbinder mUnbinder;
 
@@ -78,9 +97,15 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
         View mRootView;
+        _mActivity = getActivity();
         if (showTitleBar()) {
             mRootView = getView(R.layout.base_fragment);
             mStatusLayout = mRootView.findViewById(R.id.status_layout);
@@ -93,6 +118,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
             getPresenter().attachView(this);
         }
         mUnbinder = ButterKnife.bind(this, mBody);
+        if (isRegisterEventBus()) {
+            EventBusUtil.register(this);
+        }
         initView(mRootView);
         return mRootView;
     }
@@ -100,13 +128,21 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     protected void initFragmentBack(String title) {
         if (null != mTopLayout) {
             mTopLayout.setTitle(title);
-            mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    popBackStack();
-                }
-            });
+            addTopBarBackBtn();
         }
+    }
+
+    protected void addTopBarBackBtn(){
+        mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popBackStack();
+            }
+        });
+    }
+
+    public void startBrotherFragment(BaseFragment fragment){
+        startFragment(fragment);
     }
 
     @Override
@@ -120,7 +156,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
 
     @Override
     public void hideLoadingDialog() {
-        if (null != loadingDialog)
+        if (null != loadingDialog && loadingDialog.isShowing())
             loadingDialog.dismiss();
     }
 
@@ -138,11 +174,12 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
             progressDialog = new ProgressDialog(getActivity());
         }
         progressDialog.setProgress(percent,total);
+        progressDialog.show();
     }
 
     @Override
     public void hideProgressDialog() {
-        if(null != progressDialog)
+        if(null != progressDialog && progressDialog.isShowing())
             progressDialog.dismiss();
     }
 
@@ -181,7 +218,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     @Override
     public void showEmptyPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
         if (null != mStatusLayout)
-            mStatusLayout.showEmpty(drawable, title, content, btnString, listener);
+            mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
 
     @Override
@@ -206,7 +243,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     }
 
     public View getView(int layoutId) {
-        return getLayoutInflater().inflate(layoutId, null);
+        return LayoutInflater.from(getActivity()).inflate(layoutId, null);
     }
 
     public Drawable getDrawablee(int id) {
@@ -249,10 +286,76 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         startActivity(new Intent(getActivity(),c));
     }
 
+    public boolean isNotNullAndEmpty(String content, String tips) {
+        if (null != content && !content.isEmpty())
+            return true;
+        else {
+            if (null != tips)
+                showFailTips(tips + "不能为空");
+            return false;
+        }
+    }
+
+    protected void loadImage(String url, ImageView imageView) {
+        GlideUtil.load(_mActivity, url, imageView);
+    }
+
+    public void showLog(String str) {
+        Log.e(TAG, str);
+    }
+
+    public void showSuccessTips(String tips) {
+        QMUIDialogUtil.SuccessTipsDialog(_mActivity, tips);
+    }
+
+    public void showSuccessExit(String tips) {
+        QMUIDialogUtil.SuccessTipsDialog(_mActivity, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
+            @Override
+            public void onDismiss() {
+                successPop();
+            }
+        });
+    }
+
+    protected void successPop(){
+        EventBusUtil.sendSuccessEvent(successType);
+        popBackStack();
+    }
+
+    public void showFailTips(String tips) {
+        QMUIDialogUtil.FailTipsDialog(_mActivity, tips);
+    }
+
+    protected int successType;
+    public Callback<String> simpleCallBack = new Callback<String>() {
+        @Override
+        public void onSuccess(String response, String msg, PageInfoBean pageInfoBean) {
+            showSuccessExit(msg);
+        }
+
+        @Override
+        public void onFailure(int resultCode, String errorMsg) {
+            showFailTips(errorMsg);
+        }
+
+        @Override
+        public void onFinish() {
+            super.onFinish();
+            hideLoadingDialog();
+        }
+    };
+
+    public void finish(){
+        popBackStack();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (getPresenter() != null) getPresenter().detachView();
+        if (isRegisterEventBus()) {
+            EventBusUtil.unregister(this);
+        }
         if (null != mUnbinder){
             try{
                 mUnbinder.unbind();

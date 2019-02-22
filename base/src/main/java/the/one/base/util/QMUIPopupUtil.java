@@ -13,6 +13,8 @@ import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 import java.util.List;
 
 import the.one.base.R;
+import the.one.base.adapter.ListPopupAdapter;
+import the.one.base.model.PopupItem;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -52,17 +54,16 @@ public class QMUIPopupUtil {
         return mNormalPopup;
     }
 
-
-    public QMUIListPopup initListPopup(Context context, List<String> items, AdapterView.OnItemClickListener listener) {
-        return initListPopup(context, items, QMUIListPopup.DIRECTION_TOP, listener);
+    public QMUIListPopup initListPopup(Context context, List<PopupItem> items, AdapterView.OnItemClickListener listener) {
+        return initListPopup(context, items, QMUIListPopup.DIRECTION_NONE, listener);
     }
 
-    public QMUIListPopup initListPopup(Context context, List<String> items, int position, AdapterView.OnItemClickListener listener) {
-        ArrayAdapter adapter = new ArrayAdapter<>(context, R.layout.simple_list_item, items);
-        QMUIListPopup mListPopup = new QMUIListPopup(context, position, adapter);
-        mListPopup.create(QMUIDisplayHelper.dp2px(context, 180), QMUIDisplayHelper.dp2px(context, 200), listener);
+    public QMUIListPopup initListPopup(Context context, List<PopupItem> items, int position, AdapterView.OnItemClickListener listener) {
+        ListPopupAdapter listPopupAdapter = new ListPopupAdapter(context,items);
+        QMUIListPopup mListPopup = new QMUIListPopup(context, position, listPopupAdapter);
+        mListPopup.create(QMUIDisplayHelper.dp2px(context, 180), QMUIDisplayHelper.dp2px(context, 700), listener);
         mListPopup.setAnimStyle(QMUIPopup.ANIM_GROW_FROM_CENTER);
-        mListPopup.setPreferredDirection(QMUIPopup.DIRECTION_TOP);
+        mListPopup.setPreferredDirection(position);
         return mListPopup;
     }
 }

@@ -5,6 +5,12 @@
 
     </style>
 
+    <style name="StartAppTheme" parent="QMUI.Compat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -14,6 +20,17 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="custom_bottom_text_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/qmui_config_color_blue</item>
+        <item name="android:background">?attr/qmui_s_list_item_bg_with_border_bottom_inset_left</item>
     </style>
 
 </resources>

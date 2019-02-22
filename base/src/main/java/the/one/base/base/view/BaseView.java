@@ -118,4 +118,7 @@ public interface BaseView {
      */
     void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener);
 
+    void showSuccessTips(String msg);
+
+    void showFailTips(String msg);
 }

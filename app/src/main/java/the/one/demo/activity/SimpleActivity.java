@@ -1,5 +1,7 @@
 package the.one.demo.activity;
 
+import android.view.View;
+
 import the.one.base.base.activity.BaseActivity;
 import the.one.demo.R;
 
@@ -32,13 +34,13 @@ import the.one.demo.R;
 public  class SimpleActivity extends BaseActivity {
 
     @Override
-    protected int getLayoutId() {
+    protected int getContentViewId() {
         return R.layout.activity_simple;
     }
 
     @Override
-    protected void initView() {
-
+    protected void initView(View mRootView) {
+        initFragmentBack("SimpleActivity");
     }
 
 }

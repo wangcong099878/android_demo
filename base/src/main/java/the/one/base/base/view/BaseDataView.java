@@ -18,9 +18,11 @@ package the.one.base.base.view;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.view.View;
+
 import java.util.List;
 
-import the.one.base.model.PageInfoBean;
+import the.one.library.entity.PageInfoBean;
 
 /**
  * @author The one
@@ -34,10 +36,13 @@ public interface BaseDataView<T> extends BaseView {
     void onComplete(List<T> data);
     void onComplete(List<T> data, PageInfoBean pageInfoBean);
     void onComplete(List<T> data, PageInfoBean pageInfoBean,String emptyString);
+    void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyString, String btnString, View.OnClickListener listener);
 
+    void refresh();
     void onFail(Exception e);
     void onFail(String errorMsg);
 
     void onNormal();
+
 
 }
