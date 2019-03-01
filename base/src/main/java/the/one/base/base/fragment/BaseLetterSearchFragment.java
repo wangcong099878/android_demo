@@ -119,4 +119,13 @@ public abstract class BaseLetterSearchFragment<T extends IContacts> extends Base
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(!isVisibleToUser&&null!=tvLetterOverlay&&tvLetterOverlay.getVisibility() == View.VISIBLE){
+            goneView(tvLetterOverlay);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+
 }

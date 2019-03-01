@@ -18,6 +18,7 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.util.Log;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.QMUITabSegment;
@@ -65,9 +66,12 @@ public abstract class BaseTabFragment extends BaseFragment {
         return true;
     }
 
-    protected boolean isDestroyItem(){return true;}
+    protected boolean isDestroyItem() {
+        return true;
+    }
 
-    protected void requestServer() { }
+    protected void requestServer() {
+    }
 
     @Override
     public BasePresenter getPresenter() {
@@ -76,6 +80,7 @@ public abstract class BaseTabFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
+        Log.e(TAG, "initView: " );
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
         if (!tabFromNet()) {
@@ -84,12 +89,7 @@ public abstract class BaseTabFragment extends BaseFragment {
             requestServer();
         }
     }
-//
-//    @Override
-//    protected void onEnterAnimationEnd(@Nullable Animation animation) {
-//        super.onEnterAnimationEnd(animation);
-//
-//    }
+
 
     protected void startInit() {
         addTabs();
@@ -98,13 +98,12 @@ public abstract class BaseTabFragment extends BaseFragment {
     }
 
     protected void initTabAndPager() {
-        pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments,isDestroyItem());
+        pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments, isDestroyItem());
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setSwipeable(setViewPagerSwipe());
         for (QMUITabSegment.Tab tab : mTabs) {
             mTabSegment.addTab(tab);
         }
-        mTabSegment.setupWithViewPager(mViewPager, false);
         mTabSegment.addOnTabSelectedListener(new QMUITabSegment.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int index) {
@@ -127,6 +126,7 @@ public abstract class BaseTabFragment extends BaseFragment {
 
             }
         });
+        mTabSegment.setupWithViewPager(mViewPager, false);
     }
 
     protected abstract void addTabs();

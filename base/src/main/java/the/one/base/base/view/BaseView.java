@@ -86,6 +86,10 @@ public interface BaseView {
     /**
      * 显示空白层
      */
+    void showEmptyPage(String title, View.OnClickListener listener);
+    /**
+     * 显示空白层
+     */
     void showEmptyPage(String title, String btnString, View.OnClickListener listener);
 
     /**
@@ -103,6 +107,10 @@ public interface BaseView {
      */
     void showErrorPage(String title);
 
+    /**
+     * 显示空白层
+     */
+    void showErrorPage(String title, View.OnClickListener listener);
     /**
      * 显示空白层
      */

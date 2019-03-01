@@ -181,6 +181,8 @@ public abstract class BaseDataActivity<T> extends BaseActivity implements BaseDa
 
     }
 
+
+
     public static void setMargins (View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:id="@+id/fl_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"/>
+
+    <FrameLayout
+        android:id="@+id/fl_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"/>
+
+    <the.one.base.widge.WWPullRefreshLayout
+        android:id="@+id/pullLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/fl_bottom_layout"
+        android:layout_below="@id/fl_top_layout">
+
+        <com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout
+            android:id="@+id/section_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </the.one.base.widge.WWPullRefreshLayout>
+
+</RelativeLayout>

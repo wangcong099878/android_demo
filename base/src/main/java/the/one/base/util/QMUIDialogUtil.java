@@ -263,7 +263,9 @@ public class QMUIDialogUtil {
         showEditTextDialog(context, title, hint, "取消", "确定", listener);
     }
 
-    ;
+    public static void showEditTextDialog(final Context context, String title, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener){
+        showEditTextDialog(context,InputType.TYPE_CLASS_TEXT,title,hint,leftText,rightText,listener);
+    }
 
     /**
      * 带输入框的对话框
@@ -275,16 +277,15 @@ public class QMUIDialogUtil {
      * @param rightText
      * @param listener
      */
-    public static void showEditTextDialog(final Context context, String title, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener) {
+    public static void showEditTextDialog(final Context context,int inputType, String title, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener) {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
         builder.setTitle(title)
                 .setPlaceholder(hint)
-                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .setInputType(inputType)
                 .addAction(leftText, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
-                        CharSequence text = builder.getEditText().getText();
-                        listener.getEditText(dialog, text.toString(), index);
+                        dialog.dismiss();
                     }
                 })
                 .addAction(rightText, new QMUIDialogAction.ActionListener() {

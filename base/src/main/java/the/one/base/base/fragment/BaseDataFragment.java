@@ -18,6 +18,7 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -46,7 +48,8 @@ import the.one.library.entity.PageInfoBean;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener {
+public abstract class BaseDataFragment<T> extends BaseFragment
+        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener {
 
     /**
      * List
@@ -173,12 +176,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
                 requestServer();
             }
         });
-        initRecycleView();
-        if(mTopLayout.getVisibility()!=View.VISIBLE){
+        initRecycleView(recycleView,setType(),adapter);
+        if(null !=mTopLayout &&mTopLayout.getVisibility()!=View.VISIBLE){
             setMargins(mStatusLayout,0, 0,0,0);
         }
-        refresh();
-
+//        refresh();
     }
 
     public static void setMargins (View v, int l, int t, int r, int b) {
@@ -189,9 +191,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
         }
     }
 
-
-    private void initRecycleView() {
-        switch (setType()) {
+    protected void initRecycleView(RecyclerView recycleView,int type,BaseQuickAdapter adapter) {
+        switch (type) {
             case TYPE_LIST:
                 layoutManager = new LinearLayoutManager(getActivity());
                 break;
@@ -205,6 +206,21 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
         }
         recycleView.setLayoutManager(layoutManager);
         recycleView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        super.onEnterAnimationEnd(animation);
+        if (onAnimationEndInit()&&!mIsFirstLayInit) {
+            mIsFirstLayInit = true;
+            refresh();
+        }
+    }
+
+    @Override
+    protected void onLazyInit() {
+        if (!onAnimationEndInit())
+            refresh();
     }
 
     @Override
@@ -248,7 +264,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
     @Override
     public void onFail(String errorMsg) {
         if(isFirst){
-            showErrorPage(errorMsg,"刷新",new View.OnClickListener() {
+            showErrorPage(errorMsg,"刷新试试",new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showLoadingPage();
@@ -273,11 +289,9 @@ public abstract class BaseDataFragment<T> extends BaseFragment implements BaseDa
     @Override
     public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
-            Log.e(TAG, "onComplete: data.size() == 0" + TAG);
             showEmptyPage(emptyStr, btnString, listener);
         } else {
             if (isFirst) {
-                Log.e(TAG, "onComplete: isFirst" + TAG);
                 showView(flBottomLayout);
                 showView(flTopLayout);
                 adapter.setNewData(data);

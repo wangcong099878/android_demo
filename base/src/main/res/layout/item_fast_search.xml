@@ -57,6 +57,8 @@
             android:text="战三"
             android:textSize="@dimen/city_text_size"/>
 
+
+
     </RelativeLayout>
 
     <View

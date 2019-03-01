@@ -1,6 +1,9 @@
 package the.one.base.base.fragment;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -58,7 +61,7 @@ import the.one.library.entity.PageInfoBean;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseFragment extends QMUIFragment implements BaseView {
+public abstract class BaseFragment extends QMUIFragment implements BaseView ,LifecycleObserver {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -70,6 +73,16 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     public abstract BasePresenter getPresenter();
 
     protected abstract void initView(View rootView);
+
+    /**
+     * 动画结束后请求数据，如果是ViewPager里的Fragment,则要返回false
+     * @return
+     */
+    protected boolean onAnimationEndInit() {
+        return true;
+    }
+    protected void onLazyInit(){}
+
     /**
      * 是否注册事件分发
      *
@@ -92,13 +105,33 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     private Unbinder mUnbinder;
 
     @Override
+    protected boolean canDragBack() {
+        return false;
+    }
+
+    @Override
     protected int backViewInitOffset() {
         return QMUIDisplayHelper.dp2px(getContext(), 150);
     }
 
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
+    }
+
+    protected boolean mIsFirstLayInit = false;
+
+    /**
+     * 懒加载一般用在ViewPager里的Fragment,一般的加载要放在onAnimationEnd（）里面
+     */
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onLazyResume(){
+        if(!onAnimationEndInit()&&!mIsFirstLayInit){
+            mIsFirstLayInit = true;
+            onLazyInit();
+        }
     }
 
     @Override
@@ -132,7 +165,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         }
     }
 
-    protected void addTopBarBackBtn(){
+    protected void addTopBarBackBtn() {
         mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,15 +174,13 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         });
     }
 
-    public void startBrotherFragment(BaseFragment fragment){
+    public void startBrotherFragment(BaseFragment fragment) {
         startFragment(fragment);
     }
 
     @Override
     public void showLoadingDialog(String msg) {
-        if (null == loadingDialog)
-            loadingDialog = QMUIDialogUtil.LoadingTipsDialog(getActivity(), msg);
-        loadingDialog.setTitle(msg);
+        loadingDialog = QMUIDialogUtil.LoadingTipsDialog(getActivity(), msg);
         loadingDialog.show();
 
     }
@@ -162,7 +193,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
 
     @Override
     public void showProgressDialog(int percent) {
-        if(null == progressDialog){
+        if (null == progressDialog) {
             progressDialog = new ProgressDialog(getActivity());
         }
         progressDialog.setProgress(percent);
@@ -170,22 +201,22 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
 
     @Override
     public void showProgressDialog(int percent, int total) {
-        if(null == progressDialog){
+        if (null == progressDialog) {
             progressDialog = new ProgressDialog(getActivity());
         }
-        progressDialog.setProgress(percent,total);
+        progressDialog.setProgress(percent, total);
         progressDialog.show();
     }
 
     @Override
     public void hideProgressDialog() {
-        if(null != progressDialog && progressDialog.isShowing())
+        if (null != progressDialog && progressDialog.isShowing())
             progressDialog.dismiss();
     }
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToast(getActivity(),msg);
+        ToastUtil.showToast(getActivity(), msg);
     }
 
     @Override
@@ -203,6 +234,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     @Override
     public void showEmptyPage(String title) {
         showEmptyPage(title, "", null);
+    }
+
+    @Override
+    public void showEmptyPage(String title, View.OnClickListener listener) {
+        showEmptyPage(title, "刷新试试", listener);
     }
 
     @Override
@@ -227,13 +263,18 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
     }
 
     @Override
+    public void showErrorPage(String title, View.OnClickListener listener) {
+        showErrorPage(title, "刷新试试", listener);
+    }
+
+    @Override
     public void showErrorPage(String title, String btnString, View.OnClickListener listener) {
         showErrorPage(title, "", btnString, listener);
     }
 
     @Override
     public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
-        showErrorPage(getDrawablee(R.drawable.status_loading_view_network_error), title, content, btnString, listener);
+        showErrorPage(getDrawablee(R.drawable.status_loading_view_loading_fail), title, content, btnString, listener);
     }
 
     @Override
@@ -282,8 +323,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         }
     }
 
-    public void startActivity(Class c){
-        startActivity(new Intent(getActivity(),c));
+    public void startActivity(Class c) {
+        startActivity(new Intent(getActivity(), c));
     }
 
     public boolean isNotNullAndEmpty(String content, String tips) {
@@ -317,7 +358,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         });
     }
 
-    protected void successPop(){
+    protected void successPop() {
         EventBusUtil.sendSuccessEvent(successType);
         popBackStack();
     }
@@ -345,7 +386,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         }
     };
 
-    public void finish(){
+    public void finish() {
         popBackStack();
     }
 
@@ -356,10 +397,10 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView {
         if (isRegisterEventBus()) {
             EventBusUtil.unregister(this);
         }
-        if (null != mUnbinder){
-            try{
+        if (null != mUnbinder) {
+            try {
                 mUnbinder.unbind();
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }

@@ -2,7 +2,7 @@ package the.one.base.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @email 625805189@qq.com
  * @remark
  */
-public class TabFragmentAdapter<T> extends FragmentStatePagerAdapter {
+public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
 
     private List<T> fragments;
     /**

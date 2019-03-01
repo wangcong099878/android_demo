@@ -122,7 +122,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         }
     }
 
-    protected void addTopBarBackBtn(){
+    protected void addTopBarBackBtn() {
         mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,9 +133,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showLoadingDialog(String msg) {
-        if (null == loadingDialog)
-            loadingDialog = QMUIDialogUtil.LoadingTipsDialog(this, msg);
-        loadingDialog.setTitle(msg);
+        loadingDialog = QMUIDialogUtil.LoadingTipsDialog(this, msg);
         loadingDialog.show();
     }
 
@@ -162,7 +160,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToast(this,msg);
+        ToastUtil.showToast(this, msg);
     }
 
     @Override
@@ -183,6 +181,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
+    public void showEmptyPage(String title, View.OnClickListener listener) {
+        showEmptyPage(title, "刷新试试", listener);
+    }
+    @Override
     public void showEmptyPage(String title, String btnString, View.OnClickListener listener) {
         showEmptyPage(title, "", btnString, listener);
     }
@@ -201,6 +203,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     public void showErrorPage(String title) {
         showErrorPage(title, "", null);
+    }
+
+    @Override
+    public void showErrorPage(String title, View.OnClickListener listener) {
+        showErrorPage(title, "刷新试试", listener);
     }
 
     @Override
@@ -266,8 +273,8 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         }
     }
 
-    public void startActivity(Class c){
-        startActivity(new Intent(this,c));
+    public void startActivity(Class c) {
+        startActivity(new Intent(this, c));
     }
 
     public boolean isNotNullAndEmpty(String content, String tips) {
@@ -287,6 +294,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     public void showLog(String str) {
         Log.e(TAG, str);
     }
+
 
     @Override
     protected void onDestroy() {

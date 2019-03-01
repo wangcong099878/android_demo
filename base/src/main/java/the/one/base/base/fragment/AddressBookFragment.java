@@ -1,8 +1,10 @@
 package the.one.base.base.fragment;
 
 import android.Manifest;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -59,8 +61,12 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
         tvRight = view.findViewById(R.id.tv_right);
         flBottomLayout.addView(view, -1, -1);
         goneView(flBottomLayout, tvLeft);
-        checkPermission();
+    }
 
+    @Override
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        super.onEnterAnimationEnd(animation);
+        checkPermission();
     }
 
     /**
@@ -169,13 +175,10 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
                     // 已经是全选状态，点击后变成全不选
                     topRightText.setText("全选");
                     mAdapter.selectAll(false);
-                    mTopLayout.setTitle("请选择");
-
                 } else {
                     // 已经是全选状态，点击后变成全不选
                     topRightText.setText("全不选");
                     mAdapter.selectAll(true);
-                    mTopLayout.setTitle("已选择" + mAdapter.getSelects().size() + "项");
                 }
             }
         });

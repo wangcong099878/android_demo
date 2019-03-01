@@ -22,6 +22,8 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.span.QMUICustomTypefaceSpan;
@@ -45,6 +47,15 @@ public class StringUtils {
         SpannableString customTypefaceText = new SpannableString(context.getResources().getString(R.string.spanUtils_rmb) + price);
         customTypefaceText.setSpan(new QMUICustomTypefaceSpan("", TYPEFACE_RMB), 0, context.getString(R.string.spanUtils_rmb).length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         textView.setText(customTypefaceText);
+    }
+
+    public static SpannableString SpannableString( String content, String targetString, int color) {
+        SpannableString spannableString = new SpannableString(content);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(color);
+        int start = content.indexOf(targetString);
+        int end = start+targetString.length();
+        spannableString.setSpan(foregroundColorSpan, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 
 }

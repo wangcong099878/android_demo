@@ -7,6 +7,7 @@
     <item name="topbar_right_about_button" type="id"/>
     <item name="topbar_right_change_button" type="id"/>
 
+    <item name="topbar_left_button" type="id"/>
     <item name="topbar_left_text" type="id"/>
     <item name="topbar_right_1" type="id"/>
     <item name="topbar_right_2" type="id"/>

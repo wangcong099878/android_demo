@@ -2,22 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.qmuiteam.qmui.widget.QMUITabSegment
         android:id="@+id/tab_segment"
-        android:layout_width="wrap_content"
-        tab:qmui_tab_mode="scrollable"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/top_tab_height"
-        android:layout_gravity="center_horizontal"
         android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_10"/>
+        android:paddingRight="@dimen/dp_10" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rotation="180"
+        android:background="@drawable/comui_bar_top_shadow" />
 
     <com.qmuiteam.qmui.widget.QMUIViewPager
         android:id="@+id/view_pager"
-        android:layout_marginTop="2dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

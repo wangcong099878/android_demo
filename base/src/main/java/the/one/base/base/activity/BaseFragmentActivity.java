@@ -19,7 +19,6 @@ package the.one.base.base.activity;
 //      ┗┻┛　┗┻┛
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
 
 import com.qmuiteam.qmui.arch.QMUIFragmentActivity;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
