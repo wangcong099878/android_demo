@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import the.one.base.base.activity.BaseWebViewActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
@@ -114,28 +115,32 @@ public class HomeFragment extends BaseSectionLayoutFragment {
             public void onResponse(String response, int id) {
                 HomeBean homeBean = JsonUtil.fromJson(response,HomeBean.class);
                 if(!homeBean.isError()){
-                    parseData(homeBean);
+                    parseData(homeBean.getResults());
                 }
             }
         });
     }
 
-    private void parseData(HomeBean homeBean){
-        List<String> category = homeBean.getCategory();
+    private void parseData(HomeBean.ResultsBean resultsBean){
         List<QMUISection<HomeHeadSection,HomeItemSection>> sections = new ArrayList<>();
-        ArrayList<HomeHeadSection> headSections = new ArrayList<>();
-        for (int i = 0; i < category.size(); i++) {
-            HomeHeadSection headSection = new HomeHeadSection(category.get(i));
-            headSections.add(headSection);
-        }
-        List<HomeItemSection> itemSections = new ArrayList<>();
-        List<GankBean> android = homeBean.getResults().Android;
-        for (int i = 0; i < android.size(); i++) {
-            GankBean gankBean = android.get(i);
-            itemSections.add(new HomeItemSection(gankBean.getDesc(),gankBean.getImages(),gankBean.getWho()));
-        }
-        sections.add(new QMUISection<HomeHeadSection, HomeItemSection>(headSections.get(0),itemSections));
+        sections.add(parseSection(resultsBean.Android,"Android"));
+        sections.add(parseSection(resultsBean.iOS,"IOS"));
+        sections.add(parseSection(resultsBean.App,"App"));
+        sections.add(parseSection(resultsBean.relax,"休息视频"));
+        sections.add(parseSection(resultsBean.front,"前端"));
+        sections.add(parseSection(resultsBean.extension,"拓展资源"));
+        sections.add(parseSection(resultsBean.recommend,"瞎推荐"));
+        sections.add(parseSection(resultsBean.welfare,"福利"));
         mAdapter.setData(sections);
+    }
+
+    private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans,String head){
+        List<HomeItemSection> itemSections = new ArrayList<>();
+        for (int i = 0; i < gankBeans.size(); i++) {
+            GankBean gankBean = gankBeans.get(i);
+            itemSections.add(new HomeItemSection(gankBean.getDesc(),gankBean.getImages(),gankBean.getWho(),gankBean.getUrl()));
+        }
+        return new QMUISection<HomeHeadSection, HomeItemSection>(new HomeHeadSection(head),itemSections);
     }
 
     @Override
@@ -145,6 +150,8 @@ public class HomeFragment extends BaseSectionLayoutFragment {
 
     @Override
     public void onItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
+        HomeItemSection itemSection = (HomeItemSection) mAdapter.getSectionItem(position);
+        BaseWebViewActivity.startThisActivity(_mActivity,itemSection.content,itemSection.url);
 
     }
 

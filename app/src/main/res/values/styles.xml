@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
-        <!--<item name="QMUITopBarStyle">@style/QDTopBar</item>-->
+        <item name="QMUITopBarStyle">@style/QDTopBar</item>
         <!--<item name="QMUITabSegmentStyle">@style/SegmentStyle</item>-->
         <!-- 配置app自己的theme -->
         <!--<item name="app_primary_color">@color/app_color_theme_5</item>-->
@@ -17,12 +17,9 @@
     </style>
 
     <style name="QDTopBar" parent="QMUI.TopBar">
-        <item name="qmui_topbar_bg_color">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_height">48dp</item>
         <item name="qmui_topbar_image_btn_height">48dp</item>
+        <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_dark</item>
     </style>
 
 </resources>

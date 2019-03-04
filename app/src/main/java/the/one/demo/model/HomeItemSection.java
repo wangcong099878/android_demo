@@ -36,15 +36,16 @@ public class HomeItemSection implements QMUISection.Model<HomeItemSection>{
     public List<String> images;
     public String remark;
 
-    public HomeItemSection(String content, List<String> images, String remark) {
+    public HomeItemSection(String content, List<String> images, String remark,String url) {
         this.content = content;
         this.images = images;
         this.remark = remark;
+        this.url = url;
     }
 
     @Override
     public HomeItemSection cloneForDiff() {
-        return new HomeItemSection(content,images,remark);
+        return new HomeItemSection(content,images,remark,url);
     }
 
     @Override
