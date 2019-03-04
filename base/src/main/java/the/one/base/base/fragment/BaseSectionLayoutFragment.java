@@ -129,7 +129,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
             requestServer();
     }
 
-    private void initRefreshLayout() {
+    protected void initRefreshLayout() {
         mPullRefreshLayout.setChildScrollUpCallback(new QMUIPullRefreshLayout.OnChildScrollUpCallback() {
             @Override
             public boolean canChildScrollUp(QMUIPullRefreshLayout parent, @Nullable View child) {
@@ -144,7 +144,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
         mSectionLayout.getRecyclerView().setLayoutManager(mLayoutManager);
     }
 
-    private RecyclerView.LayoutManager createLayoutManager() {
+    protected RecyclerView.LayoutManager createLayoutManager() {
         if (setType() == TYPE_LIST) {
             return new LinearLayoutManager(getContext()) {
                 @Override
@@ -165,7 +165,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
         }
     }
 
-    private void initData() {
+    protected void initData() {
         mAdapter = createAdapter();
         mAdapter.setCallback(this);
         mSectionLayout.setAdapter(mAdapter);

@@ -11,4 +11,9 @@ public class Constant {
 
     public static final String GIRLS_URL = "http://www.dbmeinv.com/index.htm";
 
+    public static final String GANK_BASE = "http://gank.io/";
+    public static final String GANK_API = GANK_BASE + "api/";
+
+    public static final String TODAY = GANK_API + "today";
+
 }
