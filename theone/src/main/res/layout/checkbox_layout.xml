@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<the.one.anastasia.view.SmoothCheckBox xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/checkbox"
-    android:layout_width="@dimen/checkbox_size"
-    android:layout_height="@dimen/checkbox_size"/>
