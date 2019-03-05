@@ -20,6 +20,8 @@ package the.one.base.base.fragment;
 
 import android.view.View;
 
+import com.qmuiteam.qmui.widget.QMUITabSegment;
+
 import the.one.base.R;
 
 /**
@@ -45,6 +47,7 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
 
     @Override
     protected void initTabAndPager() {
+        mTabSegment.setMode(QMUITabSegment.MODE_SCROLLABLE);
         //是否有 Indicator
         mTabSegment.setHasIndicator(true);
         // Indicator的方向 ture为上方 false为下方

@@ -52,6 +52,9 @@ public class GankBean {
     @SerializedName("images")
     private List<String> images;
 
+    private int width;
+    private int height;
+
     public String getId() {
         return id;
     }
@@ -130,5 +133,21 @@ public class GankBean {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

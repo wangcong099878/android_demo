@@ -12,7 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,7 +63,7 @@ import the.one.library.entity.PageInfoBean;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseFragment extends QMUIFragment implements BaseView ,LifecycleObserver {
+public abstract class BaseFragment extends QMUIFragment implements BaseView, LifecycleObserver {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -76,12 +78,15 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView ,Lif
 
     /**
      * 动画结束后请求数据，如果是ViewPager里的Fragment,则要返回false
+     *
      * @return
      */
     protected boolean onAnimationEndInit() {
         return true;
     }
-    protected void onLazyInit(){}
+
+    protected void onLazyInit() {
+    }
 
     /**
      * 是否注册事件分发
@@ -96,11 +101,42 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView ,Lif
         return true;
     }
 
+    /**
+     * 设置头部自定义布局
+     *
+     * @return
+     */
+    protected int getTopLayout() {
+        return -1;
+    }
+
+    /**
+     * 设置顶部自定义布局
+     *
+     * @return
+     */
+    protected int getBottomLayout() {
+        return -1;
+    }
+
+    /**
+     * 设置左边自定义布局
+     *
+     * @return
+     */
+    protected int getLeftLayout() {
+        return -1;
+    }
+
     protected StatusLayout mStatusLayout;
     protected MyTopBarLayout mTopLayout;
     protected QMUITipDialog loadingDialog;
     protected the.one.base.widge.ProgressDialog progressDialog;
     protected Activity _mActivity;
+
+    protected FrameLayout flTopLayout;
+    protected FrameLayout flBottomLayout;
+    protected FrameLayout flLeftLayout;
 
     private Unbinder mUnbinder;
 
@@ -127,8 +163,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView ,Lif
      * 懒加载一般用在ViewPager里的Fragment,一般的加载要放在onAnimationEnd（）里面
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onLazyResume(){
-        if(!onAnimationEndInit()&&!mIsFirstLayInit){
+    public void onLazyResume() {
+        if (!onAnimationEndInit() && !mIsFirstLayInit) {
             mIsFirstLayInit = true;
             onLazyInit();
         }
@@ -143,19 +179,34 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView ,Lif
             mRootView = getView(R.layout.base_fragment);
             mStatusLayout = mRootView.findViewById(R.id.status_layout);
             mTopLayout = mRootView.findViewById(R.id.top_layout);
+            flLeftLayout = mRootView.findViewById(R.id.fl_left_layout);
+            flBottomLayout = mRootView.findViewById(R.id.fl_bottom_layout);
+            flTopLayout = mRootView.findViewById(R.id.fl_top_layout);
+            setCustomLayout(flLeftLayout, getLeftLayout());
+            setCustomLayout(flBottomLayout, getBottomLayout());
+            setCustomLayout(flTopLayout, getTopLayout());
             mStatusLayout.addView(mBody, -1, -1);
+
         } else {
             mRootView = mBody;
         }
         if (getPresenter() != null) {
             getPresenter().attachView(this);
         }
-        mUnbinder = ButterKnife.bind(this, mBody);
         if (isRegisterEventBus()) {
             EventBusUtil.register(this);
         }
+        mUnbinder = ButterKnife.bind(this, mBody);
         initView(mRootView);
+        if(null !=mTopLayout &&mTopLayout.getVisibility()!=View.VISIBLE){
+            setMargins(mRootView.findViewById(R.id.rl_parent),0, 0,0,0);
+        }
         return mRootView;
+    }
+
+    private void setCustomLayout(ViewGroup parent, int layout) {
+        if (layout != -1)
+            parent.addView(getView(layout), -1, -1);
     }
 
     protected void initFragmentBack(String title) {
@@ -388,6 +439,14 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView ,Lif
 
     public void finish() {
         popBackStack();
+    }
+
+    public static void setMargins (View v, int l, int t, int r, int b) {
+        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(l, t, r, b);
+            v.requestLayout();
+        }
     }
 
     @Override

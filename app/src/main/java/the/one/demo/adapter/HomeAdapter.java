@@ -58,7 +58,7 @@ public class HomeAdapter extends BaseSectionAdapter<HomeHeadSection, HomeItemSec
         NineImageLayout nineImageLayout = holder.itemView.findViewById(R.id.nine_image);
         HomeItemSection itemSection = section.getItemAt(itemIndex);
         String author = "#" + itemSection.remark + "  ";
-        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, ContextCompat.getColor(mContext, R.color.classic_color_7)));
+        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)));
         if (null == itemSection.images || itemSection.images.size() < 1) {
             if(itemSection.url.endsWith(".jpg")){
                 ArrayList<String> strings = new ArrayList<>();

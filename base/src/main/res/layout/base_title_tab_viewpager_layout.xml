@@ -6,10 +6,11 @@
 
     <com.qmuiteam.qmui.widget.QMUITabSegment
         android:id="@+id/tab_segment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="@dimen/top_tab_height"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_10" />
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" />
 
     <ImageView
         android:layout_width="match_parent"

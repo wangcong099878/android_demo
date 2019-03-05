@@ -17,7 +17,7 @@
     </style>
 
     <style name="QDTopBar" parent="QMUI.TopBar">
-        <item name="qmui_topbar_height">48dp</item>
+        <item name="qmui_topbar_height">45dp</item>
         <item name="qmui_topbar_image_btn_height">48dp</item>
         <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_dark</item>
     </style>

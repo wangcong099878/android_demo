@@ -27,7 +27,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.FrameLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUICenterGravityRefreshOffsetCalculator;
@@ -86,26 +85,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         return 2;
     }
 
-    /**
-     * 设置头部自定义布局
-     *
-     * @return
-     */
-    protected int getTopLayout() {
-        return -1;
-    }
-
-    /**
-     * 设置顶部自定义布局
-     *
-     * @return
-     */
-    protected int getBottomLayout() {
-        return -1;
-    }
-
-    protected FrameLayout flTopLayout;
-    protected FrameLayout flBottomLayout;
     protected RecyclerView recycleView;
     protected BaseQuickAdapter adapter;
     protected RecyclerView.LayoutManager layoutManager;
@@ -127,15 +106,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     @Override
     protected void initView(View rootView) {
-        flTopLayout = rootView.findViewById(R.id.fl_top_layout);
-        flBottomLayout = rootView.findViewById(R.id.fl_bottom_layout);
         recycleView = rootView.findViewById(R.id.recycle_view);
         pullLayout = rootView.findViewById(R.id.pullLayout);
-        if (getTopLayout() != -1)
-            flTopLayout.addView(getView(getTopLayout()), -1, -1);
-        if (getBottomLayout() != -1)
-            flBottomLayout.addView(getView(getBottomLayout()), -1, -1);
-
         adapter = getAdapter();
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
@@ -177,19 +149,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             }
         });
         initRecycleView(recycleView,setType(),adapter);
-        if(null !=mTopLayout &&mTopLayout.getVisibility()!=View.VISIBLE){
-            setMargins(mStatusLayout,0, 0,0,0);
-        }
+
 //        refresh();
     }
 
-    public static void setMargins (View v, int l, int t, int r, int b) {
-        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            p.setMargins(l, t, r, b);
-            v.requestLayout();
-        }
-    }
+
 
     protected void initRecycleView(RecyclerView recycleView,int type,BaseQuickAdapter adapter) {
         switch (type) {

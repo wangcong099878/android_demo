@@ -38,7 +38,7 @@ public abstract class NineGridLayout extends ViewGroup {
 
     private boolean mIsShowAll = false;
     private boolean mIsFirst = true;
-    private List<String> mUrlList = new ArrayList<>();
+    private ArrayList<String> mUrlList = new ArrayList<>();
 
     public NineGridLayout(Context context) {
         super(context);
@@ -175,7 +175,6 @@ public abstract class NineGridLayout extends ViewGroup {
 
     private void layoutParams() {
         int singleHeight = mSingleWidth;
-
         //根据子view数量确定高度
         LayoutParams params = getLayoutParams();
         params.height = (int) (singleHeight * mRows + mSpacing * (mRows - 1));
@@ -310,5 +309,5 @@ public abstract class NineGridLayout extends ViewGroup {
 
     protected abstract void displayImage(RatioImageView imageView, String url);
 
-    protected abstract void onClickImage(int position, String url, List<String> urlList);
+    protected abstract void onClickImage(int position, String url, ArrayList<String> urlList);
 }

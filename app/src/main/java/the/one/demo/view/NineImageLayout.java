@@ -1,16 +1,18 @@
 package the.one.demo.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import java.util.List;
+import java.util.ArrayList;
 
+import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.NineGridLayout;
 import the.one.base.widge.RatioImageView;
 
 public class NineImageLayout extends NineGridLayout {
-
+    protected static final int MAX_W_H_RATIO = 3;
 
     public NineImageLayout(Context context) {
         super(context);
@@ -21,9 +23,9 @@ public class NineImageLayout extends NineGridLayout {
     }
 
     @Override
-    protected boolean displayOneImage(RatioImageView imageView, String url, int parentWidth) {
+    protected boolean displayOneImage(final RatioImageView imageView, String url,final int parentWidth) {
         GlideUtil.load(getContext(),url,imageView);
-        return false;
+        return true;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class NineImageLayout extends NineGridLayout {
     }
 
     @Override
-    protected void onClickImage(int position, String url, List<String> urlList) {
-
+    protected void onClickImage(int position, String url, ArrayList<String> urlList) {
+        PhotoWatchActivity.startThisActivity((Activity) getContext(),urlList,position);
     }
 }

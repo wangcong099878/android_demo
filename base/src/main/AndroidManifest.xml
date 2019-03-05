@@ -13,6 +13,8 @@
         android:supportsRtl="true">
 
         <activity android:name=".base.activity.BaseWebViewActivity"/>
+        <activity android:name=".base.activity.PhotoWatchActivity"
+            android:theme="@style/StartAppTheme"/>
 
         <service android:name=".service.UpdateApkService"
             android:label="@string/update_app_service_name"

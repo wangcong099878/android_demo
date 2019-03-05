@@ -1,4 +1,4 @@
-package the.one.demo.fragment;
+package the.one.demo.fragment.gank;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -72,6 +72,9 @@ public class HomeFragment extends BaseSectionLayoutFragment {
     }
 
     @Override
+    protected boolean isStickyHeader() { return true; }
+
+    @Override
     protected int getContentViewId() {
         return R.layout.fragment_home;
     }
@@ -80,7 +83,7 @@ public class HomeFragment extends BaseSectionLayoutFragment {
     protected void initView(View rootView) {
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
         collapsingTopbarLayout.setTitle("今日最新干货");
-        collapsingTopbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(_mActivity,R.color.we_chat_black));
+        collapsingTopbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(_mActivity, R.color.we_chat_black));
         initStickyLayout();
         initData();
     }
@@ -92,55 +95,63 @@ public class HomeFragment extends BaseSectionLayoutFragment {
 
     @Override
     protected void requestServer() {
-        OkHttpUtils.get().url(Constant.GANK_BASE)
-                .build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+        OkHttpUtils
+                .get()
+                .url(Constant.GANK_BASE)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(String response, int id) {
-                GlideUtil.load(_mActivity,new HomeUtil().getHomeImage(response),ivHead);
-            }
-        });
-        OkHttpUtils.get().url(Constant.TODAY)
-                .build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
+                    @Override
+                    public void onResponse(String response, int id) {
+                        GlideUtil.load(_mActivity, new HomeUtil().getHomeImage(response), ivHead);
+                    }
+                });
+        OkHttpUtils
+                .get()
+                .url(Constant.TODAY)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
-            }
+                    }
 
-            @Override
-            public void onResponse(String response, int id) {
-                HomeBean homeBean = JsonUtil.fromJson(response,HomeBean.class);
-                if(!homeBean.isError()){
-                    parseData(homeBean.getResults());
-                }
-            }
-        });
+                    @Override
+                    public void onResponse(String response, int id) {
+                        HomeBean homeBean = JsonUtil.fromJson(response, HomeBean.class);
+                        if (!homeBean.isError()) {
+                            parseData(homeBean.getResults());
+                        }
+                    }
+                });
     }
 
-    private void parseData(HomeBean.ResultsBean resultsBean){
-        List<QMUISection<HomeHeadSection,HomeItemSection>> sections = new ArrayList<>();
-        sections.add(parseSection(resultsBean.Android,"Android"));
-        sections.add(parseSection(resultsBean.iOS,"IOS"));
-        sections.add(parseSection(resultsBean.App,"App"));
-        sections.add(parseSection(resultsBean.relax,"休息视频"));
-        sections.add(parseSection(resultsBean.front,"前端"));
-        sections.add(parseSection(resultsBean.extension,"拓展资源"));
-        sections.add(parseSection(resultsBean.recommend,"瞎推荐"));
-        sections.add(parseSection(resultsBean.welfare,"福利"));
+    List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
+
+    private void parseData(HomeBean.ResultsBean resultsBean) {
+        sections = new ArrayList<>();
+        sections.add(parseSection(resultsBean.Android, Constant.ANDROID));
+        sections.add(parseSection(resultsBean.iOS, Constant.IOS));
+        sections.add(parseSection(resultsBean.App, Constant.APP));
+        sections.add(parseSection(resultsBean.relax, Constant.RELAX));
+        sections.add(parseSection(resultsBean.front, Constant.FRONT));
+        sections.add(parseSection(resultsBean.extension, Constant.EXTENSION));
+        sections.add(parseSection(resultsBean.recommend, Constant.RECOMMEND));
+        sections.add(parseSection(resultsBean.welfare, Constant.WELFARE));
         mAdapter.setData(sections);
     }
 
-    private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans,String head){
+    private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans, String head) {
         List<HomeItemSection> itemSections = new ArrayList<>();
         for (int i = 0; i < gankBeans.size(); i++) {
             GankBean gankBean = gankBeans.get(i);
-            itemSections.add(new HomeItemSection(gankBean.getDesc(),gankBean.getImages(),gankBean.getWho(),gankBean.getUrl()));
+            itemSections.add(new HomeItemSection(gankBean.getDesc(), gankBean.getImages(), gankBean.getWho(), gankBean.getUrl()));
         }
-        return new QMUISection<HomeHeadSection, HomeItemSection>(new HomeHeadSection(head),itemSections);
+        return new QMUISection<HomeHeadSection, HomeItemSection>(new HomeHeadSection(head), itemSections);
     }
 
     @Override
@@ -151,8 +162,7 @@ public class HomeFragment extends BaseSectionLayoutFragment {
     @Override
     public void onItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
         HomeItemSection itemSection = (HomeItemSection) mAdapter.getSectionItem(position);
-        BaseWebViewActivity.startThisActivity(_mActivity,itemSection.content,itemSection.url);
-
+        BaseWebViewActivity.startThisActivity(_mActivity, itemSection.content, itemSection.url);
     }
 
     @Override

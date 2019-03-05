@@ -21,11 +21,11 @@ package the.one.base.base.fragment;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
+import lib.homhomlib.design.SlidingLayout;
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 
@@ -44,7 +44,7 @@ public abstract class BaseGroupListFragment extends BaseFragment {
     public int TYPE_BOTTOM_DETAIL = 4;// 下边详情
 
     public QMUIGroupListView mGroupListView;
-    public FrameLayout flTopLayout, flBottomLayout;
+    protected SlidingLayout slidingLayout;
 
     protected abstract void addGroupListView();
 
@@ -60,9 +60,8 @@ public abstract class BaseGroupListFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        slidingLayout = view.findViewById(R.id.slidingLayout);
         mGroupListView = view.findViewById(R.id.groupListView);
-        flTopLayout = view.findViewById(R.id.fl_top_layout);
-        flBottomLayout = view.findViewById(R.id.fl_bottom_layout);
         addGroupListView();
     }
 

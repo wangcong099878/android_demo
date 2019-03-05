@@ -25,7 +25,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.FrameLayout;
 
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 import com.qmuiteam.qmui.widget.section.QMUISection;
@@ -34,8 +33,6 @@ import com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout;
 
 import the.one.base.R;
 import the.one.base.widge.WWPullRefreshLayout;
-
-import static the.one.base.base.fragment.BaseDataFragment.setMargins;
 
 /**
  * @author The one
@@ -56,12 +53,11 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
      */
     public final static int TYPE_GRID = 2;
 
-    protected FrameLayout flTopLayout;
-    protected FrameLayout flBottomLayout;
+
     protected QMUIStickySectionLayout mSectionLayout;
     protected WWPullRefreshLayout mPullRefreshLayout;
 
-    private RecyclerView.LayoutManager mLayoutManager;
+    protected RecyclerView.LayoutManager mLayoutManager;
     protected QMUIStickySectionAdapter<H, T, QMUIStickySectionAdapter.ViewHolder> mAdapter;
 
     protected int page = 1;
@@ -84,6 +80,8 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
         return 2;
     }
 
+    protected boolean isStickyHeader(){return true;}
+
     /**
      * 设置适配器
      *
@@ -101,8 +99,6 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
 
     @Override
     protected void initView(View rootView) {
-        flTopLayout = rootView.findViewById(R.id.fl_top_layout);
-        flBottomLayout = rootView.findViewById(R.id.fl_bottom_layout);
         mSectionLayout = rootView.findViewById(R.id.section_layout);
         mPullRefreshLayout = rootView.findViewById(R.id.pullLayout);
 
@@ -168,7 +164,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
     protected void initData() {
         mAdapter = createAdapter();
         mAdapter.setCallback(this);
-        mSectionLayout.setAdapter(mAdapter);
+        mSectionLayout.setAdapter(mAdapter,isStickyHeader());
     }
 
 

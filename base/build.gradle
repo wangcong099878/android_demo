@@ -40,4 +40,5 @@ dependencies {
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
     api 'jsc.kit.datetimepicker:DateTimePickerLibrary:0.4.5'
     api 'com.ms-square:expandableTextView:0.1.4'
+    api 'com.github.chrisbanes:PhotoView:2.0.0'
 }

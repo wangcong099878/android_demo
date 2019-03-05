@@ -2,7 +2,7 @@ package the.one.demo.activity;
 
 import the.one.base.base.activity.BaseFragmentActivity;
 import the.one.base.base.fragment.BaseFragment;
-import the.one.demo.fragment.IndexFragment;
+import the.one.demo.fragment.gank.IndexFragment;
 
 
 //  ┏┓　　　┏┓
@@ -31,6 +31,12 @@ import the.one.demo.fragment.IndexFragment;
  * @remark
  */
 public class IndexActivity extends BaseFragmentActivity {
+
+    @Override
+    protected boolean LightMode() {
+        return true;
+    }
+
     @Override
     protected BaseFragment getBaseFragment() {
         return new IndexFragment();

@@ -4,26 +4,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <FrameLayout
-        android:id="@+id/fl_top_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_alignParentTop="true"/>
-
-    <FrameLayout
-        android:id="@+id/fl_bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"/>
-
     <the.one.base.widge.WWPullRefreshLayout
         android:id="@+id/pullLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/fl_bottom_layout"
-        android:layout_below="@id/fl_top_layout">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_view"
