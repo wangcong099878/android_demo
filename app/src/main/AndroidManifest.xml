@@ -7,9 +7,9 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/theoneee"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/theoneee"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="the.one.demo.activity.IndexActivity">
@@ -19,8 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.SimpleActivity"/>
 
     </application>
 

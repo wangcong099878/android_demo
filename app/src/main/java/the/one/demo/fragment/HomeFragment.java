@@ -1,4 +1,4 @@
-package the.one.demo.fragment.gank;
+package the.one.demo.fragment;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;

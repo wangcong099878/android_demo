@@ -1,4 +1,4 @@
-package the.one.demo.fragment.gank;
+package the.one.demo.fragment;
 
 import android.view.View;
 
@@ -39,7 +39,7 @@ import the.one.demo.R;
  */
 public class MyFragment extends BaseGroupListFragment implements View.OnClickListener {
 
-    QMUICommonListItemView  Gank,QMUI,Adapter,NineGrid;
+    QMUICommonListItemView  Gank,Copy,QMUI,Adapter,NineGrid;
 
 
     @Override
@@ -52,6 +52,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         goneView(mTopLayout);
         slidingLayout.setSlidingMode(SlidingLayout.SLIDING_MODE_TOP);
         Gank = CreateItemView(TYPE_CHEVRON, "Gank.io");
+        Copy = CreateItemView(TYPE_CHEVRON, "KotlinGankApp");
         QMUI = CreateItemView(TYPE_RIGHT_DETAIL,"QMUI","强烈推荐");
         Adapter = CreateItemView(TYPE_RIGHT_DETAIL,"BaseRecyclerViewAdapterHelper","适配器大佬");
         NineGrid = CreateItemView(TYPE_RIGHT_DETAIL,"NineGridLayout","仿朋友圈九宫格图片显示");
@@ -59,8 +60,9 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         flTopLayout.setOnClickListener(this);
 
         QMUIGroupListView.newSection(_mActivity)
-                .setTitle("API")
+                .setTitle("感谢")
                 .addItemView(Gank, this)
+                .addItemView(Copy, this)
                 .addTo(mGroupListView);
 
         QMUIGroupListView.newSection(_mActivity)
@@ -73,7 +75,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        String url ="https://github.com/theoneee" ;
+        String url ="https://gitee.com/theoneee/TheBase" ;
         String title = "Theoneee";
         if(view instanceof QMUICommonListItemView){
             title = ((QMUICommonListItemView) view).getText().toString();
@@ -81,6 +83,8 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 url = Constant.GANK_BASE;
             }else if (view == QMUI) {
                 url ="https://github.com/Tencent/QMUI_Android";
+            }else if (view == Copy) {
+                url ="https://github.com/JayGengi/KotlinGankApp";
             }else if(view == Adapter){
                 url ="https://github.com/CymChad/BaseRecyclerViewAdapterHelper";
             }else if(view == NineGrid){

@@ -2,7 +2,7 @@ package the.one.demo.activity;
 
 import the.one.base.base.activity.BaseFragmentActivity;
 import the.one.base.base.fragment.BaseFragment;
-import the.one.demo.fragment.gank.IndexFragment;
+import the.one.demo.fragment.IndexFragment;
 
 
 //  ┏┓　　　┏┓

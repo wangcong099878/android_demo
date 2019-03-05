@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="@dimen/top_tab_height"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <ImageView
         android:layout_width="match_parent"

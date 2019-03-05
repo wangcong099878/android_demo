@@ -1,4 +1,4 @@
-package the.one.demo.fragment.gank;
+package the.one.demo.fragment;
 
 import android.view.View;
 
