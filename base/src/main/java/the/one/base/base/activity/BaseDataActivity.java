@@ -35,7 +35,7 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
-import the.one.base.util.NetFailUtil;
+import the.one.base.util.NetworkFailUtil;
 import the.one.base.widge.WWPullRefreshLayout;
 import the.one.library.entity.PageInfoBean;
 
@@ -239,7 +239,7 @@ public abstract class BaseDataActivity<T> extends BaseActivity implements BaseDa
 
     @Override
     public void onFail(Exception e) {
-        onFail(NetFailUtil.getFailString(e));
+        onFail(NetworkFailUtil.getFailString(e));
     }
 
     /**

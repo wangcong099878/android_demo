@@ -25,7 +25,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -36,7 +35,7 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
-import the.one.base.util.NetFailUtil;
+import the.one.base.util.NetworkFailUtil;
 import the.one.base.widge.WWPullRefreshLayout;
 import the.one.library.entity.PageInfoBean;
 
@@ -217,7 +216,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     @Override
     public void onFail(Exception e) {
-        onFail(NetFailUtil.getFailString(e));
+        onFail(NetworkFailUtil.getFailString(e));
     }
 
     /**

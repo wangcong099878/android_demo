@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
  * @email 625805189@qq.com
  * @remark
  */
-public class NetFailUtil {
+public class NetworkFailUtil {
 
     public static String getFailString(Exception e){
         if (e != null && e.getMessage() != null && e.getMessage().equalsIgnoreCase("Canceled")) {
