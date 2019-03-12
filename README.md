@@ -9,7 +9,4 @@
 
 #### 效果图
 
-![](https://gitee.com/theoneee/TheBase/blob/master/image/preview.gif "")![输入图片说明](https://gitee.com/theoneee/TheBase/blob/master/image/S90312-151521.png "在这里输入图片标题")
-(https://gitee.com/theoneee/TheBase/blob/master/image/S90312-151525.png "在这里输入图片标题")
-(https://gitee.com/theoneee/TheBase/blob/master/image/S90312-151529.png "在这里输入图片标题")
-(https://gitee.com/theoneee/TheBase/blob/master/image/S90312-151533.png "在这里输入图片标题")
+![输入图片说明](https://gitee.com/theoneee/TheBase/blob/master/image/preview.gif "在这里输入图片标题")
