@@ -9,4 +9,4 @@
 
 #### 效果图
 
-!(https://gitee.com/theoneee/TheBase/blob/master/image/preview.gif "在这里输入图片标题")
+![main](https://gitee.com/theoneee/TheBase/blob/master/image/preview.gif)
