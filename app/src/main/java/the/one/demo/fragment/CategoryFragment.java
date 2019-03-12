@@ -36,11 +36,12 @@ import the.one.demo.Constant;
  */
 public class CategoryFragment extends BaseTitleTabFragment {
 
-    private String[] title = { Constant.ANDROID, Constant.APP,
-            Constant.IOS, Constant.EXTENSION, Constant.RECOMMEND, Constant.FRONT, Constant.RELAX,Constant.WELFARE};
+
+    private String[] title;
 
     @Override
     protected void initView(View rootView) {
+        title = Constant.title;
         super.initView(rootView);
         mTopLayout.setTitle("GankType").getPaint().setFakeBoldText(true);
         mTopLayout.setBackgroundDividerEnabled(false);

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="15dp">
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_type"
+        android:text="@string/select_type"
+        style="@style/publish_title_style"/>
+
+    <TextView
+        android:id="@+id/tv_type"
+        style="@style/publish_style"
+        android:layout_below="@id/btn_type"
+        tools:text="Android"
+        android:textSize="15sp"/>
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_url"
+        android:layout_below="@id/tv_type"
+        android:text="@string/publish_url"
+        style="@style/publish_title_style" />
+
+    <EditText
+        android:id="@+id/et_url"
+        style="@style/publish_style"
+        android:layout_below="@id/btn_url"
+        android:padding="10dp"
+        android:background="@drawable/divider_shape" />
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        android:id="@+id/btn_des"
+        android:layout_below="@id/et_url"
+        android:text="@string/publish_des"
+        style="@style/publish_title_style" />
+
+    <com.qmuiteam.qmui.layout.QMUIRelativeLayout
+        android:id="@+id/rl_des"
+        style="@style/publish_style"
+        android:layout_height="150dp"
+        android:layout_below="@id/btn_des"
+        android:padding="15dp"
+        app:qmui_radius="10dp"
+        app:qmui_borderColor="@color/divider_color"
+        app:qmui_borderWidth="10dp"
+        android:background="@color/qmui_config_color_white"
+        app:qmui_showBorderOnlyBeforeL="true"
+        app:qmui_shadowElevation="12dp">
+
+        <EditText
+            android:id="@+id/et_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:background="@null"/>
+
+    </com.qmuiteam.qmui.layout.QMUIRelativeLayout>
+
+</RelativeLayout>

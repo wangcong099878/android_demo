@@ -8,19 +8,15 @@ import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import okhttp3.Call;
 import the.one.base.base.activity.BaseWebViewActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
-import the.one.base.util.JsonUtil;
 import the.one.demo.Constant;
 import the.one.demo.R;
 import the.one.demo.adapter.HomeAdapter;
@@ -28,7 +24,8 @@ import the.one.demo.model.GankBean;
 import the.one.demo.model.HomeBean;
 import the.one.demo.model.HomeHeadSection;
 import the.one.demo.model.HomeItemSection;
-import the.one.demo.util.HomeUtil;
+import the.one.demo.presenter.HomePresenter;
+import the.one.demo.view.HomeView;
 
 
 //  ┏┓　　　┏┓
@@ -56,7 +53,7 @@ import the.one.demo.util.HomeUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class HomeFragment extends BaseSectionLayoutFragment {
+public class HomeFragment extends BaseSectionLayoutFragment implements HomeView {
 
     @BindView(R.id.topbar)
     QMUITopBar topbar;
@@ -65,6 +62,9 @@ public class HomeFragment extends BaseSectionLayoutFragment {
     @BindView(R.id.collapsing_topbar_layout)
     QMUICollapsingTopBarLayout collapsingTopbarLayout;
 
+    private HomePresenter presenter;
+    private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
+    private List<GankBean> welfare;
 
     @Override
     protected boolean showTitleBar() {
@@ -75,6 +75,9 @@ public class HomeFragment extends BaseSectionLayoutFragment {
     protected boolean isStickyHeader() { return true; }
 
     @Override
+    protected boolean onAnimationEndInit() { return false; }
+
+    @Override
     protected int getContentViewId() {
         return R.layout.fragment_home;
     }
@@ -82,7 +85,6 @@ public class HomeFragment extends BaseSectionLayoutFragment {
     @Override
     protected void initView(View rootView) {
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
-        collapsingTopbarLayout.setTitle("今日最新干货");
         collapsingTopbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(_mActivity, R.color.we_chat_black));
         initStickyLayout();
         initData();
@@ -95,44 +97,30 @@ public class HomeFragment extends BaseSectionLayoutFragment {
 
     @Override
     protected void requestServer() {
-        OkHttpUtils
-                .get()
-                .url(Constant.GANK_BASE)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        GlideUtil.load(_mActivity, new HomeUtil().getHomeImage(response), ivHead);
-                    }
-                });
-        OkHttpUtils
-                .get()
-                .url(Constant.TODAY)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        HomeBean homeBean = JsonUtil.fromJson(response, HomeBean.class);
-                        if (!homeBean.isError()) {
-                            parseData(homeBean.getResults());
-                        }
-                    }
-                });
+        presenter.getData(HomePresenter.TYPE_WELFARE);
+        presenter.getData(HomePresenter.TYPE_TODAY);
     }
 
-    List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
+    @Override
+    public void onWelfareComplete(List<GankBean> data) {
+        welfare = data;
+        setWelfare();
+    }
 
-    private void parseData(HomeBean.ResultsBean resultsBean) {
+    private void setWelfare(){
+        if(null != welfare){
+            int size = welfare.size();
+            if(size>0){
+                int index = (int)(Math.random()*(size));
+                GankBean gankBean = welfare.get(index);
+                GlideUtil.load(_mActivity,gankBean.getUrl(),ivHead);
+            }
+        }
+    }
+
+    @Override
+    public void onTodayComplete(HomeBean resultsBean) {
+        collapsingTopbarLayout.setTitle("今日最新干货");
         sections = new ArrayList<>();
         sections.add(parseSection(resultsBean.Android, Constant.ANDROID));
         sections.add(parseSection(resultsBean.iOS, Constant.IOS));
@@ -144,6 +132,7 @@ public class HomeFragment extends BaseSectionLayoutFragment {
         sections.add(parseSection(resultsBean.welfare, Constant.WELFARE));
         mAdapter.setData(sections);
     }
+
 
     private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans, String head) {
         List<HomeItemSection> itemSections = new ArrayList<>();
@@ -172,7 +161,13 @@ public class HomeFragment extends BaseSectionLayoutFragment {
 
     @Override
     public BasePresenter getPresenter() {
-        return null;
+        return presenter = new HomePresenter();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setWelfare();
     }
 
 }

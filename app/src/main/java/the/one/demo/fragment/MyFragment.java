@@ -39,7 +39,7 @@ import the.one.demo.R;
  */
 public class MyFragment extends BaseGroupListFragment implements View.OnClickListener {
 
-    QMUICommonListItemView  Gank,Copy,QMUI,Adapter,NineGrid;
+    QMUICommonListItemView  Gank,Copy,QMUI,Adapter,NineGrid,Publish;
 
 
     @Override
@@ -57,6 +57,8 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         Adapter = CreateItemView(TYPE_RIGHT_DETAIL,"BaseRecyclerViewAdapterHelper","适配器大佬");
         NineGrid = CreateItemView(TYPE_RIGHT_DETAIL,"NineGridLayout","仿朋友圈九宫格图片显示");
 
+        Publish = CreateItemView(TYPE_CHEVRON, "发布");
+
         flTopLayout.setOnClickListener(this);
 
         QMUIGroupListView.newSection(_mActivity)
@@ -71,6 +73,15 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 .addItemView(Adapter, this)
                 .addItemView(NineGrid, this)
                 .addTo(mGroupListView);
+//        QMUIGroupListView.newSection(_mActivity)
+//                .setTitle("")
+//                .addItemView(Publish, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        startFragment(new PublishFragment());
+//                    }
+//                })
+//                .addTo(mGroupListView);
     }
 
     @Override
