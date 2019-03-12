@@ -9,4 +9,4 @@
 
 #### 效果图
 
-![](https://gitee.com/theoneee/TheBase/blob/master/image/S90312-151521.png)![输入图片说明](https://gitee.com/theoneee/TheBase/blob/master/image/S90312-151521.png "在这里输入图片标题")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155229_7bcf1837_2286054.png "S90312-151521.png")
