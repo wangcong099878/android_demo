@@ -41,7 +41,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
 
     QMUICommonListItemView  Gank,Copy,QMUI,Adapter,NineGrid,Publish;
 
-
     @Override
     protected int getTopLayout() {
         return R.layout.custom_mine_head;
@@ -73,6 +72,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 .addItemView(Adapter, this)
                 .addItemView(NineGrid, this)
                 .addTo(mGroupListView);
+
 //        QMUIGroupListView.newSection(_mActivity)
 //                .setTitle("")
 //                .addItemView(Publish, new View.OnClickListener() {

@@ -69,7 +69,6 @@ public class PublishFragment extends BaseFragment implements View.OnClickListene
 
     private QMUIDialog typeDialog;
 
-
     @Override
     protected int getContentViewId() {
         return R.layout.fragment_publish;
