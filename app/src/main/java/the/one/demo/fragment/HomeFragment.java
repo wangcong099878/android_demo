@@ -133,7 +133,6 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         mAdapter.setData(sections);
     }
 
-
     private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans, String head) {
         List<HomeItemSection> itemSections = new ArrayList<>();
         for (int i = 0; i < gankBeans.size(); i++) {
@@ -165,9 +164,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
         setWelfare();
     }
-
 }

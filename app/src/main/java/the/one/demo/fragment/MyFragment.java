@@ -73,15 +73,15 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 .addItemView(NineGrid, this)
                 .addTo(mGroupListView);
 
-//        QMUIGroupListView.newSection(_mActivity)
-//                .setTitle("")
-//                .addItemView(Publish, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        startFragment(new PublishFragment());
-//                    }
-//                })
-//                .addTo(mGroupListView);
+        QMUIGroupListView.newSection(_mActivity)
+                .setTitle("")
+                .addItemView(Publish, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startFragment(new PublishFragment());
+                    }
+                })
+                .addTo(mGroupListView);
     }
 
     @Override

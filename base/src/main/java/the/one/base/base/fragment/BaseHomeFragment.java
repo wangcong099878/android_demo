@@ -34,8 +34,6 @@ import the.one.base.R;
  */
 public abstract class BaseHomeFragment extends BaseTabFragment {
 
-    protected FrameLayout flTopLayout;
-
     @Override
     protected boolean showTitleBar() {
         return false;
@@ -48,7 +46,6 @@ public abstract class BaseHomeFragment extends BaseTabFragment {
 
     @Override
     protected void initView(View rootView) {
-        flTopLayout = rootView.findViewById(R.id.fl_top_layout);
         mTabSegment = rootView.findViewById(R.id.tab_segment);
         mViewPager = rootView.findViewById(R.id.qmui_view_pager);
         super.initView(rootView);

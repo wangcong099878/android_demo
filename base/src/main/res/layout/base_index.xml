@@ -4,23 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.qmuiteam.qmui.widget.QMUIViewPager
+        android:id="@+id/qmui_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/home_tab_height"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/fl_top_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <com.qmuiteam.qmui.widget.QMUIViewPager
-            android:id="@+id/qmui_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+        android:layout_marginBottom="@dimen/home_tab_height" />
 
     <com.qmuiteam.qmui.widget.QMUITabSegment
         android:id="@+id/tab_segment"
