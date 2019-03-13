@@ -12,3 +12,7 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155923_cdb5f007_2286054.gif "99d6571a-1ce7-4f85-82bf-44dcda06c846.gif")
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155654_b46fccb5_2286054.png "S90312-151521.png")![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155702_93c35928_2286054.png "S90312-151525.png")![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155709_cc65ed3d_2286054.png "S90312-151529.png")
+
+#### 感谢
+
+[KotlinGankApp](https://github.com/JayGengi/KotlinGankApp)
