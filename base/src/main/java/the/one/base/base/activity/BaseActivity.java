@@ -19,6 +19,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import the.one.base.R;
+import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
@@ -70,6 +71,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     /**
+     * 获取Presenter实例，子类实现
+     */
+    public abstract BasePresenter getPresenter();
+
+    /**
      * 是否注册事件分发
      *
      * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
@@ -97,6 +103,9 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
             mStatusLayout.addView(mBody, -1, -1);
         } else {
             mRootView = mBody;
+        }
+        if (getPresenter() != null) {
+            getPresenter().attachView(this);
         }
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this, mBody);
@@ -184,6 +193,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     public void showEmptyPage(String title, View.OnClickListener listener) {
         showEmptyPage(title, "刷新试试", listener);
     }
+
     @Override
     public void showEmptyPage(String title, String btnString, View.OnClickListener listener) {
         showEmptyPage(title, "", btnString, listener);
@@ -299,15 +309,8 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isRegisterEventBus()) {
-            EventBusUtil.unregister(this);
-        }
-        if (null != unbinder) {
-            try {
-                unbinder.unbind();
-            } catch (Exception e) {
-
-            }
-        }
+        if (getPresenter() != null) getPresenter().detachView();
+        if (isRegisterEventBus()) EventBusUtil.unregister(this);
+        try { unbinder.unbind(); } catch (Exception e) { }
     }
 }

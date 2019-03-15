@@ -6,7 +6,7 @@
     <com.qmuiteam.qmui.widget.QMUITabSegment
         android:id="@+id/tab_segment"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
         android:layout_height="@dimen/top_tab_height"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" />

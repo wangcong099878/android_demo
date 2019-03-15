@@ -113,7 +113,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Log.e(TAG, "onLoadMoreRequested: " );
+                Log.e(TAG, "onLoadMoreRequested: ");
                 if (isLoadMore) {
                     page++;
                     isLoadMore = false;
@@ -128,33 +128,35 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.isFirstOnly(true);
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setNotDoAnimationCount(10);
-        pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
-        pullLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {
-            @Override
-            public void onMoveTarget(int offset) {
+        if (null != pullLayout) {
 
-            }
+            pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
+            pullLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {
+                @Override
+                public void onMoveTarget(int offset) {
 
-            @Override
-            public void onMoveRefreshView(int offset) {
+                }
 
-            }
+                @Override
+                public void onMoveRefreshView(int offset) {
 
-            @Override
-            public void onRefresh() {
-                page = 1;
-                isHeadFresh = true;
-                requestServer();
-            }
-        });
-        initRecycleView(recycleView,setType(),adapter);
+                }
 
-//        refresh();
+                @Override
+                public void onRefresh() {
+                    page = 1;
+                    isHeadFresh = true;
+                    requestServer();
+                }
+            });
+        }
+
+        initRecycleView(recycleView, setType(), adapter);
+
     }
 
 
-
-    protected void initRecycleView(RecyclerView recycleView,int type,BaseQuickAdapter adapter) {
+    protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
         switch (type) {
             case TYPE_LIST:
                 layoutManager = new LinearLayoutManager(getActivity());
@@ -174,7 +176,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     @Override
     protected void onEnterAnimationEnd(@Nullable Animation animation) {
         super.onEnterAnimationEnd(animation);
-        if (onAnimationEndInit()&&!mIsFirstLayInit) {
+        if (onAnimationEndInit() && !mIsFirstLayInit) {
             mIsFirstLayInit = true;
             refresh();
         }
@@ -222,22 +224,23 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     /**
      * 请求失败
      * 判断是什么情况下的失败
+     *
      * @param errorMsg
      */
     @Override
     public void onFail(String errorMsg) {
-        if(isFirst){
-            showErrorPage(errorMsg,"刷新试试",new View.OnClickListener() {
+        if (isFirst) {
+            showErrorPage(errorMsg, "刷新试试", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showLoadingPage();
                     requestServer();
                 }
             });
-        }else if (isHeadFresh) {
+        } else if (isHeadFresh) {
             showToast(errorMsg);
             onHeadFreshSuccess();
-        }else{
+        } else {
             adapter.loadMoreFail();
         }
     }
@@ -289,8 +292,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             isLoadMore = true;
             adapter.loadMoreComplete();
         } else {
-                adapter.loadMoreEnd();
-                isLoadMore = false;
+            adapter.loadMoreEnd();
+            isLoadMore = false;
         }
     }
 
@@ -298,9 +301,10 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      * 普通模式（ 直接设置数据,不需要刷新和加载 - 在requestServer设置数据后再调用此方法 ）
      */
     @Override
-    public void onNormal(){
+    public void onNormal() {
         adapter.loadMoreEnd();
-        pullLayout.setEnabled(false);
+        if (null != pullLayout)
+            pullLayout.setEnabled(false);
         showView(flBottomLayout);
         showView(flTopLayout);
         showContentPage();
