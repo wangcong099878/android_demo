@@ -1,4 +1,4 @@
-package the.one.demo.presenter;
+package the.one.demo.ui.presenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,7 +24,7 @@ import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
 import the.one.demo.Constant;
-import the.one.demo.model.GankBean;
+import the.one.demo.ui.model.GankBean;
 import the.one.library.entity.PageInfoBean;
 
 

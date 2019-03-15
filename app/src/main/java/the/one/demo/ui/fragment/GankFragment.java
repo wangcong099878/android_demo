@@ -1,4 +1,4 @@
-package the.one.demo.fragment;
+package the.one.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,10 +14,10 @@ import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.demo.Constant;
-import the.one.demo.adapter.GankAdapter;
-import the.one.demo.adapter.WelfareAdapter;
-import the.one.demo.model.GankBean;
-import the.one.demo.presenter.GankPresenter;
+import the.one.demo.ui.adapter.GankAdapter;
+import the.one.demo.ui.adapter.WelfareAdapter;
+import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.presenter.GankPresenter;
 
 
 //  ┏┓　　　┏┓

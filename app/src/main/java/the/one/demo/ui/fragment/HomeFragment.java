@@ -1,4 +1,4 @@
-package the.one.demo.fragment;
+package the.one.demo.ui.fragment;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -19,13 +19,13 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
 import the.one.demo.Constant;
 import the.one.demo.R;
-import the.one.demo.adapter.HomeAdapter;
-import the.one.demo.model.GankBean;
-import the.one.demo.model.HomeBean;
-import the.one.demo.model.HomeHeadSection;
-import the.one.demo.model.HomeItemSection;
-import the.one.demo.presenter.HomePresenter;
-import the.one.demo.view.HomeView;
+import the.one.demo.ui.adapter.HomeAdapter;
+import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.model.HomeBean;
+import the.one.demo.ui.model.HomeHeadSection;
+import the.one.demo.ui.model.HomeItemSection;
+import the.one.demo.ui.presenter.HomePresenter;
+import the.one.demo.ui.view.HomeView;
 
 
 //  ┏┓　　　┏┓

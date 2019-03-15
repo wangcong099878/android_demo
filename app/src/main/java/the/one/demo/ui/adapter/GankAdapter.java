@@ -1,4 +1,4 @@
-package the.one.demo.adapter;
+package the.one.demo.ui.adapter;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 import the.one.base.util.StringUtils;
 import the.one.demo.R;
-import the.one.demo.model.GankBean;
-import the.one.demo.view.NineImageLayout;
+import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.view.NineImageLayout;
 
 /**
  * @author The one

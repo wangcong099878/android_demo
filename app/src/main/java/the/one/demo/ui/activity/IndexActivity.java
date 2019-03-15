@@ -1,4 +1,9 @@
-package the.one.demo.view;
+package the.one.demo.ui.activity;
+
+import the.one.base.base.activity.BaseFragmentActivity;
+import the.one.base.base.fragment.BaseFragment;
+import the.one.demo.ui.fragment.IndexFragment;
+
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -18,23 +23,22 @@ package the.one.demo.view;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import java.util.List;
-
-import the.one.base.base.view.BaseView;
-import the.one.demo.model.GankBean;
-import the.one.demo.model.HomeBean;
-
 /**
  * @author The one
- * @date 2019/3/12 0012
+ * @date 2019/3/4 0004
  * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public interface HomeView extends BaseView {
+public class IndexActivity extends BaseFragmentActivity {
 
-    void onWelfareComplete(List<GankBean> data);
+    @Override
+    protected boolean LightMode() {
+        return true;
+    }
 
-    void onTodayComplete(HomeBean data);
-
+    @Override
+    protected BaseFragment getBaseFragment() {
+        return new IndexFragment();
+    }
 }

@@ -15,7 +15,7 @@
             android:textSize="16sp"
             android:ellipsize="end" />
 
-        <the.one.demo.view.NineImageLayout
+        <the.one.demo.ui.view.NineImageLayout
             android:id="@+id/nine_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

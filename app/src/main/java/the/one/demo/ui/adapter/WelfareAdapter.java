@@ -1,4 +1,4 @@
-package the.one.demo.adapter;
+package the.one.demo.ui.adapter;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -24,7 +24,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.ScaleImageView;
 import the.one.demo.R;
-import the.one.demo.model.GankBean;
+import the.one.demo.ui.model.GankBean;
 
 /**
  * @author The one

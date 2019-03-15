@@ -1,6 +1,4 @@
-package the.one.demo.presenter;
-
-import android.util.Log;
+package the.one.demo.ui.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,9 +14,9 @@ import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.JsonUtil;
 import the.one.demo.Constant;
-import the.one.demo.model.GankBean;
-import the.one.demo.model.HomeBean;
-import the.one.demo.view.HomeView;
+import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.model.HomeBean;
+import the.one.demo.ui.view.HomeView;
 import the.one.library.FailUtil;
 
 

@@ -1,4 +1,4 @@
-package the.one.demo.model;
+package the.one.demo.ui.model;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓

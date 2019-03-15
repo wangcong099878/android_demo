@@ -1,4 +1,4 @@
-package the.one.demo.fragment;
+package the.one.demo.ui.fragment;
 
 import android.content.DialogInterface;
 import android.view.View;

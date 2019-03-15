@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package the.one.demo.activity;
+package the.one.demo.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
