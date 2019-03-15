@@ -24,11 +24,14 @@ annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 implementation 'com.gitee.theoneee:TheBase:lastversion'
 ```
 manifest里application指定  
-```android:name="the.one.base.BaseApplication"```
-或者继承 BaseApplication
+```android:name="the.one.base.BaseApplication"
+```
+或者继承 BaseApplication再指定成自己的
 
 style AppTheme继承BaseTheme
 ```<style name="AppTheme" parent="BaseTheme"/>```
+
+以上三个必须要！！！
 
 #### Demo
 [下载地址](https://gitee.com/theoneee/TheBase/raw/master/app/release/app-release.apk)
