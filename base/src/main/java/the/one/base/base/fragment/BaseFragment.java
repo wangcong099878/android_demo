@@ -204,7 +204,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return mRootView;
     }
 
-    private void setCustomLayout(ViewGroup parent, int layout) {
+    protected void setCustomLayout(ViewGroup parent, int layout) {
         if (layout != -1)
             parent.addView(getView(layout), -1, -1);
     }
