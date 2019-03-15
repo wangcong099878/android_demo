@@ -24,8 +24,8 @@ annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 implementation 'com.gitee.theoneee:TheBase:lastversion'
 ```
 3.manifest里application指定  
-```android:name="the.one.base.BaseApplication"
-```
+```android:name="the.one.base.BaseApplication" ```
+
 或者继承 BaseApplication再指定成自己的
 
 style AppTheme继承BaseTheme
