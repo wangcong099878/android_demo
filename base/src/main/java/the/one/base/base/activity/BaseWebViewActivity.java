@@ -33,6 +33,7 @@ import android.webkit.WebViewClient;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
 
 import the.one.base.R;
+import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.util.DeviceUtil;
 import the.one.base.util.FileDirectoryUtil;
@@ -71,6 +72,11 @@ public class BaseWebViewActivity extends BaseActivity {
         url = getIntent().getStringExtra(DataConstant.URL);
         initFragmentBack(title);
         initWebView();
+    }
+
+    @Override
+    public BasePresenter getPresenter() {
+        return null;
     }
 
 

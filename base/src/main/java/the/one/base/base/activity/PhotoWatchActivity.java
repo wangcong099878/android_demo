@@ -11,6 +11,7 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.adapter.ImageWatchAdapter;
+import the.one.base.base.presenter.BasePresenter;
 import the.one.base.widge.PhotoViewPager;
 
 /**
@@ -44,6 +45,11 @@ public class PhotoWatchActivity extends BaseActivity {
     @Override
     protected boolean showTitleBar() {
         return false;
+    }
+
+    @Override
+    public BasePresenter getPresenter() {
+        return null;
     }
 
     @Override
