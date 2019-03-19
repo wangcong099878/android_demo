@@ -189,6 +189,14 @@ public class MyTopBarLayout extends FrameLayout {
         return mTopBar.addLeftBackImageButton();
     }
 
+    public int getTopBarBgColor() {
+        return mTopBarBgColor;
+    }
+
+    public void setTopBarBgColor(int mTopBarBgColor) {
+        this.mTopBarBgColor = mTopBarBgColor;
+    }
+
     public void removeAllLeftViews() {
         mTopBar.removeAllLeftViews();
     }

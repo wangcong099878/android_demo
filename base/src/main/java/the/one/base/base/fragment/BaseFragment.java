@@ -147,7 +147,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     protected int backViewInitOffset() {
-        return QMUIDisplayHelper.dp2px(getContext(), 150);
+        return QMUIDisplayHelper.dp2px(getContext(), 170);
     }
 
 

@@ -219,7 +219,7 @@ public class MyTopBar extends RelativeLayout {
         mCenterView = view;
         LayoutParams params = (LayoutParams) mCenterView.getLayoutParams();
         if (params == null) {
-            params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         }
         if(mLeftLastViewId != -1)
             params.addRule(RelativeLayout.RIGHT_OF,mLeftLastViewId);

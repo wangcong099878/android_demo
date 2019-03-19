@@ -3,22 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <com.qmuiteam.qmui.widget.QMUITabSegment
-            android:id="@+id/tab_segment"
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_height="@dimen/top_tab_height"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+    <com.qmuiteam.qmui.widget.QMUITabSegment
+        android:id="@+id/tab_segment"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/top_tab_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <com.qmuiteam.qmui.widget.QMUIViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_segment"/>
+        android:layout_below="@id/tab_segment" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="7dp"
         android:layout_below="@id/tab_segment"
         android:background="@drawable/titlebar_bottom_shadow" />
+
 </RelativeLayout>

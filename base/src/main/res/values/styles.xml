@@ -50,8 +50,7 @@
         <item name="android:padding">15dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/qmui_config_color_blue</item>
-        <item name="android:background">?attr/qmui_s_list_item_bg_with_border_bottom_inset_left
-        </item>
+        <item name="android:background">?attr/qmui_s_list_item_bg_with_border_bottom_inset_left</item>
     </style>
 
 </resources>

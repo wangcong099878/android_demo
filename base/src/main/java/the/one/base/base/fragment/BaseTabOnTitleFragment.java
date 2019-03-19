@@ -19,7 +19,6 @@ package the.one.base.base.fragment;
 //      ┗┻┛　┗┻┛
 
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
@@ -51,9 +50,8 @@ public abstract class BaseTabOnTitleFragment extends BaseTabFragment {
 
     @Override
     protected void initTabAndPager() {
-        int statusColor = ContextCompat.getColor(getActivity(),R.color.qmui_config_color_blue);
         // 判断TitleBar的背景颜色是否为白色，如果不是则改变TabLayout的背景颜色和TitleBar相同，字体颜色更改为白色
-        if(statusColor != Color.WHITE){
+        if(mTopLayout.getTopBarBgColor() != Color.WHITE){
             mTabSegment.setDefaultNormalColor(Color.WHITE);
             mTabSegment.setDefaultSelectedColor(Color.WHITE);
             BaseDataFragment.setMargins(mTabSegment,0,0,0, QMUIDisplayHelper.dp2px(getContext(), 10));
