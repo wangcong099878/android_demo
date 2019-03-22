@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">TheBase</string>
 
-
-
     <string name="update_app_service_name">APP更新</string>
 
     <string name="spanUtils_rmb">¥</string><!-- ¥相当于&#xA5 -->

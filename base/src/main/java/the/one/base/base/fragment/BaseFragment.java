@@ -150,7 +150,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return QMUIDisplayHelper.dp2px(getContext(), 170);
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

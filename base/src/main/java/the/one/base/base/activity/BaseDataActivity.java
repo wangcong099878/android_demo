@@ -275,11 +275,9 @@ public abstract class BaseDataActivity<T> extends BaseActivity implements BaseDa
     @Override
     public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
-            Log.e(TAG, "onComplete: data.size() == 0" + TAG);
             showEmptyPage(emptyStr, btnString, listener);
         } else {
             if (isFirst) {
-                Log.e(TAG, "onComplete: isFirst" + TAG);
                 showView(flBottomLayout);
                 showView(flTopLayout);
                 adapter.setNewData(data);

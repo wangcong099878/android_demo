@@ -24,7 +24,7 @@ import the.one.base.BaseApplication;
 /**
  * @author The one
  * @date 2018/12/28 0028
- * @describe TODO
+ * @describe 必须继承BaseApplication
  * @email 625805189@qq.com
  * @remark
  */
@@ -35,4 +35,12 @@ public class App extends BaseApplication {
         super.onCreate();
     }
 
+    /**
+     * 是否打印日志
+     * @return
+     */
+    @Override
+    protected boolean isDebug() {
+        return true;
+    }
 }

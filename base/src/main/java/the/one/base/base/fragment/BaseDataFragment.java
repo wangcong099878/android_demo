@@ -113,7 +113,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                Log.e(TAG, "onLoadMoreRequested: ");
                 if (isLoadMore) {
                     page++;
                     isLoadMore = false;

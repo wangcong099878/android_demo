@@ -80,7 +80,6 @@ public abstract class BaseTabFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
-        Log.e(TAG, "initView: " );
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
         if (!tabFromNet()) {
