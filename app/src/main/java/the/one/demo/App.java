@@ -41,6 +41,6 @@ public class App extends BaseApplication {
      */
     @Override
     protected boolean isDebug() {
-        return true;
+        return false;
     }
 }

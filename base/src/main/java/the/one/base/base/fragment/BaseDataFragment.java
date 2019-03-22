@@ -23,7 +23,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -128,7 +127,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setNotDoAnimationCount(10);
         if (null != pullLayout) {
-
             pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
             pullLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {
                 @Override

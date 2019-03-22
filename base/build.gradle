@@ -42,4 +42,5 @@ dependencies {
     api 'com.ms-square:expandableTextView:0.1.4'
     api 'com.github.chrisbanes:PhotoView:2.0.0'
     api 'com.orhanobut:logger:2.2.0'
+    api 'com.wkp:StickLayout:1.0.6'
 }

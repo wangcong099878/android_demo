@@ -34,7 +34,7 @@ public class LauncherActivity extends Activity {
             finish();
             return;
         }
-        Intent intent = new Intent(this, IndexActivity.class);
+        Intent intent = new Intent(this, TagActivity.class);
         startActivity(intent);
         finish();
     }

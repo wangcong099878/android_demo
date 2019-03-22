@@ -11,7 +11,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -67,7 +66,6 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
 
             @Override
             public void onResponse(String response, int id) {
-                Logger.json(response);
                 if (isViewAttached()) {
                     JSONObject jsonObject = null;
                     try {
