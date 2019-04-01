@@ -34,8 +34,8 @@ import the.one.base.util.ToastUtil;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
-import the.one.library.callback.Callback;
-import the.one.library.entity.PageInfoBean;
+import the.one.net.callback.Callback;
+import the.one.net.entity.PageInfoBean;
 
 
 //  ┏┓　　　┏┓

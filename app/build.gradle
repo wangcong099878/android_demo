@@ -8,6 +8,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -15,6 +16,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    dexOptions {
+        // 支持大工程模式
+        jumboMode = true
     }
 }
 
@@ -24,7 +29,5 @@ dependencies {
 //    implementation 'com.gitee.theoneee:TheBase:1.0.1'
     implementation 'org.jsoup:jsoup:1.9.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     implementation 'com.moxun:tagcloudlib:1.2.0'
-
 }

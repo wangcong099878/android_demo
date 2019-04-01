@@ -36,7 +36,7 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
     api 'com.belerweb:pinyin4j:2.5.1'
     api 'com.android.support:multidex:1.0.3'
-    api 'com.github.Theoneee:TheNet:1.3'
+    api 'com.github.Theoneee:TheNet:1.3.2'
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
     api 'jsc.kit.datetimepicker:DateTimePickerLibrary:0.4.5'
     api 'com.ms-square:expandableTextView:0.1.4'

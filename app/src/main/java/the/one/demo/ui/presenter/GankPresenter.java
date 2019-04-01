@@ -24,7 +24,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
 import the.one.demo.Constant;
 import the.one.demo.ui.model.GankBean;
-import the.one.library.entity.PageInfoBean;
+import the.one.net.entity.PageInfoBean;
 
 
 //  ┏┓　　　┏┓
@@ -78,7 +78,7 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
                             List<GankBean> itemData = new Gson().fromJson(personObject,
                                     new TypeToken<List<GankBean>>() {
                                     }.getType());
-                             PageInfoBean pageInfoBean = new PageInfoBean(1000, "", page, Constant.COUNT);
+                             PageInfoBean pageInfoBean = new PageInfoBean( page, Constant.COUNT);
                             if (type != Constant.WELFARE) {
                                 getView().onComplete(itemData, pageInfoBean,"无"+type+"相关数据");
                             } else
