@@ -14,8 +14,8 @@ import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.JsonUtil;
 import the.one.demo.Constant;
-import the.one.demo.ui.model.GankBean;
-import the.one.demo.ui.model.HomeBean;
+import the.one.demo.ui.bean.GankBean;
+import the.one.demo.ui.bean.HomeBean;
 import the.one.demo.ui.view.HomeView;
 import the.one.library.FailUtil;
 

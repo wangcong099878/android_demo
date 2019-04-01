@@ -16,7 +16,7 @@ import the.one.base.constant.DataConstant;
 import the.one.demo.Constant;
 import the.one.demo.ui.adapter.GankAdapter;
 import the.one.demo.ui.adapter.WelfareAdapter;
-import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.bean.GankBean;
 import the.one.demo.ui.presenter.GankPresenter;
 
 

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import the.one.base.util.StringUtils;
 import the.one.demo.R;
-import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.bean.GankBean;
 import the.one.demo.ui.view.NineImageLayout;
 
 /**

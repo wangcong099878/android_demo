@@ -1,4 +1,4 @@
-package the.one.demo.ui.model;
+package the.one.demo.ui.bean;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -20,8 +20,6 @@ package the.one.demo.ui.model;
 
 import com.qmuiteam.qmui.widget.section.QMUISection;
 
-import java.util.List;
-
 /**
  * @author The one
  * @date 2019/3/4 0004
@@ -29,32 +27,26 @@ import java.util.List;
  * @email 625805189@qq.com
  * @remark
  */
-public class HomeItemSection implements QMUISection.Model<HomeItemSection>{
+public class HomeHeadSection implements QMUISection.Model<HomeHeadSection> {
 
-    public String url;
-    public String content;
-    public List<String> images;
-    public String remark;
+    public String title;
 
-    public HomeItemSection(String content, List<String> images, String remark,String url) {
-        this.content = content;
-        this.images = images;
-        this.remark = remark;
-        this.url = url;
+    public HomeHeadSection(String title) {
+        this.title = title;
     }
 
     @Override
-    public HomeItemSection cloneForDiff() {
-        return new HomeItemSection(content,images,remark,url);
+    public HomeHeadSection cloneForDiff() {
+        return new HomeHeadSection(title);
     }
 
     @Override
-    public boolean isSameItem(HomeItemSection other) {
-        return content == other.content || (content != null && content.equals(other.content));
+    public boolean isSameItem(HomeHeadSection other) {
+        return title == other.title || (title != null && title.equals(other.title));
     }
 
     @Override
-    public boolean isSameContent(HomeItemSection other) {
+    public boolean isSameContent(HomeHeadSection other) {
         return true;
     }
 }

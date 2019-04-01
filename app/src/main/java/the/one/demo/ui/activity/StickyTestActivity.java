@@ -22,7 +22,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.Constant;
 import the.one.demo.R;
 import the.one.demo.ui.adapter.GankAdapter;
-import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.bean.GankBean;
 
 
 //  ┏┓　　　┏┓

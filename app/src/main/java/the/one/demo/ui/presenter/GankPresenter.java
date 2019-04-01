@@ -23,7 +23,7 @@ import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
 import the.one.demo.Constant;
-import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.bean.GankBean;
 import the.one.library.entity.PageInfoBean;
 
 

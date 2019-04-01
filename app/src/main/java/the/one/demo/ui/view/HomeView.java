@@ -21,8 +21,8 @@ package the.one.demo.ui.view;
 import java.util.List;
 
 import the.one.base.base.view.BaseView;
-import the.one.demo.ui.model.GankBean;
-import the.one.demo.ui.model.HomeBean;
+import the.one.demo.ui.bean.GankBean;
+import the.one.demo.ui.bean.HomeBean;
 
 /**
  * @author The one

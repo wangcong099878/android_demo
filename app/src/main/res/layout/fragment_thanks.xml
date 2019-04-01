@@ -10,8 +10,6 @@
         android:layout_height="wrap_content"
         app:autoScrollMode="uniform"
         android:layout_centerInParent="true"
-        app:darkColor="#00FF00"
-        app:lightColor="#00FF00"
         app:radiusPercent="0.6"/>
 
 </RelativeLayout>

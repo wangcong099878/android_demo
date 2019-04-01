@@ -20,10 +20,10 @@ import the.one.base.util.GlideUtil;
 import the.one.demo.Constant;
 import the.one.demo.R;
 import the.one.demo.ui.adapter.HomeAdapter;
-import the.one.demo.ui.model.GankBean;
-import the.one.demo.ui.model.HomeBean;
-import the.one.demo.ui.model.HomeHeadSection;
-import the.one.demo.ui.model.HomeItemSection;
+import the.one.demo.ui.bean.GankBean;
+import the.one.demo.ui.bean.HomeBean;
+import the.one.demo.ui.bean.HomeHeadSection;
+import the.one.demo.ui.bean.HomeItemSection;
 import the.one.demo.ui.presenter.HomePresenter;
 import the.one.demo.ui.view.HomeView;
 

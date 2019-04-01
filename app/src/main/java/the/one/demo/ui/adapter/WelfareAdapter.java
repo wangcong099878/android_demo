@@ -24,7 +24,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.ScaleImageView;
 import the.one.demo.R;
-import the.one.demo.ui.model.GankBean;
+import the.one.demo.ui.bean.GankBean;
 
 /**
  * @author The one

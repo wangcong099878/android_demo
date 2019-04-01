@@ -22,7 +22,8 @@
         </activity>
 
         <activity android:name=".ui.activity.StickyTestActivity"/>
-        <activity android:name=".ui.activity.TagActivity"/>
+
+        <activity android:name=".ui.activity.BingoActivity"/>
 
         <activity android:name=".ui.activity.IndexActivity"/>
 
