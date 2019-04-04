@@ -182,12 +182,12 @@ public abstract class NineGridLayout extends ViewGroup {
     }
 
     private RatioImageView createImageView(final int i, final String url) {
-        RatioImageView imageView = new RatioImageView(mContext);
+       final RatioImageView imageView = new RatioImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickImage(i, url, mUrlList);
+                onClickImage(i,imageView, url, mUrlList);
             }
         });
         return imageView;
@@ -309,5 +309,5 @@ public abstract class NineGridLayout extends ViewGroup {
 
     protected abstract void displayImage(RatioImageView imageView, String url);
 
-    protected abstract void onClickImage(int position, String url, ArrayList<String> urlList);
+    protected abstract void onClickImage(int position,View view, String url, ArrayList<String> urlList);
 }

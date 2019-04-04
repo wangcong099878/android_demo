@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wkp.sticklayout_lib.widget.StickLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:background="@color/qmui_config_color_red"
+            android:layout_height="100dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:background="@color/classic_color_2"
+            android:layout_height="100dp" />
+
+        <TextView
+            app:wkp_stick="true"
+            android:layout_width="match_parent"
+            android:text="固定不动"
+            android:textColor="@color/qmui_config_color_white"
+            android:gravity="center"
+            android:background="@color/classic_color_3"
+            android:layout_height="50dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</com.wkp.sticklayout_lib.widget.StickLayout>

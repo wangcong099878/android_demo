@@ -17,7 +17,7 @@ import the.one.demo.Constant;
 import the.one.demo.ui.bean.GankBean;
 import the.one.demo.ui.bean.HomeBean;
 import the.one.demo.ui.view.HomeView;
-import the.one.library.FailUtil;
+import the.one.net.FailUtil;
 
 
 //  ┏┓　　　┏┓

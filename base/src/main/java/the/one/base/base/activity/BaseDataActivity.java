@@ -37,7 +37,7 @@ import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
 import the.one.base.widge.WWPullRefreshLayout;
-import the.one.library.entity.PageInfoBean;
+import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one

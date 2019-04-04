@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import the.one.base.R;
-import the.one.library.entity.PageInfoBean;
+import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one

@@ -1,5 +1,6 @@
 package the.one.base;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
 
@@ -8,6 +9,8 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
+
+import java.net.ContentHandler;
 
 import the.one.base.util.NotificationManager;
 
@@ -39,9 +42,16 @@ import the.one.base.util.NotificationManager;
  */
 public class BaseApplication extends MultiDexApplication {
 
+    public static Context context;
+
+    public static Context getInstance(){
+        return context;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance(this).register();
         initLogger();

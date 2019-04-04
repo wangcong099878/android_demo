@@ -12,7 +12,7 @@ import the.one.base.util.StringUtils;
 import the.one.demo.R;
 import the.one.demo.ui.bean.HomeHeadSection;
 import the.one.demo.ui.bean.HomeItemSection;
-import the.one.demo.ui.view.NineImageLayout;
+import the.one.demo.widget.NineImageLayout;
 
 
 //  ┏┓　　　┏┓
