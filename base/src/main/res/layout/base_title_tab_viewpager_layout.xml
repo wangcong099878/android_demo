@@ -19,7 +19,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="7dp"
+        android:layout_height="5dp"
         android:layout_below="@id/tab_segment"
         android:background="@drawable/titlebar_bottom_shadow" />
 
