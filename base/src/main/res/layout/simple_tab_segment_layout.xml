@@ -6,6 +6,7 @@
     tab:qmui_tab_mode="scrollable"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="5dp"
     android:paddingLeft="@dimen/dp_10"
     android:paddingRight="@dimen/dp_10"/>
 

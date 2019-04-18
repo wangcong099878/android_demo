@@ -10,9 +10,8 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 
-import java.net.ContentHandler;
-
 import the.one.base.util.NotificationManager;
+import the.one.base.util.SpUtil;
 
 
 //  ┏┓　　　┏┓
@@ -54,6 +53,7 @@ public class BaseApplication extends MultiDexApplication {
         context = this;
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance(this).register();
+        SpUtil.getInstance().init(this);
         initLogger();
     }
 

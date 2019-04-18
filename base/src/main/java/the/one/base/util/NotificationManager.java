@@ -103,7 +103,7 @@ public class NotificationManager {
         if(null !=title) builder.setContentTitle(title);
         if(null !=content) builder.setContentText(content);
         if(showWhen) builder.setWhen(System.currentTimeMillis());
-
+        builder.setOnlyAlertOnce(true);
         setNotificationIcon(builder,smallIcon);
 
         getNotificationManager().notify(ID, builder.build());

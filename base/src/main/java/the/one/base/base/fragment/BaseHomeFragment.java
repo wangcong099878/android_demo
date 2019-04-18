@@ -58,4 +58,19 @@ public abstract class BaseHomeFragment extends BaseTabFragment {
 
         super.initTabAndPager();
     }
+
+    private long exitTime = 0;
+
+    @Override
+    protected void onBackPressed() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            //弹出提示，可以有多种方式
+            showToast("再点一次退出");
+            exitTime = System.currentTimeMillis();
+            return;
+        } else {
+            _mActivity.finish();
+        }
+        super.onBackPressed();
+    }
 }

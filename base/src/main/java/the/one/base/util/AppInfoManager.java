@@ -30,8 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import the.one.base.BuildConfig;
-
 
 /**
  * 主要功能:获取App应用版本信息
@@ -422,7 +420,7 @@ public class AppInfoManager {
             // 声明需要的零时权限
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             // 第二个参数，即第一步中配置的authorities
-            Uri contentUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileProvider",
+            Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider",
                     file);
             intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
         }
