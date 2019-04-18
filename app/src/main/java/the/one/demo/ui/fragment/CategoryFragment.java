@@ -5,7 +5,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseTitleTabFragment;
+import the.one.base.base.fragment.BaseTabOnTitleFragment;
 import the.one.demo.Constant;
 
 
@@ -34,14 +34,14 @@ import the.one.demo.Constant;
  * @email 625805189@qq.com
  * @remark
  */
-public class CategoryFragment extends BaseTitleTabFragment {
+public class CategoryFragment extends BaseTabOnTitleFragment {
 
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
 //        把继承改为BaseTitleTabFragment注释掉下面的代码
-        mTopLayout.setTitle("GankType").getPaint().setFakeBoldText(true);
-        mTopLayout.setBackgroundDividerEnabled(false);
+//        mTopLayout.setTitle("GankType").getPaint().setFakeBoldText(true);
+//        mTopLayout.setBackgroundDividerEnabled(false);
     }
 
     @Override
