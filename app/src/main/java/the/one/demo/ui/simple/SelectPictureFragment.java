@@ -1,8 +1,10 @@
-package the.one.demo.ui.activity;
+package the.one.demo.ui.simple;
 
-import the.one.base.base.activity.BaseFragmentActivity;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.demo.ui.fragment.IndexFragment;
+import android.view.View;
+
+import the.one.base.base.fragment.BasePictureSelectorFragment;
+import the.one.base.util.SelectPictureUtil;
+import the.one.demo.R;
 
 
 //  ┏┓　　　┏┓
@@ -25,21 +27,27 @@ import the.one.demo.ui.fragment.IndexFragment;
 
 /**
  * @author The one
- * @date 2019/3/4 0004
- * @describe TODO
+ * @date 2019/4/24 0024
+ * @describe 选择图片示例
  * @email 625805189@qq.com
  * @remark
  */
-public class IndexActivity extends BaseFragmentActivity {
+public class SelectPictureFragment extends BasePictureSelectorFragment {
 
     @Override
-    protected boolean LightMode() {
-        return true;
+    protected int getTopLayout() {
+        return R.layout.fragment_select_picture;
     }
 
     @Override
-    protected BaseFragment getBaseFragment() {
-//        FileDirectoryUtil.getCachePath();  测试文件夹创建
-        return new IndexFragment();
+    protected void initView(View rootView) {
+        initFragmentBack("选择图片");
+        super.initView(rootView);
     }
+
+    @Override
+    public void onAddPicClick() {
+        SelectPictureUtil.getInstance().initSelectPicture(this,mSelectList);
+    }
+
 }

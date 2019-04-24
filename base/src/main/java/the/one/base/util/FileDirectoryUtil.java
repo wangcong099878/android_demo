@@ -16,34 +16,43 @@ public class FileDirectoryUtil {
     /**
      * 根目录
      */
-    public static  String INDEX = "The one";
+    private static  String INDEX = "The one";
     /**
      * 下载目录
      */
-    public static  String DOWNLOAD = "Download";
+    private static  String DOWNLOAD = "Download";
     /**
      * 图片目录
      */
-    public static  String PICTURE = "Picture";
+    private static  String PICTURE = "Picture";
     /**
      * 视频目录
      */
-    public static  String VIDEO = "Video";
+    private static  String VIDEO = "Video";
     /**
      * 缓存目录
      */
-    public static  String CACHE = "Cache";
+    private static  String CACHE = "Cache";
     /**
      * 更新包名字
      */
-    public static  String UPDATE_APK_NAME = "update.apk";
+    private static  String UPDATE_APK_NAME = "update.apk";
+
+    private static Builder mBuilder;
+
+    public static Builder getBuilder(){
+        if(null == mBuilder){
+            mBuilder = new Builder();
+        }
+        return mBuilder;
+    }
 
     /**
      * 获取根目录
      * @return
      */
     public static String getIndexPath (){
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + INDEX;
+        return checkFileExists(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +INDEX);
     }
 
     /**
@@ -92,6 +101,98 @@ public class FileDirectoryUtil {
             file.mkdir();
         }
         return path;
+    }
+
+    public static class Builder{
+
+        /**
+         * 根目录
+         */
+        public String mIndex = "The one";
+        /**
+         * 下载目录
+         */
+        public String mDownload = "Download";
+        /**
+         * 图片目录
+         */
+        public String mPicture = "Picture";
+        /**
+         * 视频目录
+         */
+        public String mVideo = "Video";
+        /**
+         * 缓存目录
+         */
+        public String mCache = "Cache";
+        /**
+         * 更新包名字
+         */
+        public String mUpdateApkName = "update.apk";
+
+        public String getIndex() {
+            return mIndex;
+        }
+
+        public Builder setIndex(String mIndex) {
+            this.mIndex = mIndex;
+            return this;
+        }
+
+        public String getDownload() {
+            return mDownload;
+        }
+
+        public Builder setDownload(String mDownload) {
+            this.mDownload = mDownload;
+            return this;
+        }
+
+        public String getPicture() {
+            return mPicture;
+        }
+
+        public Builder setPicture(String mPicture) {
+            this.mPicture = mPicture;
+            return this;
+        }
+
+        public String getVideo() {
+            return mVideo;
+        }
+
+        public Builder setVideo(String mVideo) {
+            this.mVideo = mVideo;
+            return this;
+        }
+
+        public String getCache() {
+            return mCache;
+        }
+
+        public Builder setCache(String mCache) {
+            this.mCache = mCache;
+            return this;
+        }
+
+        public String getUpdateApkName() {
+            return mUpdateApkName;
+        }
+
+        public Builder setUpdateApkName(String mUpdateApkName) {
+            this.mUpdateApkName = mUpdateApkName;
+            return this;
+        }
+
+        public Builder build(){
+            FileDirectoryUtil.INDEX = getIndex();
+            FileDirectoryUtil.DOWNLOAD = getDownload();
+            FileDirectoryUtil.PICTURE = getPicture();
+            FileDirectoryUtil.VIDEO = getVideo();
+            FileDirectoryUtil.CACHE = getCache();
+            FileDirectoryUtil.UPDATE_APK_NAME = getUpdateApkName();
+            return this;
+        }
     }
 
 }

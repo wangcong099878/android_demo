@@ -19,6 +19,7 @@ package the.one.base.base.fragment;
 //      ┗┻┛　┗┻┛
 
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -36,7 +37,7 @@ import the.one.base.base.presenter.BasePresenter;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseGroupListFragment extends BaseFragment {
+public abstract class BaseGroupListFragment extends BaseFragment implements View.OnClickListener {
 
     public int TYPE_NORMAL = 1;// 普通样式
     public int TYPE_CHEVRON = 2;// 右边带角
@@ -65,11 +66,25 @@ public abstract class BaseGroupListFragment extends BaseFragment {
         addGroupListView();
     }
 
-//        QMUIGroupListView.newSection(this)
-//                .setTitle("Section 1: 默认提供的样式")
-//             .setDescription("Section 1 的描述")
-//             .addItemView(itemWithSwitch, onClickListener)
-//              .addTo(mGroupListView);
+    protected void addToGroup(QMUICommonListItemView... items){
+        addToGroup("","",items);
+    }
+
+    /**
+     *
+     * @param title section 标题
+     * @param description section 描述
+     * @param items
+     */
+    protected void addToGroup(String title,String description,QMUICommonListItemView... items){
+        QMUIGroupListView.Section section  = QMUIGroupListView.newSection(_mActivity);
+        if(TextUtils.isEmpty(title)) section.setTitle(title);
+        if(TextUtils.isEmpty(description)) section.setDescription(description);
+        for (QMUICommonListItemView itemView:items){
+            section.addItemView(itemView,this);
+        }
+        section.addTo(mGroupListView);
+    }
 
     public QMUICommonListItemView CreateItemView(int type, String content) {
         QMUICommonListItemView itemView;

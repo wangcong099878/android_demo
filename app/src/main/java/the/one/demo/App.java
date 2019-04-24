@@ -1,6 +1,7 @@
 package the.one.demo;
 
 import the.one.base.BaseApplication;
+import the.one.base.util.FileDirectoryUtil;
 
 
 //  ┏┓　　　┏┓
@@ -33,10 +34,23 @@ public class App extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+//        initFilePath();
+    }
+
+    /**
+     * 初始化文件目录
+     */
+    private void initFilePath(){
+         FileDirectoryUtil
+                .getBuilder()
+                .setIndex("Anastasia")
+                .setCache("缓存")
+                .build();
     }
 
     /**
      * 是否打印日志
+     *
      * @return
      */
     @Override

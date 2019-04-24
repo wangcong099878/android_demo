@@ -69,11 +69,10 @@ public class UpdateApkService extends Service {
                 .url(mUrl)
                 .tag(TAG)
                 .build()
-                .execute(new FileCallBack(FileDirectoryUtil.getDownloadPath(), FileDirectoryUtil.UPDATE_APK_NAME) {
+                .execute(new FileCallBack(FileDirectoryUtil.getDownloadPath(), FileDirectoryUtil.getBuilder().getUpdateApkName()) {
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.e(TAG, "   下载失败");
                         BroadCastUtil.send(UpdateApkService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, e.getMessage());
                         updateNotification("下载失败", false);
                     }

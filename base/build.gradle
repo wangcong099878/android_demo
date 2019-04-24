@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 20
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 6
+        versionName "1.0.6"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -44,4 +44,5 @@ dependencies {
     api 'com.github.chrisbanes:PhotoView:2.0.0'
     api 'com.orhanobut:logger:2.2.0'
     api 'com.wkp:StickLayout:1.0.6'
+    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 }
