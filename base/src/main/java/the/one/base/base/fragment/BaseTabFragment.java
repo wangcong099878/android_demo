@@ -79,6 +79,7 @@ public abstract class BaseTabFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
+        mTabSegment.setShowAnimation(false);
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
         if (!tabFromNet()) {

@@ -146,7 +146,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mTopBarLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popBackStack();
+                onBackPressed();
             }
         });
         mTopBarLayout.setTitle(mTitle);
@@ -419,6 +419,15 @@ public class BaseWebExplorerFragment extends BaseFragment {
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onBackPressed() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else
+            super.onBackPressed();
+
     }
 
     public class MJavascriptInterface {

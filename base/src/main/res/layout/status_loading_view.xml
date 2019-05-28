@@ -11,7 +11,7 @@
      android:layout_height="20dp"
      android:layout_centerInParent="true"
      android:clickable="false"
-     wheel:matProg_barColor="@color/qmui_config_color_gray_9"
+     wheel:matProg_barColor="@color/qmui_config_color_gray_8"
      wheel:matProg_progressIndeterminate="true"
      wheel:matProg_barWidth="4dp"/>
 

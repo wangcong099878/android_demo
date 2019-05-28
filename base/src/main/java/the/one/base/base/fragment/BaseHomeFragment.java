@@ -18,6 +18,7 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.annotation.SuppressLint;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.QMUITabSegment;
@@ -50,12 +51,13 @@ public abstract class BaseHomeFragment extends BaseTabFragment {
         super.initView(rootView);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void initTabAndPager() {
         mTabSegment.setMode(QMUITabSegment.MODE_FIXED);
         //是否有 Indicator
         mTabSegment.setHasIndicator(false);
-
+        mTabSegment.setShowAnimation(true);
         super.initTabAndPager();
     }
 

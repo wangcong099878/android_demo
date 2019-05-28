@@ -31,6 +31,7 @@ import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.webview.QMUIWebView;
 
 import the.one.base.R;
+import the.one.base.util.FileDirectoryUtil;
 
 /**
  * @author The one
@@ -64,7 +65,8 @@ public class BaseWebView extends QMUIWebView {
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSettings.setAppCachePath(FileDirectoryUtil.getCachePath()); //设置  Application Caches 缓存目录
         webSettings.setTextZoom(100);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
