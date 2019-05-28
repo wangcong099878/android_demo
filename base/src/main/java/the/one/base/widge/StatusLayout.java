@@ -366,9 +366,9 @@ public class StatusLayout extends RelativeLayout {
 
             loadingStateProgressBar =  view.findViewById(R.id.loading_view);
 
-//            loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
-//            loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
-//            loadingStateProgressBar.requestLayout();
+            loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
+            loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
+            loadingStateProgressBar.requestLayout();
 
             //Set background type_color_selector if not TRANSPARENT
             if (loadingStateBackgroundColor != Color.TRANSPARENT) {

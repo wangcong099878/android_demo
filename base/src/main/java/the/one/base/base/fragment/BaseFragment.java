@@ -263,6 +263,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage(msg);
+            progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.setProgress(percent, total);
         progressDialog.show();

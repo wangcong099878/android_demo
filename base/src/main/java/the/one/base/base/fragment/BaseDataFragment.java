@@ -252,7 +252,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     @Override
     public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
-            showEmptyPage(emptyStr, btnString, listener);
+            if (isFirst || isHeadFresh) {
+                showEmptyPage(emptyStr, btnString, listener);
+            } else {
+                adapter.loadMoreEnd();
+            }
         } else {
             if (isFirst) {
                 showView(flBottomLayout);
@@ -285,7 +289,12 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      */
     public void setPageInfo(PageInfoBean mPageInfo) {
         this.pageInfoBean = mPageInfo;
-        if (null != mPageInfo && mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
+        if (null == mPageInfo) {
+            isLoadMore = true;
+            adapter.loadMoreComplete();
+            return;
+        }
+        if (mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
             isLoadMore = true;
             adapter.loadMoreComplete();
         } else {
