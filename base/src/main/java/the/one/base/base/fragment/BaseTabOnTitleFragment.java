@@ -22,9 +22,9 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.widget.QMUITabSegment;
 
 import the.one.base.R;
+import the.one.base.widge.QMUITabSegment;
 
 /**
  * @author The one

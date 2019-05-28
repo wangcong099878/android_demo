@@ -33,6 +33,7 @@ public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
         this.fragments = fragments;
     }
 
+
     @Override
     public Fragment getItem(int position) {
         return (Fragment) fragments.get(position);

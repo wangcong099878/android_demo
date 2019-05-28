@@ -27,7 +27,6 @@ public class ProgressDialog extends AlertDialog implements QMUIProgressBar.QMUIP
 	 */
 	public ProgressDialog(Context context) {
 		super(context, R.style.dialog);
-
 	}
 
 	@Override

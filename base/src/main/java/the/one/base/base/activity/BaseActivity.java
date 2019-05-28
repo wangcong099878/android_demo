@@ -163,6 +163,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
+    public void showProgressDialog(int percent, int total,String msg) {
+
+    }
+
+    @Override
     public void hideProgressDialog() {
 
     }

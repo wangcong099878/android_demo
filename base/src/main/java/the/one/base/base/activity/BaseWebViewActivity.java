@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.net.http.SslError;
 import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -31,6 +32,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
+
+import java.util.ArrayList;
 
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
@@ -112,6 +115,7 @@ public class BaseWebViewActivity extends BaseActivity {
         mWebView.loadUrl(url);
         //设置不用系统浏览器打开,直接显示在当前Webview
 
+        mWebView.addJavascriptInterface(new MJavascriptInterface(this), "imagelistener");
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -121,6 +125,23 @@ public class BaseWebViewActivity extends BaseActivity {
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 handler.proceed();  //接受所有证书
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mWebView.loadUrl("javascript:(function(){" +
+                        "var objs = document.getElementsByTagName(\"img\"); " +
+                        " var array=new Array(); " +
+                        " for(var j=0;j<objs.length;j++){ array[j]=objs[j].src; }"+
+                        "for(var i=0;i<objs.length;i++)  " +
+                        "{"
+                        + "    objs[i].onclick=function()  " +
+                        "    {  "
+                        + "        window.imagelistener.openImage(this.src,array);  " +
+                        "    }  " +
+                        "}" +
+                        "})()");
             }
         });
 
@@ -148,6 +169,43 @@ public class BaseWebViewActivity extends BaseActivity {
                 }
             });
         mWebView.setLayerType(View.LAYER_TYPE_NONE, null);
+    }
+
+    public class MJavascriptInterface {
+
+        private Activity activity;
+        private ArrayList<String> list_imgs = new ArrayList<>();
+        private int index = 0;
+
+        public MJavascriptInterface(Activity activity){
+
+            this.activity = activity;
+        }
+
+        @JavascriptInterface
+        public void openImage(String img, String[] imgs) {
+
+            list_imgs.clear();
+
+            for (int i = 0; i < imgs.length; i++) {
+
+                if (imgs[i].equals(img)){
+
+                    index = i;
+                }
+
+                list_imgs.add(imgs[i]);
+            }
+
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    PhotoWatchActivity.startThisActivity(activity,null,list_imgs,0);
+
+                }
+            });
+        }
     }
 
 }

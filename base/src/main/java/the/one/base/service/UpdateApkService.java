@@ -82,7 +82,6 @@ public class UpdateApkService extends Service {
                         // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
                         int percent = (int) (progress * 100);
                         if (percent != oldPercent) {
-                            Log.e(TAG, "inProgress:  percent = " + percent);
                             oldPercent = percent;
                             updateProgress(percent);
                             Intent intent = new Intent();
@@ -94,7 +93,6 @@ public class UpdateApkService extends Service {
 
                     @Override
                     public void onResponse(File response, int id) {
-                        Log.e(TAG, "   下载完成" + response.getPath());
                         AppInfoManager.installApk(UpdateApkService.this, response);
                         BroadCastUtil.send(UpdateApkService.this, DOWNLOAD_OK);
                         updateNotification("下载完成", true);
@@ -150,7 +148,6 @@ public class UpdateApkService extends Service {
         theNotificationManager.notify(NOTIFICATION_ID, mBuilder);
         stopSelf();
     }
-
     /**
      * 获取默认的通知栏事件
      *

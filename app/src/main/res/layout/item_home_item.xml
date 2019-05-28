@@ -15,8 +15,8 @@
             android:textSize="16sp"
             android:ellipsize="end" />
 
-        <the.one.demo.widget.NineImageLayout
-            android:id="@+id/nine_image"
+        <the.one.base.widge.NineGridView
+            android:id="@+id/nine_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:sapcing="4dp"

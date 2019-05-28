@@ -26,9 +26,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.ArrayList;
 
 import the.one.base.util.StringUtils;
+import the.one.base.widge.NineGridView;
 import the.one.demo.R;
 import the.one.demo.ui.bean.GankBean;
-import the.one.demo.widget.NineImageLayout;
 
 /**
  * @author The one
@@ -47,7 +47,7 @@ public class GankAdapter extends BaseQuickAdapter<GankBean, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, GankBean item) {
         String author = "#" + item.getWho() + "  ";
         helper.setText(R.id.tv_content, StringUtils.SpannableString(author + item.getDesc(), author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)));
-        NineImageLayout nineImageLayout = helper.getView(R.id.nine_image);
+        NineGridView nineImageLayout = helper.getView(R.id.nine_grid);
         if (null == item.getImages() || item.getImages().size() < 1) {
             if(item.getUrl().endsWith(".jpg")){
                 ArrayList<String> strings = new ArrayList<>();

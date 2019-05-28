@@ -142,6 +142,7 @@ public abstract class NineGridLayout extends ViewGroup {
                 layoutImageView(imageView, 0, url, false);
             } else {
                 addView(imageView);
+                displayImage(imageView,url);
             }
             return;
         }
@@ -280,7 +281,7 @@ public abstract class NineGridLayout extends ViewGroup {
         imageView.layout(0, 0, width, height);
 
         LayoutParams params = getLayoutParams();
-//        params.width = width;
+        params.width = width;
         params.height = height;
         setLayoutParams(params);
     }

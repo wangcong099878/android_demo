@@ -19,44 +19,39 @@ package the.one.base.base.fragment;
 //      ┗┻┛　┗┻┛
 
 import android.view.View;
-
-import com.qmuiteam.qmui.widget.QMUITabSegment;
+import android.widget.FrameLayout;
 
 import the.one.base.R;
+import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one
- * @date 2018/12/28 0028
+ * @date 2019/3/14 0014
  * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseHomeFragment extends BaseTabFragment {
+public abstract class BaseCollapsingTopBarRcFragment<T> extends BaseDataFragment<T> {
 
-    @Override
-    protected boolean showTitleBar() {
-        return false;
-    }
+    protected FrameLayout flCoordinatorLayout;
+
+    protected abstract int getCoordinatorLayout();
 
     @Override
     protected int getContentViewId() {
-        return R.layout.base_index;
+        return R.layout.base_collapsing_recyleview;
     }
 
     @Override
     protected void initView(View rootView) {
-        mTabSegment = rootView.findViewById(R.id.tab_segment);
-        mViewPager = rootView.findViewById(R.id.qmui_view_pager);
+        flCoordinatorLayout = rootView.findViewById(R.id.fl_coordinator_layout);
+        setCustomLayout(flCoordinatorLayout, getCoordinatorLayout());
         super.initView(rootView);
     }
 
     @Override
-    protected void initTabAndPager() {
-        mTabSegment.setMode(QMUITabSegment.MODE_FIXED);
-        //是否有 Indicator
-        mTabSegment.setHasIndicator(false);
-
-        super.initTabAndPager();
+    public void setPageInfo(PageInfoBean mPageInfo) {
+        super.setPageInfo(mPageInfo);
+        showView(flCoordinatorLayout);
     }
-
 }

@@ -40,6 +40,11 @@ public class IndexFragment extends BaseHomeFragment {
     }
 
     @Override
+    protected boolean isExitFragment() {
+        return true;
+    }
+
+    @Override
     protected void addTabs() {
         addTab( R.drawable.ic_home_normal,R.drawable.ic_home_selected,"主页");
         addTab(R.drawable.ic_classification_normal,R.drawable.ic_classification_selected,"分类");
@@ -50,7 +55,7 @@ public class IndexFragment extends BaseHomeFragment {
     protected void addFragment(ArrayList<BaseFragment> fragments) {
         fragments.add(new HomeFragment());
         fragments.add(new CategoryFragment());
-        fragments.add(new ThanksFragment());
-//        fragments.add(new MyFragment());
+//        fragments.add(new ThanksFragment());
+        fragments.add(new MyFragment());
     }
 }

@@ -1,18 +1,15 @@
 package the.one.base.base.activity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.BaseApplication;
 import the.one.base.R;
 import the.one.base.adapter.ImageWatchAdapter;
 import the.one.base.base.presenter.BasePresenter;
@@ -38,15 +35,18 @@ public class PhotoWatchActivity extends BaseActivity {
     private int SUM;
     private List<String> imageLists;
 
-    public static void startThisActivity(Activity activity,View image, ArrayList<String> list, int position) {
+    public static void startThisActivity(Activity activity, View image, ArrayList<String> list, int position) {
         Intent in = new Intent(activity, PhotoWatchActivity.class);
         in.putStringArrayListExtra(DataConstant.DATA, list);
         in.putExtra(DataConstant.POSITION, position);
-        activity.startActivity(in, ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity,
-                image,
-                context.getString(R.string.image))
-                .toBundle());
+        if (null != image)
+            activity.startActivity(in, ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    activity,
+                    image,
+                    context.getString(R.string.image))
+                    .toBundle());
+        else
+            activity.startActivity(in);
     }
 
     @Override
@@ -75,12 +75,12 @@ public class PhotoWatchActivity extends BaseActivity {
         adapter = new ImageWatchAdapter(imageLists, this);
         photoViewPager.setAdapter(adapter);
         photoViewPager.setCurrentItem(currentPosition, false);
-        textView.setText(currentPosition+1 + "/" + SUM);
+        textView.setText(currentPosition + 1 + "/" + SUM);
         photoViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                textView.setText(position+1 + "/" + SUM);
+                textView.setText(position + 1 + "/" + SUM);
             }
         });
     }

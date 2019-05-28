@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 20
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.0.6"
+        versionCode 7
+        versionName "1.0.7"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -45,4 +45,6 @@ dependencies {
     api 'com.orhanobut:logger:2.2.0'
     api 'com.wkp:StickLayout:1.0.6'
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.2@aar'
 }

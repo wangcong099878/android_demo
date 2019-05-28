@@ -1,6 +1,5 @@
 package the.one.base.util;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 
@@ -8,6 +7,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
+import the.one.base.BaseApplication;
 import the.one.base.service.UpdateApkService;
 
 /**
@@ -19,19 +19,8 @@ import the.one.base.service.UpdateApkService;
  */
 public class UpdateApkUtil {
 
-    @SuppressLint("StaticFieldLeak")
-    private static UpdateApkUtil mUpdateApkUtil;
-    @SuppressLint("StaticFieldLeak")
-    private static Context mContext;
+    private  Context mContext = BaseApplication.context;
     private QMUITipDialog loadingDialog;
-
-    public static UpdateApkUtil getInstance(Context context) {
-        if (null == mUpdateApkUtil) {
-            mUpdateApkUtil = new UpdateApkUtil();
-        }
-        mContext = context;
-        return mUpdateApkUtil;
-    }
 
     /**
      * 显示检查进度Dialog

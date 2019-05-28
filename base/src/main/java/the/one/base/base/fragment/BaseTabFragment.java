@@ -18,16 +18,15 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.util.Log;
 import android.view.View;
 
-import com.qmuiteam.qmui.widget.QMUITabSegment;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
 
 import java.util.ArrayList;
 
 import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.base.presenter.BasePresenter;
+import the.one.base.widge.QMUITabSegment;
 
 /**
  * @author The one

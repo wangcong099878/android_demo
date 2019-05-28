@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/home_tab_height" />
 
-    <com.qmuiteam.qmui.widget.QMUITabSegment
+    <the.one.base.widge.QMUITabSegment
         android:id="@+id/tab_segment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_tab_height"

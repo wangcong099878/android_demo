@@ -30,4 +30,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.9.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.moxun:tagcloudlib:1.2.0'
+    implementation 'com.github.forvv231:EasyNavigation:1.0.2'
+
 }

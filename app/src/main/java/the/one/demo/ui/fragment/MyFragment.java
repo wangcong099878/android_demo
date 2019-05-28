@@ -3,13 +3,13 @@ package the.one.demo.ui.fragment;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
-import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
 import lib.homhomlib.design.SlidingLayout;
-import the.one.base.base.activity.BaseWebViewActivity;
 import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.base.fragment.BaseWebExplorerFragment;
 import the.one.demo.Constant;
 import the.one.demo.R;
+import the.one.demo.ui.simple.SimpleFragment;
 
 
 //  ┏┓　　　┏┓
@@ -39,7 +39,7 @@ import the.one.demo.R;
  */
 public class MyFragment extends BaseGroupListFragment implements View.OnClickListener {
 
-    QMUICommonListItemView  Gank,Copy,QMUI,Adapter,NineGrid,Publish;
+    QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish;
 
     @Override
     protected int getTopLayout() {
@@ -50,59 +50,46 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     protected void addGroupListView() {
         goneView(mTopLayout);
         slidingLayout.setSlidingMode(SlidingLayout.SLIDING_MODE_TOP);
-        Gank = CreateItemView(TYPE_CHEVRON, "Gank.io");
-        Copy = CreateItemView(TYPE_CHEVRON, "KotlinGankApp");
-        QMUI = CreateItemView(TYPE_RIGHT_DETAIL,"QMUI","强烈推荐");
-        Adapter = CreateItemView(TYPE_RIGHT_DETAIL,"BaseRecyclerViewAdapterHelper","适配器大佬");
-        NineGrid = CreateItemView(TYPE_RIGHT_DETAIL,"NineGridLayout","仿朋友圈九宫格图片显示");
+        Gank = CreateNormalItemView("Gank.io");
+        Copy = CreateNormalItemView("KotlinGankApp");
+        QMUI = CreateDetailItemView("QMUI", "强烈推荐");
+        Adapter = CreateDetailItemView("BaseRecyclerViewAdapterHelper", "适配器大佬");
+        NineGrid = CreateDetailItemView("NineGridLayout", "仿朋友圈九宫格图片显示");
 
-        Publish = CreateItemView(TYPE_CHEVRON, "发布");
+        Publish = CreateNormalItemView("发布");
 
         flTopLayout.setOnClickListener(this);
 
-        QMUIGroupListView.newSection(_mActivity)
-                .setTitle("感谢")
-                .addItemView(Gank, this)
-                .addItemView(Copy, this)
-                .addTo(mGroupListView);
+        addToGroup("感谢", Gank, Copy);
+        addToGroup("第三方", QMUI, Adapter, NineGrid);
+        addToGroup("", Publish);
 
-        QMUIGroupListView.newSection(_mActivity)
-                .setTitle("第三方")
-                .addItemView(QMUI, this)
-                .addItemView(Adapter, this)
-                .addItemView(NineGrid, this)
-                .addTo(mGroupListView);
-
-        QMUIGroupListView.newSection(_mActivity)
-                .setTitle("")
-                .addItemView(Publish, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startFragment(new PublishFragment());
-                    }
-                })
-                .addTo(mGroupListView);
     }
 
     @Override
     public void onClick(View view) {
-        String url ="https://gitee.com/theoneee/TheBase" ;
+        String url = "https://gitee.com/theoneee/TheBase";
         String title = "Theoneee";
-        if(view instanceof QMUICommonListItemView){
+        if (view instanceof QMUICommonListItemView) {
             title = ((QMUICommonListItemView) view).getText().toString();
             if (view == Gank) {
                 url = Constant.GANK_BASE;
-            }else if (view == QMUI) {
-                url ="https://github.com/Tencent/QMUI_Android";
-            }else if (view == Copy) {
-                url ="https://github.com/JayGengi/KotlinGankApp";
-            }else if(view == Adapter){
-                url ="https://github.com/CymChad/BaseRecyclerViewAdapterHelper";
-            }else if(view == NineGrid){
-                url ="https://github.com/HMY314/NineGridLayout";
+            } else if (view == QMUI) {
+                url = "https://github.com/Tencent/QMUI_Android";
+            } else if (view == Copy) {
+                url = "https://github.com/JayGengi/KotlinGankApp";
+            } else if (view == Adapter) {
+                url = "https://github.com/CymChad/BaseRecyclerViewAdapterHelper";
+            } else if (view == NineGrid) {
+                url = "https://github.com/HMY314/NineGridLayout";
+            } else if (view == Publish) {
+                startFragment(new PublishFragment());
+                return;
             }
+            startFragment(BaseWebExplorerFragment.newInstance(title, url));
+            return;
         }
-        BaseWebViewActivity.startThisActivity(_mActivity,title,url);
+        startFragment(new SimpleFragment());
     }
 
 }

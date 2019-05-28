@@ -31,4 +31,7 @@
 
     <color name="mz_round_colorfulbg_color">#43b56b</color>
 
+
+    <color name="alpha_dark">#88000000</color>
+
 </resources>

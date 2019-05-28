@@ -21,21 +21,25 @@ public class SelectPictureUtil {
 
     private static SelectPictureUtil selectPictureUtil;
 
-    public static SelectPictureUtil getInstance(){
-        if(null == selectPictureUtil)
+    public static SelectPictureUtil getInstance() {
+        if (null == selectPictureUtil)
             selectPictureUtil = new SelectPictureUtil();
         return selectPictureUtil;
     }
 
-    public void initIcon(Fragment fragment){
-       initSelectPicture(fragment,null,true,3,PictureConfig.SINGLE,1);
+    public void initIcon(Fragment fragment) {
+        initSelectPicture(fragment, null, true, false, 3, PictureConfig.SINGLE, 1);
     }
 
-    public void initSelectPicture(Fragment fragment,List<LocalMedia> selectList){
-        initSelectPicture(fragment,selectList,true,3,PictureConfig.MULTIPLE,9);
+    public void initIconCrop(Fragment fragment) {
+        initSelectPicture(fragment, null, true, true, 3, PictureConfig.SINGLE, 1);
     }
 
-    public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList,boolean showCamera, int spanCount, int mode, int maxSelect){
+    public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList) {
+        initSelectPicture(fragment, selectList, true, false, 3, PictureConfig.MULTIPLE, 9);
+    }
+
+    public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList, boolean showCamera, boolean crop, int spanCount, int mode, int maxSelect) {
         PictureSelector.create(fragment)
                 .openGallery(PictureMimeType.ofImage())
                 .isCamera(showCamera)
@@ -60,13 +64,13 @@ public class SelectPictureUtil {
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
 
-    public void initSelectVideo(Fragment fragment){
-        initSelectVideo(fragment,true,3,false,100,60,5,
+    public void initSelectVideo(Fragment fragment) {
+        initSelectVideo(fragment, true, 3, false, 100, 60, 5,
                 60);
     }
 
-    public void initSelectVideo(Fragment fragment,boolean showCamera,int spanCount,boolean isCompress,int compressRate,
-                                int maxSecond,int minSecond,int recordSecond){
+    public void initSelectVideo(Fragment fragment, boolean showCamera, int spanCount, boolean isCompress, int compressRate,
+                                int maxSecond, int minSecond, int recordSecond) {
         PictureSelector.create(fragment)
                 .openGallery(PictureMimeType.ofVideo())
                 .isCamera(showCamera)

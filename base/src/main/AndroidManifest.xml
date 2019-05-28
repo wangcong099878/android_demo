@@ -6,6 +6,7 @@
     <!-- Android 8.0(仅限应用版本更新方面) -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
         android:allowBackup="true"

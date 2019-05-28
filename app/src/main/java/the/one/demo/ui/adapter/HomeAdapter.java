@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 import the.one.base.adapter.BaseSectionAdapter;
 import the.one.base.util.StringUtils;
+import the.one.base.widge.NineGridView;
 import the.one.demo.R;
 import the.one.demo.ui.bean.HomeHeadSection;
 import the.one.demo.ui.bean.HomeItemSection;
-import the.one.demo.widget.NineImageLayout;
 
 
 //  ┏┓　　　┏┓
@@ -55,7 +55,7 @@ public class HomeAdapter extends BaseSectionAdapter<HomeHeadSection, HomeItemSec
     @Override
     protected void onBindSectionItem(ViewHolder holder, int position, QMUISection<HomeHeadSection, HomeItemSection> section, int itemIndex) {
         TextView tvContent = holder.itemView.findViewById(R.id.tv_content);
-        NineImageLayout nineImageLayout = holder.itemView.findViewById(R.id.nine_image);
+        NineGridView nineImageLayout = holder.itemView.findViewById(R.id.nine_grid);
         HomeItemSection itemSection = section.getItemAt(itemIndex);
         String author = "#" + itemSection.remark + "  ";
         tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)));

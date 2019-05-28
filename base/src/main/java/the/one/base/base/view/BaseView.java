@@ -57,6 +57,13 @@ public interface BaseView {
     void showProgressDialog(int percent, int total);
 
     /**
+     * 显示进度弹窗
+     *
+     * @param percent
+     */
+    void showProgressDialog(int percent, int total,String msg);
+
+    /**
      * 关闭进度弹窗
      */
     void hideProgressDialog();

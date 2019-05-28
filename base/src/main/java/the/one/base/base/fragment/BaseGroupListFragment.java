@@ -18,7 +18,6 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -39,12 +38,7 @@ import the.one.base.base.presenter.BasePresenter;
  */
 public abstract class BaseGroupListFragment extends BaseFragment implements View.OnClickListener {
 
-    public int TYPE_NORMAL = 1;// 普通样式
-    public int TYPE_CHEVRON = 2;// 右边带角
-    public int TYPE_RIGHT_DETAIL = 3;// 右边详情
-    public int TYPE_BOTTOM_DETAIL = 4;// 下边详情
-
-    public QMUIGroupListView mGroupListView;
+    protected QMUIGroupListView mGroupListView;
     protected SlidingLayout slidingLayout;
 
     protected abstract void addGroupListView();
@@ -63,112 +57,221 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
     protected void initView(View view) {
         slidingLayout = view.findViewById(R.id.slidingLayout);
         mGroupListView = view.findViewById(R.id.groupListView);
+        slidingLayout.setSlidingOffset(0.1f);
         addGroupListView();
     }
 
-    protected void addToGroup(QMUICommonListItemView... items){
-        addToGroup("","",items);
-    }
+
 
     /**
-     *
-     * @param title section 标题
+     * @param title       section 标题
      * @param description section 描述
      * @param items
      */
-    protected void addToGroup(String title,String description,QMUICommonListItemView... items){
-        QMUIGroupListView.Section section  = QMUIGroupListView.newSection(_mActivity);
-        if(TextUtils.isEmpty(title)) section.setTitle(title);
-        if(TextUtils.isEmpty(description)) section.setDescription(description);
-        for (QMUICommonListItemView itemView:items){
-            section.addItemView(itemView,this);
+    protected void addToGroup(String title, String description, QMUICommonListItemView... items) {
+        QMUIGroupListView.Section section = QMUIGroupListView.newSection(_mActivity);
+        if (!TextUtils.isEmpty(title)) section.setTitle(title);
+        if (!TextUtils.isEmpty(description)) section.setDescription(description);
+        for (QMUICommonListItemView itemView : items) {
+            section.addItemView(itemView, this);
         }
         section.addTo(mGroupListView);
     }
 
-    public QMUICommonListItemView CreateItemView(int type, String content) {
+    protected void addToGroup(QMUICommonListItemView... items) {
+        addToGroup("", "", items);
+    }
+
+    protected void addToGroup(String title,QMUICommonListItemView... items) {
+        addToGroup(title, "", items);
+    }
+
+    /**
+     *
+     * @param drawable 左边图片资源
+     * @param title 标题
+     * @param content 内容
+     * @param position 内容位置 true 右边 false 下边
+     * @param type 类型
+     * @param view 右边自定义View 如果不为空 chevron设置无效
+     * @return
+     */
+    public QMUICommonListItemView CreateItemView(int drawable,String title,String content,boolean position,int type,View view) {
         QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        if (type == TYPE_NORMAL) {
-            itemView.setOrientation(QMUICommonListItemView.VERTICAL);
-        } else if (type == TYPE_CHEVRON) {
-            itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON);
+        itemView = mGroupListView.createItemView(title);
+        if(!TextUtils.isEmpty(content)){
+            itemView.setDetailText(content);
+            itemView.setOrientation(position?QMUICommonListItemView.HORIZONTAL:QMUICommonListItemView.VERTICAL);
         }
-        return itemView;
-    }
-
-    public QMUICommonListItemView CreateItemView(int type, String content, int drawable) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        itemView.setImageDrawable(getDrawablee(drawable));
-        if (type == TYPE_NORMAL) {
-            itemView.setOrientation(QMUICommonListItemView.VERTICAL);
-        } else if (type == TYPE_CHEVRON) {
-            itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON);
+        if(null != view) {
+            itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CUSTOM);
+            itemView.addAccessoryCustomView(view);
+        }else{
+            itemView.setAccessoryType(type);
         }
+        if (drawable != -1)
+            itemView.setImageDrawable(getDrawablee(drawable));
         return itemView;
     }
 
-
-    public QMUICommonListItemView CreateItemView(int type, String content, String detail) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        if (type == TYPE_RIGHT_DETAIL) {
-            itemView.setDetailText(detail);
-        } else if (type == TYPE_BOTTOM_DETAIL) {
-            itemView.setOrientation(QMUICommonListItemView.VERTICAL);
-            itemView.setDetailText(detail);
-        }
-        return itemView;
+    /**
+     * 普通标题+箭头
+     * @param drawable 左边图片资源
+     * @param title 标题
+     * @return
+     */
+    public QMUICommonListItemView CreateNormalItemView(int drawable,String title){
+        return CreateItemView(drawable,title,null,true,QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,null);
     }
 
-    public QMUICommonListItemView CreateItemView(int type, String content, String detail,int drawable) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        itemView.setImageDrawable(getDrawablee(drawable));
-        if (type == TYPE_RIGHT_DETAIL ||type == TYPE_CHEVRON) {
-            itemView.setDetailText(detail);
-            if(type == TYPE_CHEVRON){
-                itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON);
-            }
-        } else if (type == TYPE_BOTTOM_DETAIL) {
-            itemView.setOrientation(QMUICommonListItemView.VERTICAL);
-            itemView.setDetailText(detail);
-        }
-        return itemView;
+    /**
+     * 普通标题+箭头
+     * @param title 标题
+     * @return
+     */
+    public QMUICommonListItemView CreateNormalItemView(String title){
+        return CreateItemView(-1,title,null,true,QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,null);
     }
 
-    public QMUICommonListItemView CreateItemView(String content, View view) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CUSTOM);
-        itemView.addAccessoryCustomView(view);
-        return itemView;
+    /**
+     * 创建标题+内容格式
+     * @param drawable 左边图片资源
+     * @param title 标题
+     * @param detail 内容
+     * @param position 内容方向 true 右边 false 下边
+     * @param needChevron 是否需要箭头
+     * @return
+     */
+    public QMUICommonListItemView CreateDetailItemView(int drawable,String title,String detail,boolean position,boolean needChevron){
+        return CreateItemView(drawable,title,detail,position,needChevron?QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON:QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
     }
 
-    public QMUICommonListItemView CreateItemView(Drawable drawable, String content, View view) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_CUSTOM);
-        itemView.setImageDrawable(drawable);
-        itemView.addAccessoryCustomView(view);
-        return itemView;
+    /**
+     * 创建标题+内容格式
+     * @param drawable 左边图片资源
+     * @param title 标题
+     * @param detail 内容
+     * @param needChevron 是否需要箭头
+     * @return
+     */
+    public QMUICommonListItemView CreateDetailItemView(int drawable,String title,String detail,boolean needChevron){
+        return CreateItemView(drawable,title,detail,true,needChevron?QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON:QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
     }
 
-    public QMUICommonListItemView CreateItemView(String content, CompoundButton.OnCheckedChangeListener listener) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_SWITCH);
+    /**
+     * 创建标题+内容格式
+     * @param drawable 左边图片资源
+     * @param title 标题
+     * @param detail 内容
+     * @return
+     */
+    public QMUICommonListItemView CreateDetailItemView(int drawable,String title,String detail){
+        return CreateItemView(drawable,title,detail,true,QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
+    }
+    /**
+     * 创建标题+内容格式
+     * @param title 标题
+     * @param detail 内容
+     * @return
+     */
+    public QMUICommonListItemView CreateDetailItemView(String title,String detail){
+        return CreateItemView(-1,title,detail,true,QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
+    }
+
+    /**
+     * 标题+内容+switch
+     * @param drawable 图片资源
+     * @param title 标题
+     * @param detail 内容
+     * @param listener 监听
+     * @return
+     */
+    public QMUICommonListItemView CreateSwitchItemView(int drawable,String title,String detail,CompoundButton.OnCheckedChangeListener listener){
+        QMUICommonListItemView itemView = CreateItemView(drawable,title,detail,false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
         itemView.getSwitch().setOnCheckedChangeListener(listener);
         return itemView;
     }
 
-    public QMUICommonListItemView CreateItemView(Drawable drawable, String content, CompoundButton.OnCheckedChangeListener listener) {
-        QMUICommonListItemView itemView;
-        itemView = mGroupListView.createItemView(content);
-        itemView.setAccessoryType(QMUICommonListItemView.ACCESSORY_TYPE_SWITCH);
-        itemView.setImageDrawable(drawable);
+    /**
+     * 标题+switch
+     * @param drawable 图片资源
+     * @param title 标题
+     * @param listener 监听
+     * @return
+     */
+    public QMUICommonListItemView CreateSwitchItemView(int drawable,String title,CompoundButton.OnCheckedChangeListener listener){
+        QMUICommonListItemView itemView = CreateItemView(drawable,title,"",false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
         itemView.getSwitch().setOnCheckedChangeListener(listener);
         return itemView;
     }
+
+    /**
+     * 标题+内容+switch
+     * @param title 标题
+     * @param detail 内容
+     * @param listener 监听
+     * @return
+     */
+    public QMUICommonListItemView CreateSwitchItemView(String title,String detail,CompoundButton.OnCheckedChangeListener listener){
+        QMUICommonListItemView itemView = CreateItemView(-1,title,detail,false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
+        itemView.getSwitch().setOnCheckedChangeListener(listener);
+        return itemView;
+    }
+
+    /**
+     * 标题+switch
+     * @param title 标题
+     * @param listener 监听
+     * @return
+     */
+    public QMUICommonListItemView CreateSwitchItemView(String title,CompoundButton.OnCheckedChangeListener listener){
+        QMUICommonListItemView itemView = CreateItemView(-1,title,"",false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
+        itemView.getSwitch().setOnCheckedChangeListener(listener);
+        return itemView;
+    }
+
+    /**
+     * 标题+详情+右边自定义View
+     * @param drawable 图片资源
+     * @param title 标题
+     * @param detail 详情
+     * @param view 自定义View
+     * @return
+     */
+    public QMUICommonListItemView CreateCustomView(int drawable,String title,String detail,View view){
+        return CreateItemView(drawable,title,detail,false,-1,view);
+    }
+
+    /**
+     * 标题+详情+右边自定义View
+     * @param title 标题
+     * @param detail 详情
+     * @param view 自定义View
+     * @return
+     */
+    public QMUICommonListItemView CreateCustomView(String title,String detail,View view){
+        return CreateItemView(-1,title,detail,false,-1,view);
+    }
+
+    /**
+     * 标题+右边自定义View
+     * @param title 标题
+     * @param view 自定义View
+     * @return
+     */
+    public QMUICommonListItemView CreateCustomView(String title,View view){
+        return CreateItemView(-1,title,"",false,-1,view);
+    }
+
+    /**
+     * 标题+详情+右边自定义View
+     * @param drawable 图片资源
+     * @param title 标题
+     * @param view 自定义View
+     * @return
+     */
+    public QMUICommonListItemView CreateCustomView(int drawable,String title,View view){
+        return CreateItemView(drawable,title,"",false,-1,view);
+    }
+
 }

@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -101,6 +102,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return true;
     }
 
+    // 需要显示点击返回显示 是否退出
+    protected boolean isExitFragment(){ return false;}
+
     /**
      * 设置头部自定义布局
      *
@@ -142,12 +146,12 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     protected boolean canDragBack() {
-        return false;
+        return true;
     }
 
     @Override
     protected int backViewInitOffset() {
-        return QMUIDisplayHelper.dp2px(getContext(), 170);
+        return QMUIDisplayHelper.dp2px(getContext(), 150);
     }
 
     @Override
@@ -204,7 +208,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected void setCustomLayout(ViewGroup parent, int layout) {
-        if (layout != -1)
+        if (null != parent && layout != -1)
             parent.addView(getView(layout), -1, -1);
     }
 
@@ -216,12 +220,16 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected void addTopBarBackBtn() {
-        mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popBackStack();
-            }
-        });
+       mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               popBackStack();
+           }
+       });
+    }
+
+    protected void addTopBarBackBtn(int drawable, View.OnClickListener listener) {
+        mTopLayout.addLeftImageButton(drawable,R.id.topbar_left_button).setOnClickListener(listener);
     }
 
     public void startBrotherFragment(BaseFragment fragment) {
@@ -232,7 +240,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     public void showLoadingDialog(String msg) {
         loadingDialog = QMUIDialogUtil.LoadingTipsDialog(getActivity(), msg);
         loadingDialog.show();
-
     }
 
     @Override
@@ -243,16 +250,19 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public void showProgressDialog(int percent) {
-        if (null == progressDialog) {
-            progressDialog = new ProgressDialog(getActivity());
-        }
-        progressDialog.setProgress(percent);
+        showProgressDialog(percent,100);
     }
 
     @Override
     public void showProgressDialog(int percent, int total) {
+        showProgressDialog(percent,total,"上传中");
+    }
+
+    @Override
+    public void showProgressDialog(int percent, int total,String msg) {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage(msg);
         }
         progressDialog.setProgress(percent, total);
         progressDialog.show();
@@ -334,11 +344,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     public View getView(int layoutId) {
-        return LayoutInflater.from(getActivity()).inflate(layoutId, null);
+        return LayoutInflater.from(getContext()).inflate(layoutId, null);
     }
 
     public Drawable getDrawablee(int id) {
-        return ContextCompat.getDrawable(getActivity(), id);
+        return ContextCompat.getDrawable(_mActivity, id);
     }
 
     public String getStringg(int id) {
@@ -346,7 +356,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     public int getColorr(int id) {
-        return ContextCompat.getColor(getActivity(), id);
+        return ContextCompat.getColor(_mActivity, id);
     }
 
     public String getEditTextString(EditText editText) {
@@ -368,7 +378,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     public void showView(View... views) {
         for (View view : views) {
-            if (view.getVisibility() != View.VISIBLE)
+            if (null != view &&view.getVisibility() != View.VISIBLE)
                 view.setVisibility(View.VISIBLE);
         }
     }
@@ -378,7 +388,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     public boolean isNotNullAndEmpty(String content, String tips) {
-        if (null != content && !content.isEmpty())
+        if (TextUtils.isEmpty(content))
             return true;
         else {
             if (null != tips)
@@ -392,7 +402,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     public void showLog(String str) {
-        Log.e(TAG, str);
+        Logger.e(str);
     }
 
     public void showSuccessTips(String tips) {
@@ -462,5 +472,22 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
             }
         }
+    }
+
+    private long exitTime = 0;
+
+    @Override
+    protected void onBackPressed() {
+        if(isExitFragment()){
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                //弹出提示，可以有多种方式
+                showToast("再点一次退出");
+                exitTime = System.currentTimeMillis();
+            } else {
+                _mActivity.finish();
+            }
+            return;
+        }
+        super.onBackPressed();
     }
 }
