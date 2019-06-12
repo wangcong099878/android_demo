@@ -35,7 +35,7 @@ import the.one.base.base.fragment.BaseWebExplorerFragment;
  */
 public class SimpleFragment extends BaseGroupListFragment {
 
-    private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT;
+    private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,PULL_EXTEND;
 
     @Override
     protected void addGroupListView() {
@@ -43,7 +43,10 @@ public class SimpleFragment extends BaseGroupListFragment {
         PICTURE_SELECTOR = CreateNormalItemView("选择图片、视频、音频");
         POPUP_LAYOUT = CreateNormalItemView("PopupLayout");
         WEB_VIEW = CreateNormalItemView("WebView");
-        addToGroup(PICTURE_SELECTOR,POPUP_LAYOUT,WEB_VIEW);
+        COLLAPSING_TOP_BAR =  CreateNormalItemView("CollapsingTopBarFragment");
+
+        PULL_EXTEND=   CreateNormalItemView("PullExtendLayout");
+        addToGroup(PICTURE_SELECTOR,WEB_VIEW,PULL_EXTEND);
     }
 
     @Override
@@ -56,6 +59,10 @@ public class SimpleFragment extends BaseGroupListFragment {
             String title = "每日一笑";
             String url = "http://qt.qq.com/php_cgi/news/php/varcache_mcnarticle.php?id=&doc_type=0&docid=971312304452308411&areaid=18&version=$PROTO_VERSION$";
             startFragment(BaseWebExplorerFragment.newInstance(title, url, false));
+        }else if(v == COLLAPSING_TOP_BAR){
+            startFragment(new CollapsingTopBarFragment());
+        }else if(v == PULL_EXTEND){
+            startFragment(new PullLayoutFragment());
         }
     }
 }

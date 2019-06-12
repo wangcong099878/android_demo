@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/dp_10">
+
+    <com.qmuiteam.qmui.layout.QMUILinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ll_parent"
+        android:gravity="center"
+        app:qmui_showBorderOnlyBeforeL="true"
+        app:qmui_outerNormalColor="?attr/qmui_config_color_background"
+        app:qmui_borderColor="?attr/qmui_config_color_separator"
+        android:background="@drawable/qmui_s_list_item_bg_with_border_none"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:src="@drawable/ic_qq"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="7dp"
+            android:text="QQ"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/qmui_config_color_gray_3"/>
+
+
+    </com.qmuiteam.qmui.layout.QMUILinearLayout>
+
+
+
+
+</RelativeLayout>

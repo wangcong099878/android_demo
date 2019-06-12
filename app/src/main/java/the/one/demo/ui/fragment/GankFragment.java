@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.base.activity.BaseWebViewActivity;
 import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.fragment.BaseWebExplorerFragment;

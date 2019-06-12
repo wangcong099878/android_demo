@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import the.one.base.base.activity.BaseWebViewActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
+import the.one.base.base.fragment.BaseWebExplorerFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
 import the.one.demo.Constant;
@@ -150,7 +150,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @Override
     public void onItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
         HomeItemSection itemSection = (HomeItemSection) mAdapter.getSectionItem(position);
-        BaseWebViewActivity.startThisActivity(_mActivity, itemSection.content, itemSection.url);
+        startFragment(BaseWebExplorerFragment.newInstance(itemSection.content, itemSection.url));
     }
 
     @Override

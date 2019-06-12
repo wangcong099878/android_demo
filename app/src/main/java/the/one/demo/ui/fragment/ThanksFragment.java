@@ -56,7 +56,7 @@ public class ThanksFragment extends BaseFragment {
             thanks.add(new Thanks("BRVAH", "https://github.com/CymChad/BaseRecyclerViewAdapterHelper"));
             thanks.add(new Thanks("NineGrid", "https://github.com/HMY314/NineGridLayout"));
         }
-        adapter = new TagCloudAdapter(_mActivity,thanks);
+        adapter = new TagCloudAdapter(this,thanks);
         mTagCloud.setAdapter(adapter);
     }
 

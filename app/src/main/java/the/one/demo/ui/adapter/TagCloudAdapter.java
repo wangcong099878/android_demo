@@ -1,8 +1,6 @@
 package the.one.demo.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
@@ -11,11 +9,10 @@ import android.widget.TextView;
 
 import com.moxun.tagcloudlib.view.TagsAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.base.activity.BaseWebViewActivity;
 import the.one.base.base.fragment.BaseFragment;
+import the.one.base.base.fragment.BaseWebExplorerFragment;
 import the.one.demo.R;
 import the.one.demo.ui.bean.Thanks;
 
@@ -49,15 +46,17 @@ public class TagCloudAdapter extends TagsAdapter {
 
 
     private List<Thanks> thanks;
-    private Activity activity;
+    private BaseFragment fragment;
+    private Context context;
     private int color1,color2,color3;
 
-    public TagCloudAdapter(Activity activity, List<Thanks> thanks) {
-        this.activity = activity;
+    public TagCloudAdapter(BaseFragment fragment, List<Thanks> thanks) {
+        this.fragment = fragment;
         this.thanks = thanks;
-        color1 = ContextCompat.getColor(activity, R.color.app_color_theme_1);
-        color2 = ContextCompat.getColor(activity, R.color.classic_color_7);
-        color3 = ContextCompat.getColor(activity, R.color.app_color_theme_6);
+        context= fragment.getBaseFragmentActivity();
+        color1 = ContextCompat.getColor(context, R.color.app_color_theme_1);
+        color2 = ContextCompat.getColor(context, R.color.classic_color_7);
+        color3 = ContextCompat.getColor(context, R.color.app_color_theme_6);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class TagCloudAdapter extends TagsAdapter {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseWebViewActivity.startThisActivity(activity,thank.name,thank.url);
+                fragment.startBrotherFragment(BaseWebExplorerFragment.newInstance(thank.name,thank.url));
             }
         });
         return tv;

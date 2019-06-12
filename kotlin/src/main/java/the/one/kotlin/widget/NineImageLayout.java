@@ -3,6 +3,7 @@ package the.one.kotlin.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,9 @@ public class NineImageLayout extends NineGridLayout {
     }
 
     @Override
-    protected void onClickImage(int position, String url, ArrayList<String> urlList) {
-        PhotoWatchActivity.startThisActivity((Activity) getContext(),urlList,position);
+    protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
+        PhotoWatchActivity.startThisActivity((Activity) getContext(),view,urlList,position);
+
     }
+
 }

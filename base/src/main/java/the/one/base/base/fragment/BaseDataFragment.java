@@ -46,7 +46,7 @@ import the.one.net.entity.PageInfoBean;
  * @remark
  */
 public abstract class BaseDataFragment<T> extends BaseFragment
-        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener {
+        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener,QMUIPullRefreshLayout.OnPullListener {
 
     /**
      * List
@@ -127,25 +127,9 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         adapter.setNotDoAnimationCount(10);
         if (null != pullLayout) {
+            pullLayout.setDragRate(0.5f);
             pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
-            pullLayout.setOnPullListener(new QMUIPullRefreshLayout.OnPullListener() {
-                @Override
-                public void onMoveTarget(int offset) {
-
-                }
-
-                @Override
-                public void onMoveRefreshView(int offset) {
-
-                }
-
-                @Override
-                public void onRefresh() {
-                    page = 1;
-                    isHeadFresh = true;
-                    requestServer();
-                }
-            });
+            pullLayout.setOnPullListener(this);
         }
 
         initRecycleView(recycleView, setType(), adapter);
@@ -186,6 +170,23 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     }
 
     @Override
+    public void onMoveTarget(int offset) {
+
+    }
+
+    @Override
+    public void onMoveRefreshView(int offset) {
+
+    }
+
+    @Override
+    public void onRefresh() {
+        page = 1;
+        isHeadFresh = true;
+        requestServer();
+    }
+
+    @Override
     public void refresh() {
         page = 1;
         isFirst = true;
@@ -208,7 +209,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         onComplete(data, pageInfoBean, emptyString, "刷新试试", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refresh();
+                onRefresh();
             }
         });
     }

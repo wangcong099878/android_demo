@@ -18,6 +18,7 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.QMUIViewPager;
@@ -35,7 +36,7 @@ import the.one.base.widge.QMUITabSegment;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseTabFragment extends BaseFragment {
+public abstract class BaseTabFragment extends BaseFragment implements QMUITabSegment.OnTabSelectedListener {
 
     protected ArrayList<BaseFragment> fragments;
     protected ArrayList<QMUITabSegment.Tab> mTabs;
@@ -103,29 +104,28 @@ public abstract class BaseTabFragment extends BaseFragment {
         for (QMUITabSegment.Tab tab : mTabs) {
             mTabSegment.addTab(tab);
         }
-        mTabSegment.addOnTabSelectedListener(new QMUITabSegment.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(int index) {
-                INDEX = index;
-                mTabSegment.hideSignCountView(index);
-            }
-
-            @Override
-            public void onTabUnselected(int index) {
-
-            }
-
-            @Override
-            public void onTabReselected(int index) {
-                mTabSegment.hideSignCountView(index);
-            }
-
-            @Override
-            public void onDoubleTap(int index) {
-
-            }
-        });
+        mTabSegment.addOnTabSelectedListener(this);
         mTabSegment.setupWithViewPager(mViewPager, false);
+    }
+
+
+    @Override
+    public void onTabSelected(int index) {
+        INDEX = index;
+    }
+
+    @Override
+    public void onTabUnselected(int index) {
+
+    }
+
+    @Override
+    public void onTabReselected(int index) {
+    }
+
+    @Override
+    public void onDoubleTap(int index) {
+
     }
 
     protected abstract void addTabs();

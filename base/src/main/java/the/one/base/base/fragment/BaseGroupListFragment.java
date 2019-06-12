@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.qmuiteam.qmui.widget.QMUIObservableScrollView;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
@@ -40,6 +41,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
 
     protected QMUIGroupListView mGroupListView;
     protected SlidingLayout slidingLayout;
+    protected QMUIObservableScrollView mScrollView;
 
     protected abstract void addGroupListView();
 
@@ -57,11 +59,10 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
     protected void initView(View view) {
         slidingLayout = view.findViewById(R.id.slidingLayout);
         mGroupListView = view.findViewById(R.id.groupListView);
+        mScrollView= view.findViewById(R.id.scrollView);
         slidingLayout.setSlidingOffset(0.1f);
         addGroupListView();
     }
-
-
 
     /**
      * @param title       section 标题

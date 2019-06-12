@@ -7,10 +7,10 @@
 
  <the.one.base.widge.ProgressWheel
      android:id="@+id/loading_view"
-     android:layout_width="23dp"
-     android:layout_height="23dp"
+     android:layout_width="20dp"
+     android:layout_height="20dp"
      android:layout_centerInParent="true"
-     app:matProg_barColor="@color/qmui_config_color_blue"
+     app:matProg_barColor="?config_color"
      app:matProg_progressIndeterminate="true"
      app:matProg_barWidth="4dp"/>
 

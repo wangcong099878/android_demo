@@ -171,9 +171,8 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mWebViewContainer.addWebView(mWebView, needDispatchSafeAreaInset);
         mWebViewContainer.setCustomOnScrollChangeListener(new QMUIWebView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            public void onScrollChange(WebView webView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 onScrollWebContent(scrollX, scrollY, oldScrollX, oldScrollY);
-
             }
         });
         FrameLayout.LayoutParams containerLp = (FrameLayout.LayoutParams) mWebViewContainer.getLayoutParams();
@@ -185,7 +184,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mWebView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                boolean needConfirm = !url.startsWith("http://qmuiteam.com") && !url.startsWith("https://qmuiteam.com");
+                boolean needConfirm = true;
                 if (needConfirm) {
                     final String finalURL = url;
                     new QMUIDialog.MessageDialogBuilder(getContext())
@@ -331,7 +330,6 @@ public class BaseWebExplorerFragment extends BaseFragment {
             super(needDispatchSafeAreaInset, true);
         }
 
-
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
@@ -356,6 +354,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
 
     // 注入js函数监听
     private void addImageClickListener() {
+        Log.e(TAG, "addImageClickListener: " );
         // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
         //函数的功能是在图片点击的时候调用本地java接口并传递url过去
         mWebView.loadUrl("javascript:(function(){" +
@@ -377,7 +376,6 @@ public class BaseWebExplorerFragment extends BaseFragment {
         private int mDstProgressIndex;
         private int mDuration;
         private ObjectAnimator mAnimator;
-
 
         @Override
         public void handleMessage(Message msg) {
@@ -424,10 +422,10 @@ public class BaseWebExplorerFragment extends BaseFragment {
     @Override
     protected void onBackPressed() {
         if (mWebView.canGoBack()) {
+            Log.e(TAG, "onBackPressed:  canGoBack" );
             mWebView.goBack();
         } else
             super.onBackPressed();
-
     }
 
     public class MJavascriptInterface {
@@ -442,6 +440,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
 
         @JavascriptInterface
         public void openImage(String img, String[] imgs) {
+            Log.e(TAG, "openImage: " );
             list_imgs.clear();
             for (int i = 0; i < imgs.length; i++) {
                 Log.e(TAG, "openImage: " + imgs[i]);

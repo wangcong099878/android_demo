@@ -26,6 +26,7 @@ import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.widge.MyTopBarLayout;
+import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
 
 
@@ -87,6 +88,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     protected StatusLayout mStatusLayout;
     protected MyTopBarLayout mTopLayout;
     protected QMUITipDialog loadingDialog;
+    protected the.one.base.widge.ProgressDialog progressDialog;
     private Unbinder unbinder;
 
     @Override
@@ -154,22 +156,29 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showProgressDialog(int percent) {
-
+        showProgressDialog(percent,100);
     }
 
     @Override
     public void showProgressDialog(int percent, int total) {
-
+        showProgressDialog(percent,total,"上传中");
     }
 
     @Override
     public void showProgressDialog(int percent, int total,String msg) {
-
+        if (null == progressDialog) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage(msg);
+            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.setProgress(percent, total);
+        progressDialog.show();
     }
 
     @Override
     public void hideProgressDialog() {
-
+        if (null != progressDialog && progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     @Override
@@ -309,7 +318,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     public void showLog(String str) {
         Log.e(TAG, str);
     }
-
 
     @Override
     protected void onDestroy() {

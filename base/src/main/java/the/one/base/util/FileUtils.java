@@ -11,6 +11,7 @@ import android.os.StatFs;
 import android.text.format.Formatter;
 import android.util.Log;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -119,27 +120,88 @@ public class FileUtils {
         return size;
     }
 
+
+    /**
+     * @param bitmap 图片
+     * @return
+     */
+    public static String saveBitmap(Bitmap bitmap) {
+        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
+        return saveBitmap(fileName, bitmap);
+    }
+
+    /**
+     * 保存图片
+     *
+     * @param fileName 文件名称
+     * @param bitmap
+     * @return
+     */
+    public static String saveBitmap(String fileName, Bitmap bitmap) {
+        return saveBitmap(FileDirectoryUtil.getPicturePath(), fileName, bitmap);
+    }
+
+    public static String saveBitmapNewChildDir(String dir, Bitmap bitmap) {
+        String path = FileDirectoryUtil.getPicturePath() + File.separator + dir;
+        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
+        return saveBitmap(path, fileName, bitmap);
+    }
+
+    public static String saveBitmapNewChildDir(String dir, Bitmap bitmap, int quality) {
+        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
+        return saveBitmapNewChildDir(dir, fileName, bitmap, quality);
+    }
+
+    /**
+     * 保存图片
+     *
+     * @param dir      文件名称
+     * @param fileName 图片名称
+     * @param bitmap
+     * @return
+     */
+    public static String saveBitmapNewChildDir(String dir, String fileName, Bitmap bitmap) {
+        String path = FileDirectoryUtil.getPicturePath() + File.separator + dir;
+        return saveBitmapNewChildDir(path, fileName, bitmap, 100);
+    }
+
+    public static String saveBitmapNewChildDir(String dir, String fileName, Bitmap bitmap, int quality) {
+        String path = FileDirectoryUtil.getPicturePath() + File.separator + dir;
+        return saveBitmap(path, fileName, bitmap, quality);
+    }
+
+
+    public static String saveBitmap(String path, String fileName, Bitmap bitmap) {
+        return saveBitmap(path, fileName, bitmap, 100);
+    }
+
     /**
      * 保存Bitmap到指定目录
      *
-     * @param dir      目录
+     * @param path     目录
      * @param fileName 文件名
      * @param bitmap
      * @throws IOException
      */
-    public static void saveBitmap(File dir, String fileName, Bitmap bitmap) {
+    public static String saveBitmap(String path, String fileName, Bitmap bitmap, int quality) {
         if (bitmap == null) {
-            return;
+            return "";
         }
-        File file = new File(dir, fileName);
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        String jpegName = path + File.separator + fileName;
         try {
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
+            FileOutputStream fout = new FileOutputStream(jpegName);
+            BufferedOutputStream bos = new BufferedOutputStream(fout);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bos);
+            bos.flush();
+            bos.close();
+            return jpegName;
         } catch (IOException e) {
             e.printStackTrace();
+            return "";
         }
     }
 

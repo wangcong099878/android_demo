@@ -55,7 +55,7 @@ public class IndexFragment extends BaseHomeFragment {
     protected void addFragment(ArrayList<BaseFragment> fragments) {
         fragments.add(new HomeFragment());
         fragments.add(new CategoryFragment());
-//        fragments.add(new ThanksFragment());
         fragments.add(new MyFragment());
+//        fragments.add(new TestFragment());
     }
 }
