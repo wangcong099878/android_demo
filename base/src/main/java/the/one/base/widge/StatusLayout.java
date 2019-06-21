@@ -84,6 +84,8 @@ public class StatusLayout extends RelativeLayout {
 
     private String state = CONTENT;
 
+    public static Builder mBuilder;
+
     public StatusLayout(Context context) {
         super(context);
     }
@@ -127,10 +129,10 @@ public class StatusLayout extends RelativeLayout {
                 typedArray.getDimensionPixelSize(R.styleable.StatusLayout_emptyContentTextSize, defaultTextSize);
 
         emptyStateTitleTextColor =
-                typedArray.getColor(R.styleable.StatusLayout_emptyTitleTextColor, ContextCompat.getColor(getContext(),defaultTextColor));
+                typedArray.getColor(R.styleable.StatusLayout_emptyTitleTextColor, ContextCompat.getColor(getContext(), defaultTextColor));
 
         emptyStateContentTextColor =
-                typedArray.getColor(R.styleable.StatusLayout_emptyContentTextColor, ContextCompat.getColor(getContext(),defaultTextColor));
+                typedArray.getColor(R.styleable.StatusLayout_emptyContentTextColor, ContextCompat.getColor(getContext(), defaultTextColor));
 
         emptyStateBackgroundColor =
                 typedArray.getColor(R.styleable.StatusLayout_emptyBackgroundColor, Color.TRANSPARENT);
@@ -149,10 +151,10 @@ public class StatusLayout extends RelativeLayout {
                 typedArray.getDimensionPixelSize(R.styleable.StatusLayout_errorContentTextSize, defaultTextSize);
 
         errorStateTitleTextColor =
-                typedArray.getColor(R.styleable.StatusLayout_errorTitleTextColor, ContextCompat.getColor(getContext(),defaultTextColor));
+                typedArray.getColor(R.styleable.StatusLayout_errorTitleTextColor, ContextCompat.getColor(getContext(), defaultTextColor));
 
         errorStateContentTextColor =
-                typedArray.getColor(R.styleable.StatusLayout_errorContentTextColor, ContextCompat.getColor(getContext(),defaultTextColor));
+                typedArray.getColor(R.styleable.StatusLayout_errorContentTextColor, ContextCompat.getColor(getContext(), defaultTextColor));
 
         errorStateButtonTextColor =
                 typedArray.getColor(R.styleable.StatusLayout_errorButtonTextColor, Color.WHITE);
@@ -209,11 +211,11 @@ public class StatusLayout extends RelativeLayout {
     }
 
     public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle) {
-        showEmpty(emptyImageDrawable,emptyTextTitle,"","刷新试试",null);
+        showEmpty(emptyImageDrawable, emptyTextTitle, "", "刷新试试", null);
     }
 
     public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
-        showEmpty(emptyImageDrawable,emptyTextTitle,emptyTextContent,"刷新试试",null);
+        showEmpty(emptyImageDrawable, emptyTextTitle, emptyTextContent, "刷新试试", null);
     }
 
     /**
@@ -224,7 +226,7 @@ public class StatusLayout extends RelativeLayout {
      * @param emptyTextContent   Content of the empty view to show
      */
     public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent, OnClickListener onClickListener) {
-        showEmpty(emptyImageDrawable,emptyTextTitle,emptyTextContent,"刷新试试",onClickListener);
+        showEmpty(emptyImageDrawable, emptyTextTitle, emptyTextContent, "刷新试试", onClickListener);
     }
 
     /**
@@ -234,8 +236,8 @@ public class StatusLayout extends RelativeLayout {
      * @param emptyTextTitle     Title of the empty view to show
      * @param emptyTextContent   Content of the empty view to show
      */
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent,String btnText, OnClickListener onClickListener) {
-        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, btnText,onClickListener, Collections.<Integer>emptyList());
+    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent, String btnText, OnClickListener onClickListener) {
+        switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, btnText, onClickListener, Collections.<Integer>emptyList());
     }
 
     /**
@@ -335,7 +337,10 @@ public class StatusLayout extends RelativeLayout {
                 hideErrorView();
 
                 setEmptyView();
-                emptyStateImageView.setImageDrawable(drawable);
+                if (null != mBuilder) {
+                    emptyStateImageView.setImageResource(mBuilder.getEmptyDrawable());
+                } else
+                    emptyStateImageView.setImageDrawable(drawable);
                 emptyStateTitleTextView.setText(errorText);
                 emptyStateContentTextView.setText(errorTextContent);
                 setContentVisibility(false, skipIds);
@@ -345,11 +350,14 @@ public class StatusLayout extends RelativeLayout {
                 hideEmptyView();
 
                 setErrorView();
-                errorStateImageView.setImageDrawable(drawable);
+                if (null != mBuilder) {
+                    errorStateImageView.setImageResource(mBuilder.getFailDrawable());
+                } else
+                    errorStateImageView.setImageDrawable(drawable);
                 errorStateTitleTextView.setVisibility(VISIBLE);
                 errorStateTitleTextView.setText(errorText);
                 errorStateContentTextView.setText(errorTextContent);
-                if(null == errorButtonText || errorButtonText.isEmpty())
+                if (null == errorButtonText || errorButtonText.isEmpty())
                     errorStateButton.setVisibility(GONE);
                 errorStateButton.setText(errorButtonText);
                 errorStateButton.setOnClickListener(onClickListener);
@@ -364,7 +372,7 @@ public class StatusLayout extends RelativeLayout {
             loadingStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.loadingStateRelativeLayout);
             loadingStateRelativeLayout.setTag(TAG_LOADING);
 
-            loadingStateProgressBar =  view.findViewById(R.id.loading_view);
+            loadingStateProgressBar = view.findViewById(R.id.loading_view);
 
             loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
             loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
@@ -429,7 +437,7 @@ public class StatusLayout extends RelativeLayout {
             errorStateImageView = (ImageView) view.findViewById(R.id.errorStateImageView);
             errorStateTitleTextView = (TextView) view.findViewById(R.id.errorStateTitleTextView);
             errorStateContentTextView = (TextView) view.findViewById(R.id.errorStateContentTextView);
-            errorStateButton =  view.findViewById(R.id.errorStateButton);
+            errorStateButton = view.findViewById(R.id.errorStateButton);
 
             //Set error state image width and height
             errorStateImageView.getLayoutParams().width = errorStateImageWidth;
@@ -480,7 +488,7 @@ public class StatusLayout extends RelativeLayout {
             emptyStateRelativeLayout.setVisibility(GONE);
             //Restore the background type_color_selector if not TRANSPARENT
             if (emptyStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundDrawable(currentBackground);;
+                this.setBackgroundDrawable(currentBackground);
             }
         }
     }
@@ -490,8 +498,55 @@ public class StatusLayout extends RelativeLayout {
             errorStateRelativeLayout.setVisibility(GONE);
             //Restore the background type_color_selector if not TRANSPARENT
             if (errorStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundDrawable(currentBackground);;
+                this.setBackgroundDrawable(currentBackground);
             }
+        }
+    }
+
+    public static class Builder {
+        private int failDrawable;
+        private int emptyDrawable;
+        private int networkErrorDrawable;
+        private int noNetworkDrawable;
+
+        public int getFailDrawable() {
+            return failDrawable;
+        }
+
+        public Builder setFailDrawable(int failDrawable) {
+            this.failDrawable = failDrawable;
+            return this;
+        }
+
+        public int getEmptyDrawable() {
+            return emptyDrawable;
+        }
+
+        public Builder setEmptyDrawable(int emptyDrawable) {
+            this.emptyDrawable = emptyDrawable;
+            return this;
+        }
+
+        public int getNetworkErrorDrawable() {
+            return networkErrorDrawable;
+        }
+
+        public Builder setNetworkErrorDrawable(int networkErrorDrawable) {
+            this.networkErrorDrawable = networkErrorDrawable;
+            return this;
+        }
+
+        public int getNoNetworkDrawable() {
+            return noNetworkDrawable;
+        }
+
+        public Builder setNoNetworkDrawable(int noNetworkDrawable) {
+            this.noNetworkDrawable = noNetworkDrawable;
+            return this;
+        }
+
+        public void build() {
+            mBuilder = this;
         }
     }
 }
