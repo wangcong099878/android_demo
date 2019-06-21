@@ -97,7 +97,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param view 右边自定义View 如果不为空 chevron设置无效
      * @return
      */
-    public QMUICommonListItemView CreateItemView(int drawable,String title,String content,boolean position,int type,View view) {
+    public QMUICommonListItemView CreateItemView(int drawable,CharSequence title,CharSequence content,boolean position,int type,View view) {
         QMUICommonListItemView itemView;
         itemView = mGroupListView.createItemView(title);
         if(!TextUtils.isEmpty(content)){
@@ -130,7 +130,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param title 标题
      * @return
      */
-    public QMUICommonListItemView CreateNormalItemView(String title){
+    public QMUICommonListItemView CreateNormalItemView(CharSequence title){
         return CreateItemView(-1,title,null,true,QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,null);
     }
 
@@ -175,7 +175,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param detail 内容
      * @return
      */
-    public QMUICommonListItemView CreateDetailItemView(String title,String detail){
+    public QMUICommonListItemView CreateDetailItemView(CharSequence title,CharSequence detail){
         return CreateItemView(-1,title,detail,true,QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
     }
 
@@ -187,7 +187,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(int drawable,String title,String detail,CompoundButton.OnCheckedChangeListener listener){
+    public QMUICommonListItemView CreateSwitchItemView(int drawable,CharSequence title,CharSequence detail,CompoundButton.OnCheckedChangeListener listener){
         QMUICommonListItemView itemView = CreateItemView(drawable,title,detail,false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
         itemView.getSwitch().setOnCheckedChangeListener(listener);
         return itemView;

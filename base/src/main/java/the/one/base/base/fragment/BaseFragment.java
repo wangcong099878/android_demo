@@ -32,6 +32,7 @@ import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.ToastUtil;
+import the.one.base.widge.MyTopBar;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
@@ -103,7 +104,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     // 需要显示点击返回显示 是否退出
-    protected boolean isExitFragment(){ return false;}
+    protected boolean isExitFragment() {
+        return false;
+    }
 
     /**
      * 设置头部自定义布局
@@ -177,7 +180,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
         View mRootView;
-        _mActivity = getActivity();
+        _mActivity = getBaseFragmentActivity();
+        if (getPresenter() != null)
+            getPresenter().attachView(this);
+        if (isRegisterEventBus())
+            EventBusUtil.register(this);
         if (showTitleBar()) {
             mRootView = getView(R.layout.base_fragment);
             mStatusLayout = mRootView.findViewById(R.id.status_layout);
@@ -189,20 +196,14 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             setCustomLayout(flBottomLayout, getBottomLayout());
             setCustomLayout(flTopLayout, getTopLayout());
             mStatusLayout.addView(mBody, -1, -1);
-
         } else {
             mRootView = mBody;
         }
-        if (getPresenter() != null) {
-            getPresenter().attachView(this);
-        }
-        if (isRegisterEventBus()) {
-            EventBusUtil.register(this);
-        }
+
         mUnbinder = ButterKnife.bind(this, mBody);
         initView(mRootView);
-        if(null !=mTopLayout &&mTopLayout.getVisibility()!=View.VISIBLE){
-            setMargins(mRootView.findViewById(R.id.rl_parent),0, 0,0,0);
+        if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
+            setMargins(mRootView.findViewById(R.id.rl_parent), 0, 0, 0, 0);
         }
         return mRootView;
     }
@@ -220,16 +221,21 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected void addTopBarBackBtn() {
-       mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               popBackStack();
-           }
-       });
+        if (null != mTopLayout)
+            addTopBarBackBtn(mTopLayout.getTopBar());
+    }
+
+    protected void addTopBarBackBtn(MyTopBar topBar) {
+        topBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     protected void addTopBarBackBtn(int drawable, View.OnClickListener listener) {
-        mTopLayout.addLeftImageButton(drawable,R.id.topbar_left_button).setOnClickListener(listener);
+        mTopLayout.addLeftImageButton(drawable, R.id.topbar_left_button).setOnClickListener(listener);
     }
 
     public void startBrotherFragment(BaseFragment fragment) {
@@ -250,16 +256,16 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public void showProgressDialog(int percent) {
-        showProgressDialog(percent,100);
+        showProgressDialog(percent, 100);
     }
 
     @Override
     public void showProgressDialog(int percent, int total) {
-        showProgressDialog(percent,total,"上传中");
+        showProgressDialog(percent, total, "上传中");
     }
 
     @Override
-    public void showProgressDialog(int percent, int total,String msg) {
+    public void showProgressDialog(int percent, int total, String msg) {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage(msg);
@@ -379,7 +385,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     public void showView(View... views) {
         for (View view : views) {
-            if (null != view &&view.getVisibility() != View.VISIBLE)
+            if (null != view && view.getVisibility() != View.VISIBLE)
                 view.setVisibility(View.VISIBLE);
         }
     }
@@ -451,7 +457,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         popBackStack();
     }
 
-    public static void setMargins (View v, int l, int t, int r, int b) {
+    public static void setMargins(View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
             p.setMargins(l, t, r, b);
@@ -479,7 +485,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     protected void onBackPressed() {
-        if(isExitFragment()){
+        if (isExitFragment()) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 //弹出提示，可以有多种方式
                 showToast("再点一次退出");

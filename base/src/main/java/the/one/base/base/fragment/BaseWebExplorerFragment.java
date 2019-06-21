@@ -27,8 +27,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -220,8 +222,13 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mWebView.requestFocus(View.FOCUS_DOWN);
         setZoomControlGone(mWebView);
         configWebView(mWebViewContainer, mWebView);
-        mWebView.loadUrl(mUrl);
 
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        mWebView.loadUrl(mUrl);
+        super.onEnterAnimationEnd(animation);
     }
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {

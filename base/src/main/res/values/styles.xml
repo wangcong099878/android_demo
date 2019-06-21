@@ -2,6 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="QMUI.Compat.NoActionBar">
+        <item name="config_color">@color/app_color_theme_1</item>
         <item name="qmui_config_color_blue">?config_color</item>
     </style>
 

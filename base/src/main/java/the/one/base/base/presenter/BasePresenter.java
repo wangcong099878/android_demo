@@ -18,6 +18,8 @@ package the.one.base.base.presenter;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.app.Activity;
+
 import the.one.base.base.view.BaseView;
 
 /**
@@ -56,5 +58,6 @@ public class BasePresenter<V extends BaseView> {
     public V getView(){
         return baseView;
     }
+
 
 }

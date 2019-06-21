@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="13dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/qmui_config_color_gray_1"
+        android:text="使用drawableEnd设置" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/long_fruit_name"
+        android:drawableEnd="@drawable/ic_food_status_up"
+        android:textColor="@color/qmui_config_color_gray_3"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/qmui_config_color_gray_1"
+        android:text="使用SpannableString设置" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/long_fruit_name"
+        android:textColor="@color/qmui_config_color_gray_3"
+        android:textSize="15sp" />
+
+</LinearLayout>

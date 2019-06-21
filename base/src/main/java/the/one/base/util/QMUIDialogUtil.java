@@ -34,6 +34,11 @@ import the.one.base.R;
 
 public class QMUIDialogUtil {
 
+    /**
+     * 如果使用EditTextDialog需要输入是小数模式，则用这个
+     */
+    public static final int TYPE_NUMBER_DECIMAL = 8194;
+
     public static void showSimpleDialog(final Context context, final String title, final String content) {
         showPositiveDialog(context, title, content,"",null,"确认", new QMUIDialogAction.ActionListener() {
             @Override
@@ -67,7 +72,7 @@ public class QMUIDialogUtil {
                 .setTitle(title)
                 .setMessage(content)
                 .addAction(btnLeftString, leftBtnListener)
-                .addAction(btnRightString, rightBtnListener).show();
+                .addAction(0,btnRightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightBtnListener).show();
     }
 
 
@@ -237,7 +242,7 @@ public class QMUIDialogUtil {
                 .setCheckedItems(checkedItems)
                 .addItems(items, OnItemClickListener);
         builder.addAction(leftBtnString, leftClickListener);
-        builder.addAction(rightString, new QMUIDialogAction.ActionListener() {
+        builder.addAction( 0,rightString, QMUIDialogAction.ACTION_PROP_NEGATIVE,new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
                 onMultiChoiceConfirmClickListener.getCheckedItemIndexes(dialog,builder.getCheckedItemIndexes());
@@ -288,7 +293,7 @@ public class QMUIDialogUtil {
                         dialog.dismiss();
                     }
                 })
-                .addAction(rightText, new QMUIDialogAction.ActionListener() {
+                .addAction(0,rightText, QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
@@ -320,7 +325,7 @@ public class QMUIDialogUtil {
                         dialog.dismiss();
                     }
                 })
-                .addAction(confirm, listener)
+                .addAction(0,confirm, QMUIDialogAction.ACTION_PROP_NEGATIVE, listener)
                 .show();
     }
 
@@ -339,7 +344,7 @@ public class QMUIDialogUtil {
     public static void showAutoDialog(Context context, String title, String content, String leftString, QMUIDialogAction.ActionListener leftListener, String rightString, QMUIDialogAction.ActionListener rightListener) {
         QMAutoTestDialogBuilder autoTestDialogBuilder = (QMAutoTestDialogBuilder) new QMAutoTestDialogBuilder(context, title, content)
                 .addAction(leftString, leftListener)
-                .addAction(rightString, rightListener);
+                .addAction(0,rightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightListener);
         autoTestDialogBuilder.show();
         QMUIKeyboardHelper.showKeyboard(autoTestDialogBuilder.getEditText(), true);
     }

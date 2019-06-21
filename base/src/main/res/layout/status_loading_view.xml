@@ -7,8 +7,8 @@
 
  <the.one.base.widge.ProgressWheel
      android:id="@+id/loading_view"
-     android:layout_width="20dp"
-     android:layout_height="20dp"
+     android:layout_width="@dimen/progressBar_size"
+     android:layout_height="@dimen/progressBar_size"
      android:layout_centerInParent="true"
      app:matProg_barColor="?config_color"
      app:matProg_progressIndeterminate="true"

@@ -2,6 +2,7 @@ package the.one.demo;
 
 import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
+import the.one.base.widge.StatusLayout;
 
 
 //  ┏┓　　　┏┓
@@ -35,6 +36,7 @@ public class App extends BaseApplication {
     public void onCreate() {
         super.onCreate();
 //        initFilePath();
+        initStatusDrawable();
     }
 
     /**
@@ -45,6 +47,17 @@ public class App extends BaseApplication {
                 .getBuilder()
                 .setIndex("Anastasia")
                 .setCache("缓存")
+                .build();
+    }
+
+    /**
+     * 自定义StatusLayout资源
+     */
+    private void initStatusDrawable(){
+        new StatusLayout.Builder()
+                .setEmptyDrawable(R.drawable.icon_search_result_null)
+                .setFailDrawable(R.drawable.loading_view_loading_fail)
+                .setNetworkErrorDrawable(R.drawable.loading_view_network_error)
                 .build();
     }
 

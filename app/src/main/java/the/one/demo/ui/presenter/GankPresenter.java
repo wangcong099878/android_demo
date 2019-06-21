@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -57,16 +58,20 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
     private static final String TAG = "WelfarePresenter";
 
     public void getData(final Context context, final String type, final int page) {
+        Log.e(TAG, "getData: url = "+ Constant.GANK_CATEGORY + type + "/" + Constant.COUNT + "/" + page);
         OkHttpUtils.get().url(Constant.GANK_CATEGORY + type + "/" + Constant.COUNT + "/" + page).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                Log.e(TAG, "onError: " );
                 if (isViewAttached())
                     getView().onFail(e);
             }
 
             @Override
             public void onResponse(String response, int id) {
+                Log.e(TAG, "onResponse: " );
                 if (isViewAttached()) {
+                    Log.e(TAG, "onResponse: isViewAttached" );
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(response);

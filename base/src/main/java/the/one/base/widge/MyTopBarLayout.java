@@ -113,6 +113,14 @@ public class MyTopBarLayout extends FrameLayout {
         setBackgroundDividerEnabled(hasSeparator);
     }
 
+    public MyTopBar getTopBar() {
+        return mTopBar;
+    }
+
+    public void setTopBar(MyTopBar mTopBar) {
+        this.mTopBar = mTopBar;
+    }
+
     public void setCenterView(View view) {
         mTopBar.setCenterView(view);
     }

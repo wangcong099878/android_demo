@@ -4,4 +4,5 @@
     <string name="select_type">选择类型</string>
     <string name="publish_des">内容描述</string>
     <string name="publish_url">内容地址</string>
+    <string name="long_fruit_name">这是一个超长的水果名称这是一个超长的水果名称这是一个超长的水果名称</string>
 </resources>

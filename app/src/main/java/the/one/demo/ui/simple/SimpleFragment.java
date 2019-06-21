@@ -35,7 +35,7 @@ import the.one.base.base.fragment.BaseWebExplorerFragment;
  */
 public class SimpleFragment extends BaseGroupListFragment {
 
-    private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,PULL_EXTEND;
+    private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL;
 
     @Override
     protected void addGroupListView() {
@@ -44,9 +44,10 @@ public class SimpleFragment extends BaseGroupListFragment {
         POPUP_LAYOUT = CreateNormalItemView("PopupLayout");
         WEB_VIEW = CreateNormalItemView("WebView");
         COLLAPSING_TOP_BAR =  CreateNormalItemView("CollapsingTopBarFragment");
-
         PULL_EXTEND=   CreateNormalItemView("PullExtendLayout");
-        addToGroup(PICTURE_SELECTOR,WEB_VIEW,PULL_EXTEND);
+        STATUS_BAR_HELP = CreateNormalItemView("StatusBarHelper");
+        STRING_UTIL= CreateNormalItemView("StringUtil");
+        addToGroup(PICTURE_SELECTOR,WEB_VIEW,PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL);
     }
 
     @Override
@@ -63,6 +64,10 @@ public class SimpleFragment extends BaseGroupListFragment {
             startFragment(new CollapsingTopBarFragment());
         }else if(v == PULL_EXTEND){
             startFragment(new PullLayoutFragment());
+        }else if(v ==STATUS_BAR_HELP){
+            startFragment(new StatusBarHelperFragment());
+        }else if(v == STRING_UTIL){
+            startFragment(new StringUtilFragment());
         }
     }
 }

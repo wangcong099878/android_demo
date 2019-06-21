@@ -46,7 +46,7 @@ public class GankAdapter extends BaseQuickAdapter<GankBean, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, GankBean item) {
         String author = "#" + item.getWho() + "  ";
-        helper.setText(R.id.tv_content, StringUtils.SpannableString(author + item.getDesc(), author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)));
+        helper.setText(R.id.tv_content, StringUtils.SpannableString(StringUtils.Type.ForegroundColorSpan,author + item.getDesc(), author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)));
         NineGridView nineImageLayout = helper.getView(R.id.nine_grid);
         if (null == item.getImages() || item.getImages().size() < 1) {
             if(item.getUrl().endsWith(".jpg")){
