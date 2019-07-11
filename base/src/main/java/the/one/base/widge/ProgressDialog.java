@@ -18,6 +18,7 @@ public class ProgressDialog extends AlertDialog implements QMUIProgressBar.QMUIP
 	private TextView tips_loading_msg;
 	private String message;
 	private QMUIProgressBar progress;
+	private int oldPercent = 0;
 
 	/**
 	 * 构造方法
@@ -40,16 +41,14 @@ public class ProgressDialog extends AlertDialog implements QMUIProgressBar.QMUIP
 	}
 
 	public void setProgress(int percent){
-		if(null != progress){
+		if(null != progress && percent != oldPercent){
+			oldPercent = percent;
 			progress.setProgress(percent);
 		}
 	}
 
-	public void setProgress(int percent,int total){
-		if(null != progress){
-			progress.setMaxValue(total);
-			progress.setProgress(percent);
-		}
+	public void setProgressMax(int total){
+		progress.setMaxValue(total);
 	}
 
 	/**

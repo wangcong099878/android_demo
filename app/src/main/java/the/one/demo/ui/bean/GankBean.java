@@ -52,6 +52,9 @@ public class GankBean {
     @SerializedName("images")
     private List<String> images;
 
+    private String refer;
+    private String link;
+
     private int width;
     private int height;
 
@@ -149,5 +152,30 @@ public class GankBean {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getRefer() {
+        return refer;
+    }
+
+    public void setRefer(String refer) {
+        this.refer = refer;
+    }
+
+    @Override
+    public String toString() {
+        return "GankBean{" +
+                "url='" + url + '\'' +
+                ", refer='" + refer + '\'' +
+                ", link='" + link + '\'' +
+                '}';
     }
 }

@@ -95,11 +95,6 @@ public class BingoActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean showTitleBar() {
-        return false;
-    }
-
-    @Override
     protected int getContentViewId() {
         return R.layout.activity_bingo;
     }

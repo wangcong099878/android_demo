@@ -60,10 +60,6 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
             activity.startActivity(in);
     }
 
-    @Override
-    protected boolean showTitleBar() {
-        return false;
-    }
 
     @Override
     public BasePresenter getPresenter() {
@@ -144,7 +140,8 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
                         int percent = (int) (progress * 100);
                         if (percent != oldPercent) {
                             oldPercent = percent;
-                            progressDialog.setProgress(percent,100);
+                            progressDialog.setProgressMax(100);
+                            progressDialog.setProgress(percent);
                         }
                     }
 

@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <the.one.base.widge.QMUITabSegment
-        android:id="@+id/tab_segment"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/top_tab_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
 
     <com.qmuiteam.qmui.widget.QMUIViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_segment" />
+        android:layout_marginTop="@dimen/top_tab_height"/>
 
-    <View
+    <com.qmuiteam.qmui.widget.QMUIAppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@id/tab_segment"
-        android:background="@drawable/titlebar_bottom_shadow" />
+        android:layout_height="@dimen/top_tab_height">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/qmui_config_color_white">
+            <the.one.base.widge.QMUITabSegment
+                android:id="@+id/tab_segment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+
+    </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
+
+</FrameLayout>

@@ -14,6 +14,15 @@ public class Constant {
     public static final String GANK_CATEGORY = GANK_API + "data/";
     public static final String GANK_PUBLISH = GANK_API + "add2gank";
 
+    public static final String WELFARE_BASE_URL = "http://www.mzitu.com/";
+
+    public static final String HOT = "hot";
+    public static final String XING_GAN = "xinggan";
+    public static final String JAPAN = "japan";
+    public static final String TAIWAN = "taiwan";
+    public static final String MM = "mm";
+    public static final String SHARE = "share";
+
     public static final String TODAY = GANK_API + "today";
 
     public static final String ANDROID = "Android";
@@ -27,6 +36,11 @@ public class Constant {
 
     public static String[] title = { Constant.ANDROID, Constant.APP,
             Constant.IOS, Constant.EXTENSION, Constant.RECOMMEND, Constant.FRONT, Constant.RELAX,Constant.WELFARE};
+
+    public static String[] welfareTitle = { "火热","火热","火热","火热","火热","火热",};
+
+    public static String[] welfareUrl = { Constant.HOT, Constant.XING_GAN,
+            Constant.JAPAN, Constant.TAIWAN, Constant.MM, Constant.SHARE};
 
     public static final int COUNT = 20;
 

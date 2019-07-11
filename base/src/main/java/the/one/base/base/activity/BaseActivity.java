@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.qmuiteam.qmui.arch.QMUIActivity;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import butterknife.ButterKnife;
@@ -25,9 +24,7 @@ import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.ToastUtil;
-import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ProgressDialog;
-import the.one.base.widge.StatusLayout;
 
 
 //  ┏┓　　　┏┓
@@ -63,14 +60,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     protected abstract void initView(View mRootView);
 
-    protected boolean LightMode() {
-        return false;
-    }
-
-    protected boolean showTitleBar() {
-        return true;
-    }
-
     /**
      * 获取Presenter实例，子类实现
      */
@@ -85,8 +74,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         return false;
     }
 
-    protected StatusLayout mStatusLayout;
-    protected MyTopBarLayout mTopLayout;
     protected QMUITipDialog loadingDialog;
     protected the.one.base.widge.ProgressDialog progressDialog;
     private Unbinder unbinder;
@@ -94,23 +81,12 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (LightMode())
-            QMUIStatusBarHelper.setStatusBarLightMode(this);
-        View mBody = getView(getContentViewId());
-        View mRootView;
-        if (showTitleBar()) {
-            mRootView = getView(R.layout.base_fragment);
-            mStatusLayout = mRootView.findViewById(R.id.status_layout);
-            mTopLayout = mRootView.findViewById(R.id.top_layout);
-            mStatusLayout.addView(mBody, -1, -1);
-        } else {
-            mRootView = mBody;
-        }
+        View mRootView = getView(getContentViewId());
+        setContentView(mRootView);
+        unbinder = ButterKnife.bind(this);
         if (getPresenter() != null) {
             getPresenter().attachView(this);
         }
-        setContentView(mRootView);
-        unbinder = ButterKnife.bind(this, mBody);
         if (isRegisterEventBus()) {
             EventBusUtil.register(this);
         }
@@ -124,22 +100,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected int backViewInitOffset() {
         return QMUIDisplayHelper.dp2px(this, 150);
-    }
-
-    protected void initFragmentBack(String title) {
-        if (null != mTopLayout) {
-            mTopLayout.setTitle(title);
-            addTopBarBackBtn();
-        }
-    }
-
-    protected void addTopBarBackBtn() {
-        mTopLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -169,9 +129,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(msg);
+            progressDialog.setProgressMax(total);
             progressDialog.setCanceledOnTouchOutside(false);
         }
-        progressDialog.setProgress(percent, total);
+        progressDialog.setProgress(percent);
         progressDialog.show();
     }
 
@@ -188,14 +149,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showContentPage() {
-        if (null != mStatusLayout)
-            mStatusLayout.showContent();
     }
 
     @Override
     public void showLoadingPage() {
-        if (null != mStatusLayout)
-            mStatusLayout.showLoading();
     }
 
     @Override
@@ -220,8 +177,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showEmptyPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
-        if (null != mStatusLayout)
-            mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
 
     @Override
@@ -246,8 +201,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
-        if (null != mStatusLayout)
-            mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
 
     @Override

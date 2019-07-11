@@ -333,25 +333,14 @@ public class StatusLayout extends RelativeLayout {
                 setContentVisibility(false, skipIds);
                 break;
             case EMPTY:
-                hideLoadingView();
-                hideErrorView();
-
-                setEmptyView();
-                if (null != mBuilder) {
-                    emptyStateImageView.setImageResource(mBuilder.getEmptyDrawable());
-                } else
-                    emptyStateImageView.setImageDrawable(drawable);
-                emptyStateTitleTextView.setText(errorText);
-                emptyStateContentTextView.setText(errorTextContent);
-                setContentVisibility(false, skipIds);
-                break;
             case ERROR:
                 hideLoadingView();
                 hideEmptyView();
 
                 setErrorView();
                 if (null != mBuilder) {
-                    errorStateImageView.setImageResource(mBuilder.getFailDrawable());
+                    boolean isEmpty = state == EMPTY;
+                    errorStateImageView.setImageResource(isEmpty?mBuilder.getEmptyDrawable():mBuilder.getFailDrawable());
                 } else
                     errorStateImageView.setImageDrawable(drawable);
                 errorStateTitleTextView.setVisibility(VISIBLE);

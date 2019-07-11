@@ -18,6 +18,11 @@ package the.one.demo.ui.adapter;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.text.TextUtils;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -42,7 +47,16 @@ public class WelfareAdapter extends BaseQuickAdapter<GankBean, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, GankBean item) {
         ScaleImageView imageView = helper.getView(R.id.girl_item_iv);
-        imageView.setInitSize(item.getWidth(), item.getHeight());
-        GlideUtil.load(mContext, item.getUrl(), imageView);
+        if (item.getWidth() != 0)
+            imageView.setInitSize(item.getWidth(), item.getHeight());
+        String refer = item.getRefer();
+        if (TextUtils.isEmpty(refer)) {
+            GlideUtil.load(mContext, item.getUrl(), imageView);
+        } else {
+            GlideUrl glideUrl = new GlideUrl(item.getUrl(), new LazyHeaders.Builder()
+                    .addHeader("Referer", refer)
+                    .build());
+            Glide.with(mContext).load(glideUrl).into(imageView);
+        }
     }
 }

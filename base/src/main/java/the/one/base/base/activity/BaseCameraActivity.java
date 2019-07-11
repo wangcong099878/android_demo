@@ -36,6 +36,13 @@ import the.one.base.util.ToastUtil;
  * @email 625805189@qq.com
  * @remark
  */
+/**
+ * @author The one
+ * @date 2019/6/5 0005
+ * @describe TODO
+ * @email 625805189@qq.com
+ * @remark
+ */
 public abstract class BaseCameraActivity extends BaseActivity {
 
     private final int GET_PERMISSION_REQUEST = 100; //权限申请自定义码
