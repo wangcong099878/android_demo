@@ -140,8 +140,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
                         int percent = (int) (progress * 100);
                         if (percent != oldPercent) {
                             oldPercent = percent;
-                            progressDialog.setProgressMax(100);
-                            progressDialog.setProgress(percent);
+                            progressDialog.setProgress(percent,100);
                         }
                     }
 

@@ -35,7 +35,7 @@ import the.one.base.base.fragment.BaseWebExplorerFragment;
  */
 public class SimpleFragment extends BaseGroupListFragment {
 
-    private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL;
+    private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL,PROGRESS_DIALOG;
 
     @Override
     protected void addGroupListView() {
@@ -47,7 +47,8 @@ public class SimpleFragment extends BaseGroupListFragment {
         PULL_EXTEND=   CreateNormalItemView("PullExtendLayout");
         STATUS_BAR_HELP = CreateNormalItemView("StatusBarHelper");
         STRING_UTIL= CreateNormalItemView("StringUtil");
-        addToGroup(PICTURE_SELECTOR,WEB_VIEW,PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL);
+        PROGRESS_DIALOG = CreateNormalItemView("ProgressDialog");
+        addToGroup(PICTURE_SELECTOR,WEB_VIEW,PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL,PROGRESS_DIALOG);
     }
 
     @Override
@@ -68,6 +69,8 @@ public class SimpleFragment extends BaseGroupListFragment {
             startFragment(new StatusBarHelperFragment());
         }else if(v == STRING_UTIL){
             startFragment(new StringUtilFragment());
+        }else if(v == PROGRESS_DIALOG){
+            startFragment(new ProgressDialogFragment());
         }
     }
 }

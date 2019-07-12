@@ -115,6 +115,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
+    public void showProgressDialog(String msg) {
+        showProgressDialog(0,100,msg);
+    }
+
+    @Override
     public void showProgressDialog(int percent) {
         showProgressDialog(percent,100);
     }
@@ -129,11 +134,12 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage(msg);
-            progressDialog.setProgressMax(total);
             progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+
         }
-        progressDialog.setProgress(percent);
-        progressDialog.show();
+        if (progressDialog.isShowing())
+            progressDialog.setProgress(percent,total);
     }
 
     @Override

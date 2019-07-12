@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
-import android.text.format.Formatter;
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
@@ -23,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -97,6 +97,14 @@ public class FileUtils {
     }
 
     /**
+     * 获取主目录下的所有文件大小
+     * @return
+     */
+    public static String getIndexFileSize() {
+        return formatFileSize( getFileSize(new File(FileDirectoryUtil.getIndexPath())));
+    }
+
+    /**
      * 获取文件大小，单位为byte（若为目录，则包括所有子目录和文件）
      *
      * @param file
@@ -118,6 +126,36 @@ public class FileUtils {
             }
         }
         return size;
+    }
+
+    /**
+     * 删除
+     * @return
+     */
+    public static boolean deleteIndexFile(){
+        return deleteDir(new File(FileDirectoryUtil.getIndexPath()));
+    }
+
+    private static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            int size = 0;
+            if (children != null) {
+                size = children.length;
+                for (int i = 0; i < size; i++) {
+                    boolean success = deleteDir(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
+                }
+            }
+
+        }
+        if (dir == null) {
+            return true;
+        } else {
+            return dir.delete();
+        }
     }
 
 
@@ -896,47 +934,6 @@ public class FileUtils {
     }
 
     /**
-     * 复制文件
-     * @param in
-     * @param out
-     */
-//    public static void copyFile(InputStream in, OutputStream out) {
-//        try {
-//            byte[] b = new byte[2 * 1024 * 1024]; //2M memory
-//            int len = -1;
-//            while ((len = in.read(b)) > 0) {
-//                out.write(b, 0, len);
-//                out.flush();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            closeIO(in, out);
-//        }
-//    }
-
-    /**
-     *快速复制
-     * @param in
-     * @param out
-     */
-//    public static void copyFileFast(File in, File out) {
-//        FileChannel filein = null;
-//        FileChannel fileout = null;
-//        try {
-//            filein = new FileInputStream(in).getChannel();
-//            fileout = new FileOutputStream(out).getChannel();
-//            filein.transferTo(0, filein.size(), fileout);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            closeIO(filein, fileout);
-//        }
-//    }
-
-    /**
      *分享文件
      * @param context
      * @param title
@@ -950,57 +947,43 @@ public class FileUtils {
         context.startActivity(Intent.createChooser(intent, title));
     }
 
-    /**
-     *压缩
-     * @param is
-     * @param os
-     */
-//    public static void zip(InputStream is, OutputStream os) {
-//        GZIPOutputStream gzip = null;
-//        try {
-//            gzip = new GZIPOutputStream(os);
-//            byte[] buf = new byte[1024];
-//            int len;
-//            while ((len = is.read(buf)) != -1) {
-//                gzip.write(buf, 0, len);
-//                gzip.flush();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            closeIO(is, gzip);
-//        }
-//    }
-
-    /**
-     *解压
-     * @param is
-     * @param os
-     */
-//    public static void unzip(InputStream is, OutputStream os) {
-//        GZIPInputStream gzip = null;
-//        try {
-//            gzip = new GZIPInputStream(is);
-//            byte[] buf = new byte[1024];
-//            int len;
-//            while ((len = gzip.read(buf)) != -1) {
-//                os.write(buf, 0, len);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            closeIO(gzip, os);
-//        }
-//    }
 
     /**
      * 格式化文件大小
-     * @param context
+     *
      * @param size
      * @return
      */
-    public static String formatFileSize(Context context, long size) {
-        return Formatter.formatFileSize(context, size);
+    public static String formatFileSize( long size) {
+        double kiloByte = size / 1024;
+        if (kiloByte < 1) {
+            // return size + "Byte";
+            return "很干净无需清理";
+        }
+
+        double megaByte = kiloByte / 1024;
+        if (megaByte < 1) {
+            BigDecimal result1 = new BigDecimal(Double.toString(kiloByte));
+            return result1.setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .toPlainString() + "KB";
+        }
+
+        double gigaByte = megaByte / 1024;
+        if (gigaByte < 1) {
+            BigDecimal result2 = new BigDecimal(Double.toString(megaByte));
+            return result2.setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .toPlainString() + "MB";
+        }
+
+        double teraBytes = gigaByte / 1024;
+        if (teraBytes < 1) {
+            BigDecimal result3 = new BigDecimal(Double.toString(gigaByte));
+            return result3.setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .toPlainString() + "GB";
+        }
+        BigDecimal result4 = new BigDecimal(teraBytes);
+        return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
+                + "TB";
     }
 
     /**

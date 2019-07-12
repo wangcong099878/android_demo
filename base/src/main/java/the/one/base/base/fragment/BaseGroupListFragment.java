@@ -79,29 +79,29 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         section.addTo(mGroupListView);
     }
 
-    protected void addToGroup(QMUICommonListItemView... items) {
-        addToGroup("", "", items);
-    }
-
     protected void addToGroup(String title,QMUICommonListItemView... items) {
         addToGroup(title, "", items);
+    }
+
+    protected void addToGroup(QMUICommonListItemView... items) {
+        addToGroup("", "", items);
     }
 
     /**
      *
      * @param drawable 左边图片资源
      * @param title 标题
-     * @param content 内容
+     * @param detail 内容
      * @param position 内容位置 true 右边 false 下边
      * @param type 类型
      * @param view 右边自定义View 如果不为空 chevron设置无效
      * @return
      */
-    public QMUICommonListItemView CreateItemView(int drawable,CharSequence title,CharSequence content,boolean position,int type,View view) {
+    public QMUICommonListItemView CreateItemView(int drawable,CharSequence title,CharSequence detail,boolean position,int type,View view) {
         QMUICommonListItemView itemView;
         itemView = mGroupListView.createItemView(title);
-        if(!TextUtils.isEmpty(content)){
-            itemView.setDetailText(content);
+        if(!TextUtils.isEmpty(detail)){
+            itemView.setDetailText(detail);
             itemView.setOrientation(position?QMUICommonListItemView.HORIZONTAL:QMUICommonListItemView.VERTICAL);
         }
         if(null != view) {
@@ -121,7 +121,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param title 标题
      * @return
      */
-    public QMUICommonListItemView CreateNormalItemView(int drawable,String title){
+    public QMUICommonListItemView CreateNormalItemView(int drawable,CharSequence title){
         return CreateItemView(drawable,title,null,true,QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,null);
     }
 
@@ -131,7 +131,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateNormalItemView(CharSequence title){
-        return CreateItemView(-1,title,null,true,QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,null);
+        return CreateNormalItemView(-1,title);
     }
 
     /**
@@ -143,8 +143,20 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param needChevron 是否需要箭头
      * @return
      */
-    public QMUICommonListItemView CreateDetailItemView(int drawable,String title,String detail,boolean position,boolean needChevron){
+    public QMUICommonListItemView CreateDetailItemView(int drawable,CharSequence title,CharSequence detail,boolean position,boolean needChevron){
         return CreateItemView(drawable,title,detail,position,needChevron?QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON:QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
+    }
+
+    /**
+     * 创建标题+内容格式
+     * @param title 标题
+     * @param detail 内容
+     * @param position 内容方向 true 右边 false 下边
+     * @param needChevron 是否需要箭头
+     * @return
+     */
+    public QMUICommonListItemView CreateDetailItemView(CharSequence title,CharSequence detail,boolean position,boolean needChevron){
+        return CreateDetailItemView(-1,title,detail,position,needChevron);
     }
 
     /**
@@ -155,8 +167,19 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param needChevron 是否需要箭头
      * @return
      */
-    public QMUICommonListItemView CreateDetailItemView(int drawable,String title,String detail,boolean needChevron){
-        return CreateItemView(drawable,title,detail,true,needChevron?QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON:QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
+    public QMUICommonListItemView CreateDetailItemView(int drawable,CharSequence title,CharSequence detail,boolean needChevron){
+        return CreateDetailItemView(drawable,title,detail,true,needChevron);
+    }
+
+    /**
+     * 创建标题+内容格式
+     * @param title 标题
+     * @param detail 内容
+     * @param needChevron 是否需要箭头
+     * @return
+     */
+    public QMUICommonListItemView CreateDetailItemView(CharSequence title,CharSequence detail,boolean needChevron){
+        return CreateDetailItemView(-1,title,detail,true,needChevron);
     }
 
     /**
@@ -169,6 +192,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
     public QMUICommonListItemView CreateDetailItemView(int drawable,String title,String detail){
         return CreateItemView(drawable,title,detail,true,QMUICommonListItemView.ACCESSORY_TYPE_NONE,null);
     }
+
     /**
      * 创建标题+内容格式
      * @param title 标题
@@ -200,10 +224,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(int drawable,String title,CompoundButton.OnCheckedChangeListener listener){
-        QMUICommonListItemView itemView = CreateItemView(drawable,title,"",false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
-        itemView.getSwitch().setOnCheckedChangeListener(listener);
-        return itemView;
+    public QMUICommonListItemView CreateSwitchItemView(int drawable,CharSequence title,CompoundButton.OnCheckedChangeListener listener){
+        return CreateSwitchItemView(drawable,title,"",listener);
     }
 
     /**
@@ -213,10 +235,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(String title,String detail,CompoundButton.OnCheckedChangeListener listener){
-        QMUICommonListItemView itemView = CreateItemView(-1,title,detail,false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
-        itemView.getSwitch().setOnCheckedChangeListener(listener);
-        return itemView;
+    public QMUICommonListItemView CreateSwitchItemView(CharSequence title,String detail,CompoundButton.OnCheckedChangeListener listener){
+        return CreateSwitchItemView(-1,title,detail,listener);
     }
 
     /**
@@ -225,10 +245,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(String title,CompoundButton.OnCheckedChangeListener listener){
-        QMUICommonListItemView itemView = CreateItemView(-1,title,"",false,QMUICommonListItemView.ACCESSORY_TYPE_SWITCH,null);
-        itemView.getSwitch().setOnCheckedChangeListener(listener);
-        return itemView;
+    public QMUICommonListItemView CreateSwitchItemView(CharSequence title,CompoundButton.OnCheckedChangeListener listener){
+        return CreateSwitchItemView(title,listener);
     }
 
     /**
@@ -239,7 +257,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param view 自定义View
      * @return
      */
-    public QMUICommonListItemView CreateCustomView(int drawable,String title,String detail,View view){
+    public QMUICommonListItemView CreateCustomView(int drawable,CharSequence title,CharSequence detail,View view){
         return CreateItemView(drawable,title,detail,false,-1,view);
     }
 
@@ -250,8 +268,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param view 自定义View
      * @return
      */
-    public QMUICommonListItemView CreateCustomView(String title,String detail,View view){
-        return CreateItemView(-1,title,detail,false,-1,view);
+    public QMUICommonListItemView CreateCustomView(CharSequence title,CharSequence detail,View view){
+        return CreateCustomView(-1,title,detail,view);
     }
 
     /**
@@ -260,8 +278,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param view 自定义View
      * @return
      */
-    public QMUICommonListItemView CreateCustomView(String title,View view){
-        return CreateItemView(-1,title,"",false,-1,view);
+    public QMUICommonListItemView CreateCustomView(CharSequence title,View view){
+        return CreateCustomView(title,view);
     }
 
     /**
@@ -271,8 +289,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param view 自定义View
      * @return
      */
-    public QMUICommonListItemView CreateCustomView(int drawable,String title,View view){
-        return CreateItemView(drawable,title,"",false,-1,view);
+    public QMUICommonListItemView CreateCustomView(int drawable,CharSequence title,View view){
+        return CreateCustomView(drawable,title,"",view);
     }
 
 }

@@ -255,6 +255,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
+    public void showProgressDialog(String msg) {
+        showProgressDialog(0, 100, msg);
+    }
+
+    @Override
     public void showProgressDialog(int percent) {
         showProgressDialog(percent, 100);
     }
@@ -270,10 +275,10 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage(msg);
             progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setProgressMax(total);
             progressDialog.show();
         }
-        progressDialog.setProgress(percent);
+        if (progressDialog.isShowing())
+            progressDialog.setProgress(percent, total);
     }
 
     @Override
@@ -316,7 +321,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public void showEmptyPage(String title, String content, String btnString, View.OnClickListener listener) {
-            showEmptyPage(getDrawablee(R.drawable.status_search_result_empty), title, content, btnString, listener);
+        showEmptyPage(getDrawablee(R.drawable.status_search_result_empty), title, content, btnString, listener);
     }
 
     @Override

@@ -45,6 +45,13 @@ public interface BaseView {
     /**
      * 显示进度弹窗
      *
+     * @param tips
+     */
+    void showProgressDialog(String msg);
+
+    /**
+     * 显示进度弹窗
+     *
      * @param percent
      */
     void showProgressDialog(int percent);

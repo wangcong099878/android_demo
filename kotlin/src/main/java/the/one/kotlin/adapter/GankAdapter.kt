@@ -38,7 +38,7 @@ class GankAdapter : BaseQuickAdapter<GankBean, BaseViewHolder>(R.layout.item_hom
 
     override fun convert(helper: BaseViewHolder, item: GankBean) {
         val author = "#" + item.who + "  "
-        helper.setText(R.id.tv_content, StringUtils.SpannableString(author + item.desc, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)))
+        helper.setText(R.id.tv_content, StringUtils.SpannableForegroundColorString(author + item.desc, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)))
         val nineImageLayout = helper.getView<NineImageLayout>(R.id.nine_image)
         if (null == item.images || item.images!!.isEmpty()) {
             if (item.url!!.endsWith(".jpg")) {

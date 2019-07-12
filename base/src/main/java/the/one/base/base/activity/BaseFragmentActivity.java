@@ -51,6 +51,8 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
         super.onCreate(savedInstanceState);
         if (LightMode())
             QMUIStatusBarHelper.setStatusBarLightMode(this);
+        else
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
         if (savedInstanceState == null) {
             BaseFragment fragment = getBaseFragment();
             getSupportFragmentManager()
