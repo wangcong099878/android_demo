@@ -55,9 +55,13 @@ style AppTheme继承BaseTheme
 
 #### 感谢
 
+[QMUI](https://github.com/Tencent/QMUI_Android)
+
+[Gank](http://gank.io/)
+
 [KotlinGankApp](https://github.com/JayGengi/KotlinGankApp)
 
-###第三方库
+#### 第三方库
 
 ```
  'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
