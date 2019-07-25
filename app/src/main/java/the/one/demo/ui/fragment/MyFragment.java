@@ -42,6 +42,11 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish;
 
     @Override
+    protected boolean isNeedAround() {
+        return true;
+    }
+
+    @Override
     protected int getTopLayout() {
         return R.layout.custom_mine_head;
     }

@@ -85,7 +85,7 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
             selects.remove(position);
         else
             selects.put(position, data);
-        notifyDataSetChanged();
+        notifyItemChanged(position);
     }
 
     public void selectAll(boolean all) {
@@ -115,9 +115,15 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
                 .addOnClickListener(R.id.ll_contact)
                 .addOnLongClickListener(R.id.ll_contact);
         SmoothCheckBox smoothCheckBox = helper.getView(R.id.check_box);
-        smoothCheckBox.setVisibility(showCheckBox ? View.VISIBLE : View.GONE);
-        smoothCheckBox.setChecked(selects.containsKey(helper.getAdapterPosition()),false);
-        smoothCheckBox.setEnabled(false);
+
+        if (showCheckBox) {
+            smoothCheckBox.setVisibility(View.VISIBLE);
+            smoothCheckBox.setChecked(selects.containsKey(helper.getAdapterPosition()));
+            smoothCheckBox.setEnabled(false);
+        } else {
+            smoothCheckBox.setVisibility(View.GONE);
+        }
+
         CircleTextView cName = helper.getView(R.id.tv_name);
         String name = item.getName().substring(0, 1);
         cName.setText(name);

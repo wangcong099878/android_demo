@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="config_color">#2BBDF3</color>
-
     <color name="classic_color_1">#f3f9f1</color>
     <color name="classic_color_2">#d6ecf0</color>
     <color name="classic_color_3">#b36d61</color>
@@ -35,5 +33,8 @@
 
 
     <color name="alpha_dark">#88000000</color>
+
+
+    <color name="alpha_white">#66EEEEF0</color>
 
 </resources>

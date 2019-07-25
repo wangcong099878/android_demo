@@ -5,6 +5,10 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
@@ -75,7 +79,12 @@ public class WelfareItemFragment extends BaseDataFragment<GankBean> {
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+        List<GankBean> datas = adapter.getData();
+        ArrayList<String> images = new ArrayList<>();
+        for (GankBean gankBean: datas){
+            images.add(gankBean.getUrl());
+        }
+        PhotoWatchActivity.startThisActivity(_mActivity,view,images,position);
     }
 
     @Override

@@ -27,6 +27,7 @@ import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
@@ -44,7 +45,7 @@ import the.one.base.widge.MyImageSpan;
  * @date 2019/1/7 0007
  * @describe 字符串工具
  * @email 625805189@qq.com
- * @remark
+ * @remark 更多请看 https://blog.csdn.net/u012551350/article/details/51722893
  */
 public class StringUtils {
 
@@ -55,6 +56,7 @@ public class StringUtils {
         UnderlineSpan, // 下划线
         SuperscriptSpan, // 上标
         SubscriptSpan, // 下标
+       RelativeSizeSpan, // 字号
         BOLD, // 粗体
         ITALIC, // 斜体
         BOLD_ITALIC // 粗体加斜体
@@ -175,15 +177,28 @@ public class StringUtils {
         return spannableString;
     }
 
+    public static  SpannableString RelativeSizeSpannableString( String content, String targetString,float fontSize) {
+        return SpannableString(Type.RelativeSizeSpan,content,targetString,-1,fontSize);
+    }
+
+    public static  SpannableString SpannableString(Type type, String content, String targetString) {
+        return SpannableString(type,content,targetString,-1,0);
+    }
+
+    public static  SpannableString SpannableString(Type type, String content, String targetString,int color) {
+        return SpannableString(type,content,targetString,color,0);
+    }
+
     /**
      *
      * @param type
-     * @param content
-     * @param targetString
-     * @param color
+     * @param content 全部内容
+     * @param targetString 需要处理的内容
+     * @param color 颜色 可无
+     * @param fontSize 字体大小 可无
      * @return
      */
-    public static SpannableString SpannableString(Type type, String content, String targetString, int color) {
+    public static SpannableString SpannableString(Type type, String content, String targetString, int color,float fontSize) {
         SpannableString spannableString = new SpannableString(content);
         int start = content.indexOf(targetString);
         int end = start+targetString.length();
@@ -206,6 +221,9 @@ public class StringUtils {
                 break;
             case SubscriptSpan:
                 characterStyle = new SubscriptSpan();
+                break;
+            case RelativeSizeSpan:
+                characterStyle = new RelativeSizeSpan(fontSize);
                 break;
             case BOLD:
                 characterStyle = new StyleSpan(Typeface.BOLD);

@@ -85,7 +85,7 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
                                     }.getType());
                              PageInfoBean pageInfoBean = new PageInfoBean(Constant.COUNT, page );
                             if (type != Constant.WELFARE) {
-                                getView().onComplete(itemData, pageInfoBean,"无"+type+"相关数据");
+                                getView().onComplete(itemData,null,"无"+type+"相关数据");
                             } else
                                 parseSize(context, itemData, null);
                         }

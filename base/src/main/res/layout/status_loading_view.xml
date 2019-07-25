@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loadingStateRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
- <the.one.base.widge.ProgressWheel
+ <ProgressBar
      android:id="@+id/loading_view"
-     android:layout_width="@dimen/progressBar_size"
-     android:layout_height="@dimen/progressBar_size"
-     android:layout_centerInParent="true"
-     app:matProg_barColor="?config_color"
-     app:matProg_progressIndeterminate="true"
-     app:matProg_barWidth="4dp"/>
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
+     android:indeterminateTint="?config_color"
+     android:layout_centerInParent="true" />
 
 </RelativeLayout>

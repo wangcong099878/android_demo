@@ -256,8 +256,13 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         }
     }
 
-    public void startActivity(Class c) {
+    public void startActivityFinishCurrent(Class c,boolean finish) {
         startActivity(new Intent(this, c));
+        if(finish) finish();
+    }
+
+    public void startActivity(Class c) {
+        startActivityFinishCurrent(c,false);
     }
 
     public boolean isNotNullAndEmpty(String content, String tips) {

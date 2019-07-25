@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 
+import com.qmuiteam.qmui.util.QMUIResHelper;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,31 +39,24 @@ public class DatePickerUtil {
         initTimePicker(context, new Date());
         return this;
     }
+
     public DatePickerUtil initNextYearTimePicker(Context context) {
         initTimePicker(context, getNextYearDate());
         return this;
     }
 
     public DatePickerUtil initTimePicker(Context context, Date end) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 1960);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        Date start = calendar.getTime();
-
-        initTimePicker(context, start, end);
+        initTimePicker(context, getMinDate(), end);
         return this;
     }
 
     /**
-     *
      * @param context
-     * @param start  开始日期
-     * @param end  结束日期
+     * @param start   开始日期
+     * @param end     结束日期
      * @return
      */
+    @SuppressLint("ResourceType")
     public DatePickerUtil initTimePicker(Context context, Date start, Date end) {
         this.context = context;
         this.start = start;
@@ -71,15 +66,28 @@ public class DatePickerUtil {
                 .setOk("确定")
                 .setCancel("取消")
                 .setCancelTextColor(Color.RED)
-                .setOkTextColor(context.getResources().getColor(R.color.qmui_config_color_red))
+                .setOkTextColor(context.getResources().getColor(R.color.qmui_config_color_blue))
                 .setTitleTextColor(0xFF999999)
-                .setSelectedTextColor(context.getResources().getColor(R.color.qmui_config_color_blue))
+                .setSelectedTextColor(QMUIResHelper.getAttrColor(context, R.attr.config_color))
                 .setShowType(DateTimePicker.ShowType.DAY);
         return this;
     }
 
     /**
+     * 一周之后的Date
+     *
+     * @return
+     */
+    public Date getNextWeekDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+        return calendar.getTime();
+    }
+
+    /**
      * 一个月之后的Date
+     *
      * @return
      */
     public Date getNextMonthDate() {
@@ -88,8 +96,10 @@ public class DatePickerUtil {
         calendar.add(Calendar.MONTH, 1);
         return calendar.getTime();
     }
+
     /**
-     * 一个月之后的Date
+     * 一年之后的Date
+     *
      * @return
      */
     public Date getNextYearDate() {
@@ -98,7 +108,8 @@ public class DatePickerUtil {
         calendar.add(Calendar.YEAR, 1);
         return calendar.getTime();
     }
-    public Date getMaxDate(){
+
+    public Date getMaxDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2100);
         calendar.set(Calendar.MONTH, 0);
@@ -107,7 +118,8 @@ public class DatePickerUtil {
         calendar.set(Calendar.MINUTE, 0);
         return calendar.getTime();
     }
-    public Date getMinDate(){
+
+    public Date getMinDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 1960);
         calendar.set(Calendar.MONTH, 0);
@@ -115,17 +127,18 @@ public class DatePickerUtil {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         return calendar.getTime();
-        }
-    public void show(String title, DateTimePicker.ResultHandler resultHandler) {
-        show(title,resultHandler,new Date());
     }
 
-    public void show(String title, DateTimePicker.ResultHandler resultHandler,Date showDate) {
+    public void show(String title, DateTimePicker.ResultHandler resultHandler) {
+        show(title, resultHandler, new Date());
+    }
+
+    public void show(String title, DateTimePicker.ResultHandler resultHandler, Date showDate) {
         TBuilder.setTitle(title);
         new DateTimePicker(context, resultHandler, start, end, TBuilder).show(showDate);
     }
 
-    public void show( DateTimePicker.ResultHandler resultHandler) {
-        show("选择日期",resultHandler);
+    public void show(DateTimePicker.ResultHandler resultHandler) {
+        show("选择日期", resultHandler);
     }
 }

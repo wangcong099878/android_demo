@@ -18,9 +18,6 @@ package the.one.base.model;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import the.one.base.Interface.IContacts;
-import the.one.base.util.PinYingUtil;
-
 /**
  * @author The one
  * @date 2019/1/18 0018
@@ -28,7 +25,7 @@ import the.one.base.util.PinYingUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class Contact implements IContacts {
+public class Contact extends LetterSearchSection {
 
     private String name;
 
@@ -40,14 +37,9 @@ public class Contact implements IContacts {
 
     private String address;
 
-    @Override
-    public String getName() {
-        return name;
-    }
 
-    @Override
-    public String getPinYin() {
-        return PinYingUtil.getFirstLetter(name);
+    public Contact(String name) {
+        super(name);
     }
 
     public String getPhone() {

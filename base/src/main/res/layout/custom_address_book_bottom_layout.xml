@@ -8,11 +8,13 @@
             android:id="@+id/tv_left"
             style="@style/custom_bottom_text_style"
             android:text="取 消"
+            android:background="@drawable/qmui_list_item_bg_with_border_top"
             android:textColor="@color/qmui_config_color_gray_3" />
 
         <TextView
             android:id="@+id/tv_right"
             style="@style/custom_bottom_text_style"
+            android:background="@drawable/qmui_list_item_bg_with_border_top"
             android:text="确 定" />
 
 </LinearLayout>

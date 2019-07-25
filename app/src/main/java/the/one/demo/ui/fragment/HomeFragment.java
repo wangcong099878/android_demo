@@ -97,8 +97,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected void requestServer() {
-        presenter.getData(HomePresenter.TYPE_WELFARE);
         presenter.getData(HomePresenter.TYPE_TODAY);
+        presenter.getData(HomePresenter.TYPE_WELFARE);
     }
 
     @Override

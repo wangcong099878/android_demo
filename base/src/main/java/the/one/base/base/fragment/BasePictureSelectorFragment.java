@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -34,6 +35,7 @@ import the.one.base.R;
 import the.one.base.adapter.FullyGridLayoutManager;
 import the.one.base.adapter.GridImageAdapter;
 import the.one.base.base.presenter.BasePresenter;
+import the.one.base.util.SelectPictureUtil;
 
 /**
  * @author The one
@@ -42,13 +44,16 @@ import the.one.base.base.presenter.BasePresenter;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BasePictureSelectorFragment extends BaseFragment implements GridImageAdapter.onAddPicClickListener,GridImageAdapter.OnItemClickListener {
+public class BasePictureSelectorFragment extends BaseFragment implements GridImageAdapter.onAddPicClickListener, BaseQuickAdapter.OnItemClickListener {
 
     protected RecyclerView mRecyclerView;
-    protected GridImageAdapter mAdapter;
     protected List<LocalMedia> mSelectList = new ArrayList<>();
 
-    protected int getMaxSelectNum(){return  9;}
+    protected GridImageAdapter mImageAdapter;
+
+    protected int getMaxSelectNum() {
+        return 9;
+    }
 
     @Override
     protected int getContentViewId() {
@@ -62,62 +67,70 @@ public abstract class BasePictureSelectorFragment extends BaseFragment implement
 
     @Override
     protected void initView(View rootView) {
-        mRecyclerView =  rootView.findViewById(R.id.recycle_view);
+        mRecyclerView = rootView.findViewById(R.id.recycle_view);
+        flTopLayout = rootView.findViewById(R.id.fl_top_layout);
+        flBottomLayout = rootView.findViewById(R.id.fl_bottom_layout);
+        initAroundView();
+
         initLayoutManager();
-        mAdapter = new GridImageAdapter(_mActivity,this);
-        mAdapter.setSelectMax(getMaxSelectNum());
-        mAdapter.setList(mSelectList);
-        mRecyclerView.setAdapter(mAdapter);
+        mImageAdapter = new GridImageAdapter(this);
+        mImageAdapter.setSelectMax(getMaxSelectNum());
+        mImageAdapter.setOnItemClickListener(this);
+        mRecyclerView.setAdapter(mImageAdapter);
+        mImageAdapter.setNewData(mSelectList);
     }
 
-    protected void initLayoutManager(){
-        mRecyclerView.setLayoutManager(new FullyGridLayoutManager(_mActivity,4));
+    protected void initLayoutManager() {
+        mRecyclerView.setLayoutManager(new FullyGridLayoutManager(_mActivity, 4));
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-                switch (requestCode) {
-                    case PictureConfig.CHOOSE_REQUEST:
-                        // 图片选择结果回调
-                        mSelectList = PictureSelector.obtainMultipleResult(data);
-                        // 例如 LocalMedia 里面返回三种path
-                        // 1.media.getPath(); 为原图path
-                        // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                        // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                        // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
-                        onResult();
-                        break;
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    mSelectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回三种path
+                    // 1.media.getPath(); 为原图path
+                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
+                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
+                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+                    onResult();
+                    break;
             }
         }
     }
 
-    protected void onResult(){
-        mAdapter.setList(mSelectList);
-        mAdapter.notifyDataSetChanged();
+    protected void onResult() {
+        mImageAdapter.setNewData(mSelectList);
     }
 
     @Override
-    public void onItemClick(int position, View v) {
-        if (mSelectList.size() > 0) {
-            LocalMedia media = mSelectList.get(position);
-            String pictureType = media.getPictureType();
-            int mediaType = PictureMimeType.pictureToVideo(pictureType);
-            switch (mediaType) {
-                case 1:
-                    // 预览图片 可自定长按保存路径
-                    PictureSelector.create(_mActivity).externalPicturePreview(position,mSelectList);
-                    break;
-                case 2:
-                    // 预览视频
-                    PictureSelector.create(_mActivity).externalPictureVideo(media.getPath());
-                    break;
-                case 3:
-                    // 预览音频
-                    PictureSelector.create(_mActivity).externalPictureAudio(media.getPath());
-                    break;
-            }
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        LocalMedia localMedia = (LocalMedia) adapter.getItem(position);
+        String pictureType = localMedia.getPictureType();
+        int mediaType = PictureMimeType.pictureToVideo(pictureType);
+        switch (mediaType) {
+            case 1:
+                // 预览图片 可自定长按保存路径
+                PictureSelector.create(_mActivity).externalPicturePreview(position, mSelectList);
+                break;
+            case 2:
+                // 预览视频
+                PictureSelector.create(_mActivity).externalPictureVideo(localMedia.getPath());
+                break;
+            case 3:
+                // 预览音频
+                PictureSelector.create(_mActivity).externalPictureAudio(localMedia.getPath());
+                break;
         }
     }
+
+    @Override
+    public void onAddPicClick() {
+        SelectPictureUtil.getInstance().initSelectPicture(this, mSelectList);
+    }
+
 }

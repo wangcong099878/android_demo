@@ -27,10 +27,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -40,6 +38,7 @@ import android.widget.ZoomButtonsController;
 
 import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
 import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -141,17 +140,19 @@ public class BaseWebExplorerFragment extends BaseFragment {
 
         mProgressHandler = new ProgressHandler();
         initTopBar();
-        initWebView();
     }
 
     protected void initTopBar() {
-        mTopBarLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+        mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
+        mTopBarLayout.setBackgroundDividerEnabled(true);
+        mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark,R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        mTopBarLayout.setTitle(mTitle);
+        mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
     }
 
     private void updateTitle(String title) {
@@ -165,7 +166,6 @@ public class BaseWebExplorerFragment extends BaseFragment {
     protected boolean needDispatchSafeAreaInset() {
         return false;
     }
-
     @SuppressLint("JavascriptInterface")
     protected void initWebView() {
         mWebView = new BaseWebView(getContext());
@@ -181,7 +181,6 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mWebViewContainer.setFitsSystemWindows(!needDispatchSafeAreaInset);
         containerLp.topMargin = needDispatchSafeAreaInset ? 0 : QMUIResHelper.getAttrDimen(getContext(), R.attr.qmui_topbar_height);
         mWebViewContainer.setLayoutParams(containerLp);
-
         mWebView.addJavascriptInterface(new MJavascriptInterface(_mActivity), "imagelistener");
         mWebView.setDownloadListener(new DownloadListener() {
             @Override
@@ -222,13 +221,13 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mWebView.requestFocus(View.FOCUS_DOWN);
         setZoomControlGone(mWebView);
         configWebView(mWebViewContainer, mWebView);
-
+        mWebView.loadUrl(mUrl);
     }
 
+
     @Override
-    protected void onEnterAnimationEnd(@Nullable Animation animation) {
-        mWebView.loadUrl(mUrl);
-        super.onEnterAnimationEnd(animation);
+    protected void onLazyInit() {
+       initWebView();
     }
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {

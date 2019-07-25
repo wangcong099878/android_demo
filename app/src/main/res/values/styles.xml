@@ -3,13 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
         <item name="QMUITopBarStyle">@style/QDTopBar</item>
-        <item name="qmui_topbar_height">43dp</item>
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_2</item>
     </style>
 
     <style name="QDTopBar" parent="QMUI.TopBar">
-        <item name="qmui_topbar_image_btn_height">42dp</item>
         <!--更改qmui_topbar_bg_color颜色，如果不为默认的白色，则将字体颜色和下标线颜色更改为白色，详情见BaseTabOnTitleFragment-->
         <!--<item name="qmui_topbar_bg_color">@color/app_color_theme_6</item>-->
         <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_dark</item>

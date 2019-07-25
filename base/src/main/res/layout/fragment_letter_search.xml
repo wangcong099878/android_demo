@@ -5,17 +5,15 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <FrameLayout
-        android:id="@+id/fl_bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/fl_bottom_layout"/>
+        android:layout_height="match_parent"/>
+
+    <com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout
+        android:id="@+id/section_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/tv_letter_overlay"
@@ -34,9 +32,9 @@
         android:layout_width="@dimen/side_letter_bar_width"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:layout_above="@id/fl_bottom_layout"
-        android:layout_marginTop="10dp"
         tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>

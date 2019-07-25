@@ -24,7 +24,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 import com.qmuiteam.qmui.widget.section.QMUISection;
@@ -91,7 +90,6 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
 
     protected abstract void requestServer();
 
-
     @Override
     protected int getContentViewId() {
         return R.layout.fragment_section_layout;
@@ -111,17 +109,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
     }
 
     @Override
-    protected void onEnterAnimationEnd(@Nullable Animation animation) {
-        super.onEnterAnimationEnd(animation);
-        if (onAnimationEndInit()&&!mIsFirstLayInit) {
-            mIsFirstLayInit = true;
-            requestServer();
-        }
-    }
-
-    @Override
     protected void onLazyInit() {
-        if (!onAnimationEndInit())
             requestServer();
     }
 

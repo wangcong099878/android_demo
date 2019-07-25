@@ -60,7 +60,15 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         slidingLayout = view.findViewById(R.id.slidingLayout);
         mGroupListView = view.findViewById(R.id.groupListView);
         mScrollView= view.findViewById(R.id.scrollView);
+        flTopLayout = view.findViewById(R.id.fl_top_layout);
+        flBottomLayout = view.findViewById(R.id.fl_bottom_layout);
+        setCustomLayout(flTopLayout,getTopLayout());
+        setCustomLayout(flBottomLayout,getBottomLayout());
         slidingLayout.setSlidingOffset(0.1f);
+    }
+
+    @Override
+    protected void onLazyInit() {
         addGroupListView();
     }
 
@@ -246,7 +254,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateSwitchItemView(CharSequence title,CompoundButton.OnCheckedChangeListener listener){
-        return CreateSwitchItemView(title,listener);
+        return CreateSwitchItemView(title,"",listener);
     }
 
     /**

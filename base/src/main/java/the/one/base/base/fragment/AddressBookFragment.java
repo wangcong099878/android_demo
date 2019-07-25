@@ -9,8 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -44,13 +47,18 @@ import the.one.base.util.QMUIDialogUtil;
 /**
  * @author The one
  * @date 2019/1/18 0018
- * @describe TODO
+ * @describe 手机联系人列表
  * @email 625805189@qq.com
  * @remark
  */
-public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
+public class AddressBookFragment extends BaseLetterSearchFragment<Contact> implements View.OnClickListener {
 
     protected TextView tvLeft, tvRight;
+
+    @Override
+    protected boolean isNeedAround() {
+        return true;
+    }
 
     @Override
     protected void initView(View rootView) {
@@ -60,6 +68,7 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
         tvLeft = view.findViewById(R.id.tv_left);
         tvRight = view.findViewById(R.id.tv_right);
         flBottomLayout.addView(view, -1, -1);
+        tvRight.setOnClickListener(this);
         goneView(flBottomLayout, tvLeft);
     }
 
@@ -132,17 +141,22 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (mAdapter.isShowCheckBox()) {
-            mAdapter.setSelects(position, getDatas().get(position));
-            mTopLayout.setTitle("已选择" + mAdapter.getSelects().size() + "项");
+            updateSelectSum(position);
         }
     }
 
     @Override
     public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
         mAdapter.setShowCheckBox(true);
-        mAdapter.setSelects(position, getDatas().get(position));
+        updateSelectSum(position);
         initSelectTopBar();
+//        mAdapter.setOnItemChildLongClickListener(null);
         return true;
+    }
+
+    private void updateSelectSum(int position){
+//        mAdapter.setSelects(position, getDatas().get(position));
+        mTopLayout.setTitle("已选择" + mAdapter.getSelects().size() + "项");
     }
 
     @Override
@@ -164,9 +178,9 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
                 mTopLayout.removeAllRightViews();
                 goneView(flBottomLayout);
                 initFragmentBack("联系人");
+//                mAdapter.setOnItemChildLongClickListener(AddressBookFragment.this);
             }
         });
-        mTopLayout.setTitle("已选择1项");
         topRightText = mTopLayout.addRightTextButton("全选", R.id.topbar_right_1);
         topRightText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,11 +189,24 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
                     // 已经是全选状态，点击后变成全不选
                     topRightText.setText("全选");
                     mAdapter.selectAll(false);
+                    tvRight.setEnabled(false);
                 } else {
                     // 已经是全选状态，点击后变成全不选
                     topRightText.setText("全不选");
                     mAdapter.selectAll(true);
+                    tvRight.setEnabled(true);
                 }
+                mTopLayout.setTitle("已选择" + mAdapter.getSelects().size() + "项");
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        QMUIDialogUtil.showLongMessageDialog(_mActivity, "已选择联系人",new ArrayList<>(mAdapter.getSelects().values()).toString(), "确定", new QMUIDialogAction.ActionListener() {
+            @Override
+            public void onClick(QMUIDialog dialog, int index) {
+                dialog.dismiss();
             }
         });
     }

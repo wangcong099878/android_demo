@@ -71,5 +71,4 @@ public class HomeAdapter extends BaseSectionAdapter<HomeHeadSection, HomeItemSec
             nineImageLayout.setUrlList(itemSection.images);
     }
 
-
 }

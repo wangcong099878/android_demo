@@ -21,7 +21,9 @@ public class Constant {
     public static final String JAPAN = "japan";
     public static final String TAIWAN = "taiwan";
     public static final String MM = "mm";
-    public static final String SHARE = "share";
+    public static final String ZIPAI = "zipai";
+    public static final String JIEPAI = "jiepai";
+    public static final String BEST = "best";
 
     public static final String TODAY = GANK_API + "today";
 
@@ -37,10 +39,9 @@ public class Constant {
     public static String[] title = { Constant.ANDROID, Constant.APP,
             Constant.IOS, Constant.EXTENSION, Constant.RECOMMEND, Constant.FRONT, Constant.RELAX,Constant.WELFARE};
 
-    public static String[] welfareTitle = { "火热","火热","火热","火热","火热","火热",};
+    public static String[] welfareTitle = { "推荐","火热","性感","清纯","日本","台湾","自拍","街拍"};
 
-    public static String[] welfareUrl = { Constant.HOT, Constant.XING_GAN,
-            Constant.JAPAN, Constant.TAIWAN, Constant.MM, Constant.SHARE};
+    public static String[] welfareUrl = { BEST,HOT, XING_GAN, MM, JAPAN, TAIWAN, ZIPAI,JIEPAI};
 
     public static final int COUNT = 20;
 

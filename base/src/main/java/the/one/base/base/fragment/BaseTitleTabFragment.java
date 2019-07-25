@@ -40,6 +40,7 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
 
     @Override
     protected void initView(View rootView) {
+        mTopLayout.setBackgroundDividerEnabled(false);
         mViewPager = rootView.findViewById(R.id.view_pager);
         mTabSegment = rootView.findViewById(R.id.tab_segment);
         super.initView(rootView);

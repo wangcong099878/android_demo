@@ -1,11 +1,8 @@
-package the.one.demo.ui.simple;
+package the.one.demo.ui.simple.activity;
 
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import butterknife.OnClick;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BasePopupLayoutFragment;
+import the.one.base.base.activity.BaseCameraPermissionActivity;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.R;
 
@@ -30,31 +27,30 @@ import the.one.demo.R;
 
 /**
  * @author The one
- * @date 2019/5/14 0014
+ * @date 2019/7/16 0016
  * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public class PopupLayoutFragment extends BaseFragment {
+public class CameraSamplePermissionActivity extends BaseCameraPermissionActivity {
+
+    @Override
+    protected void onGranted() {
+        // 把需要拥有权限才能做的操作放在这里
+        showToast("权限已拥有");
+    }
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_pupup_layout;
+        return R.layout.activity_camera;
+    }
+
+    @Override
+    protected void initView(View mRootView) {
     }
 
     @Override
     public BasePresenter getPresenter() {
         return null;
-    }
-
-    @Override
-    protected void initView(View rootView) {
-    }
-
-    @OnClick(R.id.click)
-    public void onViewClicked() {
-        FragmentManager manager = getChildFragmentManager();
-        BasePopupLayoutFragment fragment = new BasePopupLayoutFragment();
-        fragment.show(manager,TAG);
     }
 }

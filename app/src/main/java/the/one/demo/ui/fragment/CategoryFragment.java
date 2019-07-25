@@ -39,7 +39,7 @@ public class CategoryFragment extends BaseTitleTabFragment {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-//        把继承改为BaseTabOnTitleFragment注释掉下面的代码
+//        把继承改为BaseTabOnTitleFragment注释掉下面的代码试试
         mTopLayout.setTitle("GankType").getPaint().setFakeBoldText(true);
         mTopLayout.setBackgroundDividerEnabled(false);
     }

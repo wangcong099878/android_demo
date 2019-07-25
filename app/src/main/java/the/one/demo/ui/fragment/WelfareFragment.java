@@ -41,7 +41,6 @@ public class WelfareFragment extends BaseTitleTabFragment {
         super.initView(rootView);
 //        把继承改为BaseTabOnTitleFragment注释掉下面的代码
         mTopLayout.setTitle("福利").getPaint().setFakeBoldText(true);
-        mTopLayout.setBackgroundDividerEnabled(false);
     }
 
     @Override

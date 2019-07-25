@@ -24,14 +24,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import the.one.base.Interface.ReadContactCompleteListener;
 import the.one.base.model.Contact;
@@ -44,13 +39,6 @@ import the.one.base.model.Contact;
  * @remark
  */
 public class ContactUtil {
-
-    // 号码
-    public final static String NUM = ContactsContract.CommonDataKinds.Phone.NUMBER;
-    // 联系人姓名
-    public final static String NAME = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME;
-    //联系人提供者的uri
-    private Uri phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
     private static ContactUtil contactUtil;
 
@@ -69,7 +57,6 @@ public class ContactUtil {
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
         List<Contact> list = new ArrayList<Contact>();
         while (cursor.moveToNext()) {
-            Contact contact = new Contact();
             StringBuilder sb = new StringBuilder();
             //获取联系人的ID
             String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
@@ -77,7 +64,7 @@ public class ContactUtil {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             //构造联系人信息
             sb.append("contactId=").append(contactId).append(",Name=").append(name);
-            contact.setName(name);
+            Contact contact = new Contact(name);
             String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));//联系人ID
 
             //查询电话类型的数据操作

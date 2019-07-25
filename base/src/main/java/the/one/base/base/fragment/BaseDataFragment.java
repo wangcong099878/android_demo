@@ -18,13 +18,11 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.view.animation.Animation;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUICenterGravityRefreshOffsetCalculator;
@@ -46,7 +44,7 @@ import the.one.net.entity.PageInfoBean;
  * @remark
  */
 public abstract class BaseDataFragment<T> extends BaseFragment
-        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener,QMUIPullRefreshLayout.OnPullListener {
+        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener, QMUIPullRefreshLayout.OnPullListener {
 
     /**
      * List
@@ -155,18 +153,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     }
 
     @Override
-    protected void onEnterAnimationEnd(@Nullable Animation animation) {
-        super.onEnterAnimationEnd(animation);
-        if (onAnimationEndInit() && !mIsFirstLayInit) {
-            mIsFirstLayInit = true;
-            refresh();
-        }
-    }
-
-    @Override
     protected void onLazyInit() {
-        if (!onAnimationEndInit())
-            refresh();
+        refresh();
     }
 
     @Override

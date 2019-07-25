@@ -21,31 +21,25 @@ package the.one.base.base.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import the.one.base.util.ToastUtil;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 /**
  * @author The one
  * @date 2019/6/5 0005
- * @describe 包含相机操作
+ * @describe 包含相机权限操作，相机相关的界面可以继承此Activity
  * @email 625805189@qq.com
  * @remark
  */
-/**
- * @author The one
- * @date 2019/6/5 0005
- * @describe TODO
- * @email 625805189@qq.com
- * @remark
- */
-public abstract class BaseCameraActivity extends BaseActivity {
 
-    private final int GET_PERMISSION_REQUEST = 100; //权限申请自定义码
+public abstract class BaseCameraPermissionActivity extends BaseActivity {
+
+    protected final int GET_PERMISSION_REQUEST = 100; //权限申请自定义码
     protected boolean granted = false;
 
     protected abstract void onGranted();
@@ -56,21 +50,20 @@ public abstract class BaseCameraActivity extends BaseActivity {
         requestPermission();
     }
 
-    protected void requestPermission(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                //具有权限
-                granted = true;
-            } else {
-                //不具有获取权限，需要进行权限申请
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.CAMERA}, GET_PERMISSION_REQUEST);
-                granted = false;
-            }
+    protected void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            //具有权限
+            granted = true;
+            onGranted();
+        } else {
+            //不具有获取权限，需要进行权限申请
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.CAMERA}, GET_PERMISSION_REQUEST);
+            granted = false;
         }
     }
 
@@ -102,9 +95,17 @@ public abstract class BaseCameraActivity extends BaseActivity {
                 if (size == 0) {
                     granted = true;
                     onGranted();
-                }else{
-                    ToastUtil.showToast(BaseCameraActivity.this,"权限被禁止，请到设置中打开");
-                    finish();
+                } else {
+                    new QMUIDialog.MessageDialogBuilder(this)
+                            .setTitle("提示")
+                            .setMessage("权限被禁止，请到设置中打开")
+                            .addAction(0, "退出", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
+                                @Override
+                                public void onClick(QMUIDialog dialog, int index) {
+                                    finish();
+                                }
+                            })
+                            .show();
                 }
             }
         }
