@@ -80,4 +80,6 @@ style AppTheme继承BaseTheme
  'top.androidman:superbutton:1.1.0'
 ```
 
+还有一些为了自定义，集成到了项目里，所以并没有在依赖里出现，但是都保留原作者信息。
+
 
