@@ -146,4 +146,14 @@
 
     </declare-styleable>
 
+    <declare-styleable name="WheelView">
+        <attr name="wh_max_text_size" format="dimension"/>
+        <attr name="wh_min_text_size" format="dimension"/>
+        <attr name="wh_max_text_alpha" format="integer"/>
+        <attr name="wh_min_text_alpha" format="integer"/>
+        <attr name="wh_text_color" format="color|dimension"/>
+        <attr name="wh_selected_text_color" format="color|dimension"/>
+        <attr name="wh_text_space_ratio" format="float"/>
+    </declare-styleable>
+
 </resources>
