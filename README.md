@@ -12,7 +12,6 @@
 allprojects {
     repositories {
         maven { url 'https://jitpack.io' }
-        maven { url "https://dl.bintray.com/justinquote/maven" }
         google()
         jcenter()
     }
@@ -40,6 +39,8 @@ style AppTheme继承BaseTheme
 -dontwarn the.one.base.**
 -keep class the.one.base.** { *; }
 -keep class the.one.net.** { *; }
+
+
 ```
 
 #### Demo
@@ -54,6 +55,31 @@ style AppTheme继承BaseTheme
 
 #### 感谢
 
+[QMUI](https://github.com/Tencent/QMUI_Android)
+
+[Gank](http://gank.io/)
+
 [KotlinGankApp](https://github.com/JayGengi/KotlinGankApp)
+
+#### 第三方库
+
+```
+ 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
+ 'homhomlin.lib:sldinglayout:0.9.0'
+ 'com.github.bumptech.glide:glide:4.8.0'
+ 'com.jakewharton:butterknife:8.8.1'
+ 'org.greenrobot:eventbus:3.1.1'
+ 'com.belerweb:pinyin4j:2.5.1'
+ 'com.android.support:multidex:1.0.3'
+ 'com.github.tbruyelle:rxpermissions:0.10.2'
+ 'com.ms-square:expandableTextView:0.1.4'
+ 'com.github.chrisbanes:PhotoView:2.0.0'
+ 'com.orhanobut:logger:2.2.0'
+ 'com.wkp:StickLayout:1.0.6'
+ 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+ 'top.androidman:superbutton:1.1.0'
+```
+
+还有一些为了自定义，集成到了项目里，所以并没有在依赖里出现，但是都保留原作者信息。
 
 
