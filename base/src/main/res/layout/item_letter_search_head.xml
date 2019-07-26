@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<the.one.base.widge.CircleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qmuiteam.qmui.layout.QMUILinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tv_section"
-    app:backColor="@color/qmui_config_color_red"
-    tools:text="E"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="12dp"
-    android:focusable="false"
-    android:padding="8dp"
-    android:textColor="@color/qmui_config_color_white"
-    android:textSize="12sp" />
+    android:layout_width="match_parent"
+    android:background="@color/qmui_config_color_white"
+    android:layout_height="wrap_content">
+
+    <the.one.base.widge.CircleTextView
+        android:id="@+id/tv_section"
+        app:backColor="@color/qmui_config_color_red"
+        tools:text="E"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:focusable="false"
+        android:padding="8dp"
+        android:textColor="@color/qmui_config_color_white"
+        android:textSize="12sp" />
+
+</com.qmuiteam.qmui.layout.QMUILinearLayout>
+
+
 

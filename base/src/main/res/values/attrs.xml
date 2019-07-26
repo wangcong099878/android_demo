@@ -4,6 +4,8 @@
     <attr name="config_color" format="color" />
     <attr name="checked_color" format="color" />
 
+
+
     <declare-styleable name="StatusLayout">
         <attr name="loadingProgressBarWidth" format="dimension" />
         <attr name="loadingProgressBarHeight" format="dimension" />

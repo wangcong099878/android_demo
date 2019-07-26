@@ -10,6 +10,8 @@
     <dimen name="top_tab_height">42dp</dimen>
 
     <dimen name="side_letter_bar_letter_size">12sp</dimen>
-    <dimen name="side_letter_bar_width">36dp</dimen>
+    <dimen name="side_letter_bar_width">30dp</dimen>
+    <dimen name="letter_overlay_margin">60dp</dimen>
     <dimen name="city_text_size">17sp</dimen>
+
 </resources>

@@ -4,7 +4,6 @@ import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.fragment.AddressBookFragment;
 import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.base.base.fragment.BaseWebExplorerFragment;
 import the.one.demo.ui.simple.activity.CameraSamplePermissionActivity;
@@ -89,7 +88,7 @@ public class SimpleFragment extends BaseGroupListFragment {
         }else if(v == DATE_PICKER){
             startFragment(new DatePickerFragment());
         }else if(v == LETTER_SEARCH){
-            startFragment(new AddressBookFragment());
+            startFragment(new LetterSearchFragment());
         }else if(v == ROUND_CHECK_BOX){
             startFragment(new TheCheckBoxFragment());
         }

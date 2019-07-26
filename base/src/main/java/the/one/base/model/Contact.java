@@ -27,8 +27,6 @@ package the.one.base.model;
  */
 public class Contact extends LetterSearchSection {
 
-    private String name;
-
     private String phone;
 
     private String company;
@@ -37,17 +35,12 @@ public class Contact extends LetterSearchSection {
 
     private String address;
 
-
     public Contact(String name) {
         super(name);
     }
 
     public String getPhone() {
         return phone;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setPhone(String phones) {

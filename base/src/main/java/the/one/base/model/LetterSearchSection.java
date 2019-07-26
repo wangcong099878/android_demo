@@ -33,6 +33,9 @@ import the.one.base.util.PinYingUtil;
 public class LetterSearchSection implements QMUISection.Model<LetterSearchSection>,IContacts {
 
     public String name;
+    private String pinyin = null;
+    private String firstPinYin = null;
+    public int position;
 
     public LetterSearchSection(String name) {
         this.name = name;
@@ -60,6 +63,17 @@ public class LetterSearchSection implements QMUISection.Model<LetterSearchSectio
 
     @Override
     public String getPinYin() {
-        return PinYingUtil.getFirstLetter(name);
+        if(null == pinyin){
+            pinyin = PinYingUtil.converterToSpell(name);
+        }
+        return pinyin;
+    }
+
+    @Override
+    public String getFirstPinYin() {
+        if(null == firstPinYin){
+            firstPinYin = PinYingUtil.getFirstLetter(name);
+        }
+        return firstPinYin;
     }
 }

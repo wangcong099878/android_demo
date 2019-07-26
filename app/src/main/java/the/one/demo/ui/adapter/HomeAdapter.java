@@ -43,7 +43,7 @@ import the.one.demo.ui.bean.HomeItemSection;
 public class HomeAdapter extends BaseSectionAdapter<HomeHeadSection, HomeItemSection> {
 
     public HomeAdapter() {
-        super(R.layout.item_home_item, R.layout.item_home_head);
+        super(R.layout.item_home_head,R.layout.item_home_item);
     }
 
     @Override

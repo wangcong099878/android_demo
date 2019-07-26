@@ -1,9 +1,6 @@
 package the.one.base.util;
 
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -21,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class PinYingUtil {
 
+    private static final String TAG = "PinYingUtil";
+    
     /**
      * 汉字转换位汉语拼音首字母，英文字符不变，特殊字符丢失 支持多音字，生成方式如（长沙市长:cssc,zssz,zssc,cssz）
      *
@@ -192,8 +191,7 @@ public class PinYingUtil {
      * @return
      */
     public static String getFirstLetter(final String chines){
-        String pinyin = PinYingUtil.converterToSpell(chines);
-        if (TextUtils.isEmpty(pinyin)) return "#";
+        String pinyin = PinYingUtil.converterToSpell(chines.trim());
         String c = pinyin.substring(0, 1);
         Pattern pattern = Pattern.compile("^[A-Za-z]+$");
         if (pattern.matcher(c).matches()){

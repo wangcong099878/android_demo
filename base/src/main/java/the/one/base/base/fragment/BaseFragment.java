@@ -294,14 +294,14 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return findViewByCustomView(flTopLayout, id);
     }
     protected final <T extends View> T findViewByLeftView(@IdRes int id) {
-        return findViewByCustomView(flTopLayout, id);
+        return findViewByCustomView(flLeftLayout, id);
     }
     protected final <T extends View> T findViewByRightView(@IdRes int id) {
-        return findViewByCustomView(flTopLayout, id);
+        return findViewByCustomView(flRightLayout, id);
     }
 
     protected final <T extends View> T findViewByBottomView(@IdRes int id) {
-        return findViewByCustomView(flTopLayout, id);
+        return findViewByCustomView(flBottomLayout, id);
     }
 
     protected final <T extends View> T findViewByCustomView(View around,@IdRes int id) {

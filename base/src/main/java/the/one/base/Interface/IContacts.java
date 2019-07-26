@@ -5,4 +5,6 @@ public interface IContacts {
     String getName();
 
     String getPinYin();
+
+    String getFirstPinYin();
 }
