@@ -24,7 +24,7 @@ public class BingoActivity extends BaseActivity {
 
     private Thread mThread;
     private int fireWidth, fireHeight;
-    private int time = 1000;
+    private int time = 1500;
 
     private void initData() {
         fireWidth = QMUIDisplayHelper.getScreenWidth(this) / 2;

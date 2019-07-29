@@ -32,5 +32,4 @@ dependencies {
     implementation 'com.github.forvv231:EasyNavigation:1.0.2'
     implementation 'com.moxun:tagcloudlib:1.1.3'
 
-
 }

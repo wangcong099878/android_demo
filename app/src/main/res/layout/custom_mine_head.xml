@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="30dp"
+    android:paddingBottom="30dp"
     android:background="@color/qmui_config_color_white">
 
     <ImageView
+        android:id="@+id/iv_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"

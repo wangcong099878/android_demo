@@ -9,6 +9,7 @@ import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.base.base.fragment.BaseWebExplorerFragment;
 import the.one.demo.Constant;
 import the.one.demo.R;
+import the.one.demo.ui.activity.BingoActivity;
 import the.one.demo.ui.simple.SimpleFragment;
 
 
@@ -39,7 +40,7 @@ import the.one.demo.ui.simple.SimpleFragment;
  */
 public class MyFragment extends BaseGroupListFragment implements View.OnClickListener {
 
-    QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish;
+    QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
 
     @Override
     protected boolean isNeedAround() {
@@ -53,7 +54,8 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
 
     @Override
     protected void addGroupListView() {
-        goneView(mTopLayout);
+        mTopLayout.setBackgroundDividerEnabled(false);
+        mTopLayout.addLeftTextButton("",R.id.topbar_left_text).setOnClickListener(this);
         slidingLayout.setSlidingMode(SlidingLayout.SLIDING_MODE_TOP);
         Gank = CreateNormalItemView("Gank.io");
         Copy = CreateNormalItemView("KotlinGankApp");
@@ -61,13 +63,14 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         Adapter = CreateDetailItemView("BaseRecyclerViewAdapterHelper", "适配器大佬");
         NineGrid = CreateDetailItemView("NineGridLayout", "仿朋友圈九宫格图片显示");
 
+        Sample = CreateNormalItemView("使用示例");
         Publish = CreateNormalItemView("发布");
 
-        flTopLayout.setOnClickListener(this);
+        findViewByTopView(R.id.iv_icon).setOnClickListener(this);
 
         addToGroup("感谢", Gank, Copy);
         addToGroup("第三方", QMUI, Adapter, NineGrid);
-        addToGroup("", Publish);
+        addToGroup("",Sample);
 
     }
 
@@ -90,11 +93,21 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
             } else if (view == Publish) {
                 startFragment(new PublishFragment());
                 return;
+            }else if(view == Sample){
+                startFragment(new SimpleFragment());
+                return;
             }
             startFragment(BaseWebExplorerFragment.newInstance(title, url));
             return;
         }
-        startFragment(new SimpleFragment());
+        switch (view.getId()) {
+            case R.id.iv_icon:
+                startFragment(BaseWebExplorerFragment.newInstance(title, url));
+                break;
+            case R.id.topbar_left_text:
+                BingoActivity.startThisActivity(_mActivity);
+                break;
+        }
     }
 
 }
