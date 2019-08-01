@@ -1,4 +1,4 @@
-package the.one.demo.ui.simple;
+package the.one.demo.ui.sample;
 
 import android.view.View;
 
@@ -6,7 +6,7 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.base.base.fragment.BaseWebExplorerFragment;
-import the.one.demo.ui.simple.activity.CameraSamplePermissionActivity;
+import the.one.demo.ui.sample.activity.CameraSamplePermissionActivity;
 
 
 //  ┏┓　　　┏┓
@@ -34,7 +34,7 @@ import the.one.demo.ui.simple.activity.CameraSamplePermissionActivity;
  * @email 625805189@qq.com
  * @remark
  */
-public class SimpleFragment extends BaseGroupListFragment {
+public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,
             PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL,PROGRESS_DIALOG,CAMERA,DATE_PICKER,LETTER_SEARCH,

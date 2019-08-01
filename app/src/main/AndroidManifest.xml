@@ -38,7 +38,7 @@
 
         <activity android:name=".ui.activity.StatusBarActivity"/>
 
-        <activity android:name=".ui.simple.activity.CameraSamplePermissionActivity" />
+        <activity android:name=".ui.sample.activity.CameraSamplePermissionActivity" />
 
     </application>
 

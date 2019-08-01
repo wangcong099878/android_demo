@@ -61,16 +61,11 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         mGroupListView = view.findViewById(R.id.groupListView);
         mScrollView= view.findViewById(R.id.scrollView);
         flTopLayout = view.findViewById(R.id.fl_top_layout);
-        flBottomLayout = view.findViewById(R.id.fl_bottom_layout);
         setCustomLayout(flTopLayout,getTopLayout());
-        setCustomLayout(flBottomLayout,getBottomLayout());
         slidingLayout.setSlidingOffset(0.1f);
-    }
-
-    @Override
-    protected void onLazyInit() {
         addGroupListView();
     }
+
 
     /**
      * @param title       section 标题

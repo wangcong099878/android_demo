@@ -24,7 +24,7 @@ public class BingoActivity extends BaseActivity {
 
     private Thread mThread;
     private int fireWidth, fireHeight;
-    private int time = 1500;
+    private int time = 1000;
 
     private void initData() {
         fireWidth = QMUIDisplayHelper.getScreenWidth(this) / 2;
@@ -43,7 +43,7 @@ public class BingoActivity extends BaseActivity {
                         Random random = new Random();
                         final float x = fireWidth / 2 + random.nextInt(fireWidth);
                         final float y = fireHeight / 3 + random.nextInt(fireHeight);
-                        time = 500 + random.nextInt(500);
+                        time = 800 + random.nextInt(500);
                         final int type = random.nextInt(5);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -121,6 +121,5 @@ public class BingoActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mThread.interrupt();
-//        mHandler = null;
     }
 }

@@ -1,4 +1,4 @@
-package the.one.demo.ui.simple;
+package the.one.demo.ui.sample;
 
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;

@@ -1,4 +1,4 @@
-package the.one.demo.ui.simple;
+package the.one.demo.ui.sample;
 
 import android.util.Log;
 import android.view.View;

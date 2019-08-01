@@ -1,4 +1,4 @@
-package the.one.demo.ui.simple;
+package the.one.demo.ui.sample;
 
 import android.support.v4.app.FragmentManager;
 import android.view.View;

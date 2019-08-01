@@ -10,7 +10,7 @@ import the.one.base.base.fragment.BaseWebExplorerFragment;
 import the.one.demo.Constant;
 import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
-import the.one.demo.ui.simple.SimpleFragment;
+import the.one.demo.ui.sample.SampleFragment;
 
 
 //  ┏┓　　　┏┓
@@ -94,7 +94,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 startFragment(new PublishFragment());
                 return;
             }else if(view == Sample){
-                startFragment(new SimpleFragment());
+                startFragment(new SampleFragment());
                 return;
             }
             startFragment(BaseWebExplorerFragment.newInstance(title, url));

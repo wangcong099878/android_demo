@@ -34,7 +34,7 @@ public class IndexActivity extends BaseFragmentActivity {
 
     @Override
     protected boolean LightMode() {
-        return true;
+        return false;
     }
 
     @Override

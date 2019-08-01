@@ -15,7 +15,7 @@ import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
 import the.one.demo.ui.adapter.TagCloudAdapter;
 import the.one.demo.ui.bean.Thanks;
-import the.one.demo.ui.simple.SimpleFragment;
+import the.one.demo.ui.sample.SampleFragment;
 
 public class ThanksFragment extends BaseFragment {
 
@@ -45,7 +45,7 @@ public class ThanksFragment extends BaseFragment {
         mTopLayout.addRightImageButton(R.drawable.mz_titlebar_ic_list_dark,R.id.topbar_right_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startFragment(new SimpleFragment());
+                startFragment(new SampleFragment());
             }
         });
         List<Thanks> thanks = new ArrayList<>();

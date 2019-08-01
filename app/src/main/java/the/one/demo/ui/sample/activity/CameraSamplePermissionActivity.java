@@ -1,4 +1,4 @@
-package the.one.demo.ui.simple.activity;
+package the.one.demo.ui.sample.activity;
 
 import android.view.View;
 

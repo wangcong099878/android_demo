@@ -144,8 +144,8 @@ public class BaseWebExplorerFragment extends BaseFragment {
 
     protected void initTopBar() {
         QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-        mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
         mTopBarLayout.setBackgroundDividerEnabled(true);
+        mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
         mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark,R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

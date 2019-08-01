@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="BaseTheme">
         <item name="QMUITopBarStyle">@style/QDTopBar</item>
         <!--主色调-->
-        <item name="config_color">@color/app_color_theme_2</item>
+        <item name="config_color">@color/app_color_theme_6</item>
     </style>
 
     <style name="QDTopBar" parent="QMUI.TopBar">
