@@ -88,7 +88,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     public PageInfoBean pageInfoBean;
     public String empty_str = "无数据";
-    public String footer_end = "没有更多了";
 
     public int page = 1;
     public boolean isFirst = true;
@@ -97,7 +96,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     @Override
     protected int getContentViewId() {
-        return R.layout.base_recyleview;
+        return R.layout.base_recyclerview;
     }
 
     @Override
