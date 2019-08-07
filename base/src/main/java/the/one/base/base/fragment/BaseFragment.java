@@ -362,7 +362,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToast(getActivity(), msg);
+        ToastUtil.showToast(msg);
     }
 
     @Override

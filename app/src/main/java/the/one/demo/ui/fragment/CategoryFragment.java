@@ -1,12 +1,14 @@
 package the.one.demo.ui.fragment;
 
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BaseTitleTabFragment;
 import the.one.demo.Constant;
+import the.one.demo.R;
 
 
 //  ┏┓　　　┏┓
@@ -40,7 +42,9 @@ public class CategoryFragment extends BaseTitleTabFragment {
     protected void initView(View rootView) {
         super.initView(rootView);
 //        把继承改为BaseTabOnTitleFragment注释掉下面的代码试试
-        mTopLayout.setTitle("GankType").getPaint().setFakeBoldText(true);
+        TextView mTitle =  mTopLayout.setTitle("GankType");
+        mTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+        mTitle.getPaint().setFakeBoldText(true);
         mTopLayout.setBackgroundDividerEnabled(false);
     }
 

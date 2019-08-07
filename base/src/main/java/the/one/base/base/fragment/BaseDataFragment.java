@@ -98,7 +98,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     protected int getContentViewId() {
         return R.layout.base_recyclerview;
     }
-
+    
     @Override
     protected void initView(View rootView) {
         recycleView = rootView.findViewById(R.id.recycle_view);
@@ -128,11 +128,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
             pullLayout.setOnPullListener(this);
         }
-
         initRecycleView(recycleView, setType(), adapter);
-
     }
-
 
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
         switch (type) {

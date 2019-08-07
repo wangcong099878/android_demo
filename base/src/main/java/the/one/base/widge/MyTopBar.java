@@ -120,6 +120,9 @@ public class MyTopBar extends RelativeLayout {
     private int mTopbarHeight = -1;
     private Rect mTitleContainerRect;
 
+
+    private boolean isNoBackground = false;
+
     public MyTopBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initVar();
@@ -170,7 +173,12 @@ public class MyTopBar extends RelativeLayout {
         boolean hasSeparator = array.getBoolean(R.styleable.QMUITopBar_qmui_topbar_need_separator, true);
         array.recycle();
 
-        setBackgroundDividerEnabled(hasSeparator);
+
+        Drawable bgDrawable =  getBackground();
+        isNoBackground= null == bgDrawable;
+        if(isNoBackground){
+            setBackgroundDividerEnabled(hasSeparator);
+        }
     }
 
     void getCommonFieldFormTypedArray(Context context, TypedArray array) {

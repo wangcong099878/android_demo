@@ -12,7 +12,7 @@ import com.moxun.tagcloudlib.view.TagsAdapter;
 import java.util.List;
 
 import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseWebExplorerFragment;
+import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.demo.R;
 import the.one.demo.ui.bean.Thanks;
 
@@ -74,7 +74,7 @@ public class TagCloudAdapter extends TagsAdapter {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment.startBrotherFragment(BaseWebExplorerFragment.newInstance(thank.name,thank.url));
+                BaseWebExplorerActivity.newInstance(fragment.getActivity(),thank.name,thank.url);
             }
         });
         return tv;

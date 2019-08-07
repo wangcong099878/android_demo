@@ -5,7 +5,7 @@ import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
 import the.one.base.base.activity.PhotoWatchActivity
 import the.one.base.base.fragment.BaseDataFragment
-import the.one.base.base.fragment.BaseWebExplorerFragment
+import the.one.base.base.activity.BaseWebExplorerActivity
 import the.one.base.base.presenter.BasePresenter
 import the.one.base.constant.DataConstant
 import the.one.kotlin.Constant
@@ -72,7 +72,7 @@ class GankFragment : BaseDataFragment<GankBean>() {
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
         if (!isWelfare) {
             val bean = adapter.getItem(position) as GankBean?
-            startFragment(BaseWebExplorerFragment.newInstance( bean!!.desc, bean!!.url))
+            BaseWebExplorerActivity.newInstance(_mActivity, bean!!.desc, bean!!.url)
         } else {
             val datas = adapter.data as List<GankBean>
             val images = ArrayList<String>()

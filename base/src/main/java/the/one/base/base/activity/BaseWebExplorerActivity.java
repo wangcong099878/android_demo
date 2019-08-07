@@ -1,4 +1,4 @@
-package the.one.base.base.fragment;
+package the.one.base.base.activity;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -23,8 +23,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -33,6 +33,7 @@ import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ZoomButtonsController;
 
@@ -40,7 +41,6 @@ import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
-import com.qmuiteam.qmui.widget.QMUITopBarLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.webview.QMUIWebView;
@@ -53,9 +53,9 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import the.one.base.R;
-import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.widge.BaseWebView;
+import the.one.base.widge.MyTopBarLayout;
 
 /**
  * @author The one
@@ -64,14 +64,14 @@ import the.one.base.widge.BaseWebView;
  * @email 625805189@qq.com
  * @remark
  */
-public class BaseWebExplorerFragment extends BaseFragment {
+public class BaseWebExplorerActivity extends BaseActivity {
 
     public static final String EXTRA_URL = "EXTRA_URL";
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
     public static final String EXTRA_NEED_DECODE = "EXTRA_NEED_DECODE";
     public static final String EXTRA_CHANGE_TITLE = "EXTRA_CHANGE_TITLE";
 
-    protected QMUITopBarLayout mTopBarLayout;
+    protected MyTopBarLayout mTopBarLayout;
     protected QMUIWebViewContainer mWebViewContainer;
     protected QMUIProgressBar mProgressBar;
     private BaseWebView mWebView;
@@ -87,28 +87,21 @@ public class BaseWebExplorerFragment extends BaseFragment {
     private boolean mNeedDecodeUrl = false;
     private boolean mIsChangeTitle = true;
 
-    public static BaseWebExplorerFragment newInstance(String title, String url) {
-        return newInstance(title, url, true, true);
+    public static void newInstance(Activity activity, String title, String url) {
+        newInstance(activity, title, url, true, true);
     }
 
-    public static BaseWebExplorerFragment newInstance(String title, String url, boolean changeTitle) {
-        return newInstance(title, url, true, changeTitle);
+    public static void newInstance(Activity activity, String title, String url, boolean changeTitle) {
+        newInstance(activity, title, url, true, changeTitle);
     }
 
-    public static BaseWebExplorerFragment newInstance(String title, String url, boolean needDecodeUrl, boolean changeTitle) {
-        BaseWebExplorerFragment fragment = new BaseWebExplorerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_TITLE, title);
-        bundle.putString(EXTRA_URL, url);
-        bundle.putBoolean(EXTRA_NEED_DECODE, needDecodeUrl);
-        bundle.putBoolean(EXTRA_CHANGE_TITLE, changeTitle);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Override
-    protected boolean showTitleBar() {
-        return false;
+    public static void newInstance(Activity activity, String title, String url, boolean needDecodeUrl, boolean changeTitle) {
+        Intent intent = new Intent(activity, BaseWebExplorerActivity.class);
+        intent.putExtra(EXTRA_TITLE, title);
+        intent.putExtra(EXTRA_URL, url);
+        intent.putExtra(EXTRA_NEED_DECODE, needDecodeUrl);
+        intent.putExtra(EXTRA_CHANGE_TITLE, changeTitle);
+        activity.startActivity(intent);
     }
 
     @Override
@@ -123,12 +116,12 @@ public class BaseWebExplorerFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String url = bundle.getString(EXTRA_URL);
-            mTitle = bundle.getString(EXTRA_TITLE);
-            mNeedDecodeUrl = bundle.getBoolean(EXTRA_NEED_DECODE, false);
-            mIsChangeTitle = bundle.getBoolean(EXTRA_CHANGE_TITLE, true);
+        Intent intent = getIntent();
+        if (intent != null) {
+            String url = intent.getStringExtra(EXTRA_URL);
+            mTitle = intent.getStringExtra(EXTRA_TITLE);
+            mNeedDecodeUrl = intent.getBooleanExtra(EXTRA_NEED_DECODE, false);
+            mIsChangeTitle = intent.getBooleanExtra(EXTRA_CHANGE_TITLE, true);
             if (url != null && url.length() > 0) {
                 handleUrl(url);
             }
@@ -142,16 +135,26 @@ public class BaseWebExplorerFragment extends BaseFragment {
         initTopBar();
     }
 
+    private Button mCloseBtn;
+
     protected void initTopBar() {
-        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
         mTopBarLayout.setBackgroundDividerEnabled(true);
         mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
-        mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark,R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+        mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                doOnBackPressed();
             }
         });
+        mCloseBtn = mTopBarLayout.addLeftTextButton("关闭", R.id.topbar_left_text);
+        mCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mCloseBtn.setVisibility(View.GONE);
         mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
     }
 
@@ -166,9 +169,10 @@ public class BaseWebExplorerFragment extends BaseFragment {
     protected boolean needDispatchSafeAreaInset() {
         return false;
     }
+
     @SuppressLint("JavascriptInterface")
     protected void initWebView() {
-        mWebView = new BaseWebView(getContext());
+        mWebView = new BaseWebView(this);
         boolean needDispatchSafeAreaInset = needDispatchSafeAreaInset();
         mWebViewContainer.addWebView(mWebView, needDispatchSafeAreaInset);
         mWebViewContainer.setCustomOnScrollChangeListener(new QMUIWebView.OnScrollChangeListener() {
@@ -179,22 +183,22 @@ public class BaseWebExplorerFragment extends BaseFragment {
         });
         FrameLayout.LayoutParams containerLp = (FrameLayout.LayoutParams) mWebViewContainer.getLayoutParams();
         mWebViewContainer.setFitsSystemWindows(!needDispatchSafeAreaInset);
-        containerLp.topMargin = needDispatchSafeAreaInset ? 0 : QMUIResHelper.getAttrDimen(getContext(), R.attr.qmui_topbar_height);
+        containerLp.topMargin = needDispatchSafeAreaInset ? 0 : QMUIResHelper.getAttrDimen(this, R.attr.qmui_topbar_height);
         mWebViewContainer.setLayoutParams(containerLp);
-        mWebView.addJavascriptInterface(new MJavascriptInterface(_mActivity), "imagelistener");
+        mWebView.addJavascriptInterface(new MJavascriptInterface(this), "imagelistener");
         mWebView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
                 boolean needConfirm = true;
                 if (needConfirm) {
                     final String finalURL = url;
-                    new QMUIDialog.MessageDialogBuilder(getContext())
+                    new QMUIDialog.MessageDialogBuilder(BaseWebExplorerActivity.this)
                             .setMessage("确认下载此文件？")
                             .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     dialog.dismiss();
-                                    popBackStack();
+                                    finish();
                                 }
                             })
                             .addAction(R.string.ok, new QMUIDialogAction.ActionListener() {
@@ -202,7 +206,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
                                 public void onClick(QMUIDialog dialog, int index) {
                                     dialog.dismiss();
                                     doDownload(finalURL);
-                                    popBackStack();
+                                    finish();
                                 }
                             })
                             .show();
@@ -224,11 +228,12 @@ public class BaseWebExplorerFragment extends BaseFragment {
         mWebView.loadUrl(mUrl);
     }
 
-
     @Override
-    protected void onLazyInit() {
-       initWebView();
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+        initWebView();
     }
+
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {
 
@@ -297,9 +302,9 @@ public class BaseWebExplorerFragment extends BaseFragment {
     }
 
     public class ExplorerWebViewChromeClient extends WebChromeClient {
-        private BaseWebExplorerFragment mFragment;
+        private BaseWebExplorerActivity mFragment;
 
-        public ExplorerWebViewChromeClient(BaseWebExplorerFragment fragment) {
+        public ExplorerWebViewChromeClient(BaseWebExplorerActivity fragment) {
             mFragment = fragment;
         }
 
@@ -360,7 +365,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
 
     // 注入js函数监听
     private void addImageClickListener() {
-        Log.e(TAG, "addImageClickListener: " );
+        Log.e(TAG, "addImageClickListener: ");
         // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
         //函数的功能是在图片点击的时候调用本地java接口并传递url过去
         mWebView.loadUrl("javascript:(function(){" +
@@ -376,6 +381,8 @@ public class BaseWebExplorerFragment extends BaseFragment {
                 "}" +
                 "})()");
     }
+
+    private int mPage = 0;
 
     private class ProgressHandler extends Handler {
 
@@ -407,6 +414,7 @@ public class BaseWebExplorerFragment extends BaseFragment {
                     mAnimator.start();
                     break;
                 case PROGRESS_GONE:
+                    mPage++;
                     mDstProgressIndex = 0;
                     mDuration = 0;
                     mProgressBar.setProgress(0);
@@ -418,6 +426,11 @@ public class BaseWebExplorerFragment extends BaseFragment {
                     mAnimator.setDuration(0);
                     mAnimator.removeAllListeners();
                     mIsPageFinished = true;
+                    if (mPage > 1) {
+                        showView(mCloseBtn);
+                    } else {
+                        goneView(mCloseBtn);
+                    }
                     break;
                 default:
                     break;
@@ -426,13 +439,24 @@ public class BaseWebExplorerFragment extends BaseFragment {
     }
 
     @Override
-    protected void onBackPressed() {
+    protected void doOnBackPressed() {
         if (mWebView.canGoBack()) {
-            Log.e(TAG, "onBackPressed:  canGoBack" );
             mWebView.goBack();
+            mPage--;
+            Log.e(TAG, "onBackPressed: canGoBack " + mPage);
         } else
-            super.onBackPressed();
+            super.doOnBackPressed();
     }
+
+    //    @Override
+//    public void onBackPressed() {
+//        if (mWebView.canGoBack()) {
+//            mWebView.goBack();
+//            mPage --;
+//            Log.e(TAG, "onBackPressed: canGoBack "+mPage );
+//        } else
+//            super.onBackPressed();
+//    }
 
     public class MJavascriptInterface {
 
@@ -440,13 +464,13 @@ public class BaseWebExplorerFragment extends BaseFragment {
         private ArrayList<String> list_imgs = new ArrayList<>();
         private int index = 0;
 
-        public MJavascriptInterface(Activity activity) {
+        private MJavascriptInterface(Activity activity) {
             this.activity = activity;
         }
 
         @JavascriptInterface
         public void openImage(String img, String[] imgs) {
-            Log.e(TAG, "openImage: " );
+            Log.e(TAG, "openImage: ");
             list_imgs.clear();
             for (int i = 0; i < imgs.length; i++) {
                 Log.e(TAG, "openImage: " + imgs[i]);

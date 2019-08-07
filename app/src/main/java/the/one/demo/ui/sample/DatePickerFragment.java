@@ -50,17 +50,18 @@ public class DatePickerFragment extends BaseGroupListFragment
         initFragmentBack("DatePickerFragment");
 
         mDefault = CreateDetailItemView("默认选择", "从以前到今天", true);
-        mCustomDate = CreateDetailItemView("自定义起始日期", "", true);
+        mCustomDate = CreateDetailItemView("自定义起始日期", "限制一个月", true);
 
+        mDatePicker = DatePickerUtil.getInstance();
         addToGroup(mDefault,mCustomDate);
     }
 
     @Override
     public void onClick(View v) {
         if(v ==  mDefault){
-            mDatePicker = DatePickerUtil.getInstance().initTimePicker(_mActivity);
+            mDatePicker = mDatePicker.initTimePicker(_mActivity);
         }else if(v == mCustomDate){
-            mDatePicker = DatePickerUtil.getInstance().initTimePicker(_mActivity,new Date(),mDatePicker.getNextMonthDate());
+            mDatePicker = mDatePicker.initTimePicker(_mActivity,new Date(),mDatePicker.getNextMonthDate());
         }
         showDatePick((QMUICommonListItemView) v);
     }

@@ -1,16 +1,19 @@
 package the.one.base.util;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.widget.Toast;
+
+import the.one.base.BaseApplication;
 
 /**
  */
 public class ToastUtil {
 
     private static Toast mToast;
-    public static void showToast(Context context, CharSequence msg){
+    @SuppressLint("ShowToast")
+    public static void showToast(CharSequence msg){
         if (mToast == null) {
-            mToast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(BaseApplication.getInstance(), msg, Toast.LENGTH_SHORT);
         } else {
             mToast.setText(msg);
         }

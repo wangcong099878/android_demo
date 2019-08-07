@@ -2,15 +2,16 @@ package the.one.demo.ui.fragment;
 
 import android.view.View;
 
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import lib.homhomlib.design.SlidingLayout;
 import the.one.base.base.fragment.BaseGroupListFragment;
-import the.one.base.base.fragment.BaseWebExplorerFragment;
+import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.demo.Constant;
 import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
-import the.one.demo.ui.sample.SampleFragment;
+import the.one.demo.ui.sample.activity.SampleIndexActivity;
 
 
 //  ┏┓　　　┏┓
@@ -43,6 +44,12 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+    }
+
+    @Override
     protected boolean isNeedAround() {
         return true;
     }
@@ -55,6 +62,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     @Override
     protected void addGroupListView() {
         mTopLayout.setBackgroundDividerEnabled(false);
+        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_white));
         mTopLayout.addLeftTextButton("",R.id.topbar_left_text).setOnClickListener(this);
         slidingLayout.setSlidingMode(SlidingLayout.SLIDING_MODE_TOP);
         Gank = CreateNormalItemView("Gank.io");
@@ -94,15 +102,15 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 startFragment(new PublishFragment());
                 return;
             }else if(view == Sample){
-                startFragment(new SampleFragment());
+                startActivity(SampleIndexActivity.class);
                 return;
             }
-            startFragment(BaseWebExplorerFragment.newInstance(title, url));
+            BaseWebExplorerActivity.newInstance(_mActivity,title, url);
             return;
         }
         switch (view.getId()) {
             case R.id.iv_icon:
-                startFragment(BaseWebExplorerFragment.newInstance(title, url));
+                BaseWebExplorerActivity.newInstance(_mActivity,title, url);
                 break;
             case R.id.topbar_left_text:
                 BingoActivity.startThisActivity(_mActivity);

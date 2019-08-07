@@ -14,7 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
-import the.one.base.base.fragment.BaseWebExplorerFragment;
+import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
 import the.one.demo.Constant;
@@ -97,12 +97,12 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected void requestServer() {
-        presenter.getData(HomePresenter.TYPE_TODAY);
         presenter.getData(HomePresenter.TYPE_WELFARE);
     }
 
     @Override
     public void onWelfareComplete(List<GankBean> data) {
+        presenter.getData(HomePresenter.TYPE_TODAY);
         welfare = data;
         setWelfare();
     }
@@ -150,7 +150,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @Override
     public void onItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
         HomeItemSection itemSection = (HomeItemSection) mAdapter.getSectionItem(position);
-        startFragment(BaseWebExplorerFragment.newInstance(itemSection.content, itemSection.url));
+        BaseWebExplorerActivity.newInstance(_mActivity,itemSection.content, itemSection.url);
     }
 
     @Override

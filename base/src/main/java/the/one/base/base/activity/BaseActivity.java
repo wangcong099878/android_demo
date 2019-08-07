@@ -150,7 +150,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showToast(String msg) {
-        ToastUtil.showToast(this, msg);
+        ToastUtil.showToast(msg);
     }
 
     @Override

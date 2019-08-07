@@ -10,7 +10,7 @@ import java.util.List;
 
 import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.fragment.BaseDataFragment;
-import the.one.base.base.fragment.BaseWebExplorerFragment;
+import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.demo.Constant;
@@ -96,7 +96,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if(!isWelfare){
             GankBean  bean = (GankBean) adapter.getItem(position);
-            startFragment(BaseWebExplorerFragment.newInstance(bean.getDesc(),bean.getUrl()));
+            BaseWebExplorerActivity.newInstance(_mActivity,bean.getDesc(),bean.getUrl());
         }else{
             List<GankBean> datas = adapter.getData();
             ArrayList<String> images = new ArrayList<>();

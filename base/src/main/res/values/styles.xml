@@ -6,6 +6,7 @@
         <item name="checked_color">?config_color</item>
         <item name="qmui_topbar_height">45dp</item>
         <item name="qmui_config_color_blue">?config_color</item>
+        <!--<item name="qmui_topbar_background_drawable_id"></item>-->
     </style>
 
     <style name="match_wrap">

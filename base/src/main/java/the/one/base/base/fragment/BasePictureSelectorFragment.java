@@ -18,7 +18,9 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -35,6 +37,7 @@ import the.one.base.R;
 import the.one.base.adapter.FullyGridLayoutManager;
 import the.one.base.adapter.GridImageAdapter;
 import the.one.base.base.presenter.BasePresenter;
+import the.one.base.constant.DataConstant;
 import the.one.base.util.SelectPictureUtil;
 
 /**

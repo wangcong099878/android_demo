@@ -16,6 +16,8 @@
         <activity android:name=".base.activity.PhotoWatchActivity"
             android:theme="@style/StartAppTheme"/>
 
+        <activity android:name=".base.activity.BaseWebExplorerActivity"/>
+
         <service android:name=".service.UpdateApkService"
             android:label="@string/update_app_service_name"
             android:exported="false"/>

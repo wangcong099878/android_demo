@@ -10,7 +10,7 @@ import com.qmuiteam.qmui.widget.section.QMUISection
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout
 import the.one.base.base.fragment.BaseSectionLayoutFragment
-import the.one.base.base.fragment.BaseWebExplorerFragment
+import the.one.base.base.activity.BaseWebExplorerActivity
 import the.one.base.base.presenter.BasePresenter
 import the.one.base.util.GlideUtil
 import the.one.kotlin.Constant
@@ -129,7 +129,7 @@ class HomeFragment : BaseSectionLayoutFragment<HomeHeadSection, HomeItemSection>
 
     override fun onItemClick(holder: QMUIStickySectionAdapter.ViewHolder, position: Int) {
         val itemSection = mAdapter.getSectionItem(position) as HomeItemSection?
-        startFragment(BaseWebExplorerFragment.newInstance(itemSection!!.content, itemSection.url))
+        startFragment(BaseWebExplorerActivity.newInstance(itemSection!!.content, itemSection.url))
     }
 
     override fun onItemLongClick(holder: QMUIStickySectionAdapter.ViewHolder, position: Int): Boolean {

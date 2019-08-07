@@ -6,7 +6,6 @@ import android.view.View;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.base.fragment.BaseGroupListFragment;
-import the.one.demo.R;
 import the.one.demo.util.QMUIStatusBarHelper;
 
 
@@ -55,7 +54,6 @@ public class StatusBarHelperFragment extends BaseGroupListFragment {
             if (v == mLightMode) {
                 Log.e(TAG, "onClick: setStatusBarLightMode" +mLightMode.getText().toString());
                 boolean success = QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
-                mTopLayout.setBackgroundColor(getColorr(R.color.app_color_theme_6));
                 Log.e(TAG, "onClick: " + success);
             } else {
                 Log.e(TAG, "onClick: setStatusBarDarkMode" +mDarkMode.getText().toString());

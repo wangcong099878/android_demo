@@ -76,12 +76,17 @@ import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
  */
 
 public class MyTopBarLayout extends FrameLayout {
+
+    private static final String TAG = "MyTopBarLayout";
+
     private MyTopBar mTopBar;
     private Drawable mTopBarBgWithSeparatorDrawableCache;
 
     private int mTopBarSeparatorColor;
     private int mTopBarBgColor;
     private int mTopBarSeparatorHeight;
+
+    private boolean isNoBackground = false;
 
     public MyTopBarLayout(Context context) {
         this(context, null);
@@ -110,7 +115,11 @@ public class MyTopBarLayout extends FrameLayout {
 
         array.recycle();
 
-        setBackgroundDividerEnabled(hasSeparator);
+        Drawable bgDrawable =  getBackground();
+        isNoBackground= null == bgDrawable;
+        if(isNoBackground){
+            setBackgroundDividerEnabled(hasSeparator);
+        }
     }
 
     public MyTopBar getTopBar() {

@@ -1,5 +1,7 @@
 package the.one.demo;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.widge.StatusLayout;
@@ -37,6 +39,10 @@ public class App extends BaseApplication {
         super.onCreate();
 //        initFilePath();
         initStatusDrawable();
+
+        if (!LeakCanary.isInAnalyzerProcess(this)) {
+            LeakCanary.install(this);
+        }
     }
 
     /**

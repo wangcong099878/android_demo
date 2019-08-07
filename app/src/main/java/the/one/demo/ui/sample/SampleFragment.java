@@ -5,7 +5,7 @@ import android.view.View;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.base.fragment.BaseGroupListFragment;
-import the.one.base.base.fragment.BaseWebExplorerFragment;
+import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.demo.ui.sample.activity.CameraSamplePermissionActivity;
 
 
@@ -44,7 +44,7 @@ public class SampleFragment extends BaseGroupListFragment {
     protected void addGroupListView() {
         initFragmentBack("使用示例");
         PICTURE_SELECTOR = CreateDetailItemView("BasePictureSelectorFragment","选择图片、视频、音频",false,true);
-        WEB_VIEW = CreateDetailItemView("BaseWebExplorerFragment","网页",true);
+        WEB_VIEW = CreateDetailItemView("BaseWebExplorerActivity","网页",true);
         PULL_EXTEND=   CreateDetailItemView("BasePullExtendFragment","下拉菜单",true);
         LETTER_SEARCH = CreateDetailItemView("BaseLetterSearchFragment","侧边快速选择",true);
         CAMERA = CreateDetailItemView("BaseCameraPermissionActivity","相机权限相关的界面可以继承此Activity",false,true);
@@ -72,7 +72,7 @@ public class SampleFragment extends BaseGroupListFragment {
         }else if(v == WEB_VIEW){
             String title = "每日一笑";
             String url = "http://qt.qq.com/php_cgi/news/php/varcache_mcnarticle.php?id=&doc_type=0&docid=971312304452308411&areaid=18&version=$PROTO_VERSION$";
-            startFragment(BaseWebExplorerFragment.newInstance(title, url, false));
+            BaseWebExplorerActivity.newInstance(_mActivity,title, url, false);
         }else if(v == COLLAPSING_TOP_BAR){
             startFragment(new CollapsingTopBarFragment());
         }else if(v == PULL_EXTEND){

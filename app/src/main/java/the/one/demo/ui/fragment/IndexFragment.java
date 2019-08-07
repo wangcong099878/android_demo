@@ -60,4 +60,5 @@ public class IndexFragment extends BaseHomeFragment {
         fragments.add(new MyFragment());
 //        fragments.add(new TestFragment());
     }
+
 }

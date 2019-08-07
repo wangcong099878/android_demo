@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <com.qmuiteam.qmui.widget.QMUITopBarLayout
+    <the.one.base.widge.MyTopBarLayout
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             app:qmui_progress_color="?config_color"
             android:layout_gravity="bottom"
             android:layout_height="2dp" />
-    </com.qmuiteam.qmui.widget.QMUITopBarLayout>
+    </the.one.base.widge.MyTopBarLayout>
 </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>
 
 
