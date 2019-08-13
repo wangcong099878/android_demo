@@ -83,7 +83,6 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
                             List<GankBean> itemData = new Gson().fromJson(personObject,
                                     new TypeToken<List<GankBean>>() {
                                     }.getType());
-                             PageInfoBean pageInfoBean = new PageInfoBean(Constant.COUNT, page );
                             if (type != Constant.WELFARE) {
                                 getView().onComplete(itemData,null,"无"+type+"相关数据");
                             } else

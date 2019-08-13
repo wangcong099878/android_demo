@@ -2,11 +2,24 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="QMUI.Compat.NoActionBar">
+        <!--主色调-->
         <item name="config_color">@color/app_color_theme_1</item>
+        <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
         <item name="checked_color">?config_color</item>
         <item name="qmui_topbar_height">45dp</item>
         <item name="qmui_config_color_blue">?config_color</item>
-        <!--<item name="qmui_topbar_background_drawable_id"></item>-->
+        <item name="QMUITopBarStyle">@style/TopBarDark</item>
+    </style>
+
+    <style name="TopBarWhite" parent="QMUI.TopBar">
+        <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_dark</item>
+    </style>
+
+    <style name="TopBarDark" parent="QMUI.TopBar">
+        <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
+        <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
+        <item name="qmui_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>
+        <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_light</item>
     </style>
 
     <style name="match_wrap">
@@ -46,7 +59,6 @@
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
-
     <style name="PopAnimStyle">
         <item name="android:windowEnterAnimation">@anim/anim_from_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/anim_from_top_out</item>
@@ -70,6 +82,5 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@null</item>
     </style>
-
 
 </resources>

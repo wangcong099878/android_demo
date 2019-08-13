@@ -2,13 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="30dp"
+    android:paddingTop="?attr/qmui_topbar_height"
     android:background="@color/qmui_config_color_white">
 
-    <ImageView
+    <the.one.base.widge.RoundImageView
         android:id="@+id/iv_icon"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
+        app:border_outside_color="@color/qmui_config_color_gray_7"
         android:layout_centerInParent="true"
         android:src="@mipmap/theoneee"/>
 

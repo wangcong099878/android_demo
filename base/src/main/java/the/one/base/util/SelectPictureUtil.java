@@ -48,7 +48,7 @@ public class SelectPictureUtil {
                 .selectionMode(mode)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                 .maxSelectNum(maxSelect)// 最大图片选择数量
                 .selectionMedia(selectList)
-                .enableCrop(false)// 是否裁剪 true or false
+                .enableCrop(crop)// 是否裁剪 true or false
                 .compress(true)// 是否压缩 true or false
                 .withAspectRatio(1, 1)
                 .hideBottomControls(true)

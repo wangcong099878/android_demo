@@ -55,13 +55,14 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.qmuiteam.qmui.R;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIDrawableHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.util.QMUIViewHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
+
+import the.one.base.R;
 
 /**
  * 这是一个对 {@link QMUITopBar} 的代理类，需要它的原因是：
@@ -114,11 +115,17 @@ public class MyTopBarLayout extends FrameLayout {
         addView(mTopBar, lp);
 
         array.recycle();
-
-        Drawable bgDrawable =  getBackground();
+        Drawable bgDrawable;
+        try {
+            bgDrawable = QMUIResHelper.getAttrDrawable(context,R.attr.qmui_topbar_bg_drawable);
+        }catch (Exception e){
+            bgDrawable = null;
+        }
         isNoBackground= null == bgDrawable;
         if(isNoBackground){
             setBackgroundDividerEnabled(hasSeparator);
+        }else{
+            setBackground(bgDrawable);
         }
     }
 

@@ -78,7 +78,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      */
     protected void addToGroup(String title, String description, QMUICommonListItemView... items) {
         QMUIGroupListView.Section section = QMUIGroupListView.newSection(_mActivity);
-        if (!TextUtils.isEmpty(title)) section.setTitle(title);
+        section.setTitle(title);
         if (!TextUtils.isEmpty(description)) section.setDescription(description);
         for (QMUICommonListItemView itemView : items) {
             section.addItemView(itemView, this);

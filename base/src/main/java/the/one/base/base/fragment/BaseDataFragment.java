@@ -293,7 +293,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      */
     @Override
     public void onNormal() {
-        adapter.loadMoreEnd();
+        adapter.loadMoreEnd(true);
         if (null != pullLayout)
             pullLayout.setEnabled(false);
         showView(flBottomLayout);

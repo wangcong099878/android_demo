@@ -231,6 +231,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         int size = mAdapter.getSelects().size();
         mTopLayout.setTitle("已选择" + size + "项");
         tvRight.setEnabled(size > 0);
+        topRightText.setText(mAdapter.isAllSelect()?"全不选":"全选" );
     }
 
     protected Button topRightText;

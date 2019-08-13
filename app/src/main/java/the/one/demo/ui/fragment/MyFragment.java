@@ -2,12 +2,11 @@ package the.one.demo.ui.fragment;
 
 import android.view.View;
 
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import lib.homhomlib.design.SlidingLayout;
-import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.base.base.activity.BaseWebExplorerActivity;
+import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.demo.Constant;
 import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
@@ -44,13 +43,12 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
 
     @Override
-    public void onResume() {
-        super.onResume();
-        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+    protected boolean showTitleBar() {
+        return false;
     }
 
     @Override
-    protected boolean isNeedAround() {
+    protected boolean translucentFull() {
         return true;
     }
 
@@ -61,9 +59,9 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
 
     @Override
     protected void addGroupListView() {
-        mTopLayout.setBackgroundDividerEnabled(false);
-        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_white));
-        mTopLayout.addLeftTextButton("",R.id.topbar_left_text).setOnClickListener(this);
+//        mTopLayout.setBackgroundDividerEnabled(false);
+//        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_white));
+//        mTopLayout.addLeftTextButton("",R.id.topbar_left_text).setOnClickListener(this);
         slidingLayout.setSlidingMode(SlidingLayout.SLIDING_MODE_TOP);
         Gank = CreateNormalItemView("Gank.io");
         Copy = CreateNormalItemView("KotlinGankApp");

@@ -31,8 +31,10 @@ import the.one.demo.ui.sample.SampleFragment;
  * @remark
  */
 public class SampleIndexActivity extends BaseFragmentActivity {
+
     @Override
     protected BaseFragment getBaseFragment() {
         return new SampleFragment();
     }
+
 }

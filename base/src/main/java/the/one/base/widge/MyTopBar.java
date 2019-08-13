@@ -61,7 +61,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.qmuiteam.qmui.R;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIDrawableHelper;
@@ -72,6 +71,8 @@ import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import the.one.base.R;
 
 /**
  * 通用的顶部 Bar。提供了以下功能：
@@ -173,11 +174,17 @@ public class MyTopBar extends RelativeLayout {
         boolean hasSeparator = array.getBoolean(R.styleable.QMUITopBar_qmui_topbar_need_separator, true);
         array.recycle();
 
-
-        Drawable bgDrawable =  getBackground();
+        Drawable bgDrawable;
+        try {
+             bgDrawable = QMUIResHelper.getAttrDrawable(context,R.attr.qmui_topbar_bg_drawable);
+        }catch (Exception e){
+            bgDrawable = null;
+        }
         isNoBackground= null == bgDrawable;
         if(isNoBackground){
             setBackgroundDividerEnabled(hasSeparator);
+        }else{
+            setBackground(bgDrawable);
         }
     }
 

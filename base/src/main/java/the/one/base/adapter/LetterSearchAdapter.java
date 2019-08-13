@@ -30,7 +30,7 @@ import the.one.base.Interface.IContacts;
 import the.one.base.R;
 import the.one.base.util.ColorUtils;
 import the.one.base.widge.CircleTextView;
-import the.one.base.widge.SmoothCheckBox;
+import the.one.base.widge.TheCheckBox;
 
 /**
  * @author The one
@@ -114,11 +114,11 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
         helper.setText(R.id.tv_item_city_listview_name, item.getName())
                 .addOnClickListener(R.id.ll_contact)
                 .addOnLongClickListener(R.id.ll_contact);
-        SmoothCheckBox smoothCheckBox = helper.getView(R.id.check_box);
+        TheCheckBox smoothCheckBox = helper.getView(R.id.check_box);
 
         if (showCheckBox) {
             smoothCheckBox.setVisibility(View.VISIBLE);
-            smoothCheckBox.setChecked(selects.containsKey(helper.getAdapterPosition()));
+            smoothCheckBox.setCheck(selects.containsKey(helper.getAdapterPosition()));
             smoothCheckBox.setEnabled(false);
         } else {
             smoothCheckBox.setVisibility(View.GONE);

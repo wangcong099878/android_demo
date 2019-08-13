@@ -29,12 +29,12 @@ public class ProgressWheel extends View {
 	 * ********* 默认情况 * **********
 	 */
 	// Sizes (with defaults in DP)
-	private int circleRadius = 28;
+	private int circleRadius = 20;
 	private int barWidth = 4;
 	private int rimWidth = 4;
 	private boolean fillRadius = false;
 	private double timeStartGrowing = 0;
-	private double barSpinCycleTime = 460;
+	private double barSpinCycleTime = 500;
 	private float barExtraLength = 0;
 	private boolean barGrowingFromFront = true;
 	private long pausedTimeWithoutGrowing = 0;

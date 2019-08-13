@@ -38,6 +38,11 @@ public class IndexActivity extends BaseFragmentActivity {
     }
 
     @Override
+    protected boolean isTranslucent() {
+        return false;
+    }
+
+    @Override
     protected BaseFragment getBaseFragment() {
 //        FileDirectoryUtil.getCachePath();  测试文件夹创建
         return new IndexFragment();

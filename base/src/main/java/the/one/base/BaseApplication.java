@@ -12,6 +12,7 @@ import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
+import the.one.base.util.StatusBarUtil;
 
 
 //  ┏┓　　　┏┓
@@ -40,6 +41,7 @@ import the.one.base.util.SpUtil;
  * @remark
  */
 public class BaseApplication extends MultiDexApplication {
+
 
     public static Context context;
 

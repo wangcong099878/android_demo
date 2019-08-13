@@ -45,7 +45,9 @@ public class CategoryFragment extends BaseTitleTabFragment {
         TextView mTitle =  mTopLayout.setTitle("GankType");
         mTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         mTitle.getPaint().setFakeBoldText(true);
+        // 这里不用注释掉,更换继承这里要改成true(是否有分割线)
         mTopLayout.setBackgroundDividerEnabled(false);
+        mTopLayout.setBackgroundColor(getColorr(R.color.white));
     }
 
     @Override

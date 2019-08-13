@@ -2,21 +2,23 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
-        <item name="QMUITopBarStyle">@style/QDTopBar</item>
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_6</item>
+
+        <!--TopBar主题设置-->
+        <!-- 1. 白色背景-->
+        <!--<item name="QMUITopBarStyle">@style/TopBarWhite</item>-->
+
+        <!-- 2. 非白色的背景-->
+        <!--<item name="QMUITopBarStyle">@style/TopBarStyle</item>-->
+
+        <!-- 3. 渐变色的背景-->
+        <item name="qmui_topbar_bg_drawable">@drawable/main_ripple_bg</item>
+
     </style>
 
-    <style name="QDTopBar" parent="QMUI.TopBar">
-        <!--如果需要渐变色的背景，这里直接设置-->
-        <item name="android:background">@drawable/main_ripple_bg</item>
-        <!--更改qmui_topbar_bg_color颜色，如果不为默认的白色，则将字体颜色和下标线颜色更改为白色，详情见BaseTabOnTitleFragment-->
-        <!--如果上面的背景有，则此项无效-->
-        <!--<item name="qmui_topbar_bg_color">@color/app_color_theme_6</item>-->
-        <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_light</item>
+    <style name="TopBarStyle" parent="TopBarDark">
+        <item name="qmui_topbar_bg_color">@color/app_color_theme_6</item>
     </style>
 
     <style name="publish_style">

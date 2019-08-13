@@ -33,7 +33,6 @@ import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ZoomButtonsController;
 
@@ -54,6 +53,7 @@ import java.util.ArrayList;
 
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
+import the.one.base.util.StatusBarUtil;
 import the.one.base.widge.BaseWebView;
 import the.one.base.widge.MyTopBarLayout;
 
@@ -70,6 +70,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
     public static final String EXTRA_NEED_DECODE = "EXTRA_NEED_DECODE";
     public static final String EXTRA_CHANGE_TITLE = "EXTRA_CHANGE_TITLE";
+    public static final String EXTRA_TITLE_COLOR = "EXTRA_TITLE_COLOR";
 
     protected MyTopBarLayout mTopBarLayout;
     protected QMUIWebViewContainer mWebViewContainer;
@@ -86,21 +87,23 @@ public class BaseWebExplorerActivity extends BaseActivity {
     private boolean mIsPageFinished = false;
     private boolean mNeedDecodeUrl = false;
     private boolean mIsChangeTitle = true;
+    private boolean mIsWhiteBg = false;
 
     public static void newInstance(Activity activity, String title, String url) {
-        newInstance(activity, title, url, true, true);
+        newInstance(activity, title, url, true, true,true);
     }
 
     public static void newInstance(Activity activity, String title, String url, boolean changeTitle) {
-        newInstance(activity, title, url, true, changeTitle);
+        newInstance(activity, title, url, true, changeTitle,true);
     }
 
-    public static void newInstance(Activity activity, String title, String url, boolean needDecodeUrl, boolean changeTitle) {
+    public static void newInstance(Activity activity, String title, String url, boolean needDecodeUrl, boolean changeTitle,boolean whiteBg) {
         Intent intent = new Intent(activity, BaseWebExplorerActivity.class);
         intent.putExtra(EXTRA_TITLE, title);
         intent.putExtra(EXTRA_URL, url);
         intent.putExtra(EXTRA_NEED_DECODE, needDecodeUrl);
         intent.putExtra(EXTRA_CHANGE_TITLE, changeTitle);
+        intent.putExtra(EXTRA_TITLE_COLOR, whiteBg);
         activity.startActivity(intent);
     }
 
@@ -122,40 +125,42 @@ public class BaseWebExplorerActivity extends BaseActivity {
             mTitle = intent.getStringExtra(EXTRA_TITLE);
             mNeedDecodeUrl = intent.getBooleanExtra(EXTRA_NEED_DECODE, false);
             mIsChangeTitle = intent.getBooleanExtra(EXTRA_CHANGE_TITLE, true);
+            mIsWhiteBg= intent.getBooleanExtra(EXTRA_TITLE_COLOR,false);
             if (url != null && url.length() > 0) {
                 handleUrl(url);
             }
         }
-
         mTopBarLayout = rootView.findViewById(R.id.topbar);
         mWebViewContainer = rootView.findViewById(R.id.webview_container);
         mProgressBar = rootView.findViewById(R.id.progressbar);
-
         mProgressHandler = new ProgressHandler();
         initTopBar();
     }
 
-    private Button mCloseBtn;
-
     protected void initTopBar() {
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
-        mTopBarLayout.setBackgroundDividerEnabled(true);
-        mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
-        mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doOnBackPressed();
-            }
-        });
-        mCloseBtn = mTopBarLayout.addLeftTextButton("关闭", R.id.topbar_left_text);
-        mCloseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        mCloseBtn.setVisibility(View.GONE);
-        mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+        if(!mIsWhiteBg&&StatusBarUtil.isTranslucent(this)){
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
+            QMUIStatusBarHelper.translucent(this,getColorr(R.color.qmui_config_color_transparent));
+            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    doOnBackPressed();
+                }
+            });
+            mTopBarLayout.setTitle(mTitle);
+        }else{
+            QMUIStatusBarHelper.setStatusBarLightMode(this);
+            mTopBarLayout.setTopBarBgColor(getColorr(R.color.white));
+            mTopBarLayout.setBackgroundDividerEnabled(true);
+            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    doOnBackPressed();
+                }
+            });
+            mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+        }
+
     }
 
     private void updateTitle(String title) {
@@ -365,7 +370,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
 
     // 注入js函数监听
     private void addImageClickListener() {
-        Log.e(TAG, "addImageClickListener: ");
         // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
         //函数的功能是在图片点击的时候调用本地java接口并传递url过去
         mWebView.loadUrl("javascript:(function(){" +
@@ -426,11 +430,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
                     mAnimator.setDuration(0);
                     mAnimator.removeAllListeners();
                     mIsPageFinished = true;
-                    if (mPage > 1) {
-                        showView(mCloseBtn);
-                    } else {
-                        goneView(mCloseBtn);
-                    }
                     break;
                 default:
                     break;
