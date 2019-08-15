@@ -1,7 +1,5 @@
 # TheBase
 
-## [更新移步](https://gitee.com/theoneee/TheBase)
-
 #### 介绍
 主要以[QMUI](https://github.com/Tencent/QMUI_Android)封装的一个基础框架。
 写了一个[Gank](http://gank.io/)客户端用来测试此框架。
