@@ -44,7 +44,12 @@ style AppTheme继承BaseTheme
 ```
 
 #### Demo
+
 [下载地址](https://gitee.com/theoneee/TheBase/raw/master/app/release/app-release.apk)
+
+
+[QQ群](583882583)
+
 
 #### 效果图
 
