@@ -48,7 +48,9 @@ style AppTheme继承BaseTheme
 [下载地址](https://gitee.com/theoneee/TheBase/raw/master/app/release/app-release.apk)
 
 
-[QQ群](583882583)
+#### QQ群
+
+583882583
 
 
 #### 效果图
