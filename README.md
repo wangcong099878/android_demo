@@ -23,6 +23,8 @@
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155923_cdb5f007_2286054.gif "99d6571a-1ce7-4f85-82bf-44dcda06c846.gif")
 
+下拉刷新？加载更多？空页面？网络错误页面? 懒加载？ 统统都封装好了。
+
 
 #### 更多请结合Demo看代码
 [下载地址](https://gitee.com/theoneee/TheBase/raw/master/app/release/app-release.apk)
