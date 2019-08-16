@@ -21,7 +21,27 @@
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155923_cdb5f007_2286054.gif "99d6571a-1ce7-4f85-82bf-44dcda06c846.gif")
 
-下拉刷新？加载更多？空页面？网络错误页面? 懒加载？ 统统都封装好了。
+
+下拉刷新？加载更多？空页面？网络错误页面?  统统都封装好了。
+
+LIST? GRID? STAGGERED? 一句代码
+
+```
+  @Override
+    protected int setType() {
+        return isWelfare ? TYPE_STAGGERED : TYPE_LIST;
+    }
+```
+
+什么？还要懒加载？只需要返回这个。
+
+```
+   @Override
+    protected boolean onAnimationEndInit() {
+        return false;
+    }
+```
+
 
 
 #### 更多请结合Demo看代码
@@ -95,5 +115,7 @@ style AppTheme继承BaseTheme
 ```
 
 还有一些为了自定义，集成到了项目里，所以并没有在依赖里出现，但是都保留原作者信息。
+
+
 
 
