@@ -44,7 +44,7 @@ dependencies {
     api 'com.github.chrisbanes:PhotoView:2.0.0'
     api 'com.orhanobut:logger:2.2.0'
     api 'com.wkp:StickLayout:1.0.6'
-    api 'top.androidman:superbutton:1.1.0'
+    api 'top.androidman:superbutton:1.1.1'
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.2@aar'
 }

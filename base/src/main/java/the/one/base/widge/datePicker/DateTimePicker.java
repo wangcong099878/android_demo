@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
@@ -60,7 +61,6 @@ public class DateTimePicker {
     }
 
     private ResultHandler handler;
-    private Context context;
 
     private Dialog datePickerDialog;
     private FrameLayout fyHeader;
@@ -88,7 +88,6 @@ public class DateTimePicker {
     }
 
     public DateTimePicker(Context context, ResultHandler resultHandler, Date startDate, Date endDate, Builder builder) {
-        this.context = context;
         this.handler = resultHandler;
         selectedCalender = Calendar.getInstance();
         startCalendar = Calendar.getInstance();
@@ -96,12 +95,12 @@ public class DateTimePicker {
         startCalendar.setTime(startDate);
         endCalendar.setTime(endDate);
         isEnd = endCalendar.getTime().getTime() > new Date().getTime();
-        initDialog();
+        initDialog(context);
         initView();
-        updateView(builder);
+        updateView(builder,context);
     }
 
-    private void initDialog() {
+    private void initDialog(Context context) {
         if (datePickerDialog == null) {
             datePickerDialog = new Dialog(context, R.style.DateTimePickerDialog);
             datePickerDialog.setCancelable(true);
@@ -150,7 +149,7 @@ public class DateTimePicker {
         });
     }
 
-    private void updateView(Builder builder) {
+    private void updateView(Builder builder,Context context) {
         if (builder == null)
             builder = new Builder(context);
 
@@ -322,7 +321,6 @@ public class DateTimePicker {
     private void loadComponent() {
         yearPicker.setData(years);
         monthPicker.setData(months);
-        Log.e(TAG, "loadComponent: months = " + months.toString());
         dayPicker.setData(days);
         hourPicker.setData(hours);
         minutePicker.setData(minutes);
@@ -416,7 +414,6 @@ public class DateTimePicker {
         }
         selectedCalender.set(Calendar.MONTH, newSelectedMonth - 1);
         monthPicker.setData(months);
-        Log.e(TAG, "setSelectedTime: monthChange " + months.toString());
         monthPicker.setSelected(newSelectedMonthIndex);
         executeAnimator(monthPicker);
 
@@ -472,7 +469,6 @@ public class DateTimePicker {
         dayPicker.setSelected(newSelectedDayIndex);
         executeAnimator(dayPicker);
         executeScroll();
-
         dayPicker.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -135,6 +135,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
         mProgressBar = rootView.findViewById(R.id.progressbar);
         mProgressHandler = new ProgressHandler();
         initTopBar();
+        initWebView();
     }
 
     protected void initTopBar() {
@@ -231,14 +232,8 @@ public class BaseWebExplorerActivity extends BaseActivity {
         setZoomControlGone(mWebView);
         configWebView(mWebViewContainer, mWebView);
         mWebView.loadUrl(mUrl);
-    }
 
-    @Override
-    public void onEnterAnimationComplete() {
-        super.onEnterAnimationComplete();
-        initWebView();
     }
-
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {
 

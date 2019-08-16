@@ -24,6 +24,7 @@ import android.view.View;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import the.one.base.R;
+import the.one.base.util.StatusBarUtil;
 import the.one.base.widge.QMUITabSegment;
 
 /**
@@ -51,7 +52,7 @@ public abstract class BaseTabOnTitleFragment extends BaseTabFragment {
     @Override
     protected void initTabAndPager() {
         // 判断TitleBar的背景颜色是否为白色，如果不是则改变TabLayout的背景颜色和TitleBar相同，字体颜色更改为白色
-        if(mTopLayout.getTopBarBgColor() != Color.WHITE){
+        if(StatusBarUtil.isTranslucent(_mActivity)){
             mTabSegment.setDefaultNormalColor(Color.WHITE);
             mTabSegment.setDefaultSelectedColor(Color.WHITE);
             BaseDataFragment.setMargins(mTabSegment,0,0,0, QMUIDisplayHelper.dp2px(getContext(), 10));

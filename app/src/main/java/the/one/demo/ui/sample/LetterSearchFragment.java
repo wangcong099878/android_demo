@@ -82,7 +82,6 @@ public class LetterSearchFragment extends BaseLetterSearchFragment<LsMans> {
     @Override
     protected void onLazyInit() {
         String[] mans = _mActivity.getResources().getStringArray(R.array.LS_mans);
-        Log.e(TAG, "onLazyInit: "+mans.length );
         List<LsMans> lsMans = new ArrayList<>();
         for (String man :mans){
             lsMans.add(new LsMans(man));

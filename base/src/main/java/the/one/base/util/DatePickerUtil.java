@@ -33,7 +33,6 @@ public class DatePickerUtil {
 
     private DateTimePicker.Builder TBuilder;
     private Date start, end;
-    private Context context;
 
     public DatePickerUtil initTimePicker(Context context) {
         initTimePicker(context, new Date());
@@ -58,7 +57,6 @@ public class DatePickerUtil {
      */
     @SuppressLint("ResourceType")
     public DatePickerUtil initTimePicker(Context context, Date start, Date end) {
-        this.context = context;
         this.start = start;
         this.end = end;
         //方式一：构建自己的builder
@@ -129,16 +127,16 @@ public class DatePickerUtil {
         return calendar.getTime();
     }
 
-    public void show(String title, DateTimePicker.ResultHandler resultHandler) {
-        show(title, resultHandler, new Date());
+    public void show(Context context,String title, DateTimePicker.ResultHandler resultHandler) {
+        show(context,title, resultHandler, new Date());
     }
 
-    public void show(String title, DateTimePicker.ResultHandler resultHandler, Date showDate) {
+    public void show(Context context,String title, DateTimePicker.ResultHandler resultHandler, Date showDate) {
         TBuilder.setTitle(title);
         new DateTimePicker(context, resultHandler, start, end, TBuilder).show(showDate);
     }
 
-    public void show(DateTimePicker.ResultHandler resultHandler) {
-        show("选择日期", resultHandler);
+    public void show(Context context,DateTimePicker.ResultHandler resultHandler) {
+        show(context,"选择日期", resultHandler);
     }
 }

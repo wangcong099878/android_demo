@@ -67,6 +67,10 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
     protected abstract void onConfirmSelect(List<T> selects);
 
+    protected boolean isNeedDelete(){
+        return true;
+    }
+
     @Override
     protected boolean isNeedAround() {
         return true;
@@ -220,10 +224,12 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
     @Override
     public boolean onItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
-        mAdapter.setShowCheckBox(true);
-        updateSelectSum(position);
-        initSelectTopBar();
-        return true;
+        if(isNeedDelete()){
+            mAdapter.setShowCheckBox(true);
+            updateSelectSum(position);
+            initSelectTopBar();
+        }
+        return isNeedDelete();
     }
 
     private void updateSelectSum(int position) {

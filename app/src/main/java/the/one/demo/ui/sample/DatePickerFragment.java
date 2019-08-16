@@ -68,7 +68,7 @@ public class DatePickerFragment extends BaseGroupListFragment
 
     private void showDatePick(QMUICommonListItemView view) {
         mCurrentDateType = view;
-        mDatePicker.show(view.getText().toString(), this);
+        mDatePicker.show(_mActivity,view.getText().toString(), this);
     }
 
     @Override
