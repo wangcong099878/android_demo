@@ -10,9 +10,9 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 
+import the.one.base.constant.PhoneConstant;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
-import the.one.base.util.StatusBarUtil;
 
 
 //  ┏┓　　　┏┓
@@ -57,6 +57,7 @@ public class BaseApplication extends MultiDexApplication {
         NotificationManager.getInstance(this).register();
         SpUtil.getInstance().init(this);
         initLogger();
+        PhoneConstant.init(context);
     }
 
     protected void initLogger() {

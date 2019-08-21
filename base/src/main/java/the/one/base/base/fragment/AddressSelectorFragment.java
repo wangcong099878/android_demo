@@ -1,22 +1,14 @@
 package the.one.base.base.fragment;
 
-import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 import the.one.base.Interface.OnAddressSelectorListener;
 import the.one.base.R;
 import the.one.base.model.Province;
+import the.one.base.util.CityUtil;
 import the.one.base.widge.AddressSelector;
 
 /**
@@ -81,26 +73,7 @@ public class AddressSelectorFragment extends BaseDialogFragment implements View.
      */
     private void initData() {
         if(provinces.size()==0) {
-            StringBuilder jsonSB = new StringBuilder();
-            try {
-                BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getContext()).getAssets().open("province.json")));
-                String line;
-                while ((line = addressJsonStream.readLine()) != null) {
-                    jsonSB.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ArrayList<Province> provinces1 = new ArrayList<>();
-            try {
-                JSONArray jsonArray = null;
-                jsonArray = new JSONArray(jsonSB.toString());
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    provinces1.add(new Gson().fromJson(jsonArray.get(i).toString(), Province.class));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            List<Province> provinces1 = CityUtil.getProvinces(getContext());
             if (provinces1.size() > 0 && null != province) {
                 // 将定位到的省份排序到第一位
                 for (Province pro : provinces1) {

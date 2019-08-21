@@ -46,29 +46,11 @@ import the.one.base.model.Province;
 public class CityUtil {
 
     private static List<CitySection> mCitySections;
+    private static List<Province> mProvinces;
 
     public static List<CitySection> getCityDatas(Context context) {
         if (null == mCitySections || mCitySections.size() == 0) {
-            StringBuilder jsonSB = new StringBuilder();
-            try {
-                BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(Objects.requireNonNull(context).getAssets().open("province.json")));
-                String line;
-                while ((line = addressJsonStream.readLine()) != null) {
-                    jsonSB.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ArrayList<Province> provinces = new ArrayList<>();
-            try {
-                JSONArray jsonArray = null;
-                jsonArray = new JSONArray(jsonSB.toString());
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    provinces.add(new Gson().fromJson(jsonArray.get(i).toString(), Province.class));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            List<Province> provinces = getProvinces(context);
             mCitySections = new ArrayList<>();
             // 将数据转换成CitySection
             for (Province pro : provinces) {
@@ -98,6 +80,33 @@ public class CityUtil {
             }
         }
         return mCitySections;
+    }
+
+    public static List<Province> getProvinces(Context context) {
+        if (null == mProvinces || mProvinces.size() == 0) {
+
+            StringBuilder jsonSB = new StringBuilder();
+            try {
+                BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(Objects.requireNonNull(context).getAssets().open("province.json")));
+                String line;
+                while ((line = addressJsonStream.readLine()) != null) {
+                    jsonSB.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mProvinces = new ArrayList<>();
+            try {
+                JSONArray jsonArray = null;
+                jsonArray = new JSONArray(jsonSB.toString());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    mProvinces.add(new Gson().fromJson(jsonArray.get(i).toString(), Province.class));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return mProvinces;
     }
 
 }

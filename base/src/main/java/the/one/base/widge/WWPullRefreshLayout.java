@@ -15,14 +15,21 @@ public class WWPullRefreshLayout extends QMUIPullRefreshLayout {
 
     public WWPullRefreshLayout(Context context) {
         super(context);
+//        setEnableOverPull(false);
     }
 
     public WWPullRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+//        setEnableOverPull(false);
+    }
+
+    @Override
+    protected int calculateTargetOffset(int target, int targetInitOffset, int targetRefreshOffset, boolean enableOverPull) {
+        return super.calculateTargetOffset(target,targetInitOffset,350,false);
     }
 
     @Override
     protected View createRefreshView() {
-        return new WWLoadingView(getContext());
+        return new PullRefreshLoadingView(getContext());
     }
 }
