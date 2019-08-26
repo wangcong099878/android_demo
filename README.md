@@ -47,6 +47,11 @@ LIST? GRID? STAGGERED? 一句代码
 [下载地址](https://gitee.com/theoneee/TheBase/raw/master/app/release/app-release.apk)
 
 
+#### 交流
+
+QQ群： 761201022
+
+
 #### 使用
 
 1.根build 里添加
