@@ -2,12 +2,14 @@ package the.one.base.widge;
 
 import android.content.Context;
 import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.qmuiteam.qmui.util.QMUIColorHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
 import the.one.base.R;
@@ -44,7 +46,8 @@ public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRe
     private static final String TAG = "PullRefreshLoadingView";
 
     private ProgressWheel mProgressWheel;
-    private TextView mTips;
+    private AppCompatTextView mTips;
+    private int mTextColor;
 
     private Vibrator vibrator;
 
@@ -65,6 +68,7 @@ public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRe
         View view = inflater.inflate(R.layout.pull_refresh_layout, null);
         mProgressWheel = view.findViewById(R.id.progressWheel);
         mTips = view.findViewById(R.id.tv_tips);
+        mTextColor = ContextCompat.getColor(context,R.color.qmui_config_color_gray_4);
         addView(view);
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
@@ -83,7 +87,6 @@ public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRe
     @Override
     public void onPull(int i, int i1, int i2) {
         float percent = i * 1.0f / i1;
-        mProgressWheel.setProgress(percent);
         if (percent >= 1) {
             if (!isPrepare && PhoneConstant.isHaveVibrator && vibrator.hasVibrator()) {
                 vibrator.vibrate(10);
@@ -93,6 +96,9 @@ public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRe
         } else {
             isPrepare = false;
             mTips.setText("下拉刷新");
+            mProgressWheel.setProgress(percent);
+            //文字透明度
+            mTips.setTextColor(QMUIColorHelper.setColorAlpha(mTextColor,percent));
         }
     }
 

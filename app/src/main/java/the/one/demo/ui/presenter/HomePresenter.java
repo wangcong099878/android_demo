@@ -13,11 +13,11 @@ import java.util.List;
 import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.JsonUtil;
-import the.one.demo.Constant;
-import the.one.demo.ui.bean.GankBean;
-import the.one.demo.ui.bean.HomeBean;
+import the.one.demo.NetUrlConstant;
+import the.one.demo.bean.GankBean;
+import the.one.demo.bean.HomeBean;
 import the.one.demo.ui.view.HomeView;
-import the.one.net.FailUtil;
+import the.one.net.util.FailUtil;
 
 
 //  ┏┓　　　┏┓
@@ -52,7 +52,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public static final int TYPE_WELFARE = 1;
 
     public void getData( final int type) {
-        String url = type == TYPE_TODAY?Constant.TODAY:Constant.GANK_CATEGORY + Constant.WELFARE + "/" + Constant.COUNT + "/1";
+        String url = type == TYPE_TODAY? NetUrlConstant.TODAY: NetUrlConstant.GANK_CATEGORY + NetUrlConstant.WELFARE + "/" + NetUrlConstant.COUNT + "/1";
         OkHttpUtils.get().url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

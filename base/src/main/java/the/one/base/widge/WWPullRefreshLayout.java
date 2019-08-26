@@ -15,12 +15,10 @@ public class WWPullRefreshLayout extends QMUIPullRefreshLayout {
 
     public WWPullRefreshLayout(Context context) {
         super(context);
-//        setEnableOverPull(false);
     }
 
     public WWPullRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        setEnableOverPull(false);
     }
 
     @Override

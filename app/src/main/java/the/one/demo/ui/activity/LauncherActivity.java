@@ -17,6 +17,8 @@
 package the.one.demo.ui.activity;
 
 
+import the.one.demo.ui.gank.GankActivity;
+
 /**
  * @author cginechen
  * @date 2016-12-08
@@ -26,7 +28,7 @@ public class LauncherActivity extends the.one.base.base.activity.LauncherActivit
 
     @Override
     protected Class getActivity() {
-        return IndexActivity.class;
+        return TagsActivity.class;
     }
 
 }

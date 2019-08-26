@@ -50,7 +50,7 @@ class HomeAdapter : BaseSectionAdapter<HomeHeadSection, HomeItemSection>(R.layou
         val nineImageLayout = holder!!.itemView.findViewById<NineImageLayout>(R.id.nine_image)
         val itemSection = section!!.getItemAt(itemIndex)
         val author = "#" + itemSection.remark + "  "
-        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)))
+        tvContent.setText(StringUtils.SpannableForegroundColorString(author + itemSection.content, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue)))
         if (null == itemSection.images || itemSection.images!!.size < 1) {
             if (itemSection.url.endsWith(".jpg")) {
                 val strings = ArrayList<String>()

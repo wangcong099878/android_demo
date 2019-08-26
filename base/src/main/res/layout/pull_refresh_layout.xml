@@ -14,7 +14,7 @@
         wheel:matProg_barColor="?config_color"
         wheel:matProg_rimColor="@color/qmui_config_color_gray_9" />
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

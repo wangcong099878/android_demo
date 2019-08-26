@@ -24,8 +24,8 @@ import java.util.List;
 import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
-import the.one.demo.Constant;
-import the.one.demo.ui.bean.GankBean;
+import the.one.demo.NetUrlConstant;
+import the.one.demo.bean.GankBean;
 
 
 //  ┏┓　　　┏┓
@@ -58,7 +58,7 @@ public class WelfarePresenter extends BasePresenter<BaseDataView<GankBean>> {
     private static final String TAG = "WelfarePresenter";
 
     public void getData(String url, final int page) {
-        final String fakeRefer = Constant.WELFARE_BASE_URL + url + "/";
+        final String fakeRefer = NetUrlConstant.WELFARE_BASE_URL + url + "/";
         url = fakeRefer + "page/" + page;
         Log.e(TAG, "getData: "+url );
 //        new  Thread(new Runnable() {

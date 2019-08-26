@@ -13,7 +13,7 @@ import the.one.kotlin.Constant
 import the.one.kotlin.model.GankBean
 import the.one.kotlin.model.HomeBean
 import the.one.kotlin.view.HomeView
-import the.one.net.FailUtil
+import the.one.net.util.FailUtil
 
 
 //  ┏┓　　　┏┓

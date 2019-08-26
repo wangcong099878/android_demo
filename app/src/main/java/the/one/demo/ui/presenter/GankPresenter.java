@@ -23,8 +23,8 @@ import java.util.List;
 import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
-import the.one.demo.Constant;
-import the.one.demo.ui.bean.GankBean;
+import the.one.demo.NetUrlConstant;
+import the.one.demo.bean.GankBean;
 import the.one.net.entity.PageInfoBean;
 
 
@@ -58,8 +58,8 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
     private static final String TAG = "WelfarePresenter";
 
     public void getData(final Context context, final String type, final int page) {
-        Log.e(TAG, "getData: url = "+ Constant.GANK_CATEGORY + type + "/" + Constant.COUNT + "/" + page);
-        OkHttpUtils.get().url(Constant.GANK_CATEGORY + type + "/" + Constant.COUNT + "/" + page).build().execute(new StringCallback() {
+        Log.e(TAG, "getData: url = "+ NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page);
+        OkHttpUtils.get().url(NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.e(TAG, "onError: " );
@@ -83,7 +83,7 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
                             List<GankBean> itemData = new Gson().fromJson(personObject,
                                     new TypeToken<List<GankBean>>() {
                                     }.getType());
-                            if (type != Constant.WELFARE) {
+                            if (type != NetUrlConstant.WELFARE) {
                                 getView().onComplete(itemData,null,"无"+type+"相关数据");
                             } else
                                 parseSize(context, itemData, null);

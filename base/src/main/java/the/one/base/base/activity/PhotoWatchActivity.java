@@ -23,7 +23,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.widge.PhotoViewPager;
-import the.one.net.FailUtil;
+import the.one.net.util.FailUtil;
 
 import static the.one.base.BaseApplication.context;
 
