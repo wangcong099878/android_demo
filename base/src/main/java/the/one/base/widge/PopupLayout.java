@@ -219,7 +219,7 @@ public class PopupLayout extends LinearLayout implements NestedScrollingParent {
     private QMUIAlphaImageButton mBackBtn;
 
     public void addTopBarCloseButton() {
-        setBackButton(R.drawable.delet_zhaopian_1x);
+        setBackButton(R.drawable.ic_delete_image);
     }
 
     public void addTopBarBackButton() {

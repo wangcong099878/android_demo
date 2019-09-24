@@ -27,7 +27,7 @@ package the.one.base.Interface;
  */
 public interface IUpdateApk {
 
-    boolean isUpdate();
+    boolean isNewVersion();
     String getUpdateDes();
     String getVersionName();
     String getApkPath();

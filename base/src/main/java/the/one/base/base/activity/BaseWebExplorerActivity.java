@@ -36,6 +36,11 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ZoomButtonsController;
 
+import com.github.lzyzsd.jsbridge.BridgeHandler;
+import com.github.lzyzsd.jsbridge.CallBackFunction;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
@@ -46,15 +51,21 @@ import com.qmuiteam.qmui.widget.webview.QMUIWebView;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewClient;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewContainer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.StatusBarUtil;
+import the.one.base.util.ToastUtil;
 import the.one.base.widge.BaseWebView;
+import the.one.base.widge.BridgeWebViewClient;
 import the.one.base.widge.MyTopBarLayout;
 
 /**
@@ -90,14 +101,14 @@ public class BaseWebExplorerActivity extends BaseActivity {
     private boolean mIsWhiteBg = false;
 
     public static void newInstance(Activity activity, String title, String url) {
-        newInstance(activity, title, url, true, true,true);
+        newInstance(activity, title, url, true, true, true);
     }
 
     public static void newInstance(Activity activity, String title, String url, boolean changeTitle) {
-        newInstance(activity, title, url, true, changeTitle,true);
+        newInstance(activity, title, url, true, changeTitle, true);
     }
 
-    public static void newInstance(Activity activity, String title, String url, boolean needDecodeUrl, boolean changeTitle,boolean whiteBg) {
+    public static void newInstance(Activity activity, String title, String url, boolean needDecodeUrl, boolean changeTitle, boolean whiteBg) {
         Intent intent = new Intent(activity, BaseWebExplorerActivity.class);
         intent.putExtra(EXTRA_TITLE, title);
         intent.putExtra(EXTRA_URL, url);
@@ -125,7 +136,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
             mTitle = intent.getStringExtra(EXTRA_TITLE);
             mNeedDecodeUrl = intent.getBooleanExtra(EXTRA_NEED_DECODE, false);
             mIsChangeTitle = intent.getBooleanExtra(EXTRA_CHANGE_TITLE, true);
-            mIsWhiteBg= intent.getBooleanExtra(EXTRA_TITLE_COLOR,false);
+            mIsWhiteBg = intent.getBooleanExtra(EXTRA_TITLE_COLOR, false);
             if (url != null && url.length() > 0) {
                 handleUrl(url);
             }
@@ -139,9 +150,9 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     protected void initTopBar() {
-        if(!mIsWhiteBg&&StatusBarUtil.isTranslucent(this)){
+        if (!mIsWhiteBg && StatusBarUtil.isTranslucent(this)) {
             QMUIStatusBarHelper.setStatusBarDarkMode(this);
-            QMUIStatusBarHelper.translucent(this,getColorr(R.color.qmui_config_color_transparent));
+            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
             mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -149,7 +160,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
                 }
             });
             mTopBarLayout.setTitle(mTitle);
-        }else{
+        } else {
             QMUIStatusBarHelper.setStatusBarLightMode(this);
             mTopBarLayout.setTopBarBgColor(getColorr(R.color.white));
             mTopBarLayout.setBackgroundDividerEnabled(true);
@@ -191,7 +202,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
         mWebViewContainer.setFitsSystemWindows(!needDispatchSafeAreaInset);
         containerLp.topMargin = needDispatchSafeAreaInset ? 0 : QMUIResHelper.getAttrDimen(this, R.attr.qmui_topbar_height);
         mWebViewContainer.setLayoutParams(containerLp);
-        mWebView.addJavascriptInterface(new MJavascriptInterface(this), "imagelistener");
         mWebView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
@@ -204,15 +214,13 @@ public class BaseWebExplorerActivity extends BaseActivity {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     dialog.dismiss();
-                                    finish();
                                 }
                             })
-                            .addAction(R.string.ok, new QMUIDialogAction.ActionListener() {
+                            .addAction(R.string.sure, new QMUIDialogAction.ActionListener() {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     dialog.dismiss();
                                     doDownload(finalURL);
-                                    finish();
                                 }
                             })
                             .show();
@@ -222,17 +230,18 @@ public class BaseWebExplorerActivity extends BaseActivity {
             }
 
             private void doDownload(String url) {
-
+                ToastUtil.showToast(url);
             }
         });
 
         mWebView.setWebChromeClient(getWebViewChromeClient());
         mWebView.setWebViewClient(getWebViewClient());
         mWebView.requestFocus(View.FOCUS_DOWN);
+
         setZoomControlGone(mWebView);
         configWebView(mWebViewContainer, mWebView);
         mWebView.loadUrl(mUrl);
-
+        mWebView.registerHandler("imagelistener", imageHandler);
     }
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {
@@ -335,10 +344,10 @@ public class BaseWebExplorerActivity extends BaseActivity {
         }
     }
 
-    protected class ExplorerWebViewClient extends QMUIWebViewClient {
+    protected class ExplorerWebViewClient extends BridgeWebViewClient {
 
         public ExplorerWebViewClient(boolean needDispatchSafeAreaInset) {
-            super(needDispatchSafeAreaInset, true);
+            super(mWebView, needDispatchSafeAreaInset, true);
         }
 
         @Override
@@ -375,7 +384,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
                 "{"
                 + "    objs[i].onclick=function()  " +
                 "    {  "
-                + "        window.imagelistener.openImage(this.src,array);  " +
+                + "        window.WebViewJavascriptBridge.callHandler('imagelistener',{'position':this.src,'data':array});  " +
                 "    }  " +
                 "}" +
                 "})()");
@@ -437,48 +446,42 @@ public class BaseWebExplorerActivity extends BaseActivity {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
             mPage--;
-            Log.e(TAG, "onBackPressed: canGoBack " + mPage);
         } else
             super.doOnBackPressed();
     }
 
-    //    @Override
-//    public void onBackPressed() {
-//        if (mWebView.canGoBack()) {
-//            mWebView.goBack();
-//            mPage --;
-//            Log.e(TAG, "onBackPressed: canGoBack "+mPage );
-//        } else
-//            super.onBackPressed();
-//    }
-
-    public class MJavascriptInterface {
-
-        private Activity activity;
-        private ArrayList<String> list_imgs = new ArrayList<>();
-        private int index = 0;
-
-        private MJavascriptInterface(Activity activity) {
-            this.activity = activity;
-        }
-
-        @JavascriptInterface
-        public void openImage(String img, String[] imgs) {
-            Log.e(TAG, "openImage: ");
-            list_imgs.clear();
-            for (int i = 0; i < imgs.length; i++) {
-                Log.e(TAG, "openImage: " + imgs[i]);
-                if (imgs[i].equals(img)) {
-                    index = i;
+    BridgeHandler imageHandler = new BridgeHandler() {
+        @Override
+        public void handler(String data, CallBackFunction function) {
+            JSONObject jsonObject = null;
+            ArrayList<String> itemData;
+            int position = 0;
+            try {
+                jsonObject = new JSONObject(data);
+                String src = jsonObject.getString("position");
+                String personObject = jsonObject.getString("data");
+                Log.e(TAG, "handler: "+personObject );
+                itemData = new Gson().fromJson(personObject,
+                        new TypeToken<List<String>>() {
+                        }.getType());
+                for (int i = 0; i < itemData.size(); i++) {
+                    String item = itemData.get(i);
+                    if(item.contains("apps.game.qq.com")||item.contains("gpcd.gtimg.cn")){
+                        itemData.remove(i);
+                    }
                 }
-                list_imgs.add(imgs[i]);
+                for (int i = 0; i < itemData.size(); i++) {
+                    String item = itemData.get(i);
+                    if(item.equals(src)){
+                        position = i;
+                    }
+                }
+                PhotoWatchActivity.startThisActivity(BaseWebExplorerActivity.this, mWebView, itemData, position);
+            } catch (JSONException e) {
+                Log.e(TAG, "JSONException: " );
+                e.printStackTrace();
             }
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    PhotoWatchActivity.startThisActivity(activity, mWebView, list_imgs, index);
-                }
-            });
         }
-    }
+    };
+
 }

@@ -17,8 +17,6 @@
 package the.one.demo.ui.activity;
 
 
-import the.one.demo.ui.gank.GankActivity;
-
 /**
  * @author cginechen
  * @date 2016-12-08

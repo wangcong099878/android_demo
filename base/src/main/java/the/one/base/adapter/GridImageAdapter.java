@@ -96,7 +96,7 @@ public class GridImageAdapter extends BaseQuickAdapter<LocalMedia,BaseViewHolder
         LinearLayout delete = helper.getView(R.id.ll_del);
         TextView tvDuration = helper.getView(R.id.tv_duration);
         if(helper.getItemViewType() == TYPE_CAMERA){
-            image.setImageResource(R.drawable.addimg_1x);
+            image.setImageResource(R.drawable.ic_add_image);
             delete.setVisibility(View.INVISIBLE);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override

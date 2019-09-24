@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
@@ -42,6 +43,7 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
 
     private Drawable isCheck, unCheck,current;
     private OnCheckChangedListener  listener;
+    private int defaultPadding = 10;
 
     public TheCheckBox(Context context) {
         super(context, null);
@@ -60,22 +62,23 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
         this.listener = listener;
     }
 
-    public void setIsCheckDrawable(Drawable isCheck) {
-        this.isCheck = isCheck;
+    public void setIsCheckDrawable(int isCheck) {
+        this.isCheck = getDrawable(isCheck);
     }
 
-    public void setUnCheckDrawable(Drawable unCheck) {
-        this.unCheck = unCheck;
+    public void setUnCheckDrawable(int unCheck) {
+        this.unCheck = getDrawable(unCheck);
     }
 
     private void init(Context context){
-        isCheck = ContextCompat.getDrawable(context, R.drawable.ic_checkbox_true);
-        unCheck = ContextCompat.getDrawable(context, R.drawable.ic_checkbox_false);
+        isCheck = getDrawable( R.drawable.qmui_icon_checkbox_checked);
+        unCheck = getDrawable( R.drawable.qmui_icon_checkbox_normal);
         setImageDrawable(unCheck);
         setBackground(QMUIResHelper.getAttrDrawable(context,R.attr.selectableItemBackground));
-        setGravity(Gravity.CENTER);
+        setGravity(Gravity.START|Gravity.CENTER_VERTICAL);
         setOnClickListener(this);
     }
+
 
     public void setTextPadding(int padding){
         setCompoundDrawablePadding(QMUIDisplayHelper.dp2px(getContext(),padding));
@@ -92,6 +95,16 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
     private void setImageDrawable(Drawable drawable){
         current  = drawable;
         setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+    }
+
+    private Drawable getDrawable(int drawableId){
+        return ContextCompat.getDrawable(getContext(),drawableId);
+    }
+
+    @Override
+    public void setText(CharSequence text, TextView.BufferType type) {
+        setTextPadding(defaultPadding);
+        super.setText(text, type);
     }
 
     @Override

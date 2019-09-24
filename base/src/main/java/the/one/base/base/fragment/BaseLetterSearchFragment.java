@@ -77,7 +77,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
     }
 
     @Override
-    protected int getBottomLayout() {
+    protected Object getBottomLayout() {
         return R.layout.custom_address_book_bottom_layout;
     }
 

@@ -6,6 +6,10 @@
         <item name="config_color">@color/app_color_theme_1</item>
         <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
         <item name="checked_color">?config_color</item>
+        <!--普通颜色-->
+        <item name="tab_normal_color">@color/qmui_config_color_gray_2</item>
+        <!--选中颜色-->
+        <item name="tab_select_color">?config_color</item>
         <item name="qmui_topbar_height">45dp</item>
         <item name="qmui_config_color_blue">?config_color</item>
         <item name="QMUITopBarStyle">@style/TopBarDark</item>

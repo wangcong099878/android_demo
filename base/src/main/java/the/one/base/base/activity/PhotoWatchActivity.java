@@ -46,6 +46,12 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
 
     private String mPath;
 
+    public static void startThisActivity(Activity activity, View image,String iconPath) {
+        ArrayList<String> paths = new ArrayList<>();
+        paths.add(iconPath);
+        startThisActivity(activity,image,paths,0);
+    }
+
     public static void startThisActivity(Activity activity, View image, ArrayList<String> list, int position) {
         Intent in = new Intent(activity, PhotoWatchActivity.class);
         in.putStringArrayListExtra(DataConstant.DATA, list);

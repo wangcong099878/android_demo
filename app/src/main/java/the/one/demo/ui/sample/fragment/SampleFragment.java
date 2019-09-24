@@ -41,7 +41,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR,WEB_VIEW,POPUP_LAYOUT,COLLAPSING_TOP_BAR,
             PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL,PROGRESS_DIALOG,CAMERA,DATE_PICKER,LETTER_SEARCH,
-            ROUND_CHECK_BOX,WHITE_BG,CITY_SELECT;
+            ROUND_CHECK_BOX,CITY_SELECT;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -68,11 +68,9 @@ public class SampleFragment extends BaseGroupListFragment {
 //        POPUP_LAYOUT = CreateDetailItemView("PopupLayout","");
 
         CITY_SELECT =  CreateDetailItemView("LocationSelect","地理位置选择 城市/地址",true);
-        WHITE_BG = CreateDetailItemView("WHITE_BG","测试白色状态栏",true);
 
         addToGroup("UI",PICTURE_SELECTOR,WEB_VIEW,PULL_EXTEND,LETTER_SEARCH,CAMERA,ROUND_CHECK_BOX);
         addToGroup("工具",STATUS_BAR_HELP,STRING_UTIL,DATE_PICKER,CITY_SELECT);
-        addToGroup("测试",WHITE_BG);
     }
 
     @Override
@@ -103,9 +101,8 @@ public class SampleFragment extends BaseGroupListFragment {
             startFragment(new LetterSearchFragment());
         }else if(v == ROUND_CHECK_BOX){
             startFragment(new TheCheckBoxFragment());
-        }else if(v ==WHITE_BG){
-            startFragment(new WhiteBgFragment());
-        }else if(v ==CITY_SELECT){
+        }
+        else if(v ==CITY_SELECT){
             startFragment(new LocationSelectFragment());
         }
     }

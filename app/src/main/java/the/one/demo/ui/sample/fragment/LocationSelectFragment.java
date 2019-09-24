@@ -43,7 +43,7 @@ public class LocationSelectFragment extends BaseGroupListFragment {
     @Override
     protected void addGroupListView() {
         initFragmentBack("地理位置选择");
-        mLetterSearch = CreateDetailItemView("侧边快速查询样式","适用于城市选择",true);
+        mLetterSearch = CreateDetailItemView("侧边快速查询样式","适用于选择城市",true);
         mDialog = CreateDetailItemView("Dialog样式","适用于选择地址",true);
         addToGroup("",getStringg(R.string.location_select_tips),mDialog,mLetterSearch);
     }

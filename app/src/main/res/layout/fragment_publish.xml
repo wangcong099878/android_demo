@@ -29,7 +29,7 @@
         style="@style/publish_style"
         android:layout_below="@id/btn_url"
         android:padding="10dp"
-        android:background="@drawable/divider_shape" />
+        android:background="@drawable/simple_edittext_shape" />
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         android:id="@+id/btn_des"

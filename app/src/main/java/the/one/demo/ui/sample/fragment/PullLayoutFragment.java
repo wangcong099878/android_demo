@@ -55,7 +55,7 @@ public class PullLayoutFragment extends BasePullExtendFragment {
         mHeaderRc.setLayoutManager(new OverFlyingLayoutManager(OrientationHelper.HORIZONTAL));
         mFooterRc.setLayoutManager(new OverFlyingLayoutManager(OrientationHelper.HORIZONTAL));
 
-        adapter = new PullExtendAdapter(_mActivity);
+        adapter = new PullExtendAdapter();
         mHeaderRc.setAdapter(adapter);
         mFooterRc.setAdapter(adapter);
 

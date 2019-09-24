@@ -23,6 +23,7 @@ import the.one.base.base.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
+import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.ToastUtil;
 import the.one.base.widge.ProgressDialog;
 
@@ -87,6 +88,8 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        QMUIStatusBarHelper.translucent(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
         View mRootView = getView(getContentViewId());
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);

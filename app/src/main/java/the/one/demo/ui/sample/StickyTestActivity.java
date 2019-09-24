@@ -80,7 +80,6 @@ public class StickyTestActivity extends BaseActivity {
     }
 
     public void getData() {
-        Log.e(TAG, "getData: " );
         OkHttpUtils.get().url(NetUrlConstant.GANK_CATEGORY + NetUrlConstant.ANDROID + "/" + 10 + "/" + page).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

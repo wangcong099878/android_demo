@@ -18,7 +18,6 @@ package the.one.demo.adapter;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -37,8 +36,8 @@ import the.one.demo.bean.SimpleBean;
  */
 public class PullExtendAdapter extends BaseRadiusShadowAdapter<SimpleBean> {
 
-    public PullExtendAdapter(Context context) {
-        super(context,R.layout.item_pull_extend);
+    public PullExtendAdapter() {
+        super(R.layout.item_pull_extend);
     }
 
     @Override

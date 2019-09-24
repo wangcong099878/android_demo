@@ -63,6 +63,7 @@ import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 
 import the.one.base.R;
+import the.one.base.util.StatusBarUtil;
 
 /**
  * 这是一个对 {@link QMUITopBar} 的代理类，需要它的原因是：
@@ -122,7 +123,7 @@ public class MyTopBarLayout extends FrameLayout {
             bgDrawable = null;
         }
         isNoBackground= null == bgDrawable;
-        if(isNoBackground){
+        if(!StatusBarUtil.isTranslucent(getContext())){
             setBackgroundDividerEnabled(hasSeparator);
         }else{
             setBackground(bgDrawable);

@@ -35,7 +35,7 @@ import the.one.demo.R;
 public class SelectPictureFragment extends BasePictureSelectorFragment {
 
     @Override
-    protected int getTopLayout() {
+    protected Object getTopLayout() {
         return R.layout.fragment_select_picture;
     }
 

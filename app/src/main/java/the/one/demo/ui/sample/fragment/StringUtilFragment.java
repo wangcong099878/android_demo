@@ -46,7 +46,7 @@ public class StringUtilFragment extends BaseGroupListFragment {
     private TextView tvSuperscript,tvSubscript;
 
     @Override
-    protected int getTopLayout() {
+    protected Object getTopLayout() {
         return R.layout.custom_string_util;
     }
 

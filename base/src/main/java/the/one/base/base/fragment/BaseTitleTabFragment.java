@@ -20,8 +20,6 @@ package the.one.base.base.fragment;
 
 import android.view.View;
 
-import com.qmuiteam.qmui.widget.QMUITabSegment;
-
 import the.one.base.R;
 
 /**
@@ -40,21 +38,9 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
 
     @Override
     protected void initView(View rootView) {
-        mTopLayout.setBackgroundDividerEnabled(false);
         mViewPager = rootView.findViewById(R.id.view_pager);
-        mTabSegment = rootView.findViewById(R.id.tab_segment);
+        mMagicIndicator = rootView.findViewById(R.id.indicator);
         super.initView(rootView);
     }
 
-    @Override
-    protected void initTabAndPager() {
-        mTabSegment.setMode(QMUITabSegment.MODE_SCROLLABLE);
-        //是否有 Indicator
-        mTabSegment.setHasIndicator(true);
-        // Indicator的方向 ture为上方 false为下方
-        mTabSegment.setIndicatorPosition(false);
-        // 置 indicator的宽度是否随内容宽度变化
-        mTabSegment.setIndicatorWidthAdjustContent(true);
-        super.initTabAndPager();
-    }
 }

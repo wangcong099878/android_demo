@@ -176,7 +176,7 @@ public class MyTopBar extends RelativeLayout {
 
         Drawable bgDrawable;
         try {
-             bgDrawable = QMUIResHelper.getAttrDrawable(context,R.attr.qmui_topbar_bg_drawable);
+            bgDrawable = QMUIResHelper.getAttrDrawable(context,R.attr.qmui_topbar_bg_drawable);
         }catch (Exception e){
             bgDrawable = null;
         }

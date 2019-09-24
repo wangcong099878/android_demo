@@ -18,16 +18,29 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.support.v4.view.ViewPager;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
 import java.util.ArrayList;
 
+import the.one.base.R;
 import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.base.presenter.BasePresenter;
+import the.one.base.util.IndicatorUtil;
 import the.one.base.widge.QMUITabSegment;
+import the.one.base.widge.indicator.ColorFlipPagerTitleView;
 
 /**
  * @author The one
@@ -41,6 +54,8 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     protected ArrayList<BaseFragment> fragments;
     protected ArrayList<QMUITabSegment.Tab> mTabs;
     protected QMUITabSegment mTabSegment;
+
+    protected MagicIndicator mMagicIndicator;
     protected QMUIViewPager mViewPager;
     protected TabFragmentAdapter<BaseFragment> pageAdapter;
     protected int INDEX = 0;
@@ -66,6 +81,13 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         return true;
     }
 
+    /**
+     * @return
+     */
+    protected boolean isAdjustMode() {
+        return false;
+    }
+
     protected boolean isDestroyItem() {
         return true;
     }
@@ -80,9 +102,12 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     @Override
     protected void initView(View rootView) {
-        mTabSegment.setShowAnimation(false);
+        if (null != mTabSegment)
+            mTabSegment.setShowAnimation(false);
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
+        normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.tab_normal_color);
+        selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.tab_select_color);
         if (!tabFromNet()) {
             startInit();
         } else {
@@ -90,24 +115,76 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         }
     }
 
-
     protected void startInit() {
         addTabs();
         addFragment(fragments);
         initTabAndPager();
     }
 
+    protected int normalColor;
+    protected int selectColor;
+
+    protected void initIndicator() {
+        CommonNavigator commonNavigator7 = new CommonNavigator(_mActivity);
+        commonNavigator7.setScrollPivotX(0.65f);
+        commonNavigator7.setAdjustMode(isAdjustMode());
+        commonNavigator7.setAdapter(getNavigatorAdapter());
+        mMagicIndicator.setNavigator(commonNavigator7);
+        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+    }
+
     protected void initTabAndPager() {
         pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments, isDestroyItem());
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setSwipeable(setViewPagerSwipe());
-        for (QMUITabSegment.Tab tab : mTabs) {
-            mTabSegment.addTab(tab);
+        if (null != mTabSegment) {
+            for (QMUITabSegment.Tab tab : mTabs) {
+                mTabSegment.addTab(tab);
+            }
+            mTabSegment.addOnTabSelectedListener(this);
+            mTabSegment.setupWithViewPager(mViewPager, false);
         }
-        mTabSegment.addOnTabSelectedListener(this);
-        mTabSegment.setupWithViewPager(mViewPager, false);
+        if (null != mMagicIndicator)
+            initIndicator();
+        showContentPage();
     }
 
+    public IPagerTitleView getTitleView(Context context, final int index) {
+        SimplePagerTitleView simplePagerTitleView = new ColorFlipPagerTitleView(context);
+        simplePagerTitleView.setText(mTabs.get(index).getText());
+        simplePagerTitleView.setTextSize(16);
+        simplePagerTitleView.setNormalColor(normalColor);
+        simplePagerTitleView.setSelectedColor(selectColor);
+        simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(index);
+            }
+        });
+        return simplePagerTitleView;
+    }
+    public IPagerIndicator getIndicator(Context context) {
+        return IndicatorUtil.getWrapPagerIndicator(context, ContextCompat.getColor(context,R.color.qmui_config_color_background));
+    }
+
+    protected CommonNavigatorAdapter getNavigatorAdapter() {
+        return new CommonNavigatorAdapter() {
+            @Override
+            public int getCount() {
+                return mTabs == null ? 0 : mTabs.size();
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                return BaseTabFragment.this.getTitleView(context,index);
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                return BaseTabFragment.this.getIndicator(context);
+            }
+        };
+    }
 
     @Override
     public void onTabSelected(int index) {

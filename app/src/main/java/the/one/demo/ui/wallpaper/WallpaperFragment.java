@@ -47,11 +47,6 @@ public class WallpaperFragment extends BaseDataFragment<Wallpaper> {
     private WallpaperSpUtil wallpaperSpUtil;
 
     @Override
-    protected boolean onAnimationEndInit() {
-        return false;
-    }
-
-    @Override
     protected int setType() {
         return TYPE_GRID;
     }
@@ -65,7 +60,7 @@ public class WallpaperFragment extends BaseDataFragment<Wallpaper> {
     protected BaseQuickAdapter getAdapter() {
         initFragmentBack("动态壁纸");
         wallpaperSpUtil = WallpaperSpUtil.getInstance();
-        return new WallpaperAdapter(_mActivity);
+        return new WallpaperAdapter();
     }
 
     @Override

@@ -1,21 +1,11 @@
 package the.one.demo.ui.activity;
 
-import android.view.View;
+import android.content.Intent;
 
-import com.moxun.tagcloudlib.view.TagCloudView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import the.one.base.base.activity.BaseActivity;
-import the.one.base.base.presenter.BasePresenter;
-import the.one.demo.R;
-import the.one.demo.adapter.TagCloudAdapter;
-import the.one.demo.bean.Tag;
-import the.one.demo.ui.gank.GankActivity;
-import the.one.demo.ui.sample.SampleIndexActivity;
-import the.one.demo.ui.wallpaper.WallpaperActivity;
+import the.one.base.base.activity.BaseFragmentActivity;
+import the.one.base.base.fragment.BaseFragment;
+import the.one.demo.constant.WallpaperConstant;
+import the.one.demo.util.WallpaperUtil;
 
 
 //  ┏┓　　　┏┓
@@ -43,52 +33,26 @@ import the.one.demo.ui.wallpaper.WallpaperActivity;
  * @email 625805189@qq.com
  * @remark
  */
-public class TagsActivity extends BaseActivity implements TagCloudAdapter.OnTagItemClickListener {
-
-    @BindView(R.id.tag_cloud)
-    TagCloudView mTagCloud;
-
-    TagCloudAdapter adapter;
-
-    private Tag TAG_GANK,TAG_SAMPLE,TAG_BINGO,TAG_WALLPAPER;
-
+public class TagsActivity extends BaseFragmentActivity {
     @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_thanks;
+    protected BaseFragment getBaseFragment() {
+        return new TagsFragment();
     }
 
     @Override
-    protected boolean isExitActivity() {
-        return true;
-    }
-
-    @Override
-    protected void initView(View mRootView) {
-        TAG_GANK = new Tag("Gank", GankActivity.class);
-        TAG_SAMPLE = new Tag("Sample",SampleIndexActivity.class);
-        TAG_BINGO = new Tag("Bingo",BingoActivity.class);
-        TAG_WALLPAPER=  new Tag("Wallpaper",WallpaperActivity.class);
-
-        List<Tag> tags = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            tags.add(TAG_GANK);
-            tags.add(TAG_SAMPLE);
-            tags.add(TAG_BINGO);
-            tags.add(TAG_WALLPAPER);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == WallpaperConstant.REQUEST_LIVE_PAPER) {
+            if (WallpaperUtil.isLiveWallpaperChanged(this)) {
+                goHome();
+            }
         }
-        adapter = new TagCloudAdapter(this, tags);
-        adapter.setListener(this);
-        mTagCloud.setAdapter(adapter);
     }
 
-    @Override
-    public BasePresenter getPresenter() {
-        return null;
+    public  void goHome() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
-
-    @Override
-    public void onTagItemClick(Class tagClass) {
-        startActivity(tagClass);
-    }
-
 }

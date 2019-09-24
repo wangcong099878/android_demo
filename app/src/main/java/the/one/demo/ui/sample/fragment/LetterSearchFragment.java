@@ -46,7 +46,7 @@ public class LetterSearchFragment extends BaseLetterSearchFragment<LsMans> {
     private TextView tvTotal;
 
     @Override
-    protected int getTopLayout() {
+    protected Object getTopLayout() {
         return R.layout.custom_letter_search_top_search_layout;
     }
 

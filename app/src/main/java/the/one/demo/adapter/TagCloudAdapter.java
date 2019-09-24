@@ -12,7 +12,6 @@ import com.moxun.tagcloudlib.view.TagsAdapter;
 import java.util.List;
 
 import the.one.demo.R;
-import the.one.demo.bean.Tag;
 
 
 //  ┏┓　　　┏┓
@@ -42,11 +41,11 @@ import the.one.demo.bean.Tag;
  */
 public class TagCloudAdapter extends TagsAdapter {
 
-    private List<Tag> mTags;
+    private List<String> mTags;
     private int color1,color2,color3;
     private OnTagItemClickListener listener;
 
-    public TagCloudAdapter(Context context, List<Tag> tags) {
+    public TagCloudAdapter(Context context, List<String> tags) {
         this.mTags = tags;
         color1 = ContextCompat.getColor(context, R.color.app_color_theme_1);
         color2 = ContextCompat.getColor(context, R.color.classic_color_7);
@@ -63,17 +62,16 @@ public class TagCloudAdapter extends TagsAdapter {
     }
 
     @Override
-    public View getView(Context context, int position, ViewGroup parent) {
-        final Tag tag = mTags.get(position);
+    public View getView(Context context,final int position, ViewGroup parent) {
         TextView tv = new TextView(context);
-        tv.setText(tag.getTagTitle());
+        tv.setText(mTags.get(position));
         tv.setGravity(Gravity.CENTER);
         tv.setTextColor(position%2==0?color1:position%3==0?color2:color3);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(null != listener)
-                    listener.onTagItemClick(tag.getTagClass());
+                    listener.onTagItemClick(mTags.get(position));
             }
         });
         return tv;
@@ -96,6 +94,6 @@ public class TagCloudAdapter extends TagsAdapter {
     }
 
     public interface OnTagItemClickListener{
-        void onTagItemClick(Class tagClass);
+        void onTagItemClick(String tag);
     }
 }

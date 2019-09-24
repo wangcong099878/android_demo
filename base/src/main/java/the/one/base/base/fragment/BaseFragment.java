@@ -11,6 +11,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ import the.one.base.base.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
+import the.one.base.util.QMUIStatusBarHelper;
+import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.widge.MyTopBar;
 import the.one.base.widge.MyTopBarLayout;
@@ -74,23 +77,23 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     public final String TAG = this.getClass().getSimpleName();
 
     /**
-     * @TODO 获取布局
      * @return
+     * @TODO 获取布局
      * @remark 默认是有TopBar的，如果需要整个布局是传递过来的，则将showTitleBar()返回false
      */
     protected abstract int getContentViewId();
 
     /**
-     * @TODO 布局是否需要TopBar
      * @return
+     * @TODO 布局是否需要TopBar
      */
     protected boolean showTitleBar() {
         return true;
     }
 
     /**
-     * @TODO 初始化布局
      * @param rootView
+     * @TODO 初始化布局
      */
     protected abstract void initView(View rootView);
 
@@ -100,10 +103,10 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     public abstract BasePresenter getPresenter();
 
     /**
-     * @TODO 动画结束后初始化
-     * @remark 1.如果是ViewPager里的Fragment,这个时候主要是要懒加载，则要返回false,因为不会有动画
-     *         2.一个单独的Fragment想要为了避免卡顿，要在动画结束后做一些耗时操作，可以再onLazyInit()里面去处理
      * @return
+     * @TODO 动画结束后初始化
+     * @remark 1.如果是ViewPager里的Fragment, 这个时候主要是要懒加载，则要返回false,因为不会有动画
+     * 2.一个单独的Fragment想要为了避免卡顿，要在动画结束后做一些耗时操作，可以再onLazyInit()里面去处理
      */
     protected boolean onAnimationEndInit() {
         return true;
@@ -112,59 +115,66 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     /**
      * @TODO 在这里处理延迟的
      */
-    protected void onLazyInit() { }
+    protected void onLazyInit() {
+    }
+
+    protected boolean isStatusBarLightMode() {
+        return !StatusBarUtil.isTranslucent(getBaseFragmentActivity());
+    }
 
     /**
-     * @TODO 是否注册事件分发
      * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
+     * @TODO 是否注册事件分发
      */
     protected boolean isRegisterEventBus() {
         return false;
     }
 
     /**
-     *  @TODO 需要显示点击返回显示 是否退出
-      */
-    protected boolean isExitFragment() { return false; }
+     * @TODO 需要显示点击返回显示 是否退出
+     */
+    protected boolean isExitFragment() {
+        return false;
+    }
 
     /**
-     * @TODO 是否需要在周围（上、下、左、右）添加布局
      * @return
+     * @TODO 是否需要在周围（上、下、左、右）添加布局
      */
     protected boolean isNeedAround() {
         return false;
     }
 
     /**
+     * @return
      * @TODO 设置头部自定义布局
-     * @return
      */
-    protected int getTopLayout() {
-        return -1;
+    protected Object getTopLayout() {
+        return null;
     }
 
     /**
+     * @return
      * @TODO 设置底部自定义布局
-     * @return
      */
-    protected int getBottomLayout() {
-        return -1;
+    protected Object getBottomLayout() {
+        return null;
     }
 
     /**
-     * @TODO  设置左边自定义布局
      * @return
+     * @TODO 设置左边自定义布局
      */
-    protected int getLeftLayout() {
-        return -1;
+    protected Object getLeftLayout() {
+        return null;
     }
 
     /**
+     * @return
      * @TODO 设置右边自定义布局
-     * @return
      */
-    protected int getRightLayout() {
-        return -1;
+    protected Object getRightLayout() {
+        return null;
     }
 
     protected StatusLayout mStatusLayout;
@@ -193,6 +203,15 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(onAnimationEndInit()){
+            if (isStatusBarLightMode()) {
+                QMUIStatusBarHelper.translucent(getBaseFragmentActivity());
+                QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
+            } else {
+                QMUIStatusBarHelper.translucent(getBaseFragmentActivity(),getColorr(R.color.qmui_config_color_transparent));
+                QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
+            }
+        }
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
@@ -203,9 +222,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onLazyResume() {
-        if (!onAnimationEndInit() && !mIsFirstLayInit) {
-            mIsFirstLayInit = true;
-            onLazyInit();
+        if (!onAnimationEndInit() &&!mIsFirstLayInit){
+                mIsFirstLayInit = true;
+                onLazyInit();
         }
     }
 
@@ -248,21 +267,27 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         mUnbinder = ButterKnife.bind(this, mBody);
         initView(mRootView);
         if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
-            setMargins(mRootView.findViewById(isNeedAround()?R.id.rl_parent:R.id.status_layout), 0, 0, 0, 0);
+            setMargins(mRootView.findViewById(isNeedAround() ? R.id.rl_parent : R.id.status_layout), 0, 0, 0, 0);
         }
         return mRootView;
     }
 
-    protected void initAroundView(){
+    protected void initAroundView() {
         setCustomLayout(flLeftLayout, getLeftLayout());
         setCustomLayout(flRightLayout, getRightLayout());
         setCustomLayout(flBottomLayout, getBottomLayout());
         setCustomLayout(flTopLayout, getTopLayout());
     }
 
-    protected void setCustomLayout(ViewGroup parent, int layout) {
-        if (null != parent && layout != -1)
-            parent.addView(getView(layout), -1, -1);
+    protected void setCustomLayout(ViewGroup parent, Object layout) {
+        if (null == layout) return;
+        if (layout instanceof View) {
+            parent.addView((View) layout, -1, -1);
+        } else if (layout instanceof Integer) {
+            parent.addView(getView((Integer) layout), -1, -1);
+        } else {
+            throw new ClassCastException("layout must be int or view");
+        }
     }
 
     protected void initFragmentBack(String title) {
@@ -293,9 +318,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected final <T extends View> T findViewByTopView(@IdRes int id) {
         return findViewByCustomView(flTopLayout, id);
     }
+
     protected final <T extends View> T findViewByLeftView(@IdRes int id) {
         return findViewByCustomView(flLeftLayout, id);
     }
+
     protected final <T extends View> T findViewByRightView(@IdRes int id) {
         return findViewByCustomView(flRightLayout, id);
     }
@@ -304,8 +331,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return findViewByCustomView(flBottomLayout, id);
     }
 
-    protected final <T extends View> T findViewByCustomView(View around,@IdRes int id) {
-        if (null == around||id == NO_ID) {
+    protected final <T extends View> T findViewByCustomView(View around, @IdRes int id) {
+        if (null == around || id == NO_ID) {
             return null;
         }
         return around.findViewById(id);

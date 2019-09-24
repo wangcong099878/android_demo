@@ -13,7 +13,6 @@ import the.one.base.Interface.IUpdateApk;
 import the.one.base.service.UpdateApkService;
 import the.one.net.BaseHttpRequest;
 import the.one.net.callback.Callback;
-import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one
@@ -22,13 +21,13 @@ import the.one.net.entity.PageInfoBean;
  * @email 625805189@qq.com
  * @remark
  */
-public class UpdateApkUtil<T extends IUpdateApk>  extends BaseHttpRequest{
+public class UpdateApkUtil  extends BaseHttpRequest{
 
     private  Context mContext;
     private QMUITipDialog loadingDialog;
-    private boolean isShowProgress =false;
+    private boolean isShowProgress;
 
-    public void check(Activity activity,Map<String,String> map,String url,boolean isShowProgress){
+    public void check(Activity activity, Map<String,String> map, String url, final boolean isShowProgress, Callback callback){
         mContext = activity;
         this.isShowProgress = isShowProgress;
         if(isShowProgress){
@@ -37,33 +36,23 @@ public class UpdateApkUtil<T extends IUpdateApk>  extends BaseHttpRequest{
         get(url,map,callback);
     }
 
-    protected Callback<T> callback = new Callback<T>() {
-        @Override
-        public void onSuccess(T response, String msg, PageInfoBean pageInfoBean) {
-            if(response.isUpdate()){
-                showNewVersionDialog(response.getUpdateDes(),response.getApkPath());
+    protected void onComplete(Object response){
+        if(response instanceof IUpdateApk){
+            if(((IUpdateApk) response).isNewVersion()){
+                showNewVersionDialog(((IUpdateApk) response).getUpdateDes(),((IUpdateApk) response).getApkPath());
             }else if(isShowProgress){
                 showIsNewVersionDialog();
                 mContext= null;
             }
+        }else{
+            throw new RuntimeException("response must implements IUpdateApk");
         }
-
-        @Override
-        public void onFailure(int resultCode, String errorMsg) {
-            ToastUtil.showToast(errorMsg);
-        }
-
-        @Override
-        public void onFinish() {
-            super.onFinish();
-            hideCheckDialog();
-        }
-    };
+    }
 
     /**
      * 显示检查进度Dialog
      */
-    protected void showCheckDialog() {
+    private void showCheckDialog() {
         loadingDialog = QMUIDialogUtil.LoadingTipsDialog(mContext, "检查中");
         loadingDialog.show();
     }
@@ -71,7 +60,7 @@ public class UpdateApkUtil<T extends IUpdateApk>  extends BaseHttpRequest{
     /**
      * 去掉检查进度Dialog
      */
-    private void hideCheckDialog() {
+    public void hideCheckDialog() {
         if (null != loadingDialog && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
@@ -81,7 +70,12 @@ public class UpdateApkUtil<T extends IUpdateApk>  extends BaseHttpRequest{
      * 显示已是最新提示语
      */
     private void showIsNewVersionDialog() {
-        QMUIDialogUtil.SuccessTipsDialog(mContext, "已是最新版本",null);
+        QMUIDialogUtil.SuccessTipsDialog(mContext, "已是最新版本", new QMUIDialogUtil.OnTipsDialogDismissListener() {
+            @Override
+            public void onDismiss() {
+                mContext= null;
+            }
+        });
     }
 
     /**

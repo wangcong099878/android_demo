@@ -32,23 +32,12 @@
 
         <activity android:name=".ui.activity.TagsActivity"/>
 
-        <activity android:name=".ui.sample.SampleIndexActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
 
         <activity android:name=".ui.sample.StickyTestActivity"/>
 
         <activity android:name=".ui.activity.BingoActivity"/>
 
-        <activity android:name=".ui.gank.GankActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-
-        <activity android:name=".ui.sample.StatusBarActivity"/>
-
         <activity android:name=".ui.sample.CameraSamplePermissionActivity" />
-
-        <activity android:name=".ui.wallpaper.WallpaperActivity"/>
 
 
         <!-- 配置实时壁纸Service -->

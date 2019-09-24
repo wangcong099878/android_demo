@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -57,35 +59,10 @@ public class WelfarePresenter extends BasePresenter<BaseDataView<GankBean>> {
 
     private static final String TAG = "WelfarePresenter";
 
-    public void getData(String url, final int page) {
+    public void getData(final Context context,String url, final int page) {
         final String fakeRefer = NetUrlConstant.WELFARE_BASE_URL + url + "/";
         url = fakeRefer + "page/" + page;
         Log.e(TAG, "getData: "+url );
-//        new  Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Document doc =   Jsoup.connect(URL).timeout(10000).get();
-//                    List<GankBean> gankBeans = new ArrayList<>();
-////            Document doc = Jsoup.parse(response);
-//                    Element total = doc.select("div.postlist").first();
-//                    Elements items = total.select("li");
-//                    for (Element element : items) {
-//                        GankBean gankBean = new GankBean();
-//                        gankBean.setUrl(element.select("img").first().attr("data-original"));
-//                        gankBean.setLink(element.select("a[href]").attr("href"));
-//                        gankBean.setRefer(fakeRefer);
-//                        gankBeans.add(gankBean);
-//                    }
-//                    getView().onComplete(gankBeans);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    if (isViewAttached())
-//                        getView().onFail(e);
-//                }
-//            }
-//        }).start();
-
         OkHttpUtils.get().url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -108,8 +85,8 @@ public class WelfarePresenter extends BasePresenter<BaseDataView<GankBean>> {
                         gankBean.setRefer(fakeRefer);
                         gankBeans.add(gankBean);
                     }
-                    getView().onComplete(gankBeans);
-//                    parseSize(context,gankBeans);
+//                    getView().onComplete(gankBeans);
+                    parseSize(context,gankBeans);
                 }
             }
         });
@@ -119,7 +96,10 @@ public class WelfarePresenter extends BasePresenter<BaseDataView<GankBean>> {
         for (int i = 0; i < data.size(); i++) {
             final int position = i;
             final GankBean item = data.get(i);
-            Glide.with(context).asBitmap().load(item.getUrl()).into(new SimpleTarget<Bitmap>() {
+            GlideUrl glideUrl = new GlideUrl(item.getUrl(), new LazyHeaders.Builder()
+                    .addHeader("Referer", item.getRefer())
+                    .build());
+            Glide.with(context).asBitmap().load(glideUrl).into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                     item.setWidth(resource.getWidth());

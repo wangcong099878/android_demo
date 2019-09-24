@@ -28,7 +28,6 @@ import com.qmuiteam.qmui.BuildConfig;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIPackageHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.qmuiteam.qmui.widget.webview.QMUIWebView;
 
 import the.one.base.R;
 import the.one.base.util.FileDirectoryUtil;
@@ -40,7 +39,7 @@ import the.one.base.util.FileDirectoryUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class BaseWebView extends QMUIWebView {
+public class BaseWebView extends BridgeWebView {
 
     public BaseWebView(Context context) {
         this(context, null);

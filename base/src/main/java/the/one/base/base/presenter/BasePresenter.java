@@ -18,8 +18,6 @@ package the.one.base.base.presenter;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.app.Activity;
-
 import the.one.base.base.view.BaseView;
 
 /**
@@ -30,6 +28,8 @@ import the.one.base.base.view.BaseView;
  * @remark
  */
 public class BasePresenter<V extends BaseView> {
+
+    protected final String TAG = this.getClass().getSimpleName();
 
     private V baseView;
 

@@ -1,6 +1,5 @@
 package the.one.demo.adapter;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -40,8 +39,8 @@ import the.one.demo.bean.Wallpaper;
  */
 public class WallpaperAdapter extends BaseRadiusShadowAdapter<Wallpaper> {
 
-    public WallpaperAdapter(Context context) {
-        super(context,R.layout.item_wallpaper);
+    public WallpaperAdapter() {
+        super(R.layout.item_wallpaper);
     }
 
     @Override

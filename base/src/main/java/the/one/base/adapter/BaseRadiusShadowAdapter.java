@@ -1,16 +1,16 @@
 package the.one.base.adapter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.qmuiteam.qmui.layout.QMUIFrameLayout;
-import com.qmuiteam.qmui.layout.QMUILinearLayout;
-import com.qmuiteam.qmui.layout.QMUIRelativeLayout;
+import com.qmuiteam.qmui.layout.IQMUILayout;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import java.util.List;
+
+import the.one.base.BaseApplication;
 
 
 //  ┏┓　　　┏┓
@@ -44,43 +44,32 @@ public abstract class BaseRadiusShadowAdapter<T> extends BaseQuickAdapter<T,Base
     protected int mShadow = 5;
     protected float mShadowAlpha = 0.75f;
 
-    public BaseRadiusShadowAdapter(Context context, int layoutResId, @Nullable List<T> data) {
+    public BaseRadiusShadowAdapter( int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
-        initRadioShadow(context);
+        initRadioShadow();
     }
 
-    public BaseRadiusShadowAdapter(Context context, @Nullable List<T> data) {
+    public BaseRadiusShadowAdapter( @Nullable List<T> data) {
         super(data);
-        initRadioShadow(context);
+        initRadioShadow();
     }
 
-    public BaseRadiusShadowAdapter(Context context, int layoutResId) {
+    public BaseRadiusShadowAdapter( int layoutResId) {
         super(layoutResId);
-        initRadioShadow(context);
+        initRadioShadow();
     }
 
-    private void initRadioShadow(Context context){
-        mContext = context;
-        mRadius = QMUIDisplayHelper.dp2px(context,mRadius);
-        mShadow = QMUIDisplayHelper.dp2px(context,mShadow);
+    private void initRadioShadow(){
+        mRadius = QMUIDisplayHelper.dp2px(BaseApplication.getInstance(),mRadius);
+        mShadow = QMUIDisplayHelper.dp2px(BaseApplication.getInstance(),mShadow);
     }
 
-    protected void setRadiusAndShadow(QMUILinearLayout linearLayout){
-        linearLayout.setRadiusAndShadow(mRadius,
-                mShadow,
-                mShadowAlpha);
-    }
-
-    protected void setRadiusAndShadow(QMUIFrameLayout frameLayout){
-        frameLayout.setRadiusAndShadow(mRadius,
-                mShadow,
-                mShadowAlpha);
-    }
-
-    protected void setRadiusAndShadow(QMUIRelativeLayout relativeLayout){
-        relativeLayout.setRadiusAndShadow(mRadius,
-                mShadow,
-                mShadowAlpha);
+    protected void setRadiusAndShadow(View view){
+        if(view instanceof IQMUILayout){
+            ((IQMUILayout) view).setRadiusAndShadow(mRadius,
+                    mShadow,
+                    mShadowAlpha);
+        }
     }
 
 }
