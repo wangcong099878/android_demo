@@ -32,14 +32,16 @@ LIST? GRID? STAGGERED? 一句代码
     }
 ```
 
-什么？还要懒加载？只需要返回这个。
+v1.1.0 已经通过父容器判断懒加载的加载时间，下面的方法不再使用。
 
-```
+~~什么？还要懒加载？只需要返回这个。~~
+
+~~
    @Override
     protected boolean onAnimationEndInit() {
         return false;
     }
-```
+~~
 
 
 
