@@ -6,20 +6,20 @@
 
 #### 预览
 
+
 [如何写一个常用的主界面（ViewPager+Tab）](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/fragment/IndexFragment.java)
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155654_b46fccb5_2286054.png "S90312-151521.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164724_adc57bb3_2286054.png "index_fragment.png")
 
 
 [如何写一个常用的TitleBar+Tab+ViewPager布局](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/fragment/CategoryFragment.java)
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155709_cc65ed3d_2286054.png "S90312-151529.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164857_396d70bc_2286054.png "titlebar_tab_viewpager.png")
 
 
 [如何写一个常用的数据显示界面](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/fragment/GankFragment.java)
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0312/155923_cdb5f007_2286054.gif "99d6571a-1ce7-4f85-82bf-44dcda06c846.gif")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164925_69861416_2286054.gif "70641806-d40e-434e-8220-e087e0f31a93.gif")
 
 下拉刷新？加载更多？空页面？网络错误页面?  统统都封装好了。
 
@@ -32,15 +32,15 @@ LIST? GRID? STAGGERED? 一句代码
     }
 ```
 
-v1.1.0 已经通过父容器判断懒加载的加载时间，下面的方法不再使用。
+**v1.1.0** 已经通过父容器判断懒加载的加载时间，下面的方法不再使用。
 
 ~~什么？还要懒加载？只需要返回这个。~~
 
 ```
-   ~~@Override~~
-    ~~protected boolean onAnimationEndInit() {~~
-        ~~return false;~~
-    ~~}~~
+   @Override
+   protected boolean onAnimationEndInit() {
+       return false;
+   }
 ```
 
 
