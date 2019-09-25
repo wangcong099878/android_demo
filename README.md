@@ -7,17 +7,17 @@
 #### 预览
 
 
-[如何写一个常用的主界面（ViewPager+Tab）](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/fragment/IndexFragment.java)
+[如何写一个常用的主界面（ViewPager+Tab）](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/GankIndexFragment.java)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164724_adc57bb3_2286054.png "index_fragment.png")
 
 
-[如何写一个常用的TitleBar+Tab+ViewPager布局](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/fragment/CategoryFragment.java)
+[如何写一个常用的TitleBar+Tab+ViewPager布局](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/CategoryFragment.java)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164857_396d70bc_2286054.png "titlebar_tab_viewpager.png")
 
 
-[如何写一个常用的数据显示界面](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/fragment/GankFragment.java)
+[如何写一个常用的数据显示界面](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/gank/GankFragment.java)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164925_69861416_2286054.gif "70641806-d40e-434e-8220-e087e0f31a93.gif")
 
