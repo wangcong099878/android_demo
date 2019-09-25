@@ -68,11 +68,6 @@ public class GankFragment extends BaseDataFragment<GankBean> {
     }
 
     @Override
-    protected boolean onAnimationEndInit() {
-        return false;
-    }
-
-    @Override
     public BasePresenter getPresenter() {
         return gankPresenter = new GankPresenter();
     }

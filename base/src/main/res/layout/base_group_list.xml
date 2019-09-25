@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<lib.homhomlib.design.SlidingLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/slidingLayout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:background_view="@layout/simple_sliding_group_list_bg_layout"
-    app:sliding_mode="both">
+    android:background="@color/qmui_config_color_background">
 
-    <com.qmuiteam.qmui.widget.QMUIObservableScrollView
+    <the.one.base.widge.overscroll.OverScrollScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/qmui_config_color_background">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,14 +23,15 @@
             <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
                 android:id="@+id/groupListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@color/qmui_config_color_background"/>
 
             <FrameLayout
                 android:id="@+id/fl_bottom_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
-    </com.qmuiteam.qmui.widget.QMUIObservableScrollView>
-</lib.homhomlib.design.SlidingLayout>
+    </the.one.base.widge.overscroll.OverScrollScrollView>
+</FrameLayout>

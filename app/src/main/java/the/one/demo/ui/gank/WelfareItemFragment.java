@@ -61,7 +61,7 @@ public class WelfareItemFragment extends BaseDataFragment<GankBean> {
     }
 
     @Override
-    protected boolean onAnimationEndInit() {
+    protected boolean isNeedChangeStatusBarMode() {
         return false;
     }
 

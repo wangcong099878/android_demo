@@ -43,11 +43,6 @@ public class SampleFragment extends BaseGroupListFragment {
             PULL_EXTEND,STATUS_BAR_HELP,STRING_UTIL,PROGRESS_DIALOG,CAMERA,DATE_PICKER,LETTER_SEARCH,
             ROUND_CHECK_BOX,CITY_SELECT;
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        QMUIStatusBarHelper.setStatusBarDarkMode(getActivity());
-    }
 
     @Override
     protected void addGroupListView() {

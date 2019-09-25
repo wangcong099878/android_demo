@@ -4,12 +4,10 @@ import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import lib.homhomlib.design.SlidingLayout;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseGroupListFragment;
 import the.one.demo.NetUrlConstant;
 import the.one.demo.R;
-import the.one.demo.ui.sample.fragment.SampleFragment;
 
 
 //  ┏┓　　　┏┓
@@ -41,11 +39,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
 
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
 
-
-    @Override
-    protected boolean onAnimationEndInit() {
-        return false;
-    }
     @Override
     protected boolean showTitleBar() {
         return false;
@@ -62,8 +55,12 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     }
 
     @Override
+    protected int getScrollViewParentBgColor() {
+        return R.color.qmui_config_color_white;
+    }
+
+    @Override
     protected void addGroupListView() {
-        slidingLayout.setSlidingMode(SlidingLayout.SLIDING_MODE_TOP);
         Gank = CreateNormalItemView("Gank.io");
         Copy = CreateNormalItemView("KotlinGankApp");
         QMUI = CreateDetailItemView("QMUI", "强烈推荐");

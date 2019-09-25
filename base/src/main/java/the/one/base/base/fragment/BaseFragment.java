@@ -8,10 +8,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import butterknife.ButterKnife;
@@ -103,24 +104,57 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     public abstract BasePresenter getPresenter();
 
     /**
-     * @return
-     * @TODO 动画结束后初始化
-     * @remark 1.如果是ViewPager里的Fragment, 这个时候主要是要懒加载，则要返回false,因为不会有动画
-     * 2.一个单独的Fragment想要为了避免卡顿，要在动画结束后做一些耗时操作，可以再onLazyInit()里面去处理
+     * @return 是否要进行对状态栏的处理
+     * @remark 默认当为根fragment时才进行处理
      */
-    protected boolean onAnimationEndInit() {
-        return true;
+    protected boolean isNeedChangeStatusBarMode() {
+        return isIndexFragment;
     }
 
     /**
-     * @TODO 在这里处理延迟的
+     * @return 是否设置状态栏LightMode 深色图标 白色背景
+     * @remark 默认根据当前TopBarLayout的背景颜色是否为白色或是否存在渐变色背景进行判断
+     */
+    protected boolean isStatusBarLightMode() {
+        return !StatusBarUtil.isTranslucent(getBaseFragmentActivity());
+    }
+
+    /**
+     * BaseFragmentActivity 创建的是一个 QMUIWindowInsetLayout
+     * 所以用这个判断是不是根Fragment
+     */
+    protected boolean isIndexFragment = false;
+
+    /**
+     * @TODO 动画结束后开始初始化
+     * 懒加载分两种情况
+     * 1.在动画结束后开始进行加载
+     * 2.当前Fragment为子Fragment时，比如ViewPager的ItemFragment,或者FrameLayout包裹的，这种情况下当界面可见时才进行加载
+     * <p>
+     * 这里自动根据 {@link #isIndexFragment} 判断是以哪种情况进行懒加载
      */
     protected void onLazyInit() {
     }
 
-    protected boolean isStatusBarLightMode() {
-        return !StatusBarUtil.isTranslucent(getBaseFragmentActivity());
+    protected boolean mIsFirstLayInit = false;
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onLazyResume() {
+        if (!isIndexFragment && !mIsFirstLayInit) {
+            mIsFirstLayInit = true;
+            onLazyInit();
+        }
     }
+
+    @Override
+    protected void onEnterAnimationEnd(@Nullable Animation animation) {
+        super.onEnterAnimationEnd(animation);
+        if (isIndexFragment && !mIsFirstLayInit) {
+            mIsFirstLayInit = true;
+            onLazyInit();
+        }
+    }
+
 
     /**
      * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
@@ -203,38 +237,22 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(onAnimationEndInit()){
+        if (isNeedChangeStatusBarMode()) {
             if (isStatusBarLightMode()) {
                 QMUIStatusBarHelper.translucent(getBaseFragmentActivity());
                 QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
             } else {
-                QMUIStatusBarHelper.translucent(getBaseFragmentActivity(),getColorr(R.color.qmui_config_color_transparent));
+                QMUIStatusBarHelper.translucent(getBaseFragmentActivity(), getColorr(R.color.qmui_config_color_transparent));
                 QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
             }
         }
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
-    protected boolean mIsFirstLayInit = false;
-
-    /**
-     * 懒加载一般用在ViewPager里的Fragment,一般的加载要放在onAnimationEnd（）里面
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onLazyResume() {
-        if (!onAnimationEndInit() &&!mIsFirstLayInit){
-                mIsFirstLayInit = true;
-                onLazyInit();
-        }
-    }
-
     @Override
-    protected void onEnterAnimationEnd(@Nullable Animation animation) {
-        super.onEnterAnimationEnd(animation);
-        if (onAnimationEndInit() && !mIsFirstLayInit) {
-            mIsFirstLayInit = true;
-            onLazyInit();
-        }
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        isIndexFragment = container instanceof QMUIWindowInsetLayout;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

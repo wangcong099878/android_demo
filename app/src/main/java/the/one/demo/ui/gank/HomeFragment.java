@@ -67,23 +67,12 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     private List<GankBean> welfare;
 
     @Override
-    protected boolean isStatusBarLightMode() {
-        return true;
-    }
-
-    @Override
-    protected boolean onAnimationEndInit() {
-        return false;
-    }
-
-    @Override
     protected boolean showTitleBar() {
         return false;
     }
 
     @Override
     protected boolean isStickyHeader() { return true; }
-
 
     @Override
     protected int getContentViewId() {
