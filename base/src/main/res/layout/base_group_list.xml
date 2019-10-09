@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/fl_top_layout"
+                android:id="@+id/fl_child_top_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -27,7 +27,7 @@
                 android:background="@color/qmui_config_color_background"/>
 
             <FrameLayout
-                android:id="@+id/fl_bottom_layout"
+                android:id="@+id/fl_child_bottom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -34,6 +34,8 @@ import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
 import the.one.base.widge.WWPullRefreshLayout;
+import the.one.base.widge.decoration.GridSpacingItemDecoration;
+import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.net.entity.PageInfoBean;
 
 /**
@@ -79,6 +81,14 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      */
     protected int setColumn() {
         return 2;
+    }
+
+    /**
+     * 间距
+     * @return
+     */
+    protected int setSpacing(){
+        return 30;
     }
 
     protected RecyclerView recycleView;
@@ -138,10 +148,15 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 break;
             case TYPE_GRID:
                 layoutManager = new GridLayoutManager(getActivity(), setColumn());
+                recycleView.addItemDecoration(new GridSpacingItemDecoration(setColumn(),setSpacing(),true));
                 break;
             case TYPE_STAGGERED:
                 layoutManager = new StaggeredGridLayoutManager(setColumn(), StaggeredGridLayoutManager.VERTICAL);
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+//                recycleView.addItemDecoration(new GridSpacingItemDecoration(setColumn(),setSpacing(),true));
+                int space = setSpacing()/2;
+                recycleView.addItemDecoration(new SpacesItemDecoration(space));
+                setMargins(recycleView,space,space,space,space);
                 break;
         }
         recycleView.setLayoutManager(layoutManager);

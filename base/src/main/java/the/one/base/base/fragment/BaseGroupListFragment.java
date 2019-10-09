@@ -45,14 +45,22 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * 有拉弹效果的ScrollView
      * 拉弹的背景颜色和父布局的颜色一样
      * 如果需要拉弹的背景颜色就修改mParentLayout的背景颜色
-     *
      */
     protected OverScrollScrollView mScrollView;
 
     protected abstract void addGroupListView();
 
-    protected int getScrollViewParentBgColor(){
+    protected int getScrollViewParentBgColor() {
         return R.color.qmui_config_color_background;
+    }
+
+    /**
+     * 顶部的布局是否使用子类的
+     * 这样顶部的布局就被包裹在了OverScrollScrollView里面，可以有拉弹效果
+     * @return
+     */
+    protected boolean isTopLayoutUseChildLayout() {
+        return false;
     }
 
     @Override
@@ -71,15 +79,20 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         mGroupListView = view.findViewById(R.id.groupListView);
         mScrollView = view.findViewById(R.id.scrollView);
         mParentLayout.setBackgroundColor(getColorr(getScrollViewParentBgColor()));
+        if(isTopLayoutUseChildLayout()||!isNeedAround()){
+            // 当isNeedAround()为true时，在BaseFragment里会先把getTopLayout()放到flTopLayout，所以这里要移除掉
+            if(null != flTopLayout){
+                flTopLayout.removeAllViews();
+            }
+            flTopLayout = view.findViewById(R.id.fl_child_top_layout);
+            setCustomLayout(flTopLayout,getTopLayout());
+        }
         if (!isNeedAround()) {
-            flTopLayout = view.findViewById(R.id.fl_top_layout);
-            setCustomLayout(flTopLayout, getTopLayout());
-            flBottomLayout = view.findViewById(R.id.fl_bottom_layout);
-            setCustomLayout(flBottomLayout, getBottomLayout());
+            flBottomLayout = view.findViewById(R.id.fl_child_bottom_layout);
+            setCustomLayout(flBottomLayout,getBottomLayout());
         }
         addGroupListView();
     }
-
 
     /**
      * @param title       section 标题
@@ -230,7 +243,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
     /**
      * 创建标题+内容格式
      *
-     * @param title  标题
+     * @param title 标题
      * @return
      */
     public QMUICommonListItemView CreateDetailItemView(CharSequence title) {
@@ -320,7 +333,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateCustomView(CharSequence title, View view) {
-        return CreateCustomView(title,"", view);
+        return CreateCustomView(title, "", view);
     }
 
     /**

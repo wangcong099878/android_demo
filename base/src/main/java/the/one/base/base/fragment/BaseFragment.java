@@ -126,7 +126,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected boolean isIndexFragment = false;
 
     /**
-     * @TODO 动画结束后开始初始化
      * 懒加载分两种情况
      * 1.在动画结束后开始进行加载
      * 2.当前Fragment为子Fragment时，比如ViewPager的ItemFragment,或者FrameLayout包裹的，这种情况下当界面可见时才进行加载
