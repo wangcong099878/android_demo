@@ -55,7 +55,7 @@ public class GankBean {
     private String refer;
     private String link;
 
-    private int width;
+    private int width = 230;
     private int height;
 
     public String getId() {

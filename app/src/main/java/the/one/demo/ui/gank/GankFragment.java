@@ -78,6 +78,11 @@ public class GankFragment extends BaseDataFragment<GankBean> {
     }
 
     @Override
+    protected int setColumn() {
+        return 2;
+    }
+
+    @Override
     protected BaseQuickAdapter getAdapter() {
         return isWelfare ? new WelfareAdapter() : new GankAdapter();
     }

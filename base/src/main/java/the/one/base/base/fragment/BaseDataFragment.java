@@ -34,8 +34,7 @@ import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
 import the.one.base.widge.WWPullRefreshLayout;
-import the.one.base.widge.decoration.GridSpacingItemDecoration;
-import the.one.base.widge.decoration.SpacesItemDecoration;
+import the.one.base.widge.decoration.GridSpacesItemDecoration;
 import the.one.net.entity.PageInfoBean;
 
 /**
@@ -148,15 +147,12 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 break;
             case TYPE_GRID:
                 layoutManager = new GridLayoutManager(getActivity(), setColumn());
-                recycleView.addItemDecoration(new GridSpacingItemDecoration(setColumn(),setSpacing(),true));
+                recycleView.addItemDecoration(new GridSpacesItemDecoration(setSpacing(),setColumn()));
                 break;
             case TYPE_STAGGERED:
                 layoutManager = new StaggeredGridLayoutManager(setColumn(), StaggeredGridLayoutManager.VERTICAL);
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-//                recycleView.addItemDecoration(new GridSpacingItemDecoration(setColumn(),setSpacing(),true));
-                int space = setSpacing()/2;
-                recycleView.addItemDecoration(new SpacesItemDecoration(space));
-                setMargins(recycleView,space,space,space,space);
+                recycleView.addItemDecoration(new GridSpacesItemDecoration(setSpacing(),setColumn()));
                 break;
         }
         recycleView.setLayoutManager(layoutManager);

@@ -3,6 +3,7 @@ package the.one.demo.ui.gank;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
@@ -15,7 +16,6 @@ import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
-import the.one.base.widge.QMUICollapsingTopBarLayout;
 import the.one.demo.NetUrlConstant;
 import the.one.demo.R;
 import the.one.demo.adapter.HomeAdapter;
@@ -71,9 +71,6 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     }
 
     @Override
-    protected boolean isStickyHeader() { return true; }
-
-    @Override
     protected int getContentViewId() {
         return R.layout.fragment_home;
     }
@@ -83,12 +80,6 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
         collapsingTopbarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
         collapsingTopbarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_white));
-        collapsingTopbarLayout.setStateChangeListener(new QMUICollapsingTopBarLayout.AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(QMUICollapsingTopBarLayout.State state, int offset) {
-
-            }
-        });
         initStickyLayout();
         initData();
     }

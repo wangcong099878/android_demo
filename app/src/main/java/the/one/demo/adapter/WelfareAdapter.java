@@ -47,8 +47,7 @@ public class WelfareAdapter extends BaseQuickAdapter<GankBean, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, GankBean item) {
         ScaleImageView imageView = helper.getView(R.id.girl_item_iv);
-        if (item.getWidth() != 0)
-            imageView.setInitSize(item.getWidth(), item.getHeight());
+        imageView.setInitSize(item.getWidth(), item.getHeight());
         String refer = item.getRefer();
         if (TextUtils.isEmpty(refer)) {
             GlideUtil.load(mContext, item.getUrl(), imageView);
