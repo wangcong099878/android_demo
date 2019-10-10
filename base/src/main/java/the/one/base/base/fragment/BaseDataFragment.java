@@ -254,6 +254,15 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 adapter.loadMoreEnd();
             }
         } else {
+            if(!isFirst && adapter.getData().size()>0){
+                T oldData = (T) adapter.getData().get(0);
+                T newData = data.get(0);
+                if(oldData.equals(newData)){
+                    isFirst = false;
+                    isHeadFresh = false;
+                    return;
+                }
+            }
             if (isFirst) {
                 showView(flBottomLayout);
                 showView(flTopLayout);
