@@ -71,8 +71,7 @@ public class GridSpacesItemDecoration extends RecyclerView.ItemDecoration {
                 outRect.right = halfSpace;
             }
         }
-        outRect.bottom = space;
-        if (parent.getChildAdapterPosition(view) < column)
-            outRect.top = space;
+        outRect.bottom = halfSpace;
+        outRect.top = halfSpace;
     }
 }

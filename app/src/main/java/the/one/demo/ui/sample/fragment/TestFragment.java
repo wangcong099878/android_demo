@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import the.one.base.base.fragment.BaseFragment;
@@ -49,7 +51,10 @@ public class TestFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
-        initFragmentBack(TAG);
+        EditText editText = new EditText(_mActivity);
+        editText.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        mTopLayout.setCenterView(editText);
+        addTopBarBackBtn();
         mWaveView.setDuration(10000);
         mWaveView.setStyle(Paint.Style.FILL);
         mWaveView.setColor(Color.RED);

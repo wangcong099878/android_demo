@@ -176,14 +176,14 @@ public class MyTopBar extends RelativeLayout {
 
         Drawable bgDrawable;
         try {
-            bgDrawable = QMUIResHelper.getAttrDrawable(context,R.attr.qmui_topbar_bg_drawable);
-        }catch (Exception e){
+            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
+        } catch (Exception e) {
             bgDrawable = null;
         }
-        isNoBackground= null == bgDrawable;
-        if(isNoBackground){
+        isNoBackground = null == bgDrawable;
+        if (isNoBackground) {
             setBackgroundDividerEnabled(hasSeparator);
-        }else{
+        } else {
             setBackground(bgDrawable);
         }
     }
@@ -235,10 +235,6 @@ public class MyTopBar extends RelativeLayout {
         if (params == null) {
             params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         }
-        if(mLeftLastViewId != -1)
-            params.addRule(RelativeLayout.RIGHT_OF,mLeftLastViewId);
-        if(mRightLastViewId != -1)
-            params.addRule(RelativeLayout.LEFT_OF,mRightLastViewId);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         addView(view, params);
     }
@@ -735,21 +731,9 @@ public class MyTopBar extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (mTitleContainerView != null) {
             // 计算左侧 View 的总宽度
-            int leftViewWidth = 0;
-            for (int leftViewIndex = 0; leftViewIndex < mLeftViewList.size(); leftViewIndex++) {
-                View view = mLeftViewList.get(leftViewIndex);
-                if (view.getVisibility() != GONE) {
-                    leftViewWidth += view.getMeasuredWidth();
-                }
-            }
+            int leftViewWidth = getLeftViewsWidth();
             // 计算右侧 View 的总宽度
-            int rightViewWidth = 0;
-            for (int rightViewIndex = 0; rightViewIndex < mRightViewList.size(); rightViewIndex++) {
-                View view = mRightViewList.get(rightViewIndex);
-                if (view.getVisibility() != GONE) {
-                    rightViewWidth += view.getMeasuredWidth();
-                }
-            }
+            int rightViewWidth = getRightViewsWidth();
             // 计算 titleContainer 的最大宽度
             int titleContainerWidth;
             if ((mTitleGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL) {
@@ -775,38 +759,90 @@ public class MyTopBar extends RelativeLayout {
             }
             int titleContainerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(titleContainerWidth, MeasureSpec.EXACTLY);
             mTitleContainerView.measure(titleContainerWidthMeasureSpec, heightMeasureSpec);
+        } else if (mCenterView != null) {
+            // 计算左侧 View 的总宽度
+            int leftViewWidth = getLeftViewsWidth();
+            // 计算右侧 View 的总宽度
+            int rightViewWidth = getRightViewsWidth();
+            int widthSize = MeasureSpec.getSize(widthMeasureSpec) - Math.max(leftViewWidth, rightViewWidth) * 2;
+            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+            int centerWidthMeasureSpec, centerHeightMeasureSpec;
+            ViewGroup.LayoutParams lp = mCenterView.getLayoutParams();
+            if (lp != null) {
+                if (lp.width > 0) {
+                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(widthSize, lp.width), MeasureSpec.EXACTLY);
+                } else if (lp.width == ViewGroup.LayoutParams.MATCH_PARENT) {
+                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
+                } else {
+                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST);
+                }
+                if (lp.height > 0) {
+                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(heightSize, lp.height), MeasureSpec.EXACTLY);
+                } else if (lp.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
+                } else {
+                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
+                }
+            } else {
+                centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST);
+                centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
+            }
+            mCenterView.measure(centerWidthMeasureSpec, centerHeightMeasureSpec);
         }
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (mTitleContainerView != null) {
-            int titleContainerViewWidth = mTitleContainerView.getMeasuredWidth();
-            int titleContainerViewHeight = mTitleContainerView.getMeasuredHeight();
-            int titleContainerViewTop = (b - t - mTitleContainerView.getMeasuredHeight()) / 2;
-            int titleContainerViewLeft = getPaddingLeft();
-            if ((mTitleGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL) {
-                // 标题水平居中
-                titleContainerViewLeft = (r - l - mTitleContainerView.getMeasuredWidth()) / 2;
-            } else {
-                // 标题非水平居中
-                // 计算左侧 View 的总宽度
-                for (int leftViewIndex = 0; leftViewIndex < mLeftViewList.size(); leftViewIndex++) {
-                    View view = mLeftViewList.get(leftViewIndex);
-                    if (view.getVisibility() != GONE) {
-                        titleContainerViewLeft += view.getMeasuredWidth();
-                    }
-                }
+        layoutView(l,t,r,b,mTitleContainerView,mCenterView);
+    }
 
-                if (mLeftViewList.isEmpty()) {
-                    //左侧没有按钮，标题离左侧间距
-                    titleContainerViewLeft += QMUIResHelper.getAttrDimen(getContext(),
-                            R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
+    private void layoutView(int l,int t,int r,int b, View... views) {
+        for (View view : views) {
+            if (null != view) {
+                int viewWidth = view.getMeasuredWidth();
+                int viewHeight = view.getMeasuredHeight();
+                int viewTop = (b - t - view.getMeasuredHeight()) / 2;
+                int viewLeft = getPaddingLeft();
+                if(view == mTitleContainerView){
+                    if ((mTitleGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL) {
+                        // 标题水平居中
+                        viewLeft = (r - l - mTitleContainerView.getMeasuredWidth()) / 2;
+                    }else{
+                        viewLeft += QMUIResHelper.getAttrDimen(getContext(),
+                                R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
+                    }
+                }else{
+                    viewLeft += getLeftViewsWidth();
+                }
+                view.layout(viewLeft, viewTop, viewLeft + viewWidth, viewTop + viewHeight);
+            }
+        }
+    }
+
+    private int getLeftViewsWidth() {
+        return getViewsWidth(mLeftViewList);
+    }
+
+    private int getRightViewsWidth() {
+        return getViewsWidth(mRightViewList);
+    }
+
+    private int getViewsWidth(List<View> views) {
+        int width = 0;
+        if (null != views && views.size() > 0) {
+            for (int leftViewIndex = 0; leftViewIndex < views.size(); leftViewIndex++) {
+                View leftView = views.get(leftViewIndex);
+                if (leftView.getVisibility() != GONE) {
+                    width += leftView.getMeasuredWidth();
                 }
             }
-            mTitleContainerView.layout(titleContainerViewLeft, titleContainerViewTop, titleContainerViewLeft + titleContainerViewWidth, titleContainerViewTop + titleContainerViewHeight);
         }
+//        else {
+//            width = QMUIResHelper.getAttrDimen(getContext(),
+//                    R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
+//        }
+        return width;
     }
 
 }
