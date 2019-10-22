@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:fitsSystemWindows="true">
-        <com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout
+
+        <the.one.base.widge.TheCollapsingTopBarLayout
             android:id="@+id/collapsing_topbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -39,7 +40,7 @@
                 app:qmui_layout_collapseMode="parallax"
                 app:qmui_topbar_bg_color="@color/qmui_config_color_transparent"
                 app:qmui_topbar_need_separator="false"/>
-        </com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout>
+        </the.one.base.widge.TheCollapsingTopBarLayout>
     </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
 
         <com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout

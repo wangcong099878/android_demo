@@ -35,25 +35,15 @@ import the.one.demo.R;
 public class GankIndexFragment extends BaseHomeFragment {
 
     @Override
-    protected boolean isNeedChangeStatusBarMode() {
-        return true;
-    }
-
-    @Override
-    protected boolean isStatusBarLightMode() {
-        return true;
-    }
-
-    @Override
     protected boolean setViewPagerSwipe() {
         return false;
     }
 
     @Override
     protected void addTabs() {
-        addTab( R.drawable.ic_home_normal,R.drawable.ic_home_selected,"主页");
-        addTab(R.drawable.ic_classification_normal,R.drawable.ic_classification_selected,"分类");
-        addTab(R.drawable.ic_mine_normal,R.drawable.ic_mine_selected,"我的");
+        addTab(R.drawable.ic_home_normal, R.drawable.ic_home_selected, "主页");
+        addTab(R.drawable.ic_classification_normal, R.drawable.ic_classification_selected, "分类");
+        addTab(R.drawable.ic_mine_normal, R.drawable.ic_mine_selected, "我的");
     }
 
     @Override
@@ -63,4 +53,21 @@ public class GankIndexFragment extends BaseHomeFragment {
         fragments.add(new MyFragment());
     }
 
+//    @Override
+//    public void onTabSelected(int index) {
+//        super.onTabSelected(index);
+//        switch (index) {
+//            case 0:
+//                HomeFragment fragment = (HomeFragment) pageAdapter.getItem(0);
+//                if (!fragment.isCollapsed()) {
+//                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+//                }
+//                break;
+//            default:
+//                QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+//                break;
+//
+//
+//        }
+//    }
 }

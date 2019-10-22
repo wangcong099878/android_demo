@@ -46,6 +46,8 @@ dependencies {
     api 'top.androidman:superbutton:1.1.1'
     api 'com.github.lzyzsd:jsbridge:1.0.4'
     api 'jp.wasabeef:glide-transformations:3.3.0'
+    api 'cat.ereza:customactivityoncrash:2.2.0'
+    implementation 'com.github.MZCretin:AutoUpdateProject:v2.0.0'
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.2@aar'
 }

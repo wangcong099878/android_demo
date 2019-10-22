@@ -1,12 +1,19 @@
 package the.one.base.service;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
@@ -16,12 +23,15 @@ import java.util.UUID;
 
 import okhttp3.Call;
 import the.one.base.R;
+import the.one.base.constant.DataConstant;
+import the.one.base.model.Download;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.BroadCastUtil;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.NotificationManager;
+import the.one.base.util.ToastUtil;
 
-public class UpdateApkService extends Service {
+public class DownloadService extends Service {
 
     public static final String TAG = "DOWNLOAD";
 
@@ -34,47 +44,50 @@ public class UpdateApkService extends Service {
     public static final String UPDATE_PROGRESS_TOTAL = "update_progress_total";
     public static final String UPDATE_PROGRESS_PERCENT = "update_progress_percent";
 
-    private static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
-    private String mUrl = null;
+    public static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
 
+    private Download mDownload;
     private int oldPercent = 0;
 
     private NotificationManager theNotificationManager;
     private NotificationCompat.Builder mBuilder;
 
-    public UpdateApkService() {
+    public DownloadService() {
     }
 
-    public static void startDown(Activity activity, String url) {
-        Intent intent = new Intent(activity, UpdateApkService.class);
-        intent.putExtra(URL, url);
+    public static void startDown(Activity activity, Download download) {
+        Intent intent = new Intent(activity, DownloadService.class);
+        intent.putExtra(DataConstant.DATA, download);
         activity.startService(intent);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (null != intent) {
-            if (null == mUrl) {
-                mUrl = intent.getStringExtra(URL);
-                initNotify();
-                startDown();
-            }
+        if (null != intent && null == mDownload) {
+            mDownload = intent.getParcelableExtra(DataConstant.DATA);
+            initNotify();
+            startDown();
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void startDown() {
+       final String destFile = TextUtils.isEmpty(mDownload.getDestFileDir()) ? FileDirectoryUtil.getDownloadPath() : mDownload.getDestFileDir();
         OkHttpUtils
                 .get()
-                .url(mUrl)
-                .tag(TAG)
+                .url(mDownload.getUrl())
+                .tag(mDownload.getUrl())
                 .build()
-                .execute(new FileCallBack(FileDirectoryUtil.getDownloadPath(), FileDirectoryUtil.getBuilder().getUpdateApkName()) {
+                .execute(new FileCallBack(destFile, mDownload.getName()) {
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        BroadCastUtil.send(UpdateApkService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, e.getMessage());
+                        BroadCastUtil.send(DownloadService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, e.getMessage());
                         updateNotification("下载失败", false);
+                        File file = new File(destFile,mDownload.getName());
+                        if(file.exists()){
+                            file.delete();
+                        }
                     }
 
                     @Override
@@ -93,8 +106,12 @@ public class UpdateApkService extends Service {
 
                     @Override
                     public void onResponse(File response, int id) {
-                        AppInfoManager.installApk(UpdateApkService.this, response);
-                        BroadCastUtil.send(UpdateApkService.this, DOWNLOAD_OK);
+                        if (mDownload.isUpdateApk()) {
+                            AppInfoManager.installApk(DownloadService.this, response);
+                        } else if (mDownload.isImage()) {
+                            updateLocationFile(response);
+                        }
+                        BroadCastUtil.send(DownloadService.this, DOWNLOAD_OK);
                         updateNotification("下载完成", true);
                     }
                 });
@@ -132,7 +149,6 @@ public class UpdateApkService extends Service {
      * 更新通知栏的状态
      */
     private void updateNotification(String title, boolean isFinish) {
-        Log.e(TAG, "updateError: ");
         //设置通知栏常住(服务退出前台运行转后台)
         stopForeground(true);
         NotificationCompat.Builder mBuilder = theNotificationManager.createNotification(NOTIFICATION_ID,
@@ -148,25 +164,41 @@ public class UpdateApkService extends Service {
         theNotificationManager.notify(NOTIFICATION_ID, mBuilder);
         stopSelf();
     }
+
     /**
-     * 获取默认的通知栏事件
-     *
-     * @return
+     * 通知系统刷新文件
      */
-//    public PendingIntent getDefaultIntent() {
-//        // 设置启动的程序，如果存在则找出，否则新的启动
-//        Intent intent = new Intent(Intent.ACTION_MAIN);
-//        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-//        intent.setComponent(new ComponentName(this,UpdateAppActivity.class));//用ComponentName得到class对象
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);// 关键的一步，设置启动模式，两种情况
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, new Intent(), PendingIntent
-//                .FLAG_UPDATE_CURRENT);
-//        return pendingIntent;
-//    }
+    private void updateLocationFile(File file) {
+        MimeTypeMap mtm = MimeTypeMap.getSingleton();
+        MediaScannerConnection.scanFile(getApplicationContext(),
+                new String[]{file.toString()},
+                new String[]{mtm.getMimeTypeFromExtension(file.toString().substring(file.toString().lastIndexOf(".") + 1))},
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(final String path, final Uri uri) {
+                        Message message = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(DataConstant.DATA2, path);
+                        message.setData(bundle);
+                        handlerToast.sendMessage(message);
+                    }
+                });
+    }
+
+
+    @SuppressLint("HandlerLeak")
+    private Handler handlerToast = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle = msg.getData();
+            ToastUtil.showLongToast("保存到 " + bundle.getString(DataConstant.DATA2));
+        }
+    };
+
     @Override
     public void onDestroy() {
-        OkHttpUtils.getInstance().cancelTag(TAG);
+        OkHttpUtils.getInstance().cancelTag(mDownload.getUrl());
         super.onDestroy();
     }
 

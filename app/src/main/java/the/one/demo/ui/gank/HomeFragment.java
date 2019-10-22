@@ -1,9 +1,11 @@
 package the.one.demo.ui.gank;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
@@ -16,6 +18,8 @@ import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
+import the.one.base.util.QMUIStatusBarHelper;
+import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.demo.NetUrlConstant;
 import the.one.demo.R;
 import the.one.demo.adapter.HomeAdapter;
@@ -54,16 +58,35 @@ import the.one.demo.ui.view.HomeView;
  */
 public class HomeFragment extends BaseSectionLayoutFragment implements HomeView {
 
+    private final int STATE_COLLAPSED = 0;
+    private final int STATE_EXPANDED = 1;
+
     @BindView(R.id.topbar)
-    QMUITopBar topbar;
+    QMUITopBar mTopBar;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.collapsing_topbar_layout)
-    QMUICollapsingTopBarLayout collapsingTopbarLayout;
+    TheCollapsingTopBarLayout mCollapsingTopBarLayout;
 
     private HomePresenter presenter;
     private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
     private List<GankBean> welfare;
+
+    private boolean isCollapsed = false;
+
+    public boolean isCollapsed() {
+        return isCollapsed;
+    }
+
+    @Override
+    protected boolean isNeedChangeStatusBarMode() {
+        return true;
+    }
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return isCollapsed;
+    }
 
     @Override
     protected boolean showTitleBar() {
@@ -78,8 +101,20 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @Override
     protected void initView(View rootView) {
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
-        collapsingTopbarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
-        collapsingTopbarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_white));
+        mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
+        mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_white));
+        mCollapsingTopBarLayout.setStateChangeListener(new TheCollapsingTopBarLayout.AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
+                if (state == TheCollapsingTopBarLayout.State.COLLAPSED) {
+                    isCollapsed = true;
+                    QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+                } else if (state == TheCollapsingTopBarLayout.State.EXPANDED) {
+                    isCollapsed = false;
+                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+                }
+            }
+        });
         initStickyLayout();
         initData();
     }
@@ -95,26 +130,26 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     }
 
     @Override
-    public void onWelfareComplete(List<GankBean> data) {
-        presenter.getData(HomePresenter.TYPE_TODAY);
+    public void onWelfareComplete(final List<GankBean> data) {
         welfare = data;
+        presenter.getData(HomePresenter.TYPE_TODAY);
         setWelfare();
     }
 
-    private void setWelfare(){
-        if(null != welfare){
+    private void setWelfare() {
+        if (null != welfare) {
             int size = welfare.size();
-            if(size>0){
-                int index = (int)(Math.random()*(size));
+            if (size > 0) {
+                int index = (int) (Math.random() * (size));
                 GankBean gankBean = welfare.get(index);
-                GlideUtil.load(_mActivity,gankBean.getUrl(),ivHead);
+                GlideUtil.load(_mActivity, gankBean.getUrl(), ivHead);
             }
         }
     }
 
     @Override
-    public void onTodayComplete(HomeBean resultsBean) {
-        collapsingTopbarLayout.setTitle("今日最新干货");
+    public void onTodayComplete(final HomeBean resultsBean) {
+        mCollapsingTopBarLayout.setTitle("今日最新干货");
         sections = new ArrayList<>();
         sections.add(parseSection(resultsBean.Android, NetUrlConstant.ANDROID));
         sections.add(parseSection(resultsBean.iOS, NetUrlConstant.IOS));
@@ -144,7 +179,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @Override
     public void onItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
         HomeItemSection itemSection = (HomeItemSection) mAdapter.getSectionItem(position);
-        BaseWebExplorerActivity.newInstance(_mActivity,itemSection.content, itemSection.url);
+        BaseWebExplorerActivity.newInstance(_mActivity, itemSection.content, itemSection.url);
     }
 
     @Override

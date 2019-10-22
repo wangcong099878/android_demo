@@ -39,6 +39,16 @@ import the.one.demo.R;
 public class CategoryFragment extends BaseTitleTabFragment {
 
     @Override
+    protected boolean isNeedChangeStatusBarMode() {
+        return true;
+    }
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return true;
+    }
+
+    @Override
     protected void initView(View rootView) {
         super.initView(rootView);
 //        把继承改为BaseTabOnTitleFragment注释掉下面的代码试试

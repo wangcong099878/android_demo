@@ -1,5 +1,6 @@
 package the.one.demo.ui.sample.fragment;
 
+import android.util.Log;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
@@ -40,9 +41,9 @@ public class SampleFragment extends BaseGroupListFragment {
             PULL_EXTEND, STATUS_BAR_HELP, STRING_UTIL, PROGRESS_DIALOG, CAMERA, DATE_PICKER, LETTER_SEARCH,
             ROUND_CHECK_BOX, CITY_SELECT, TEST;
 
-
     @Override
     protected void addGroupListView() {
+        Log.e(TAG, "addGroupListView: " );
         initFragmentBack("使用示例");
         PICTURE_SELECTOR = CreateDetailItemView("BasePictureSelectorFragment", "选择图片、视频、音频", false, true);
         WEB_VIEW = CreateDetailItemView("BaseWebExplorerActivity", "网页", true);
@@ -65,6 +66,7 @@ public class SampleFragment extends BaseGroupListFragment {
         addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX);
         addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT);
         addToGroup(TEST);
+        Log.e(TAG, "addGroupListView: 2" );
     }
 
     @Override

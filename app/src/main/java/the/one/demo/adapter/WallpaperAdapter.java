@@ -4,7 +4,6 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.qmuiteam.qmui.layout.QMUIRelativeLayout;
-import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import the.one.base.adapter.BaseRadiusShadowAdapter;
 import the.one.base.util.GlideUtil;
@@ -44,10 +43,14 @@ public class WallpaperAdapter extends BaseRadiusShadowAdapter<Wallpaper> {
     }
 
     @Override
+    protected int getRadius() {
+        return 3;
+    }
+
+    @Override
     protected void convert(BaseViewHolder helper, Wallpaper item) {
         GlideUtil.load(mContext,item.path, (ImageView) helper.getView(R.id.iv_image));
         QMUIRelativeLayout relativeLayout = helper.getView(R.id.parent);
-        mRadius = QMUIDisplayHelper.dp2px(mContext,3);
         setRadiusAndShadow(relativeLayout);
     }
 }

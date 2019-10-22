@@ -154,7 +154,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         }
     }
 
-
     /**
      * @return true绑定EventBus事件分发，默认不绑定，子类需要绑定的话复写此方法返回true.
      * @TODO 是否注册事件分发
@@ -254,6 +253,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
@@ -273,7 +273,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
                 flRightLayout = mRootView.findViewById(R.id.fl_right_layout);
                 flBottomLayout = mRootView.findViewById(R.id.fl_bottom_layout);
                 flTopLayout = mRootView.findViewById(R.id.fl_top_layout);
-
                 initAroundView();
             }
             mStatusLayout.addView(mBody, -1, -1);
@@ -283,6 +282,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
         mUnbinder = ButterKnife.bind(this, mBody);
         initView(mRootView);
+
         if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
             setMargins(mRootView.findViewById(isNeedAround() ? R.id.rl_parent : R.id.status_layout), 0, 0, 0, 0);
         }
@@ -301,7 +301,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         if (layout instanceof View) {
             parent.addView((View) layout, -1, -1);
         } else if (layout instanceof Integer) {
-            parent.addView(getView((Integer) layout), -1, -1);
+            int id = (int) layout;
+            if (id != -1)
+                parent.addView(getView((Integer) layout), -1, -1);
         } else {
             throw new ClassCastException("layout must be int or view");
         }
@@ -320,7 +322,17 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected void addTopBarBackBtn(MyTopBar topBar) {
-        topBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+        if (null != topBar)
+            topBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+    }
+
+    protected void addTopBarBackBtn(int drawable){
+        addTopBarBackBtn(drawable, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
