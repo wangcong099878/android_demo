@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
@@ -41,8 +41,8 @@ import the.one.base.R;
 
 public class TheCheckBox extends AppCompatTextView implements View.OnClickListener {
 
-    private Drawable isCheck, unCheck,current;
-    private OnCheckChangedListener  listener;
+    private Drawable isCheck, unCheck, current;
+    private OnCheckChangedListener listener;
     private int defaultPadding = 10;
 
     public TheCheckBox(Context context) {
@@ -70,52 +70,57 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
         this.unCheck = getDrawable(unCheck);
     }
 
-    private void init(Context context){
-        isCheck = getDrawable( R.drawable.qmui_icon_checkbox_checked);
-        unCheck = getDrawable( R.drawable.qmui_icon_checkbox_normal);
+    private void init(Context context) {
+        isCheck = getDrawable(R.drawable.qmui_icon_checkbox_checked);
+        unCheck = getDrawable(R.drawable.qmui_icon_checkbox_normal);
         setImageDrawable(unCheck);
-        setBackground(QMUIResHelper.getAttrDrawable(context,R.attr.selectableItemBackground));
-        setGravity(Gravity.START|Gravity.CENTER_VERTICAL);
+        setBackground(QMUIResHelper.getAttrDrawable(context, R.attr.selectableItemBackground));
+        setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         setOnClickListener(this);
+        if (!TextUtils.isEmpty(getText()))
+            setTextPadding(defaultPadding);
     }
 
-
-    public void setTextPadding(int padding){
-        setCompoundDrawablePadding(QMUIDisplayHelper.dp2px(getContext(),padding));
+    public void setTextPadding(int padding) {
+        setCompoundDrawablePadding(QMUIDisplayHelper.dp2px(getContext(), padding));
     }
 
-    public void setCheck(boolean check){
-        setImageDrawable(check?isCheck:unCheck);
+    public void setCheck(boolean check) {
+        setImageDrawable(check ? isCheck : unCheck);
     }
 
-    public boolean isCheck(){
+    public boolean isCheck() {
         return current == isCheck;
     }
 
-    private void setImageDrawable(Drawable drawable){
-        current  = drawable;
-        setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+    private void setImageDrawable(Drawable drawable) {
+        current = drawable;
+        setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
     }
 
-    private Drawable getDrawable(int drawableId){
-        return ContextCompat.getDrawable(getContext(),drawableId);
+    private Drawable getDrawable(int drawableId) {
+        return ContextCompat.getDrawable(getContext(), drawableId);
+    }
+
+    public void setTextWithPadding(CharSequence text){
+        setText(text);
+        setTextPadding(defaultPadding);
     }
 
     @Override
-    public void setText(CharSequence text, TextView.BufferType type) {
-        setTextPadding(defaultPadding);
+    public void setText(CharSequence text, BufferType type) {
         super.setText(text, type);
     }
 
     @Override
     public void onClick(View v) {
         setCheck(!isCheck());
-        if(null !=listener){
+        if (null != listener) {
             listener.onCheckChanged(isCheck());
         }
     }
 
-    public interface OnCheckChangedListener{
+    public interface OnCheckChangedListener {
         void onCheckChanged(boolean check);
     }
 }

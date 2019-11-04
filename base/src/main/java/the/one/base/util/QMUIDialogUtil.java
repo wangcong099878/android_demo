@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -68,15 +69,24 @@ public class QMUIDialogUtil {
     }
 
     public static void showPositiveDialog(final Context context, final String title, final String content, final String btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener){
-        new QMUIDialog.MessageDialogBuilder(context)
-                .setTitle(title)
-                .setMessage(content)
-                .addAction(btnLeftString, leftBtnListener)
-                .addAction(0,btnRightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightBtnListener).show();
+        QMUIDialog.MessageDialogBuilder builder =   new QMUIDialog.MessageDialogBuilder(context);
+        if(!TextUtils.isEmpty(title)){
+            builder.setTitle(title);
+        }
+        if(!TextUtils.isEmpty(content)){
+            builder.setMessage(content);
+        }
+        if(!TextUtils.isEmpty(btnLeftString)){
+            builder.addAction(btnLeftString, leftBtnListener);
+        }
+        if(!TextUtils.isEmpty(btnRightString)){
+            builder.addAction(0,btnRightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightBtnListener);
+        }
+        builder.show();
     }
 
 
-    public static void showNegativeDialog(final Context context, final String title, final String content, final String btnLeftString, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener){
+    public static void showNegativeDialog(final Context context, final String title, final CharSequence content, final String btnLeftString, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener){
         showNegativeDialog(context, title, content, btnLeftString, new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
@@ -95,7 +105,7 @@ public class QMUIDialogUtil {
      * @param btnRightString
      * @param rightBtnListener
      */
-    public static void showNegativeDialog(final Context context, final String title, final String content, final String btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener){
+    public static void showNegativeDialog(final Context context, final String title, final CharSequence content, final CharSequence btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener){
         new QMUIDialog.MessageDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(content)
@@ -272,6 +282,7 @@ public class QMUIDialogUtil {
         showEditTextDialog(context,InputType.TYPE_CLASS_TEXT,title,hint,leftText,rightText,listener);
     }
 
+
     /**
      * 带输入框的对话框
      *
@@ -315,8 +326,8 @@ public class QMUIDialogUtil {
      * @param confirm
      * @param listener
      */
-    public static void showLongMessageDialog(Context context, String title, String content, String confirm, QMUIDialogAction.ActionListener listener) {
-        new QMUIDialog.MessageDialogBuilder(context)
+    public static QMUIDialog showLongMessageDialog(Context context, String title, String content, String confirm, QMUIDialogAction.ActionListener listener) {
+      return   new QMUIDialog.MessageDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(content)
                 .addAction("取消", new QMUIDialogAction.ActionListener() {

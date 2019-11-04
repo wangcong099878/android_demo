@@ -82,7 +82,7 @@ public class PublishFragment extends BaseFragment implements View.OnClickListene
     @Override
     protected void initView(View rootView) {
         initFragmentBack("发布");
-        mTopLayout.addRightTextButton("提交", R.id.topbar_right_1).setOnClickListener(this);
+        mTopLayout.addRightTextButton("提交", R.id.topbar_right_text).setOnClickListener(this);
         tvType.setText(NetUrlConstant.title[0]);
         btnType.setOnClickListener(this);
         tvType.setOnClickListener(this);
@@ -92,7 +92,7 @@ public class PublishFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.topbar_right_1:
+            case R.id.topbar_right_text:
                 check();
                 break;
             case R.id.btn_type:

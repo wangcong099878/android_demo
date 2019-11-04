@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -209,6 +210,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return null;
     }
 
+    protected RelativeLayout rlParent;
     protected StatusLayout mStatusLayout;
     protected MyTopBarLayout mTopLayout;
     protected QMUITipDialog loadingDialog;
@@ -229,7 +231,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     protected int backViewInitOffset() {
-        return QMUIDisplayHelper.dp2px(getContext(), 200);
+        return QMUIDisplayHelper.dp2px(getContext(), 400);
     }
 
     @Override
@@ -269,6 +271,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             mTopLayout = mRootView.findViewById(R.id.top_layout);
 
             if (isNeedAround()) {
+                rlParent = mRootView.findViewById(R.id.rl_parent);
                 flLeftLayout = mRootView.findViewById(R.id.fl_left_layout);
                 flRightLayout = mRootView.findViewById(R.id.fl_right_layout);
                 flBottomLayout = mRootView.findViewById(R.id.fl_bottom_layout);
@@ -284,7 +287,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         initView(mRootView);
 
         if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
-            setMargins(mRootView.findViewById(isNeedAround() ? R.id.rl_parent : R.id.status_layout), 0, 0, 0, 0);
+            setMargins(isNeedAround() ? rlParent : mStatusLayout, 0, 0, 0, 0);
         }
         return mRootView;
     }

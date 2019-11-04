@@ -9,8 +9,11 @@
 
     <item name="topbar_left_button" type="id"/>
     <item name="topbar_left_text" type="id"/>
-    <item name="topbar_right_1" type="id"/>
-    <item name="topbar_right_2" type="id"/>
+    <item name="topbar_right_text" type="id"/>
+    <item name="topbar_right_button1" type="id"/>
+    <item name="topbar_right_button2" type="id"/>
+
+    <item name="topbar_search" type="id"/>
 
     <item name="layout_for_test" type="id"/>
 </resources>

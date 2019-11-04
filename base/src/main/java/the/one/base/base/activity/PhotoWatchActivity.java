@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,15 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
+import the.one.base.BaseApplication;
 import the.one.base.R;
 import the.one.base.adapter.ImageWatchAdapter;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
+import the.one.base.model.Download;
+import the.one.base.service.DownloadService;
 import the.one.base.util.FileDirectoryUtil;
+import the.one.base.util.ShareUtil;
 import the.one.base.widge.PhotoViewPager;
-import the.one.net.util.FailUtil;
-
-import static the.one.base.BaseApplication.context;
 
 /**
  * @author The one
@@ -34,38 +36,55 @@ import static the.one.base.BaseApplication.context;
  * @email 625805189@qq.com
  * @remark
  */
-public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapter.OnPhotoLongClickListener,QMUIBottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener {
+public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapter.OnPhotoLongClickListener, QMUIBottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener {
 
-    PhotoViewPager photoViewPager;
-    TextView textView;
+    protected static final int DOWNLOAD = 1;
+    protected static final int SHARE = 2;
 
-    private int currentPosition;
-    private ImageWatchAdapter adapter;
-    private int SUM;
-    private List<String> imageLists;
+    protected PhotoViewPager photoViewPager;
+    protected TextView textView;
 
-    private String mPath;
+    protected ImageWatchAdapter adapter;
+    protected List<String> imageLists;
+    protected String mPath;
+    protected int currentPosition;
+    protected int SUM;
+    protected int mTag;
 
-    public static void startThisActivity(Activity activity, View image,String iconPath) {
+
+    public static void startThisActivity(Activity activity, View image, String iconPath) {
         ArrayList<String> paths = new ArrayList<>();
         paths.add(iconPath);
-        startThisActivity(activity,image,paths,0);
+        startThisActivity(activity, image, paths, 0);
     }
 
     public static void startThisActivity(Activity activity, View image, ArrayList<String> list, int position) {
-        Intent in = new Intent(activity, PhotoWatchActivity.class);
+        startThisActivity(activity,PhotoWatchActivity.class,image,list,position);
+    }
+
+    public static void startThisActivity(Activity activity,Class targetActivity, View image, ArrayList<String> list, int position) {
+        Intent in = new Intent(activity, targetActivity);
         in.putStringArrayListExtra(DataConstant.DATA, list);
         in.putExtra(DataConstant.POSITION, position);
         if (null != image)
             activity.startActivity(in, ActivityOptionsCompat.makeSceneTransitionAnimation(
                     activity,
                     image,
-                    context.getString(R.string.image))
+                    BaseApplication.getInstance().getString(R.string.image))
                     .toBundle());
         else
             activity.startActivity(in);
     }
 
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return false;
+    }
+
+    @Override
+    protected boolean translucentFull() {
+        return true;
+    }
 
     @Override
     public BasePresenter getPresenter() {
@@ -99,10 +118,9 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
         });
     }
 
-
     @Override
     public void onLongClick(String path, int position) {
-        mPath= path;
+        mPath = path;
         showBottomSheetDialog();
     }
 
@@ -112,51 +130,75 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
         builder.setOnSheetItemClickListener(this).build().show();
     }
 
-    protected void addItem(QMUIBottomSheet.BottomGridSheetBuilder builder){
-        builder.addItem(R.drawable.icon_more_operation_save, "下载",0, QMUIBottomSheet.BottomGridSheetBuilder.FIRST_LINE);
+    protected void addItem(QMUIBottomSheet.BottomGridSheetBuilder builder) {
+        builder.addItem(R.drawable.icon_more_operation_save, "下载", DOWNLOAD, QMUIBottomSheet.BottomGridSheetBuilder.FIRST_LINE);
+        builder.addItem(R.drawable.ic_share, "分享", SHARE, QMUIBottomSheet.BottomGridSheetBuilder.FIRST_LINE);
     }
 
     @Override
     public void onClick(QMUIBottomSheet dialog, View itemView) {
+        mTag = (int) itemView.getTag();
+        switch (mTag) {
+            case DOWNLOAD:
+                downPhoto();
+                break;
+            case SHARE:
+                download();
+                break;
+        }
         dialog.dismiss();
-        downPhoto();
     }
 
-    private int oldPercent ;
+    private String getDownloadFileName() {
+        Log.e(TAG, "getDownloadFileName: " + mPath);
+        String suffix = "jpg";
+        if (mPath.contains(".")) {
+            int position = mPath.lastIndexOf(".");
+            int length = mPath.length();
+            if (position != length - 4 && position != length - 5) {
+                suffix ="gif";
+            }
+        }
+        StringBuffer sb = new StringBuffer();
+        sb.append("pic")
+                .append("_")
+                .append(System.currentTimeMillis())
+                .append(".")
+                .append(suffix);
+        Log.e(TAG, "getDownloadFileName: " + sb.toString());
+        return sb.toString();
+    }
 
-    private void downPhoto(){
-        String name = "pic_"+System.currentTimeMillis()+".png";
-        showProgressDialog(0,100,"下载中");
+    private void downPhoto() {
+        Download download = new Download(mPath, getDownloadFileName());
+        download.setImage(true);
+        DownloadService.startDown(this, download);
+    }
+
+    public void download() {
         OkHttpUtils
                 .get()
                 .url(mPath)
-                .tag(TAG)
+                .tag(mPath)
                 .build()
-                .execute(new FileCallBack(FileDirectoryUtil.getDownloadPath(),name) {
+                .execute(new FileCallBack(FileDirectoryUtil.getCachePath(), getDownloadFileName()) {
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        hideProgressDialog();
-                       showFailTips(FailUtil.getFailString(e));
+                        showToast("分享失败");
                     }
 
                     @Override
                     public void inProgress(float progress, long total, int id) {
-                        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
-                        int percent = (int) (progress * 100);
-                        if (percent != oldPercent) {
-                            oldPercent = percent;
-                            progressDialog.setProgress(percent,100);
-                        }
+
                     }
 
                     @Override
                     public void onResponse(File response, int id) {
-                        hideProgressDialog();
-                        oldPercent = 0;
-                        showSuccessTips("下载成功");
+                        ShareUtil.shareImageFile(PhotoWatchActivity.this, response);
                     }
                 });
+
     }
 
 }

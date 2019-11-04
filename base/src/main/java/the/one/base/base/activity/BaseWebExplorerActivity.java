@@ -30,7 +30,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.webkit.DownloadListener;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -39,7 +38,6 @@ import android.widget.ZoomButtonsController;
 import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
@@ -109,7 +107,11 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     public static void newInstance(Activity activity, String title, String url, boolean needDecodeUrl, boolean changeTitle, boolean whiteBg) {
-        Intent intent = new Intent(activity, BaseWebExplorerActivity.class);
+        newInstance(activity, BaseWebExplorerActivity.class, title, url, needDecodeUrl, changeTitle, whiteBg);
+    }
+
+    public static void newInstance(Activity activity, Class targetActivity, String title, String url, boolean needDecodeUrl, boolean changeTitle, boolean whiteBg) {
+        Intent intent = new Intent(activity, targetActivity);
         intent.putExtra(EXTRA_TITLE, title);
         intent.putExtra(EXTRA_URL, url);
         intent.putExtra(EXTRA_NEED_DECODE, needDecodeUrl);
@@ -390,8 +392,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
                 "})()");
     }
 
-    private int mPage = 0;
-
     private class ProgressHandler extends Handler {
 
         private int mDstProgressIndex;
@@ -422,7 +422,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
                     mAnimator.start();
                     break;
                 case PROGRESS_GONE:
-                    mPage++;
                     mDstProgressIndex = 0;
                     mDuration = 0;
                     mProgressBar.setProgress(0);
@@ -445,7 +444,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
     protected void doOnBackPressed() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
-            mPage--;
         } else
             super.doOnBackPressed();
     }
@@ -460,28 +458,32 @@ public class BaseWebExplorerActivity extends BaseActivity {
                 jsonObject = new JSONObject(data);
                 String src = jsonObject.getString("position");
                 String personObject = jsonObject.getString("data");
-                Log.e(TAG, "handler: "+personObject );
+                Log.e(TAG, "handler: " + personObject);
                 itemData = new Gson().fromJson(personObject,
                         new TypeToken<List<String>>() {
                         }.getType());
                 for (int i = 0; i < itemData.size(); i++) {
                     String item = itemData.get(i);
-                    if(item.contains("apps.game.qq.com")||item.contains("gpcd.gtimg.cn")){
+                    if (item.contains("apps.game.qq.com") || item.contains("gpcd.gtimg.cn")) {
                         itemData.remove(i);
                     }
                 }
                 for (int i = 0; i < itemData.size(); i++) {
                     String item = itemData.get(i);
-                    if(item.equals(src)){
+                    if (item.equals(src)) {
                         position = i;
                     }
                 }
-                PhotoWatchActivity.startThisActivity(BaseWebExplorerActivity.this, mWebView, itemData, position);
+                startPhotoWatchActivity(itemData, position);
             } catch (JSONException e) {
-                Log.e(TAG, "JSONException: " );
+                Log.e(TAG, "JSONException: ");
                 e.printStackTrace();
             }
         }
     };
+
+    protected void startPhotoWatchActivity(ArrayList<String> itemData, int position) {
+        PhotoWatchActivity.startThisActivity(BaseWebExplorerActivity.this, null, itemData, position);
+    }
 
 }

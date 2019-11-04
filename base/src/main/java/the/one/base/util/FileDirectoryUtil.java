@@ -4,6 +4,8 @@ import android.os.Environment;
 
 import java.io.File;
 
+import the.one.base.BaseApplication;
+
 /**
  * @author The one
  * @date 2018/9/20 0020
@@ -16,7 +18,7 @@ public class FileDirectoryUtil {
     /**
      * 根目录
      */
-    private static  String INDEX = "The one";
+    private static  String INDEX = AppInfoManager.getAppName(BaseApplication.getInstance());
     /**
      * 下载目录
      */
@@ -34,9 +36,18 @@ public class FileDirectoryUtil {
      */
     private static  String CACHE = "Cache";
     /**
-     * 更新包名字
+     * 更新包名称
      */
     private static  String UPDATE_APK_NAME = "update.apk";
+    /**
+     * 补丁
+     */
+    private static String PATCH = "Patch";
+
+    /**
+     * 补丁名称
+     */
+    public static String PATCH_NAME = "patch";
 
     private static Builder mBuilder;
 
@@ -72,11 +83,27 @@ public class FileDirectoryUtil {
     }
 
     /**
+     * 获取补丁文件路径
+     * @return
+     */
+    public static String getPatchFilePath(){
+        return getPatchPath()+ File.separator + PATCH_NAME;
+    }
+
+    /**
+     * 获取补丁路径
+     * @return
+     */
+    public static String getPatchPath(){
+        return getPath(PATCH);
+    }
+
+    /**
      * 获取图片目录
      * @return
      */
     public static String getPicturePath(){
-        return checkFileExists(getIndexPath() + File.separator + PICTURE) ;
+        return getPath( PICTURE );
     }
 
     /**
@@ -84,7 +111,7 @@ public class FileDirectoryUtil {
      * @return
      */
     public static String getVideoPath(){
-        return checkFileExists(getIndexPath() + File.separator + VIDEO) ;
+        return getPath( CACHE );
     }
 
     /**
@@ -92,7 +119,11 @@ public class FileDirectoryUtil {
      * @return
      */
     public static String getCachePath(){
-        return checkFileExists(getIndexPath() + File.separator + CACHE );
+        return getPath( CACHE );
+    }
+
+    private static String getPath(String path){
+        return checkFileExists(getIndexPath() + File.separator + path );
     }
 
     private static String checkFileExists(String path){
@@ -125,6 +156,10 @@ public class FileDirectoryUtil {
          * 缓存目录
          */
         public String mCache = "Cache";
+        /**
+         * 补丁目录
+         */
+        public String mPatch = "Patch";
         /**
          * 更新包名字
          */
@@ -166,6 +201,14 @@ public class FileDirectoryUtil {
             return this;
         }
 
+        public String getPatch() {
+            return mPatch;
+        }
+
+        public void setPatch(String patch) {
+            this.mPatch = patch;
+        }
+
         public String getCache() {
             return mCache;
         }
@@ -190,6 +233,7 @@ public class FileDirectoryUtil {
             FileDirectoryUtil.PICTURE = getPicture();
             FileDirectoryUtil.VIDEO = getVideo();
             FileDirectoryUtil.CACHE = getCache();
+            FileDirectoryUtil.PATCH = getPatch();
             FileDirectoryUtil.UPDATE_APK_NAME = getUpdateApkName();
             return this;
         }

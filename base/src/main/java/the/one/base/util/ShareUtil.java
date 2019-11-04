@@ -117,10 +117,10 @@ public class ShareUtil {
                 ComponentName componentName = new ComponentName(PACKAGE_MOBILE_QQ, "com.tencent.mobileqq.activity.JumpActivity");
 
                 shareIntent.setComponent(componentName);
-                // mContext.startActivity(shareIntent);
-                mContext.startActivity(Intent.createChooser(shareIntent, "Share"));
+                 mContext.startActivity(shareIntent);
+//                mContext.startActivity(Intent.createChooser(shareIntent, "Share"));
             } catch (Exception e) {
-                //            ContextUtil.getInstance().showToastMsg("分享图片到**失败");
+                QMUIDialogUtil.FailTipsDialog(mContext,"分享图片到QQ失败");
             }
         } else {
             Toast.makeText(mContext, "您需要安装QQ客户端", Toast.LENGTH_LONG).show();
@@ -158,18 +158,19 @@ public class ShareUtil {
                         uri = Uri.fromFile(new File(picFile));
                     }
                     intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (getVersionCode(mContext, PACKAGE_WECHAT) > VERSION_CODE_FOR_WEI_XIN_VER7) {
+                        // 微信7.0及以上版本
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    }
+                    mContext.startActivity(intent);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    QMUIDialogUtil.FailTipsDialog(mContext,"分享图片到微信失败");
                 }
             }
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (getVersionCode(mContext, PACKAGE_WECHAT) > VERSION_CODE_FOR_WEI_XIN_VER7) {
-                // 微信7.0及以上版本
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-            }
-            // context.startActivity(intent);
-            mContext.startActivity(Intent.createChooser(intent, "Share"));
+
         } else {
             Toast.makeText(mContext, "您需要安装微信客户端", Toast.LENGTH_LONG).show();
         }

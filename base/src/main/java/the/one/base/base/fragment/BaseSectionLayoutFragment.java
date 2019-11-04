@@ -126,7 +126,6 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
     protected void initStickyLayout() {
         mLayoutManager = createLayoutManager();
         mSectionLayout.getRecyclerView().setLayoutManager(mLayoutManager);
-
     }
 
     protected RecyclerView.LayoutManager createLayoutManager() {

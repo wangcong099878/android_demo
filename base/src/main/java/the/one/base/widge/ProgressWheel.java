@@ -29,7 +29,7 @@ public class ProgressWheel extends View {
 	 * ********* 默认情况 * **********
 	 */
 	// Sizes (with defaults in DP)
-	private int circleRadius = 20;
+	private int circleRadius = 19;
 	private int barWidth = 4;
 	private int rimWidth = 4;
 	private boolean fillRadius = false;

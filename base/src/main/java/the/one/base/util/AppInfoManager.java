@@ -412,6 +412,7 @@ public class AppInfoManager {
      * @return
      */
     public static void installApk(Context context, File file) {
+        if(null == context || null == file) return;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {

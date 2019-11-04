@@ -21,6 +21,7 @@ package the.one.base.base.fragment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,7 +51,8 @@ import the.one.base.widge.SideLetterBar;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> extends BaseFragment implements QMUIStickySectionAdapter.Callback<LetterSearchSection, LetterSearchSection> {
+public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> extends BaseFragment
+        implements LetterSearcherAdapter.onLetterSearchItemClickListener {
 
     protected QMUIStickySectionLayout mSectionLayout;
     protected CircleTextView tvLetterOverlay;
@@ -99,17 +101,13 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         tvLetterOverlay = rootView.findViewById(R.id.tv_letter_overlay);
         sideLetterBar = rootView.findViewById(R.id.side_letter_bar);
         mAdapter = new LetterSearcherAdapter();
-        mAdapter.setCallback(this);
+        mAdapter.setOnLetterSearchItemClickListener(this);
         mSectionLayout.setAdapter(mAdapter, true);
         sideLetterBar.setOverlay(tvLetterOverlay);
         mSectionLayout.getRecyclerView().setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if(newState==0){
-                    showView(sideLetterBar);
-                }else{
-                    goneView(sideLetterBar);
-                }
+                sideLetterBar.setVisibility(newState==0?View.VISIBLE:View.INVISIBLE);
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
@@ -210,13 +208,9 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Override
-    public void loadMore(QMUISection<LetterSearchSection, LetterSearchSection> section, boolean loadMoreBefore) {
-
-    }
 
     @Override
-    public void onItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
+    public void onSearchItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position){
         if (mAdapter.isShowCheckBox()) {
             updateSelectSum(position);
         } else {
@@ -225,13 +219,14 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
     }
 
     @Override
-    public boolean onItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
-        if(isNeedDelete()){
+    public boolean onSearchItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position){
+        Log.e(TAG, "onItemLongClick: " );
+        if(isNeedDelete()&&!mAdapter.isShowCheckBox()){
             mAdapter.setShowCheckBox(true);
-            updateSelectSum(position);
             initSelectTopBar();
+            updateSelectSum(position);
         }
-        return isNeedDelete();
+        return isNeedDelete()&&!mAdapter.isShowCheckBox();
     }
 
     private void updateSelectSum(int position) {
@@ -253,7 +248,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
                 exitSelect();
             }
         });
-        topRightText = mTopLayout.addRightTextButton("全选", R.id.topbar_right_1);
+        topRightText = mTopLayout.addRightTextButton("全选", R.id.topbar_right_text);
         topRightText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -36,7 +36,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.Wr
  */
 public class IndicatorUtil {
 
-    public static IPagerIndicator getLinePagerIndicator(Context context, int selectColor) {
+    public static IPagerIndicator getLinePagerIndicator(Context context,int selectColor) {
         LinePagerIndicator indicator = new LinePagerIndicator(context);
         indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
         indicator.setLineHeight(UIUtil.dip2px(context, 5));
@@ -48,7 +48,7 @@ public class IndicatorUtil {
         return indicator;
     }
 
-    public static WrapPagerIndicator getWrapPagerIndicator(Context context, int fillColor) {
+    public static WrapPagerIndicator getWrapPagerIndicator(Context context,int fillColor) {
         WrapPagerIndicator indicator = new WrapPagerIndicator(context);
         indicator.setFillColor(fillColor);
         return indicator;

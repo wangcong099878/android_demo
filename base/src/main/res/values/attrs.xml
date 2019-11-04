@@ -75,4 +75,25 @@
         <attr name="wh_text_space_ratio" format="float"/>
     </declare-styleable>
 
+
+    <declare-styleable name="NumberButton">
+        <attr name="editable" format="boolean"/>
+        <attr name="buttonWidth" format="dimension" />
+        <attr name="editextWidth" format="dimension" />
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColorr" format="color"/>
+        <attr name="backgroud" format="reference"/>
+        <attr name="individer" format="reference"/>
+        <attr name="addBackground" format="reference"/>
+        <attr name="subBackground" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressButton">
+        <attr name="progressbtn_radius" format="float" />
+        <attr name="progressbtn_backgroud_color" format="color" />
+        <attr name="progressbtn_backgroud_second_color" format="color" />
+        <attr name="progressbtn_text_color" format="color" />
+        <attr name="progressbtn_text_covercolor" format="color" />
+    </declare-styleable>
+
 </resources>

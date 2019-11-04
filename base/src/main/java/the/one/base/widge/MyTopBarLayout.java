@@ -88,8 +88,6 @@ public class MyTopBarLayout extends FrameLayout {
     private int mTopBarBgColor;
     private int mTopBarSeparatorHeight;
 
-    private boolean isNoBackground = false;
-
     public MyTopBarLayout(Context context) {
         this(context, null);
     }
@@ -122,7 +120,6 @@ public class MyTopBarLayout extends FrameLayout {
         }catch (Exception e){
             bgDrawable = null;
         }
-        isNoBackground= null == bgDrawable;
         if(!StatusBarUtil.isTranslucent(getContext())){
             setBackgroundDividerEnabled(hasSeparator);
         }else{

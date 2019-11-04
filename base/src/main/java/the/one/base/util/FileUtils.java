@@ -77,9 +77,9 @@ public class FileUtils {
      * @param file
      * @param delThisPath true代表删除参数指定file，false代表保留参数指定file
      */
-    public static void delFile(File file, boolean delThisPath) {
+    public static boolean delFile(File file, boolean delThisPath) {
         if (!file.exists()) {
-            return;
+            return false;
         }
         if (file.isDirectory()) {
             File[] subFiles = file.listFiles();
@@ -87,13 +87,14 @@ public class FileUtils {
                 int num = subFiles.length;
                 // 删除子目录和文件
                 for (int i = 0; i < num; i++) {
-                    delFile(subFiles[i], true);
+                    delFile(subFiles[i], delThisPath);
                 }
             }
         }
         if (delThisPath) {
             file.delete();
         }
+        return true;
     }
 
     /**
@@ -149,7 +150,6 @@ public class FileUtils {
                     }
                 }
             }
-
         }
         if (dir == null) {
             return true;
@@ -158,6 +158,32 @@ public class FileUtils {
         }
     }
 
+    public static String saveBitmapNewChildDir(String dir, Bitmap bitmap, int quality) {
+        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
+        return saveBitmapNewChildDir(dir, fileName, bitmap, quality);
+    }
+
+    public static String saveBitmapNewChildDir(String childDir, Bitmap bitmap) {
+        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
+        return saveBitmap(childDir,fileName, bitmap, 100);
+    }
+
+    public static String saveBitmapNewChildDir(String childDir, String fileName, Bitmap bitmap) {
+        return saveBitmap(childDir,fileName, bitmap, 100);
+    }
+
+    /**
+     *
+     * @param childDir
+     * @param fileName
+     * @param bitmap
+     * @param quality
+     * @return
+     */
+    public static String saveBitmapNewChildDir(String childDir, String fileName, Bitmap bitmap, int quality) {
+        String path = FileDirectoryUtil.getPicturePath() + File.separator + childDir;
+        return saveBitmap(path,fileName, bitmap, quality);
+    }
 
     /**
      * @param bitmap 图片
@@ -169,57 +195,33 @@ public class FileUtils {
     }
 
     /**
-     * 保存图片
      *
-     * @param fileName 文件名称
+     * @param fileName
      * @param bitmap
      * @return
      */
-    public static String saveBitmap(String fileName, Bitmap bitmap) {
-        return saveBitmap(FileDirectoryUtil.getPicturePath(), fileName, bitmap);
-    }
-
-    public static String saveBitmapNewChildDir(String dir, Bitmap bitmap) {
-        String path = FileDirectoryUtil.getPicturePath() + File.separator + dir;
-        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
-        return saveBitmap(path, fileName, bitmap);
-    }
-
-    public static String saveBitmapNewChildDir(String dir, Bitmap bitmap, int quality) {
-        String fileName = "picture_" + System.currentTimeMillis() + ".jpg";
-        return saveBitmapNewChildDir(dir, fileName, bitmap, quality);
+    public static String saveBitmap( String fileName, Bitmap bitmap) {
+        return saveBitmap(FileDirectoryUtil.getPicturePath(),fileName, bitmap, 100);
     }
 
     /**
-     * 保存图片
      *
-     * @param dir      文件名称
-     * @param fileName 图片名称
+     * @param fileName
      * @param bitmap
+     * @param quality
      * @return
      */
-    public static String saveBitmapNewChildDir(String dir, String fileName, Bitmap bitmap) {
-        String path = FileDirectoryUtil.getPicturePath() + File.separator + dir;
-        return saveBitmapNewChildDir(path, fileName, bitmap, 100);
-    }
-
-    public static String saveBitmapNewChildDir(String dir, String fileName, Bitmap bitmap, int quality) {
-        String path = FileDirectoryUtil.getPicturePath() + File.separator + dir;
-        return saveBitmap(path, fileName, bitmap, quality);
-    }
-
-
-    public static String saveBitmap(String path, String fileName, Bitmap bitmap) {
-        return saveBitmap(path, fileName, bitmap, 100);
+    public static String saveBitmap( String fileName, Bitmap bitmap,int quality) {
+        return saveBitmap(FileDirectoryUtil.getPicturePath(),fileName, bitmap, quality);
     }
 
     /**
      * 保存Bitmap到指定目录
      *
-     * @param path     目录
-     * @param fileName 文件名
-     * @param bitmap
-     * @throws IOException
+     * @param path      路径
+     * @param fileName  文件名
+     * @param bitmap    压缩比
+     * @param quality 压缩比
      */
     public static String saveBitmap(String path, String fileName, Bitmap bitmap, int quality) {
         if (bitmap == null) {
@@ -229,17 +231,24 @@ public class FileUtils {
         if (!file.exists()) {
             file.mkdirs();
         }
-        String jpegName = path + File.separator + fileName;
+        String savePath = path + File.separator + fileName;
+        if(saveBitmapByPath(savePath,bitmap,quality)){
+            return savePath;
+        }
+        return "";
+    }
+
+    public static boolean saveBitmapByPath(String path, Bitmap bitmap, int quality){
         try {
-            FileOutputStream fout = new FileOutputStream(jpegName);
+            FileOutputStream fout = new FileOutputStream(path);
             BufferedOutputStream bos = new BufferedOutputStream(fout);
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bos);
             bos.flush();
             bos.close();
-            return jpegName;
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return false;
         }
     }
 
@@ -1032,8 +1041,20 @@ public class FileUtils {
         }
     }
 
-    public static boolean deleteFile(String filename) {
-        return new File(filename).delete();
+    public static boolean deleteFile(String filePath) {
+        if (filePath == null) {
+            return false;
+        }
+        File file = new File(filePath);
+        try {
+            if ((file.isFile())) {
+                file.delete();
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

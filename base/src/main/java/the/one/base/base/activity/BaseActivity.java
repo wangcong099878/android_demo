@@ -24,6 +24,7 @@ import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
+import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.widge.ProgressDialog;
 
@@ -81,6 +82,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
      */
     protected boolean isExitActivity() { return false; }
 
+    protected boolean isStatusBarLightMode() {
+        return !StatusBarUtil.isTranslucent(this);
+    }
+
     protected QMUITipDialog loadingDialog;
     protected the.one.base.widge.ProgressDialog progressDialog;
     private Unbinder unbinder;
@@ -88,8 +93,13 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
+        if (isStatusBarLightMode()) {
+            QMUIStatusBarHelper.translucent(this);
+            QMUIStatusBarHelper.setStatusBarLightMode(this);
+        } else {
+            QMUIStatusBarHelper.translucent(this,getColorr(R.color.qmui_config_color_transparent));
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
+        }
         View mRootView = getView(getContentViewId());
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);

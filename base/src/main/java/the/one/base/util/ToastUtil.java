@@ -10,6 +10,7 @@ import the.one.base.BaseApplication;
 public class ToastUtil {
 
     private static Toast mToast;
+    private static Toast mLongToast;
     @SuppressLint("ShowToast")
     public static void showToast(CharSequence msg){
         if (mToast == null) {
@@ -19,4 +20,15 @@ public class ToastUtil {
         }
         mToast.show();
     }
+
+    @SuppressLint("ShowToast")
+    public static void showLongToast(CharSequence msg){
+        if (mLongToast == null) {
+            mLongToast = Toast.makeText(BaseApplication.getInstance(), msg, Toast.LENGTH_LONG);
+        } else {
+            mLongToast.setText(msg);
+        }
+        mLongToast.show();
+    }
+
 }

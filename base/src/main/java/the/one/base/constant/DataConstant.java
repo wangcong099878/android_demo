@@ -29,6 +29,7 @@ public class DataConstant {
 
     public static final String TYPE = "type";
     public static final String TYPE2 = "type2";
+    public static final String STATUS = "status";
     public static final String DATA = "data";
     public static final String DATA2 = "data2";
     public static final String ID = "id";

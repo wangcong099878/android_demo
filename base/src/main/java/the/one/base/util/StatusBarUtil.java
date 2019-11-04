@@ -30,7 +30,7 @@ import the.one.base.R;
 /**
  * @author The one
  * @date 2019/8/13 0013
- * @describe 根据当前TopBarLayout的背景颜色是否为白色或是否存在渐变色背景进行判断是否translucent
+ * @describe 根据TopBar的背景判断是否translucent
  * @email 625805189@qq.com
  * @remark
  */

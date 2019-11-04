@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.widget.section.QMUISection;
+import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,11 @@ public class LetterSearcherAdapter<T> extends BaseSectionAdapter<LetterSearchSec
     private Map<LetterSearchSection,T> mDataMap;
     private HashMap<LetterSearchSection, T> selects;
     private boolean showCheckBox = false;
+    private onLetterSearchItemClickListener onLetterSearchItemClickListener;
+
+    public void setOnLetterSearchItemClickListener(LetterSearcherAdapter.onLetterSearchItemClickListener onLetterSearchItemClickListener) {
+        this.onLetterSearchItemClickListener = onLetterSearchItemClickListener;
+    }
 
     public LetterSearcherAdapter() {
         super(R.layout.item_letter_search_head,R.layout.item_letter_search_content);
@@ -111,10 +117,12 @@ public class LetterSearcherAdapter<T> extends BaseSectionAdapter<LetterSearchSec
     }
 
     @Override
-    protected void onBindSectionItem(ViewHolder holder, int position, QMUISection<LetterSearchSection, LetterSearchSection> section, int itemIndex) {
+    protected void onBindSectionItem(final ViewHolder holder, final int position, QMUISection<LetterSearchSection, LetterSearchSection> section, int itemIndex) {
         CircleTextView tvName = holder.itemView.findViewById(R.id.tv_name);
         TextView tvContent = holder.itemView.findViewById(R.id.tv_content);
         TheCheckBox cbSelect = holder.itemView.findViewById(R.id.check_box);
+        cbSelect.setFocusable(false);
+        cbSelect.setOnClickListener(null);
         LetterSearchSection itemSection = section.getItemAt(itemIndex);
 
         tvContent.setText(itemSection.name);
@@ -126,10 +134,34 @@ public class LetterSearcherAdapter<T> extends BaseSectionAdapter<LetterSearchSec
         } else {
             cbSelect.setVisibility(View.GONE);
         }
+        View rootView = holder.itemView.findViewById(R.id.ll_contact);
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null != onLetterSearchItemClickListener){
+                    onLetterSearchItemClickListener.onSearchItemClick(holder,position);
+                }
+            }
+        });
+        rootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(null != onLetterSearchItemClickListener){
+                   return onLetterSearchItemClickListener.onSearchItemLongClick(holder,position);
+                }
+                return false;
+            }
+        });
     }
 
     private void setCircleTextViewData(CircleTextView textView, String content) {
         textView.setText(content);
         textView.setBackColor(ColorUtils.getBackgroundColorId(content, mContext));
     }
+
+    public interface onLetterSearchItemClickListener{
+        void onSearchItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position);
+        boolean onSearchItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position);
+    }
+
 }

@@ -1,18 +1,16 @@
 package the.one.base.base.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import the.one.base.R;
 import the.one.base.util.QMUIDialogUtil;
@@ -35,26 +33,10 @@ public  abstract class BaseDialogFragment extends DialogFragment {
         window.getAttributes().windowAnimations = R.style.PopAnimStyle;
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 获取屏幕高度，动态设置，解决状态栏变黑问题
-        int screenHeight = getScreenHeight(getActivity());
-        int statusBarHeight = getStatusBarHeight(getContext());
+        int screenHeight = QMUIDisplayHelper.getScreenHeight(getContext());
+        int statusBarHeight = QMUIDisplayHelper.getStatusBarHeight(getContext());
         int dialogHeight = screenHeight - statusBarHeight;
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, dialogHeight == 0 ? ViewGroup.LayoutParams.MATCH_PARENT : dialogHeight);
-    }
-
-    private int getScreenHeight(Activity activity) {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        return displaymetrics.heightPixels;
-    }
-
-    private int getStatusBarHeight(Context context) {
-        int statusBarHeight = 0;
-        Resources res = context.getResources();
-        int resourceId = res.getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = res.getDimensionPixelSize(resourceId);
-        }
-        return statusBarHeight;
     }
 
     protected abstract int getLayout();
@@ -64,12 +46,18 @@ public  abstract class BaseDialogFragment extends DialogFragment {
         return view.getVisibility() == View.VISIBLE;
     }
 
-    public void ViewGone(View view) {
-        view.setVisibility(View.GONE);
+    public void ViewGone(View... views) {
+        for (View view: views){
+            if(null != view && view.getVisibility() !=View.GONE)
+                view.setVisibility(View.GONE);
+        }
     }
 
-    public void ViewShow(View view) {
-        view.setVisibility(View.VISIBLE);
+    public void ViewShow(View... views) {
+        for (View view: views){
+            if(null != view && view.getVisibility() !=View.VISIBLE)
+                view.setVisibility(View.VISIBLE);
+        }
     }
 
     public String getTextString(TextView textView) {

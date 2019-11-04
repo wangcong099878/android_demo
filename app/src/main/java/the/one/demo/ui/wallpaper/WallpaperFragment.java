@@ -52,11 +52,6 @@ public class WallpaperFragment extends BaseDataFragment<Wallpaper> {
     }
 
     @Override
-    protected int setColumn() {
-        return 3;
-    }
-
-    @Override
     protected BaseQuickAdapter getAdapter() {
         initFragmentBack("动态壁纸");
         wallpaperSpUtil = WallpaperSpUtil.getInstance();

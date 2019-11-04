@@ -42,7 +42,7 @@ public class ServiceUtil {
     }
 
     public static boolean isDownloadApkServiceExisted(Context context){
-       return isServiceExisted(context,"the.one.anastasia.service.UpdateApkService");
+       return isServiceExisted(context,"the.one.anastasia.service.DownloadService");
     }
 
 }

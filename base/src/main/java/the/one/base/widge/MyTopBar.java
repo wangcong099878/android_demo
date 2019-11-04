@@ -82,7 +82,7 @@ import the.one.base.R;
  * <li>设置标题/副标题，且支持设置标题/副标题的水平对齐方式。</li>
  * </ul>
  */
-public class MyTopBar extends RelativeLayout {
+public class MyTopBar extends RelativeLayout implements View.OnClickListener {
 
     private static final String TAG = "MyTopBar";
 
@@ -124,6 +124,12 @@ public class MyTopBar extends RelativeLayout {
 
     private boolean isNoBackground = false;
 
+    private OnTopBarDoubleClickListener onTopBarDoubleClickListener;
+
+    public void setOnTopBarDoubleClickListener(OnTopBarDoubleClickListener onTopBarDoubleClickListener) {
+        this.onTopBarDoubleClickListener = onTopBarDoubleClickListener;
+    }
+
     public MyTopBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initVar();
@@ -162,6 +168,9 @@ public class MyTopBar extends RelativeLayout {
         mRightLastViewId = DEFAULT_VIEW_ID;
         mLeftViewList = new ArrayList<>();
         mRightViewList = new ArrayList<>();
+        if (null != onTopBarDoubleClickListener){
+            setOnClickListener(this);
+        }
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -186,6 +195,7 @@ public class MyTopBar extends RelativeLayout {
         } else {
             setBackground(bgDrawable);
         }
+
     }
 
     void getCommonFieldFormTypedArray(Context context, TypedArray array) {
@@ -794,26 +804,26 @@ public class MyTopBar extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        layoutView(l,t,r,b,mTitleContainerView,mCenterView);
+        layoutView(l, t, r, b, mTitleContainerView, mCenterView);
     }
 
-    private void layoutView(int l,int t,int r,int b, View... views) {
+    private void layoutView(int l, int t, int r, int b, View... views) {
         for (View view : views) {
             if (null != view) {
                 int viewWidth = view.getMeasuredWidth();
                 int viewHeight = view.getMeasuredHeight();
                 int viewTop = (b - t - view.getMeasuredHeight()) / 2;
                 int viewLeft = getPaddingLeft();
-                if(view == mTitleContainerView){
+                if (view == mTitleContainerView) {
                     if ((mTitleGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL) {
                         // 标题水平居中
                         viewLeft = (r - l - mTitleContainerView.getMeasuredWidth()) / 2;
-                    }else{
+                    } else {
                         viewLeft += QMUIResHelper.getAttrDimen(getContext(),
                                 R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
                     }
-                }else{
-                    viewLeft += getLeftViewsWidth();
+                } else if (view == mCenterView) {
+                    viewLeft = (r - l - mCenterView.getMeasuredWidth()) / 2;
                 }
                 view.layout(viewLeft, viewTop, viewLeft + viewWidth, viewTop + viewHeight);
             }
@@ -843,6 +853,28 @@ public class MyTopBar extends RelativeLayout {
 //                    R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
 //        }
         return width;
+    }
+
+
+    private long lastClickMillis = 0;     // 双击事件中，上次被点击时间
+
+    @Override
+    public void onClick(View v) {
+        if ( onTopBarDoubleClickListener != null) {
+            long currentClickMillis = System.currentTimeMillis();
+            if (currentClickMillis - lastClickMillis < 500) {
+                onTopBarDoubleClickListener.onDoubleClicked(v);
+            }
+            lastClickMillis = currentClickMillis;
+        }
+    }
+
+
+    /**
+     * 标题栏双击事件监听
+     */
+    public interface OnTopBarDoubleClickListener {
+        void onDoubleClicked(View v);
     }
 
 }

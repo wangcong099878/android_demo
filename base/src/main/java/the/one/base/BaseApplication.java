@@ -42,7 +42,6 @@ import the.one.base.util.SpUtil;
  */
 public class BaseApplication extends MultiDexApplication {
 
-
     public static Context context;
 
     public static Context getInstance(){

@@ -40,16 +40,27 @@ import the.one.base.BaseApplication;
  */
 public abstract class BaseRadiusShadowAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder> {
 
-    protected int mRadius = 7;
-    protected int mShadow = 5;
-    protected float mShadowAlpha = 0.75f;
+    private int mRadius ;
+    private int mShadow ;
+
+    protected int getRadius(){
+        return 5;
+    }
+
+    protected int getShadow(){
+        return 5;
+    }
+
+    protected float getShadowAlpha(){
+        return 0.55f;
+    }
 
     public BaseRadiusShadowAdapter( int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
         initRadioShadow();
     }
 
-    public BaseRadiusShadowAdapter( @Nullable List<T> data) {
+    public BaseRadiusShadowAdapter(@Nullable List<T> data) {
         super(data);
         initRadioShadow();
     }
@@ -60,15 +71,31 @@ public abstract class BaseRadiusShadowAdapter<T> extends BaseQuickAdapter<T,Base
     }
 
     private void initRadioShadow(){
-        mRadius = QMUIDisplayHelper.dp2px(BaseApplication.getInstance(),mRadius);
-        mShadow = QMUIDisplayHelper.dp2px(BaseApplication.getInstance(),mShadow);
+        mRadius = QMUIDisplayHelper.dp2px(BaseApplication.getInstance(),getRadius());
+        mShadow = QMUIDisplayHelper.dp2px(BaseApplication.getInstance(),getShadow());
     }
 
     protected void setRadiusAndShadow(View view){
         if(view instanceof IQMUILayout){
             ((IQMUILayout) view).setRadiusAndShadow(mRadius,
                     mShadow,
-                    mShadowAlpha);
+                    getShadowAlpha());
+        }
+    }
+
+    protected void showView(View... views){
+        for (View view:views){
+            if(null != view && view.getVisibility() != View.VISIBLE){
+                view.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    protected void goneView(View... views){
+        for (View view:views){
+            if(null != view && view.getVisibility() != View.GONE){
+                view.setVisibility(View.GONE);
+            }
         }
     }
 

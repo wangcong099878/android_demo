@@ -36,7 +36,7 @@ import java.net.URLDecoder;
 public class BridgeWebViewClient extends QMUIWebViewClient {
     private BridgeWebView webView;
 
-    public BridgeWebViewClient(BridgeWebView webView,boolean needDispatchSafeAreaInset, boolean disableVideoFullscreenBtnAlways) {
+    public BridgeWebViewClient(BridgeWebView webView, boolean needDispatchSafeAreaInset, boolean disableVideoFullscreenBtnAlways) {
         super(needDispatchSafeAreaInset,disableVideoFullscreenBtnAlways);
         this.webView = webView;
     }

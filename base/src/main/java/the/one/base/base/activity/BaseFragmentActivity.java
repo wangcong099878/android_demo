@@ -22,10 +22,10 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
 import com.qmuiteam.qmui.arch.QMUIFragmentActivity;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import the.one.base.R;
 import the.one.base.base.fragment.BaseFragment;
-import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 
 /**
@@ -37,7 +37,17 @@ import the.one.base.util.StatusBarUtil;
  */
 public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
 
+    public final String TAG = this.getClass().getSimpleName();
+
     protected abstract BaseFragment getBaseFragment();
+
+    protected boolean LightMode() {
+        return false;
+    }
+
+    protected boolean isTranslucent(){
+        return true;
+    }
 
     @Override
     protected int getContextViewId() {
@@ -47,6 +57,13 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (LightMode())
+            QMUIStatusBarHelper.setStatusBarLightMode(this);
+        else
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
+        if(isTranslucent()&& StatusBarUtil.isTranslucent(this)){
+            QMUIStatusBarHelper.translucent(this, ContextCompat.getColor(this,R.color.qmui_config_color_transparent));
+        }
         if (savedInstanceState == null) {
             BaseFragment fragment = getBaseFragment();
             getSupportFragmentManager()

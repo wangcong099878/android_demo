@@ -85,7 +85,7 @@ public class StringUtilFragment extends BaseGroupListFragment {
             title = "①";
             content = content+title;
         }
-        return StringUtils.SpannableString(type,content,title,getColorr(R.color.qmui_config_color_blue));
+        return StringUtils.SpannableString(content,title,getColorr(R.color.qmui_config_color_blue),type);
     }
 
     @Override

@@ -16,14 +16,26 @@
         android:supportsRtl="true">
 
         <activity android:name=".base.activity.PhotoWatchActivity"
-            android:theme="@style/StartAppTheme"/>
+            android:theme="@style/TranslucentTheme"/>
 
         <activity android:name=".base.activity.BaseWebExplorerActivity"/>
 
-        <service android:name=".service.UpdateApkService"
-            android:label="@string/update_app_service_name"
+        <service android:name=".service.DownloadService"
+            android:label="@string/download_service_name"
             android:exported="false"/>
 
+        <activity android:name=".base.activity.UpdateApkActivity"
+            android:theme="@style/DialogActivityTheme"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
 
     </application>
 

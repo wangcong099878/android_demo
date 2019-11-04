@@ -25,6 +25,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUICenterGravityRefreshOffsetCalculator;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
@@ -33,8 +34,9 @@ import java.util.List;
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
+import the.one.base.widge.MyTopBar;
 import the.one.base.widge.WWPullRefreshLayout;
-import the.one.base.widge.decoration.GridSpacesItemDecoration;
+import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.net.entity.PageInfoBean;
 
 /**
@@ -45,7 +47,8 @@ import the.one.net.entity.PageInfoBean;
  * @remark
  */
 public abstract class BaseDataFragment<T> extends BaseFragment
-        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener, QMUIPullRefreshLayout.OnPullListener {
+        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener,
+        QMUIPullRefreshLayout.OnPullListener, MyTopBar.OnTopBarDoubleClickListener {
 
     /**
      * List
@@ -84,10 +87,20 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     /**
      * 间距
+     *
      * @return
      */
-    protected int setSpacing(){
-        return 30;
+    protected int setSpacing() {
+        return 12;
+    }
+
+    /**
+     * 是否需要间距
+     *
+     * @return
+     */
+    protected boolean isNeedSpace() {
+        return true;
     }
 
     protected RecyclerView recycleView;
@@ -107,7 +120,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     protected int getContentViewId() {
         return R.layout.base_recyclerview;
     }
-    
+
     @Override
     protected void initView(View rootView) {
         recycleView = rootView.findViewById(R.id.recycle_view);
@@ -138,21 +151,25 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             pullLayout.setOnPullListener(this);
         }
         initRecycleView(recycleView, setType(), adapter);
+        //添加双击监听
+        if(null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE){
+            mTopLayout.getTopBar().setOnTopBarDoubleClickListener(this);
+        }
     }
 
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
+        if (isNeedSpace())
+            recycleView.addItemDecoration(new SpacesItemDecoration(QMUIDisplayHelper.dp2px(_mActivity, setSpacing()), setColumn()));
         switch (type) {
             case TYPE_LIST:
                 layoutManager = new LinearLayoutManager(getActivity());
                 break;
             case TYPE_GRID:
                 layoutManager = new GridLayoutManager(getActivity(), setColumn());
-                recycleView.addItemDecoration(new GridSpacesItemDecoration(setSpacing(),setColumn()));
                 break;
             case TYPE_STAGGERED:
                 layoutManager = new StaggeredGridLayoutManager(setColumn(), StaggeredGridLayoutManager.VERTICAL);
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-                recycleView.addItemDecoration(new GridSpacesItemDecoration(setSpacing(),setColumn()));
                 break;
         }
         recycleView.setLayoutManager(layoutManager);
@@ -294,7 +311,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             isLoadMore = true;
             adapter.loadMoreComplete();
         } else {
-            adapter.loadMoreEnd();
+            adapter.loadMoreEnd(mPageInfo.getPageTotalCount() == 1);
             isLoadMore = false;
         }
     }
@@ -310,6 +327,12 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         showView(flBottomLayout);
         showView(flTopLayout);
         showContentPage();
+    }
+
+    @Override
+    public void onDoubleClicked(View v) {
+        if (null != recycleView)
+            recycleView.smoothScrollToPosition(0);
     }
 
 }
