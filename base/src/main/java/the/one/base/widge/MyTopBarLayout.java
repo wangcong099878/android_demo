@@ -77,7 +77,7 @@ import the.one.base.util.StatusBarUtil;
  * @date 2016-11-26
  */
 
-public class MyTopBarLayout extends FrameLayout {
+public class MyTopBarLayout extends FrameLayout implements View.OnClickListener {
 
     private static final String TAG = "MyTopBarLayout";
 
@@ -87,6 +87,13 @@ public class MyTopBarLayout extends FrameLayout {
     private int mTopBarSeparatorColor;
     private int mTopBarBgColor;
     private int mTopBarSeparatorHeight;
+
+    private OnTopBarDoubleClickListener onTopBarDoubleClickListener;
+
+    public void setOnTopBarDoubleClickListener(OnTopBarDoubleClickListener onTopBarDoubleClickListener) {
+        this.onTopBarDoubleClickListener = onTopBarDoubleClickListener;
+        setOnClickListener(this);
+    }
 
     public MyTopBarLayout(Context context) {
         this(context, null);
@@ -116,13 +123,13 @@ public class MyTopBarLayout extends FrameLayout {
         array.recycle();
         Drawable bgDrawable;
         try {
-            bgDrawable = QMUIResHelper.getAttrDrawable(context,R.attr.qmui_topbar_bg_drawable);
-        }catch (Exception e){
+            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
+        } catch (Exception e) {
             bgDrawable = null;
         }
-        if(!StatusBarUtil.isTranslucent(getContext())){
+        if (!StatusBarUtil.isTranslucent(getContext())) {
             setBackgroundDividerEnabled(hasSeparator);
-        }else{
+        } else {
             setBackground(bgDrawable);
         }
     }
@@ -270,6 +277,28 @@ public class MyTopBarLayout extends FrameLayout {
         } else {
             QMUIViewHelper.setBackgroundColorKeepPadding(this, mTopBarBgColor);
         }
+    }
+
+
+    private long lastClickMillis = 0;     // 双击事件中，上次被点击时间
+
+    @Override
+    public void onClick(View v) {
+        if (onTopBarDoubleClickListener != null) {
+            long currentClickMillis = System.currentTimeMillis();
+            if (currentClickMillis - lastClickMillis < 500) {
+                onTopBarDoubleClickListener.onDoubleClicked(v);
+            }
+            lastClickMillis = currentClickMillis;
+        }
+    }
+
+
+    /**
+     * 标题栏双击事件监听
+     */
+    public interface OnTopBarDoubleClickListener {
+        void onDoubleClicked(View v);
     }
 }
 

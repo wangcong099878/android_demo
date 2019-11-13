@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/qmui_config_color_white">
@@ -9,7 +10,8 @@
     <com.qmuiteam.qmui.widget.QMUIAppBarLayout
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:background="@color/qmui_config_color_white">
 
         <the.one.base.widge.TheCollapsingTopBarLayout
             android:id="@+id/collapsing_topbar_layout"
@@ -30,7 +32,8 @@
                 android:fitsSystemWindows="false"
                 android:scaleType="centerCrop"
                 app:qmui_layout_collapseMode="parallax"
-                app:qmui_layout_collapseParallaxMultiplier="0.7"/>
+                app:qmui_layout_collapseParallaxMultiplier="0.7"
+                tools:ignore="MissingPrefix" />
 
             <com.qmuiteam.qmui.widget.QMUITopBar
                 android:id="@+id/topbar"

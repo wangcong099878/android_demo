@@ -35,6 +35,11 @@ import the.one.demo.R;
 public class GankIndexFragment extends BaseHomeFragment {
 
     @Override
+    protected boolean isStatusBarLightMode() {
+        return true;
+    }
+
+    @Override
     protected boolean setViewPagerSwipe() {
         return false;
     }

@@ -77,7 +77,6 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
 
     @Override
     protected void initView(View mRootView) {
-
         List<String> tags = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             tags.add(TAG_GANK);

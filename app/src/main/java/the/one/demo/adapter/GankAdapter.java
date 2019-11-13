@@ -20,11 +20,10 @@ package the.one.demo.adapter;
 
 import android.support.v4.content.ContextCompat;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-
 import java.util.ArrayList;
 
+import the.one.base.adapter.TheBaseQuickAdapter;
+import the.one.base.adapter.TheBaseViewHolder;
 import the.one.base.util.StringUtils;
 import the.one.base.widge.NineGridView;
 import the.one.demo.R;
@@ -37,14 +36,14 @@ import the.one.demo.bean.GankBean;
  * @email 625805189@qq.com
  * @remark
  */
-public class GankAdapter extends BaseQuickAdapter<GankBean, BaseViewHolder> {
+public class GankAdapter extends TheBaseQuickAdapter<GankBean> {
 
     public GankAdapter() {
         super(R.layout.item_home_item);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GankBean item) {
+    protected void convert(TheBaseViewHolder helper, GankBean item) {
         String author = "#" + item.getWho() + "  ";
         helper.setText(R.id.tv_content, StringUtils.SpannableString(author + item.getDesc(), author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue),StringUtils.Type.ForegroundColorSpan));
         NineGridView nineImageLayout = helper.getView(R.id.nine_grid);

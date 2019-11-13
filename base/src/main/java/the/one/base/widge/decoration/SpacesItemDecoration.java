@@ -20,7 +20,6 @@ package the.one.base.widge.decoration;
 
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -49,32 +48,32 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
                                RecyclerView parent, RecyclerView.State state) {
         outRect.left = space;
         outRect.right = space;
-        outRect.top = space;
+        outRect.top = halfSpace;
+        outRect.bottom = halfSpace;
         int position;
-        if(!(parent.getLayoutManager() instanceof LinearLayoutManager)){
-            if (column != 1 ) {
-                // 当前位置
-                if (parent.getLayoutManager() instanceof StaggeredGridLayoutManager) {
-                    StaggeredGridLayoutManager.LayoutParams params =
-                            (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
-                    position = params.getSpanIndex();
-                } else {
-                    GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) view.getLayoutParams();
-                    position = params.getSpanIndex();
-                }
-                int X = column - position;
-                if (X == column) {
-                    // 最左边
-                    outRect.right = halfSpace;
-                } else if (X == 1) {
-                    // 最右边
-                    outRect.left = halfSpace;
-                } else {
-                    outRect.left = halfSpace;
-                    outRect.right = halfSpace;
-                }
+        if (column != 1 ) {
+            // 当前位置
+            if (parent.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager.LayoutParams params =
+                        (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
+                position = params.getSpanIndex();
+            } else {
+                GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) view.getLayoutParams();
+                position = params.getSpanIndex();
+            }
+            int X = column - position;
+            if (X == column) {
+                // 最左边
+                outRect.right = halfSpace;
+            } else if (X == 1) {
+                // 最右边
+                outRect.left = halfSpace;
+            } else {
+
+
+                outRect.left = halfSpace;
+                outRect.right = halfSpace;
             }
         }
-
     }
 }

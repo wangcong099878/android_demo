@@ -38,7 +38,7 @@ import the.one.base.widge.ProgressButton;
 /**
  * @author The one
  * @date 2019/10/21 0028
- * @describe TODO
+ * @describe APK更新
  * @email 625805189@qq.com
  * @remark 更改自 https://github.com/MZCretin/AutoUpdateProject
  */

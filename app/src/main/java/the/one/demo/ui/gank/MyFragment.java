@@ -40,16 +40,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
 
     @Override
-    protected boolean isNeedChangeStatusBarMode() {
-        return true;
-    }
-
-    @Override
-    protected boolean isStatusBarLightMode() {
-        return true;
-    }
-
-    @Override
     protected boolean showTitleBar() {
         return false;
     }

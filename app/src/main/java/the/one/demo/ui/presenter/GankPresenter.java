@@ -1,5 +1,6 @@
 package the.one.demo.ui.presenter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -57,8 +58,8 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
 
     private static final String TAG = "WelfarePresenter";
 
+    @SuppressLint("CheckResult")
     public void getData(final Context context, final String type, final int page) {
-        Log.e(TAG, "getData: url = "+ NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page);
         OkHttpUtils.get().url(NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -69,9 +70,7 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e(TAG, "onResponse: " );
                 if (isViewAttached()) {
-                    Log.e(TAG, "onResponse: isViewAttached" );
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(response);

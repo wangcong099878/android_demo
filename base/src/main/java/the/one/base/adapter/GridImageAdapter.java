@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -21,6 +20,8 @@ import java.io.File;
 
 import the.one.base.R;
 import the.one.base.util.GlideUtil;
+
+;
 
 
 //  ┏┓　　　┏┓
@@ -48,7 +49,7 @@ import the.one.base.util.GlideUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class GridImageAdapter extends BaseQuickAdapter<LocalMedia,BaseViewHolder> {
+public class GridImageAdapter extends BaseQuickAdapter<LocalMedia,TheBaseViewHolder> {
 
     public static final int TYPE_CAMERA = 100;
 
@@ -91,7 +92,7 @@ public class GridImageAdapter extends BaseQuickAdapter<LocalMedia,BaseViewHolder
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, LocalMedia media) {
+    protected void convert(final TheBaseViewHolder helper, LocalMedia media) {
         ImageView image = helper.getView(R.id.iv_filter);
         LinearLayout delete = helper.getView(R.id.ll_del);
         TextView tvDuration = helper.getView(R.id.tv_duration);

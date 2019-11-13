@@ -3,6 +3,7 @@ package the.one.base.base.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -36,7 +37,7 @@ import the.one.base.widge.PhotoViewPager;
  * @email 625805189@qq.com
  * @remark
  */
-public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapter.OnPhotoLongClickListener, QMUIBottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener {
+public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapter.OnPhotoClickListener, QMUIBottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener {
 
     protected static final int DOWNLOAD = 1;
     protected static final int SHARE = 2;
@@ -105,7 +106,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
         imageLists = getIntent().getStringArrayListExtra(DataConstant.DATA);
         SUM = imageLists.size();
         currentPosition = intent.getIntExtra(DataConstant.POSITION, -1);
-        adapter = new ImageWatchAdapter(imageLists, this, this);
+        adapter = new ImageWatchAdapter(imageLists, this);
         photoViewPager.setAdapter(adapter);
         photoViewPager.setCurrentItem(currentPosition, false);
         textView.setText(currentPosition + 1 + "/" + SUM);
@@ -116,6 +117,15 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
                 textView.setText(position + 1 + "/" + SUM);
             }
         });
+    }
+
+    @Override
+    public void onClick(String path, int position) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        }else{
+            finish();
+        }
     }
 
     @Override

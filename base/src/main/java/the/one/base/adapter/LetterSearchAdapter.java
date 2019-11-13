@@ -21,7 +21,7 @@ package the.one.base.adapter;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import the.one.base.adapter.TheBaseViewHolder;;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +39,7 @@ import the.one.base.widge.TheCheckBox;
  * @email 625805189@qq.com
  * @remark
  */
-public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T, BaseViewHolder> {
+public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T, TheBaseViewHolder> {
 
     private static final String TAG = "LetterSearchAdapter";
     private HashMap<String, Integer> letterIndexes;
@@ -110,7 +110,7 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, final T item) {
+    protected void convert(final TheBaseViewHolder helper, final T item) {
         helper.setText(R.id.tv_item_city_listview_name, item.getName())
                 .addOnClickListener(R.id.ll_contact)
                 .addOnLongClickListener(R.id.ll_contact);

@@ -40,7 +40,6 @@ dependencies {
     api 'com.android.support:multidex:1.0.3'
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
     api 'com.ms-square:expandableTextView:0.1.4'
-    api 'com.github.chrisbanes:PhotoView:2.0.0'
     api 'com.orhanobut:logger:2.2.0'
     api 'com.wkp:StickLayout:1.0.6'
     api 'top.androidman:superbutton:1.1.1'

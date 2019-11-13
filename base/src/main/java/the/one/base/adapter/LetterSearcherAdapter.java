@@ -147,7 +147,7 @@ public class LetterSearcherAdapter<T> extends BaseSectionAdapter<LetterSearchSec
             @Override
             public boolean onLongClick(View v) {
                 if(null != onLetterSearchItemClickListener){
-                   return onLetterSearchItemClickListener.onSearchItemLongClick(holder,position);
+                    return onLetterSearchItemClickListener.onSearchItemLongClick(holder,position);
                 }
                 return false;
             }

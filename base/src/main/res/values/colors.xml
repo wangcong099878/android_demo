@@ -34,4 +34,6 @@
 
     <color name="alpha_white">#66EEEEF0</color>
 
+    <color name="price_color">#ed6e29</color>
+
 </resources>

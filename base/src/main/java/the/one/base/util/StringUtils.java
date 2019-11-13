@@ -36,6 +36,7 @@ import android.text.style.UnderlineSpan;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.span.QMUICustomTypefaceSpan;
+import com.qmuiteam.qmui.util.QMUILangHelper;
 
 import the.one.base.R;
 import the.one.base.widge.MyImageSpan;
@@ -48,6 +49,8 @@ import the.one.base.widge.MyImageSpan;
  * @remark 更多请看 https://blog.csdn.net/u012551350/article/details/51722893
  */
 public class StringUtils {
+
+    private static final String TAG = "StringUtils";
 
     public enum Type {
         ForegroundColorSpan, //前景色
@@ -97,6 +100,35 @@ public class StringUtils {
         customTypefaceText.setSpan(new QMUICustomTypefaceSpan("", TYPEFACE_RMB), startIndex, startIndex + price.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         textView.setText(customTypefaceText);
     }
+
+
+    /**
+     * @param context
+     * @param price    单价
+     * @param left     单价左边的文字
+     * @param right    单价右边的文字
+     * @param color    单价颜色
+     * @param fontSize 字体倍数
+     */
+    public static SpannableString PriceStyleString(Context context, double price, String left, String right, int color, float fontSize) {
+        String mPrice = QMUILangHelper.regularizePrice(price);
+        String rmb = context.getResources().getString(R.string.spanUtils_rmb);
+        left = left + rmb;
+        String content = left + mPrice + right;
+        int start = content.indexOf(rmb);
+        int end = content.indexOf(mPrice) + mPrice.length();
+        int priceEnd = end;
+        if (mPrice.contains(".")) {
+            priceEnd = left.length() + mPrice.indexOf(".");
+        }
+        SpannableString spannableString = new SpannableString(content);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(color);
+        RelativeSizeSpan relativeSizeSpan = new RelativeSizeSpan(fontSize);
+        spannableString.setSpan(relativeSizeSpan, start + 1, priceEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(foregroundColorSpan, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
 
     /**
      * 给一段文字中某一节更改颜色
@@ -181,15 +213,15 @@ public class StringUtils {
     }
 
     public static SpannableString RelativeSizeSpannableString(String content, String targetString, float fontSize) {
-        return SpannableString(content, targetString, -1, fontSize,Type.RelativeSizeSpan);
+        return SpannableString(content, targetString, -1, fontSize, Type.RelativeSizeSpan);
     }
 
-    public static SpannableString SpannableString( String content, String targetString, Type... types) {
-        return SpannableString( content, targetString, -1, 0,types);
+    public static SpannableString SpannableString(String content, String targetString, Type... types) {
+        return SpannableString(content, targetString, -1, 0, types);
     }
 
-    public static SpannableString SpannableString( String content, String targetString, int color, Type... types) {
-        return SpannableString( content, targetString, color, 0,types);
+    public static SpannableString SpannableString(String content, String targetString, int color, Type... types) {
+        return SpannableString(content, targetString, color, 0, types);
     }
 
     /**

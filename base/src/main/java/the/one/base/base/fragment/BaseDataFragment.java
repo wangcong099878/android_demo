@@ -34,7 +34,7 @@ import java.util.List;
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
-import the.one.base.widge.MyTopBar;
+import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.WWPullRefreshLayout;
 import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.net.entity.PageInfoBean;
@@ -48,7 +48,7 @@ import the.one.net.entity.PageInfoBean;
  */
 public abstract class BaseDataFragment<T> extends BaseFragment
         implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener,
-        QMUIPullRefreshLayout.OnPullListener, MyTopBar.OnTopBarDoubleClickListener {
+        QMUIPullRefreshLayout.OnPullListener, MyTopBarLayout.OnTopBarDoubleClickListener {
 
     /**
      * List
@@ -152,14 +152,14 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         }
         initRecycleView(recycleView, setType(), adapter);
         //添加双击监听
-        if(null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE){
-            mTopLayout.getTopBar().setOnTopBarDoubleClickListener(this);
+        if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
+            mTopLayout.setOnTopBarDoubleClickListener(this);
         }
     }
 
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
         if (isNeedSpace())
-            recycleView.addItemDecoration(new SpacesItemDecoration(QMUIDisplayHelper.dp2px(_mActivity, setSpacing()), setColumn()));
+            recycleView.addItemDecoration(new SpacesItemDecoration(QMUIDisplayHelper.dp2px(_mActivity, setSpacing()), setType() == TYPE_LIST ? 1 : setColumn()));
         switch (type) {
             case TYPE_LIST:
                 layoutManager = new LinearLayoutManager(getActivity());

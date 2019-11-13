@@ -62,7 +62,7 @@ import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
-import the.one.base.widge.BaseWebView;
+import the.one.base.widge.BridgeWebView;
 import the.one.base.widge.BridgeWebViewClient;
 import the.one.base.widge.MyTopBarLayout;
 
@@ -84,13 +84,13 @@ public class BaseWebExplorerActivity extends BaseActivity {
     protected MyTopBarLayout mTopBarLayout;
     protected QMUIWebViewContainer mWebViewContainer;
     protected QMUIProgressBar mProgressBar;
-    private BaseWebView mWebView;
+    protected BridgeWebView mWebView;
 
-    private String mUrl;
-    private String mTitle;
+    protected String mUrl;
+    protected String mTitle;
 
-    private final static int PROGRESS_PROCESS = 0;
-    private final static int PROGRESS_GONE = 1;
+    public final static int PROGRESS_PROCESS = 0;
+    public final static int PROGRESS_GONE = 1;
 
     private ProgressHandler mProgressHandler;
     private boolean mIsPageFinished = false;
@@ -191,7 +191,8 @@ public class BaseWebExplorerActivity extends BaseActivity {
 
     @SuppressLint("JavascriptInterface")
     protected void initWebView() {
-        mWebView = new BaseWebView(this);
+        mWebView = new BridgeWebView(this);
+        mWebView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         boolean needDispatchSafeAreaInset = needDispatchSafeAreaInset();
         mWebViewContainer.addWebView(mWebView, needDispatchSafeAreaInset);
         mWebViewContainer.setCustomOnScrollChangeListener(new QMUIWebView.OnScrollChangeListener() {
@@ -242,8 +243,12 @@ public class BaseWebExplorerActivity extends BaseActivity {
 
         setZoomControlGone(mWebView);
         configWebView(mWebViewContainer, mWebView);
-        mWebView.loadUrl(mUrl);
         mWebView.registerHandler("imagelistener", imageHandler);
+        loadUrl();
+    }
+
+    protected void loadUrl(){
+        mWebView.loadUrl(mUrl);
     }
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {
@@ -370,15 +375,15 @@ public class BaseWebExplorerActivity extends BaseActivity {
             if (QMUILangHelper.isNullOrEmpty(mTitle)) {
                 updateTitle(view.getTitle());
             }
-            addImageClickListener();
+            addImageClickListener(mWebView);
         }
     }
 
     // 注入js函数监听
-    private void addImageClickListener() {
+    public static void addImageClickListener(WebView webView) {
         // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
         //函数的功能是在图片点击的时候调用本地java接口并传递url过去
-        mWebView.loadUrl("javascript:(function(){" +
+        webView.loadUrl("javascript:(function(){" +
                 "var objs = document.getElementsByTagName(\"img\"); " +
                 " var array=new Array(); " +
                 " for(var j=0;j<objs.length;j++){ array[j]=objs[j].src; }" +
@@ -448,7 +453,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
             super.doOnBackPressed();
     }
 
-    BridgeHandler imageHandler = new BridgeHandler() {
+    protected   BridgeHandler imageHandler = new BridgeHandler() {
         @Override
         public void handler(String data, CallBackFunction function) {
             JSONObject jsonObject = null;
@@ -458,7 +463,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
                 jsonObject = new JSONObject(data);
                 String src = jsonObject.getString("position");
                 String personObject = jsonObject.getString("data");
-                Log.e(TAG, "handler: " + personObject);
                 itemData = new Gson().fromJson(personObject,
                         new TypeToken<List<String>>() {
                         }.getType());

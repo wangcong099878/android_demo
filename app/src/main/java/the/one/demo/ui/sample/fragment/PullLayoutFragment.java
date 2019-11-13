@@ -9,7 +9,7 @@ import java.util.List;
 import the.one.base.base.fragment.BasePullExtendFragment;
 import the.one.demo.R;
 import the.one.demo.adapter.OverFlyingLayoutManager;
-import the.one.demo.adapter.PullExtendAdapter;
+import the.one.demo.adapter.PullExtendAdapterThe;
 import the.one.demo.bean.SimpleBean;
 
 
@@ -40,7 +40,7 @@ import the.one.demo.bean.SimpleBean;
  */
 public class PullLayoutFragment extends BasePullExtendFragment {
 
-    private PullExtendAdapter adapter;
+    private PullExtendAdapterThe adapter;
 
     @Override
     protected int getBodyLayoutId() {
@@ -55,7 +55,7 @@ public class PullLayoutFragment extends BasePullExtendFragment {
         mHeaderRc.setLayoutManager(new OverFlyingLayoutManager(OrientationHelper.HORIZONTAL));
         mFooterRc.setLayoutManager(new OverFlyingLayoutManager(OrientationHelper.HORIZONTAL));
 
-        adapter = new PullExtendAdapter();
+        adapter = new PullExtendAdapterThe();
         mHeaderRc.setAdapter(adapter);
         mFooterRc.setAdapter(adapter);
 

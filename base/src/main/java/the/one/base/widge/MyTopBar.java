@@ -82,7 +82,7 @@ import the.one.base.R;
  * <li>设置标题/副标题，且支持设置标题/副标题的水平对齐方式。</li>
  * </ul>
  */
-public class MyTopBar extends RelativeLayout implements View.OnClickListener {
+public class MyTopBar extends RelativeLayout  {
 
     private static final String TAG = "MyTopBar";
 
@@ -124,11 +124,7 @@ public class MyTopBar extends RelativeLayout implements View.OnClickListener {
 
     private boolean isNoBackground = false;
 
-    private OnTopBarDoubleClickListener onTopBarDoubleClickListener;
 
-    public void setOnTopBarDoubleClickListener(OnTopBarDoubleClickListener onTopBarDoubleClickListener) {
-        this.onTopBarDoubleClickListener = onTopBarDoubleClickListener;
-    }
 
     public MyTopBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -168,9 +164,7 @@ public class MyTopBar extends RelativeLayout implements View.OnClickListener {
         mRightLastViewId = DEFAULT_VIEW_ID;
         mLeftViewList = new ArrayList<>();
         mRightViewList = new ArrayList<>();
-        if (null != onTopBarDoubleClickListener){
-            setOnClickListener(this);
-        }
+
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -357,7 +351,7 @@ public class MyTopBar extends RelativeLayout implements View.OnClickListener {
         setSubTitle(getResources().getString(resId));
     }
 
-    private TextView getSubTitleView() {
+    public TextView getSubTitleView() {
         if (mSubTitleView == null) {
             mSubTitleView = new TextView(getContext());
             mSubTitleView.setGravity(Gravity.CENTER);
@@ -371,6 +365,15 @@ public class MyTopBar extends RelativeLayout implements View.OnClickListener {
         }
 
         return mSubTitleView;
+    }
+
+    /**
+     * 标题和副标题设置点击监听
+     * @param l
+     */
+    public void setTitleAndSubTitleClickListener(OnClickListener l){
+        if(null != mTitleView) mTitleView.setOnClickListener(l);
+        if(null != mSubTitleView) mSubTitleView.setOnClickListener(l);
     }
 
     /**
@@ -855,26 +858,5 @@ public class MyTopBar extends RelativeLayout implements View.OnClickListener {
         return width;
     }
 
-
-    private long lastClickMillis = 0;     // 双击事件中，上次被点击时间
-
-    @Override
-    public void onClick(View v) {
-        if ( onTopBarDoubleClickListener != null) {
-            long currentClickMillis = System.currentTimeMillis();
-            if (currentClickMillis - lastClickMillis < 500) {
-                onTopBarDoubleClickListener.onDoubleClicked(v);
-            }
-            lastClickMillis = currentClickMillis;
-        }
-    }
-
-
-    /**
-     * 标题栏双击事件监听
-     */
-    public interface OnTopBarDoubleClickListener {
-        void onDoubleClicked(View v);
-    }
 
 }

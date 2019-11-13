@@ -1,8 +1,5 @@
 package the.one.demo.ui.gank;
 
-import android.annotation.SuppressLint;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,7 +15,6 @@ import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
-import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.demo.NetUrlConstant;
 import the.one.demo.R;
@@ -72,21 +68,21 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
     private List<GankBean> welfare;
 
-    private boolean isCollapsed = false;
-
-    public boolean isCollapsed() {
-        return isCollapsed;
-    }
-
-    @Override
-    protected boolean isNeedChangeStatusBarMode() {
-        return true;
-    }
-
-    @Override
-    protected boolean isStatusBarLightMode() {
-        return isCollapsed;
-    }
+//    private boolean isCollapsed = false;
+//
+//    public boolean isCollapsed() {
+//        return isCollapsed;
+//    }
+//
+//    @Override
+//    protected boolean isNeedChangeStatusBarMode() {
+//        return true;
+//    }
+//
+//    @Override
+//    protected boolean isStatusBarLightMode() {
+//        return isCollapsed;
+//    }
 
     @Override
     protected boolean showTitleBar() {
@@ -103,18 +99,18 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
         mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
         mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_white));
-        mCollapsingTopBarLayout.setStateChangeListener(new TheCollapsingTopBarLayout.AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
-                if (state == TheCollapsingTopBarLayout.State.COLLAPSED) {
-                    isCollapsed = true;
-                    QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-                } else if (state == TheCollapsingTopBarLayout.State.EXPANDED) {
-                    isCollapsed = false;
-                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-                }
-            }
-        });
+//        mCollapsingTopBarLayout.setStateChangeListener(new TheCollapsingTopBarLayout.AppBarStateChangeListener() {
+//            @Override
+//            public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
+//                if (state == TheCollapsingTopBarLayout.State.COLLAPSED) {
+//                    isCollapsed = true;
+//                    QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+//                } else if (state == TheCollapsingTopBarLayout.State.EXPANDED) {
+//                    isCollapsed = false;
+//                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+//                }
+//            }
+//        });
         initStickyLayout();
         initData();
     }

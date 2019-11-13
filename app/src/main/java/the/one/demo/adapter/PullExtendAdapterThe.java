@@ -20,10 +20,10 @@ package the.one.demo.adapter;
 
 import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.qmuiteam.qmui.layout.QMUILinearLayout;
 
-import the.one.base.adapter.BaseRadiusShadowAdapter;
+import the.one.base.adapter.TheBaseQuickAdapter;
+import the.one.base.adapter.TheBaseViewHolder;
 import the.one.demo.R;
 import the.one.demo.bean.SimpleBean;
 
@@ -34,14 +34,14 @@ import the.one.demo.bean.SimpleBean;
  * @email 625805189@qq.com
  * @remark
  */
-public class PullExtendAdapter extends BaseRadiusShadowAdapter<SimpleBean> {
+public class PullExtendAdapterThe extends TheBaseQuickAdapter<SimpleBean> {
 
-    public PullExtendAdapter() {
+    public PullExtendAdapterThe() {
         super(R.layout.item_pull_extend);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SimpleBean item) {
+    protected void convert(TheBaseViewHolder helper, SimpleBean item) {
         ImageView ivIcon = helper.getView(R.id.iv_icon);
         ivIcon.setImageResource(item.getRes());
         helper.setText(R.id.tv_title, item.getTitle());
