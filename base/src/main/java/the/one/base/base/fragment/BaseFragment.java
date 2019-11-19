@@ -136,12 +136,12 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected void onLazyInit() {
     }
 
-    protected boolean mIsFirstLayInit = false;
+    protected boolean mIsFirstLayInit = true;
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onLazyResume() {
-        if (!isIndexFragment && !mIsFirstLayInit) {
-            mIsFirstLayInit = true;
+        if (!isIndexFragment && mIsFirstLayInit) {
+            mIsFirstLayInit = false;
             onLazyInit();
         }
     }
@@ -149,8 +149,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     protected void onEnterAnimationEnd(@Nullable Animation animation) {
         super.onEnterAnimationEnd(animation);
-        if (isIndexFragment && !mIsFirstLayInit) {
-            mIsFirstLayInit = true;
+        if (isIndexFragment && mIsFirstLayInit) {
+            mIsFirstLayInit = false;
             onLazyInit();
         }
     }
@@ -577,7 +577,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         QMUIDialogUtil.FailTipsDialog(_mActivity, tips);
     }
 
-    protected int successType;
+    protected int successType = 1;
     public Callback<String> simpleCallBack = new Callback<String>() {
         @Override
         public void onSuccess(String response, String msg, PageInfoBean pageInfoBean) {

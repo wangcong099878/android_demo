@@ -165,7 +165,7 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
      * @return
      */
     protected SpannableString parsePriceConfigColorString(double price, String left, String right, float fontSize) {
-        return parsePriceString(price, left, right, mPriceColor, fontSize);
+        return parsePriceString(price, left, right, mConfigColor, fontSize);
     }
 
     /**

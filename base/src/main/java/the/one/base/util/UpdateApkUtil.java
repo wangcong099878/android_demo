@@ -25,7 +25,7 @@ public class UpdateApkUtil<T extends IApkUpdate> extends BaseHttpRequest {
     protected QMUITipDialog loadingDialog;
     protected boolean isShowProgress;
 
-    public void check(Activity activity, Map<String, String> map, String url, final boolean isShowProgress, Callback callback) {
+    public void check(Activity activity, Map<String, Object> map, String url, final boolean isShowProgress, Callback callback) {
         mContext = activity;
         this.isShowProgress = isShowProgress;
         if (isShowProgress) {

@@ -1,8 +1,6 @@
 package the.one.base.widge;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
@@ -16,7 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import the.one.base.R;
 
@@ -72,8 +71,8 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
         //加载定义好的布局文件
         LayoutInflater.from(context).inflate(R.layout.number_button, this);
         LinearLayout mRoot = (LinearLayout) findViewById(R.id.root);
-        TextView subText = (TextView) findViewById(R.id.button_sub);
-        TextView addText = (TextView) findViewById(R.id.button_add);
+        QMUIRoundButton subText =  findViewById(R.id.button_sub);
+        QMUIRoundButton addText =  findViewById(R.id.button_add);
         mNumText = (EditText) findViewById(R.id.middle_count);
 
         //添加监听事件
@@ -84,60 +83,60 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
         //默认两位小数
         mNumText.setFilters(new InputFilter[]{new MoneyValueFilter()});
 
-        //获取自定义属性的相关内容
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NumberButton);
-        // 背景
-        int resourceId = typedArray.getResourceId(R.styleable.NumberButton_backgroud, R.color.qmui_config_color_white);
-        int addResourceId = typedArray.getResourceId(R.styleable.NumberButton_addBackground, R.color.divider_color);
-        int subResourceId = typedArray.getResourceId(R.styleable.NumberButton_subBackground, R.color.divider_color);
-        // 水平分割线
-        Drawable dividerDrawable = typedArray.getDrawable(R.styleable.NumberButton_individer);
-        //中间的编辑框是否可编辑
-        boolean aBoolean = typedArray.getBoolean(R.styleable.NumberButton_editable, true);
-        //+和-文本的宽度 geDiemension返回float getDimensionPixelSize四舍五入+  getDimensionPixeloffset四舍五入-
-        int buttonWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_buttonWidth, dip2px(context, 40));
-        //+和-文本的颜色
-        int textColor = typedArray.getColor(R.styleable.NumberButton_textColorr, 0xff000000);
-        //+和-文本的字体大小
-        int textSize = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textSize, sp2px(context, 14));
-        // 中间显示数量的按钮宽度
-        final int editextWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_editextWidth, dip2px(context, 50));
-        //必须调用这个，因为自定义View会随着Activity创建频繁的创建array
-        typedArray.recycle();
-
-        //设置输入框是否可用
-        setEditable(aBoolean);
+//        //获取自定义属性的相关内容
+//        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NumberButton);
+//        // 背景
+//        int resourceId = typedArray.getResourceId(R.styleable.NumberButton_backgroud, R.color.qmui_config_color_white);
+//        int addResourceId = typedArray.getResourceId(R.styleable.NumberButton_addBackground, R.color.divider_color);
+//        int subResourceId = typedArray.getResourceId(R.styleable.NumberButton_subBackground, R.color.divider_color);
+//        // 水平分割线
+//        Drawable dividerDrawable = typedArray.getDrawable(R.styleable.NumberButton_individer);
+//        //中间的编辑框是否可编辑
+//        boolean aBoolean = typedArray.getBoolean(R.styleable.NumberButton_editable, true);
+//        //+和-文本的宽度 geDiemension返回float getDimensionPixelSize四舍五入+  getDimensionPixeloffset四舍五入-
+//        int buttonWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_buttonWidth, dip2px(context, 40));
+//        //+和-文本的颜色
+//        int textColor = typedArray.getColor(R.styleable.NumberButton_textColorr, 0xff000000);
+//        //+和-文本的字体大小
+//        int textSize = typedArray.getDimensionPixelSize(R.styleable.NumberButton_textSize, sp2px(context, 14));
+//        // 中间显示数量的按钮宽度
+//        final int editextWidth = typedArray.getDimensionPixelSize(R.styleable.NumberButton_editextWidth, dip2px(context, 50));
+//        //必须调用这个，因为自定义View会随着Activity创建频繁的创建array
+//        typedArray.recycle();
+//
+//        //设置输入框是否可用
+//        setEditable(aBoolean);
         //初始化控件颜色
-        mRoot.setBackgroundResource(resourceId);
-        mRoot.setDividerDrawable(dividerDrawable);
-        subText.setBackgroundResource(subResourceId);
-        addText.setBackgroundResource(addResourceId);
-        addText.setTextColor(textColor);
-        subText.setTextColor(textColor);
-        mNumText.setTextColor(textColor);
+//        mRoot.setBackgroundResource(resourceId);
+//        mRoot.setDividerDrawable(dividerDrawable);
+//        subText.setBackgroundResource(subResourceId);
+//        addText.setBackgroundResource(addResourceId);
+//        addText.setTextColor(textColor);
+//        subText.setTextColor(textColor);
+//        mNumText.setTextColor(textColor);
 
         //初始化字体,注意默认的是px单位，要转换
-        if (textSize > 0) {
-            mNumText.setTextSize(px2sp(context, textSize));
-        } else {
-            mNumText.setTextSize(textDefaultSize);
-        }
+//        if (textSize > 0) {
+//            mNumText.setTextSize(px2sp(context, textSize));
+//        } else {
+//            mNumText.setTextSize(textDefaultSize);
+//        }
 
         //设置文本框的宽高
-        if (buttonWidth > 0) {
-            LayoutParams layoutParams = new LayoutParams(buttonWidth, LayoutParams.MATCH_PARENT);
-            addText.setLayoutParams(layoutParams);
-            subText.setLayoutParams(layoutParams);
-        } else {
-            Log.d("NumPickerView", "文本采用默认的宽高");
-        }
-        //设置输入框的宽高
-        if (editextWidth > 0) {
-            LayoutParams layoutParams = new LayoutParams(editextWidth, LayoutParams.MATCH_PARENT);
-            mNumText.setLayoutParams(layoutParams);
-        } else {
-            Log.d("NumPickerView", "编辑框采用默认的宽高");
-        }
+//        if (buttonWidth > 0) {
+//            LayoutParams layoutParams = new LayoutParams(buttonWidth, LayoutParams.MATCH_PARENT);
+//            addText.setLayoutParams(layoutParams);
+//            subText.setLayoutParams(layoutParams);
+//        } else {
+//            Log.d("NumPickerView", "文本采用默认的宽高");
+//        }
+//        //设置输入框的宽高
+//        if (editextWidth > 0) {
+//            LayoutParams layoutParams = new LayoutParams(editextWidth, LayoutParams.MATCH_PARENT);
+//            mNumText.setLayoutParams(layoutParams);
+//        } else {
+//            Log.d("NumPickerView", "编辑框采用默认的宽高");
+//        }
     }
 
     /**

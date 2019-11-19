@@ -285,7 +285,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     public void onDoubleClicked(View v) {
         Fragment fragment = pageAdapter.getItem(INDEX);
         if (fragment instanceof BaseDataFragment) {
-            ((BaseDataFragment) fragment).onDoubleClicked(null);
+            ((BaseDataFragment) fragment).onDoubleClicked(v);
         }
     }
 }

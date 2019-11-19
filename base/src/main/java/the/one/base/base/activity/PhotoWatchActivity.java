@@ -175,7 +175,6 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
                 .append(System.currentTimeMillis())
                 .append(".")
                 .append(suffix);
-        Log.e(TAG, "getDownloadFileName: " + sb.toString());
         return sb.toString();
     }
 
@@ -186,6 +185,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
     }
 
     public void download() {
+        showLoadingDialog("");
         OkHttpUtils
                 .get()
                 .url(mPath)
@@ -196,6 +196,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         showToast("分享失败");
+                        hideLoadingDialog();
                     }
 
                     @Override
@@ -205,6 +206,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
 
                     @Override
                     public void onResponse(File response, int id) {
+                        hideLoadingDialog();
                         ShareUtil.shareImageFile(PhotoWatchActivity.this, response);
                     }
                 });

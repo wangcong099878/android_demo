@@ -18,12 +18,14 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUICenterGravityRefreshOffsetCalculator;
@@ -114,7 +116,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     public int page = 1;
     public boolean isFirst = true;
     public boolean isHeadFresh = false;
-    public boolean isLoadMore = false;
+    protected boolean isGlidePause = true;
 
     @Override
     protected int getContentViewId() {
@@ -126,16 +128,27 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         recycleView = rootView.findViewById(R.id.recycle_view);
         pullLayout = rootView.findViewById(R.id.pullLayout);
         adapter = getAdapter();
+        if (null != pullLayout) {
+            pullLayout.setDragRate(0.5f);
+            pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
+            pullLayout.setOnPullListener(this);
+            pullLayout.setEnabled(false);
+        }
+        initAdapter();
+        initRecycleView(recycleView, setType(), adapter);
+        //添加双击监听
+        if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
+            mTopLayout.setOnTopBarDoubleClickListener(this);
+        }
+    }
+
+    protected void initAdapter() {
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
         adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (isLoadMore) {
-                    page++;
-                    isLoadMore = false;
-                    requestServer();
-                }
+                requestServer();
             }
         }, recycleView);
         adapter.disableLoadMoreIfNotFullPage();
@@ -143,18 +156,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.openLoadAnimation();
         // 动画一直执行
         adapter.isFirstOnly(true);
-        adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         adapter.setNotDoAnimationCount(10);
-        if (null != pullLayout) {
-            pullLayout.setDragRate(0.5f);
-            pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
-            pullLayout.setOnPullListener(this);
-        }
-        initRecycleView(recycleView, setType(), adapter);
-        //添加双击监听
-        if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
-            mTopLayout.setOnTopBarDoubleClickListener(this);
-        }
     }
 
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
@@ -172,6 +175,20 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
                 break;
         }
+        // 滑动时禁止加载图片
+        recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    isGlidePause = false;
+                    Glide.with(_mActivity).resumeRequests();
+                } else if (!isGlidePause) {
+                    isGlidePause = true;
+                    Glide.with(_mActivity).pauseRequests();
+                }
+            }
+        });
         recycleView.setLayoutManager(layoutManager);
         recycleView.setAdapter(adapter);
     }
@@ -272,19 +289,28 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             }
         } else {
             if (isFirst) {
-                showView(flBottomLayout);
-                showView(flTopLayout);
-                adapter.setNewData(data);
-                showContentPage();
-                isFirst = false;
+                onFirstComplete(data);
             } else if (isHeadFresh) {
-                adapter.setNewData(data);
-                onHeadFreshSuccess();
+                onHeadFreshComplete(data);
             } else {
                 adapter.addData(data);
             }
             setPageInfo(pageInfoBean);
         }
+    }
+
+    protected void onFirstComplete(List<T> data) {
+        showView(flBottomLayout);
+        showView(flTopLayout);
+        adapter.setNewData(data);
+        showContentPage();
+        pullLayout.setEnabled(true);
+        isFirst = false;
+    }
+
+    protected void onHeadFreshComplete(List<T> data) {
+        adapter.setNewData(data);
+        onHeadFreshSuccess();
     }
 
     /**
@@ -302,17 +328,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      */
     public void setPageInfo(PageInfoBean mPageInfo) {
         this.pageInfoBean = mPageInfo;
-        if (null == mPageInfo) {
-            isLoadMore = true;
-            adapter.loadMoreComplete();
-            return;
-        }
-        if (mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
-            isLoadMore = true;
+        if (null == mPageInfo || mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
+            page++;
             adapter.loadMoreComplete();
         } else {
             adapter.loadMoreEnd(mPageInfo.getPageTotalCount() == 1);
-            isLoadMore = false;
         }
     }
 

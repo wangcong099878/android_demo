@@ -69,8 +69,6 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
                 // 最右边
                 outRect.left = halfSpace;
             } else {
-
-
                 outRect.left = halfSpace;
                 outRect.right = halfSpace;
             }
