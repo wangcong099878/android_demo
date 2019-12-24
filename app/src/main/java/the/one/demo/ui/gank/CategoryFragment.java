@@ -1,5 +1,6 @@
 package the.one.demo.ui.gank;
 
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -41,12 +42,15 @@ public class CategoryFragment extends BaseTitleTabFragment {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-//        把继承改为BaseTabOnTitleFragment注释掉下面的代码试试
+        //把继承改为BaseTabOnTitleFragment注释掉下面的代码试试
         TextView mTitle =  mTopLayout.setTitle("GankType");
+        mTopLayout.setTitleGravity(Gravity.CENTER);
         mTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         mTitle.getPaint().setFakeBoldText(true);
         // 这里不用注释掉,更换继承这里要改成true(是否有分割线)
         mTopLayout.setBackgroundDividerEnabled(false);
+        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_white));
+
     }
 
     @Override

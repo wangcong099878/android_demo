@@ -11,7 +11,7 @@
         <!--选中颜色-->
         <item name="tab_select_color">?config_color</item>
 
-        <item name="qmui_topbar_height">40dp</item>
+        <item name="qmui_topbar_height">45dp</item>
         <item name="qmui_config_color_blue">?config_color</item>
         <item name="QMUITopBarStyle">@style/TopBarDark</item>
         <item name="colorPrimary">?config_color</item>
@@ -24,6 +24,7 @@
     </style>
 
     <style name="TopBarDark" parent="QMUI.TopBar">
+        <item name="qmui_topbar_bg_color">?attr/config_color</item>
         <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>

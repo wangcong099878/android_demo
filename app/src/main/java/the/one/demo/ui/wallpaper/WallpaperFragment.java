@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.demo.adapter.WallpaperAdapterThe;
+import the.one.demo.adapter.WallpaperAdapter;
 import the.one.demo.bean.Wallpaper;
 import the.one.demo.constant.WallpaperConstant;
 import the.one.demo.service.wallpaper.DynamicWallpaper1;
@@ -55,7 +55,7 @@ public class WallpaperFragment extends BaseDataFragment<Wallpaper> {
     protected BaseQuickAdapter getAdapter() {
         initFragmentBack("动态壁纸");
         wallpaperSpUtil = WallpaperSpUtil.getInstance();
-        return new WallpaperAdapterThe();
+        return new WallpaperAdapter();
     }
 
     @Override

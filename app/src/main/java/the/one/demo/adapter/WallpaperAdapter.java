@@ -36,9 +36,9 @@ import the.one.demo.bean.Wallpaper;
  * @email 625805189@qq.com
  * @remark
  */
-public class WallpaperAdapterThe extends TheBaseQuickAdapter<Wallpaper> {
+public class WallpaperAdapter extends TheBaseQuickAdapter<Wallpaper> {
 
-    public WallpaperAdapterThe() {
+    public WallpaperAdapter() {
         super(R.layout.item_wallpaper);
     }
 

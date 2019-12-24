@@ -187,7 +187,7 @@ public class MyTopBar extends RelativeLayout  {
         if (isNoBackground) {
             setBackgroundDividerEnabled(hasSeparator);
         } else {
-            setBackground(bgDrawable);
+                setBackground(bgDrawable);
         }
 
     }
@@ -823,7 +823,7 @@ public class MyTopBar extends RelativeLayout  {
                         viewLeft = (r - l - mTitleContainerView.getMeasuredWidth()) / 2;
                     } else {
                         viewLeft += QMUIResHelper.getAttrDimen(getContext(),
-                                R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
+                                R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside)+getLeftViewsWidth();
                     }
                 } else if (view == mCenterView) {
                     viewLeft = (r - l - mCenterView.getMeasuredWidth()) / 2;

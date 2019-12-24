@@ -314,8 +314,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     protected void initFragmentBack(String title) {
         if (null != mTopLayout) {
-            mTopLayout.setTitle(title);
             addTopBarBackBtn();
+            mTopLayout.setTitle(title);
         }
     }
 
