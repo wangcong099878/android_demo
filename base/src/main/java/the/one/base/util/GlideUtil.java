@@ -1,6 +1,9 @@
 package the.one.base.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -8,6 +11,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import the.one.base.R;
 
@@ -48,4 +53,21 @@ public class GlideUtil {
                 .apply(options)
                 .into(imageView);
     }
+
+    public static void loadImageAsBitmap(Context context, String path) {
+        loadImageAsBitmap(context, path, new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+            }
+        });
+    }
+
+    public static void loadImageAsBitmap(Context context, String path, SimpleTarget<Bitmap> simpleTarget) {
+        Glide.with(context).
+                asBitmap().
+                load(path).
+                into(simpleTarget);
+    }
+
 }

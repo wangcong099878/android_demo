@@ -2,11 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <the.one.demo.widget.WaveView
-        android:id="@+id/wave_view"
+<!--    <the.one.demo.widget.WaveView-->
+<!--        android:id="@+id/wave_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+        style="@style/QMUI.Button.Red.Radius"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="40dp"
+        android:layout_marginTop="34dp"
+        android:layout_margin="30dp"
+        android:layout_centerInParent="true"
+        android:text="登录"
+        app:qmui_radius="5dp" />
 
 </RelativeLayout>

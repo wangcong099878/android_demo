@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         <activity android:name=".ui.activity.LauncherActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.TagsActivity"/>
+        <activity android:name=".ui.activity.TagsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
 
         <activity android:name=".ui.sample.StickyTestActivity"/>

@@ -41,15 +41,15 @@ public class WelfareFragment extends BaseTitleTabFragment {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        addTopBarBackBtn(R.drawable.mz_titlebar_ic_back_dark, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        addTopBarBackBtn(R.drawable.mz_titlebar_ic_back_dark);
         TextView tvTitle = mTopLayout.setTitle("福利");
         tvTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         tvTitle.getPaint().setFakeBoldText(true);
+    }
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return true;
     }
 
     @Override

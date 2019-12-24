@@ -1,17 +1,12 @@
 package the.one.demo.ui.sample.fragment;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import butterknife.BindView;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.R;
-import the.one.demo.widget.WaveView;
 
 
 //  ┏┓　　　┏┓
@@ -41,8 +36,8 @@ import the.one.demo.widget.WaveView;
  */
 public class TestFragment extends BaseFragment {
 
-    @BindView(R.id.wave_view)
-    WaveView mWaveView;
+//    @BindView(R.id.wave_view)
+//    WaveView mWaveView;
 
     @Override
     protected int getContentViewId() {
@@ -52,15 +47,16 @@ public class TestFragment extends BaseFragment {
     @Override
     protected void initView(View rootView) {
         EditText editText = new EditText(_mActivity);
+        editText.setBackground(null);
         editText.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         mTopLayout.setCenterView(editText);
         addTopBarBackBtn();
-        mWaveView.setDuration(10000);
-        mWaveView.setStyle(Paint.Style.FILL);
-        mWaveView.setColor(Color.RED);
-        mWaveView.setInterpolator(new LinearOutSlowInInterpolator());
-        mWaveView.start();
 
+//        mWaveView.setDuration(10000);
+//        mWaveView.setStyle(Paint.Style.FILL);
+//        mWaveView.setColor(Color.RED);
+//        mWaveView.setInterpolator(new LinearOutSlowInInterpolator());
+//        mWaveView.start();
     }
 
     @Override

@@ -1,7 +1,5 @@
 package the.one.demo.ui.presenter;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -64,7 +62,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onResponse(String response, int id) {
-                Log.e(TAG, "onResponse: " );
                 if (isViewAttached()) {
                     JSONObject jsonObject = null;
                     try {
@@ -75,11 +72,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
                         } else {
                             String result = jsonObject.getString("results");
                             if (type == TYPE_TODAY) {
-                                Log.e(TAG, "onResponse: TYPE_TODAY");
                                 HomeBean homeBean = JsonUtil.fromJson(result,HomeBean.class);
                                 getView().onTodayComplete(homeBean);
                             } else{
-                                Log.e(TAG, "onResponse: TYPE_TYPE_WELFARE");
                                 List<GankBean> gankBeans = new Gson().fromJson(result,
                                         new TypeToken<List<GankBean>>() {
                                         }.getType());

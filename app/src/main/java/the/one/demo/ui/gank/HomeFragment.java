@@ -123,12 +123,12 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @Override
     protected void requestServer() {
         presenter.getData(HomePresenter.TYPE_WELFARE);
+        presenter.getData(HomePresenter.TYPE_TODAY);
     }
 
     @Override
     public void onWelfareComplete(final List<GankBean> data) {
         welfare = data;
-        presenter.getData(HomePresenter.TYPE_TODAY);
         setWelfare();
     }
 

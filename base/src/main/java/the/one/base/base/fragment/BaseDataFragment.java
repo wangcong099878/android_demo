@@ -41,6 +41,8 @@ import the.one.base.widge.WWPullRefreshLayout;
 import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.net.entity.PageInfoBean;
 
+import static android.support.v7.widget.RecyclerView.*;
+
 /**
  * @author The one
  * @date 2018/12/28 0028
@@ -107,7 +109,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     protected RecyclerView recycleView;
     protected BaseQuickAdapter adapter;
-    protected RecyclerView.LayoutManager layoutManager;
+    protected LayoutManager layoutManager;
     protected WWPullRefreshLayout pullLayout;
 
     public PageInfoBean pageInfoBean;
@@ -175,12 +177,29 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
                 break;
         }
-        // 滑动时禁止加载图片
-        recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recycleView.addOnScrollListener(new OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+        // 滑动时禁止加载图片
+        recycleView.addOnScrollListener(getOnScrollListener());
+        recycleView.setLayoutManager(layoutManager);
+        recycleView.setAdapter(adapter);
+    }
+
+    protected OnScrollListener getOnScrollListener() {
+        return new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == SCROLL_STATE_IDLE) {
                     isGlidePause = false;
                     Glide.with(_mActivity).resumeRequests();
                 } else if (!isGlidePause) {
@@ -188,10 +207,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                     Glide.with(_mActivity).pauseRequests();
                 }
             }
-        });
-        recycleView.setLayoutManager(layoutManager);
-        recycleView.setAdapter(adapter);
+
+
+        };
     }
+
 
     @Override
     protected void onLazyInit() {
@@ -283,6 +303,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
             if (isFirst || isHeadFresh) {
+                adapter.setNewData(data);
+                if (isHeadFresh) onHeadFreshSuccess();
                 showEmptyPage(emptyStr, btnString, listener);
             } else {
                 adapter.loadMoreEnd();
@@ -304,7 +326,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         showView(flTopLayout);
         adapter.setNewData(data);
         showContentPage();
-        pullLayout.setEnabled(true);
+
+        setPullLayoutEnabled(true);
         isFirst = false;
     }
 
@@ -318,7 +341,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      */
     public void onHeadFreshSuccess() {
         isHeadFresh = false;
-        if (pullLayout != null) pullLayout.finishRefresh();
+        setPullLayoutEnabled(true);
     }
 
     /**
@@ -336,14 +359,20 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         }
     }
 
+    protected void setPullLayoutEnabled(boolean enabled) {
+        if (null != pullLayout){
+            pullLayout.setEnabled(enabled);
+            pullLayout.finishRefresh();
+        }
+    }
+
     /**
      * 普通模式（ 直接设置数据,不需要刷新和加载 - 在requestServer设置数据后再调用此方法 ）
      */
     @Override
     public void onNormal() {
         adapter.loadMoreEnd(true);
-        if (null != pullLayout)
-            pullLayout.setEnabled(false);
+        setPullLayoutEnabled(false);
         showView(flBottomLayout);
         showView(flTopLayout);
         showContentPage();

@@ -61,11 +61,6 @@ public class WelfareItemFragment extends BaseDataFragment<GankBean> {
     }
 
     @Override
-    protected boolean isNeedChangeStatusBarMode() {
-        return false;
-    }
-
-    @Override
     protected BaseQuickAdapter getAdapter() {
         url = getArguments().getString(DataConstant.URL);
         goneView(mTopLayout);
