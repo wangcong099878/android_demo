@@ -68,7 +68,7 @@ public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRe
         View view = inflater.inflate(R.layout.pull_refresh_layout, null);
         mProgressWheel = view.findViewById(R.id.progressWheel);
         mTips = view.findViewById(R.id.tv_tips);
-        mTextColor = ContextCompat.getColor(context,R.color.qmui_config_color_gray_4);
+        mTextColor = ContextCompat.getColor(context,R.color.qmui_config_color_gray_1);
         addView(view);
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }

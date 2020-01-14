@@ -10,10 +10,10 @@
 <!--        <item name="QMUITopBarStyle">@style/TopBarWhite</item>-->
 
         <!-- 2. 非白色的背景-->
-        <item name="QMUITopBarStyle">@style/TopBarStyle</item>
+<!--        <item name="QMUITopBarStyle">@style/TopBarStyle</item>-->
 
         <!-- 3. 渐变色的背景-->
-<!--        <item name="qmui_topbar_bg_drawable">@drawable/main_ripple_bg</item>-->
+        <item name="qmui_topbar_bg_drawable">@drawable/main_ripple_bg</item>
 
     </style>
 

@@ -11,7 +11,7 @@
         <!--选中颜色-->
         <item name="tab_select_color">?config_color</item>
 
-        <item name="qmui_topbar_height">45dp</item>
+        <item name="qmui_topbar_height">40dp</item>
         <item name="qmui_config_color_blue">?config_color</item>
         <item name="QMUITopBarStyle">@style/TopBarDark</item>
         <item name="colorPrimary">?config_color</item>
@@ -21,14 +21,17 @@
 
     <style name="TopBarWhite" parent="QMUI.TopBar">
         <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_dark</item>
+        <item name="qmui_topbar_text_btn_padding_horizontal">12dp</item>
+        <item name="qmui_topbar_title_margin_horizontal_when_no_btn_aside">12dp</item>
     </style>
 
     <style name="TopBarDark" parent="QMUI.TopBar">
-        <item name="qmui_topbar_bg_color">?attr/config_color</item>
         <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_light</item>
+        <item name="qmui_topbar_text_btn_padding_horizontal">10dp</item>
+        <item name="qmui_topbar_title_margin_horizontal_when_no_btn_aside">12dp</item>
     </style>
 
     <style name="match_wrap">
@@ -92,6 +95,11 @@
         <item name="android:windowExitAnimation">@anim/anim_from_top_out</item>
     </style>
 
+    <style name="PopAnimStyleFromTop2Bottom">
+        <item name="android:windowEnterAnimation">@anim/anim_from_top_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_from_bottom_out</item>
+    </style>
+
     <style name="custom_bottom_text_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -109,6 +117,14 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="crash_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/qmui_config_color_gray_4</item>
     </style>
 
 

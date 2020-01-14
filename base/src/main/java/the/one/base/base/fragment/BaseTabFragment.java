@@ -118,6 +118,12 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         mTabs = new ArrayList<>();
         normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.tab_normal_color);
         selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.tab_select_color);
+
+    }
+
+    @Override
+    protected void onLazyInit() {
+        super.onLazyInit();
         if (!tabFromNet()) {
             startInit();
         } else {

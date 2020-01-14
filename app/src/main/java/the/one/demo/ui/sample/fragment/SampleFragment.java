@@ -30,7 +30,7 @@ import the.one.demo.ui.sample.CameraSamplePermissionActivity;
 /**
  * @author The one
  * @date 2019/4/24 0024
- * @describe TODO
+ * @describe 包含的一些内容使用示例
  * @email 625805189@qq.com
  * @remark
  */
@@ -38,7 +38,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR, WEB_VIEW, POPUP_LAYOUT, COLLAPSING_TOP_BAR,
             PULL_EXTEND, STATUS_BAR_HELP, STRING_UTIL, PROGRESS_DIALOG, CAMERA, DATE_PICKER, LETTER_SEARCH,
-            ROUND_CHECK_BOX, CITY_SELECT, TEST;
+            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUPWINDOW,TEST;
 
     @Override
     protected void addGroupListView() {
@@ -60,9 +60,14 @@ public class SampleFragment extends BaseGroupListFragment {
 
         CITY_SELECT = CreateDetailItemView("LocationSelect", "地理位置选择 城市/地址", true);
 
+        CRASH  = CreateDetailItemView("App Crash","当程序崩溃后...",true);
+        SEARCH_VIEW = CreateDetailItemView("TheSearchView","自定义的SearchView",true);
+        POPUPWINDOW = CreateDetailItemView("ThePopupWindow","",true);
+
         TEST = CreateNormalItemView("测试");
-        addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX);
-        addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT);
+
+        addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,SEARCH_VIEW,POPUPWINDOW);
+        addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,CRASH);
         addToGroup(TEST);
     }
 
@@ -96,8 +101,14 @@ public class SampleFragment extends BaseGroupListFragment {
             startFragment(new TheCheckBoxFragment());
         } else if (v == CITY_SELECT) {
             startFragment(new LocationSelectFragment());
+        }else if(v == CRASH){
+            startFragment(new CrashTestFragment());
+        }else if(v == SEARCH_VIEW){
+            startFragment(new SearchViewFragment());
         } else if (v == TEST) {
             startFragment(new TestFragment());
+        }else if (v == POPUPWINDOW) {
+            startFragment(new ThePopupWindowFragment());
         }
     }
 }

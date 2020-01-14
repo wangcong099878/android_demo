@@ -240,6 +240,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         page = 1;
         isFirst = true;
         showLoadingPage();
+        recycleView.scrollToPosition(0);
         requestServer();
     }
 

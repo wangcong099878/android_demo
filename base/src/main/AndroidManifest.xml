@@ -6,8 +6,6 @@
     <!-- Android 8.0(仅限应用版本更新方面) -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -26,6 +24,8 @@
 
         <activity android:name=".base.activity.UpdateApkActivity"
             android:theme="@style/DialogActivityTheme"/>
+
+        <activity android:name=".base.activity.CrashActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

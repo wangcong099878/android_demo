@@ -2,8 +2,15 @@ package the.one.base.widge;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 
@@ -29,27 +36,29 @@ public class NineGridView extends NineGridLayout {
 
     @Override
     protected boolean displayOneImage(final RatioImageView imageView, final String url, final int parentWidth) {
-//        Glide.with(mContext).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
-//            @Override
-//            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                int w = resource.getWidth();
-//                int h = resource.getHeight();
-//                int newW;
-//                int newH;
-//                if (h > w * MAX_W_H_RATIO) {//h:w = 5:3
-//                    newW = parentWidth / 2;
-//                    newH = newW * 5 / 3;
-//                } else if (h < w) {//h:w = 2:3
-//                    newW = parentWidth * 2 / 3;
-//                    newH = newW * 2 / 3;
-//                } else {//newH:h = newW :w
-//                    newW = parentWidth / 2;
-//                    newH = h * newW / w;
-//                }
-//                setOneImageLayoutParams(imageView,newW,newH);
-//            }
-//        });
-        return true;
+        Glide.with(mContext).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                int w = bitmap.getWidth();
+                int h = bitmap.getHeight();
+
+                int newW;
+                int newH;
+                if (h > w * MAX_W_H_RATIO) {//h:w = 5:3
+                    newW = parentWidth / 2;
+                    newH = newW * 5 / 3;
+                } else if (h < w) {//h:w = 2:3
+                    newW = parentWidth * 2 / 3;
+                    newH = newW * 2 / 3;
+                } else {//newH:h = newW :w
+                    newW = parentWidth / 2;
+                    newH = h * newW / w;
+                }
+                imageView.setImageBitmap(bitmap);
+                setOneImageLayoutParams(imageView, newW, newH);
+            }
+        });
+        return false;
     }
 
     @Override

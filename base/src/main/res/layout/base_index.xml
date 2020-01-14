@@ -8,6 +8,7 @@
         android:id="@+id/qmui_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         android:layout_marginBottom="@dimen/home_tab_height" />
 
     <the.one.base.widge.QMUITabSegment

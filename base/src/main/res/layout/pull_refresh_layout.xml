@@ -8,10 +8,12 @@
     <the.one.base.widge.ProgressWheel
         android:id="@+id/progressWheel"
         xmlns:wheel="http://schemas.android.com/apk/res-auto"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:clickable="false"
         wheel:matProg_barColor="?config_color"
+        wheel:matProg_barWidth="3dp"
+        wheel:matProg_rimWidth="2dp"
         wheel:matProg_rimColor="@color/qmui_config_color_gray_9" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -19,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/qmui_config_color_gray_3"
         android:text="下拉刷新"/>
 

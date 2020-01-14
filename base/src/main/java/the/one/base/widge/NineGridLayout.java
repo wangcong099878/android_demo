@@ -142,7 +142,6 @@ public abstract class NineGridLayout extends ViewGroup {
                 layoutImageView(imageView, 0, url, false);
             } else {
                 addView(imageView);
-                displayImage(imageView,url);
             }
             return;
         }
@@ -176,6 +175,7 @@ public abstract class NineGridLayout extends ViewGroup {
 
     private void layoutParams() {
         int singleHeight = mSingleWidth;
+
         //根据子view数量确定高度
         LayoutParams params = getLayoutParams();
         params.height = (int) (singleHeight * mRows + mSpacing * (mRows - 1));
@@ -183,7 +183,7 @@ public abstract class NineGridLayout extends ViewGroup {
     }
 
     private RatioImageView createImageView(final int i, final String url) {
-       final RatioImageView imageView = new RatioImageView(mContext);
+        final RatioImageView imageView = new RatioImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setOnClickListener(new OnClickListener() {
             @Override
@@ -281,7 +281,7 @@ public abstract class NineGridLayout extends ViewGroup {
         imageView.layout(0, 0, width, height);
 
         LayoutParams params = getLayoutParams();
-        params.width = width;
+//        params.width = width;
         params.height = height;
         setLayoutParams(params);
     }

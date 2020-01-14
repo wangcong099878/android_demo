@@ -28,18 +28,18 @@ public class SelectPictureUtil {
     }
 
     public void initIcon(Fragment fragment) {
-        initSelectPicture(fragment, null, true, false, 3, PictureConfig.SINGLE, 1);
+        initSelectPicture(fragment, null, true, false,false, 3, PictureConfig.SINGLE, 1);
     }
 
     public void initIconCrop(Fragment fragment) {
-        initSelectPicture(fragment, null, true, true, 3, PictureConfig.SINGLE, 1);
+        initSelectPicture(fragment, null, true, true,false, 3, PictureConfig.SINGLE, 1);
     }
 
     public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList) {
-        initSelectPicture(fragment, selectList, true, false, 3, PictureConfig.MULTIPLE, 9);
+        initSelectPicture(fragment, selectList, true, false,true, 3, PictureConfig.MULTIPLE, 9);
     }
 
-    public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList, boolean showCamera, boolean crop, int spanCount, int mode, int maxSelect) {
+    public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList, boolean showCamera, boolean crop,boolean compress,  int spanCount, int mode, int maxSelect) {
         PictureSelector.create(fragment)
                 .openGallery(PictureMimeType.ofImage())
                 .isCamera(showCamera)
@@ -49,7 +49,7 @@ public class SelectPictureUtil {
                 .maxSelectNum(maxSelect)// 最大图片选择数量
                 .selectionMedia(selectList)
                 .enableCrop(crop)// 是否裁剪 true or false
-                .compress(true)// 是否压缩 true or false
+                .compress(compress)// 是否压缩 true or false
                 .withAspectRatio(1, 1)
                 .hideBottomControls(true)
                 .isGif(false)
@@ -57,8 +57,8 @@ public class SelectPictureUtil {
                 .openClickSound(false)// 是否开启点击声音 true or false
                 .rotateEnabled(true) // 裁剪是否可旋转图片 true or false
                 .scaleEnabled(true)// 裁剪是否可放大缩小图片 true or false
-                .cropCompressQuality(40)// 裁剪压缩质量 默认90 int
-                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
+                .minimumCompressSize(1000)// 小于100kb的图片不压缩
                 .compressSavePath(FileDirectoryUtil.getCachePath())//压缩图片保存地址
                 .setOutputCameraPath(File.separator + FileDirectoryUtil.getIndexPath() + File.separator + FileDirectoryUtil.getPicturePath())
                 .forResult(PictureConfig.CHOOSE_REQUEST);

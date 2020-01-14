@@ -207,7 +207,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
                     @Override
                     public void onResponse(File response, int id) {
                         hideLoadingDialog();
-                        ShareUtil.shareImageFile(PhotoWatchActivity.this, response);
+                        ShareUtil.shareImageFile(PhotoWatchActivity.this, response,"分享图片");
                     }
                 });
 

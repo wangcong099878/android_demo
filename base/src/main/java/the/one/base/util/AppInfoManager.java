@@ -674,4 +674,21 @@ public class AppInfoManager {
         return permissions;
     }
 
+    /**
+     * 重启app
+     * @param context
+     */
+    public static void restartApp(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        if (null == packageManager) {
+            return;
+        }
+        final Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
+        }
+    }
+
+
 }

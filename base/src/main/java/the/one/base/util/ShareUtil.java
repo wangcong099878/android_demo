@@ -48,7 +48,7 @@ import java.util.List;
  */
 public class ShareUtil {
 
-    public static void shareImageFile(Context context,File file) {
+    public static void shareImageFile(Context context,File file,String title) {
         if (file != null) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
@@ -68,7 +68,7 @@ public class ShareUtil {
                 e.printStackTrace();
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(Intent.createChooser(intent, "分享图片"));
+            context.startActivity(Intent.createChooser(intent, title));
         }
     }
 
@@ -117,7 +117,7 @@ public class ShareUtil {
                 ComponentName componentName = new ComponentName(PACKAGE_MOBILE_QQ, "com.tencent.mobileqq.activity.JumpActivity");
 
                 shareIntent.setComponent(componentName);
-                 mContext.startActivity(shareIntent);
+                mContext.startActivity(shareIntent);
 //                mContext.startActivity(Intent.createChooser(shareIntent, "Share"));
             } catch (Exception e) {
                 QMUIDialogUtil.FailTipsDialog(mContext,"分享图片到QQ失败");

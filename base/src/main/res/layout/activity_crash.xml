@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:ignore="ResourceName">
+
+    <the.one.base.widge.MyTopBarLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_marginTop="?attr/qmui_topbar_height"
+        android:animateLayoutChanges="true">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="20dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/mz_titlebar_search_layout_ic_delete_dark"/>
+
+
+        <ScrollView
+            android:id="@+id/error_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/iv_close"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textMessage"
+                    style="@style/crash_text_style"
+                    android:textColor="@color/qmui_config_color_gray_3"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_className"
+                    style="@style/crash_text_style"
+                    android:layout_marginTop="20dp" />
+
+
+                <TextView
+                    android:id="@+id/tv_methodName"
+                    style="@style/crash_text_style" />
+
+
+                <TextView
+                    android:id="@+id/tv_lineNumber"
+                    style="@style/crash_text_style" />
+
+
+                <TextView
+                    android:id="@+id/tv_exceptionType"
+                    style="@style/crash_text_style" />
+
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    style="@style/crash_text_style" />
+
+
+                <TextView
+                    android:id="@+id/tv_model"
+                    style="@style/crash_text_style" />
+
+
+                <TextView
+                    android:id="@+id/tv_brand"
+                    style="@style/crash_text_style" />
+
+
+                <TextView
+                    android:id="@+id/tv_version"
+                    style="@style/crash_text_style" />
+
+                <TextView
+                    android:id="@+id/tv_fullException"
+                    style="@style/crash_text_style"
+                    android:layout_marginTop="20dp" />
+            </LinearLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/save_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_crash_cry"
+                    android:layout_marginBottom="50dp"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:qmui_isRadiusAdjustBounds="true"
+                    app:qmui_borderWidth="0dp"
+                    app:qmui_backgroundColor="?attr/config_color"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:text="@string/crash_report_tip" />
+
+                <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+                    android:id="@+id/restart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginTop="30dp"
+                    android:paddingBottom="10dp"
+                    app:qmui_isRadiusAdjustBounds="true"
+                    app:qmui_borderWidth="0dp"
+                    app:qmui_backgroundColor="@color/qmui_config_color_gray_5"
+                    android:textSize="13sp"
+                    android:textColor="@color/white"
+                    android:text="@string/restart" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_show_info_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:padding="15dp"
+                android:text="@string/show_crash_info"
+                android:textColor="@color/qmui_config_color_gray_5" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>

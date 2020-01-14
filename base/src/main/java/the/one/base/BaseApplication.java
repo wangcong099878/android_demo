@@ -13,6 +13,7 @@ import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 import the.one.base.constant.PhoneConstant;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
+import the.one.base.util.SpiderMan;
 
 
 //  ┏┓　　　┏┓
@@ -42,7 +43,7 @@ import the.one.base.util.SpUtil;
  */
 public class BaseApplication extends MultiDexApplication {
 
-    public static Context context;
+    private static Context context;
 
     public static Context getInstance(){
         return context;
@@ -52,11 +53,16 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         context = this;
+        initSpiderMan();
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance(this).register();
         SpUtil.getInstance().init(this);
         initLogger();
         PhoneConstant.init(context);
+    }
+
+    protected void initSpiderMan(){
+        SpiderMan.init(this);
     }
 
     protected void initLogger() {

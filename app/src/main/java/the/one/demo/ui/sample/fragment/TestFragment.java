@@ -1,8 +1,6 @@
 package the.one.demo.ui.sample.fragment;
 
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.presenter.BasePresenter;
@@ -30,7 +28,7 @@ import the.one.demo.R;
 /**
  * @author The one
  * @date 2019/9/27 0027
- * @describe TODO
+ * @describe 测试用的
  * @email 625805189@qq.com
  * @remark
  */
@@ -46,10 +44,7 @@ public class TestFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
-        EditText editText = new EditText(_mActivity);
-        editText.setBackground(null);
-        editText.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        mTopLayout.setCenterView(editText);
+        // 左右两边的内容要放在前面
         addTopBarBackBtn();
 
 //        mWaveView.setDuration(10000);

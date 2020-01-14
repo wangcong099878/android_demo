@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
@@ -37,6 +37,7 @@ import the.one.base.base.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
+import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.widge.MyTopBar;
@@ -210,6 +211,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return null;
     }
 
+    protected View mRootView;
     protected RelativeLayout rlParent;
     protected StatusLayout mStatusLayout;
     protected MyTopBarLayout mTopLayout;
@@ -235,14 +237,20 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        _mActivity = getBaseFragmentActivity();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (isNeedChangeStatusBarMode()) {
             if (isStatusBarLightMode()) {
-//                QMUIStatusBarHelper.translucent(getBaseFragmentActivity());
+                QMUIStatusBarHelper.translucent(getBaseFragmentActivity());
                 QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
             } else {
-//                QMUIStatusBarHelper.translucent(getBaseFragmentActivity(), getColorr(R.color.qmui_config_color_transparent));
+                QMUIStatusBarHelper.translucent(getBaseFragmentActivity(), getColorr(R.color.qmui_config_color_transparent));
                 QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
             }
         }
@@ -259,8 +267,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
-        View mRootView;
-        _mActivity = getBaseFragmentActivity();
         if (getPresenter() != null)
             getPresenter().attachView(this);
         if (isRegisterEventBus())
@@ -314,8 +320,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     protected void initFragmentBack(String title) {
         if (null != mTopLayout) {
-            addTopBarBackBtn();
             mTopLayout.setTitle(title);
+            addTopBarBackBtn();
         }
     }
 
@@ -530,7 +536,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     public void startActivityFinishCurrent(Class c, boolean finish) {
         startActivity(new Intent(getActivity(), c));
-        if (finish) finish();
+        if (finish) getActivity().finish();
     }
 
     public void startActivity(Class c) {

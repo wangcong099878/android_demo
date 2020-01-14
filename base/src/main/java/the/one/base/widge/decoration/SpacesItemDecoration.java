@@ -36,11 +36,25 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     private int space;
     private int halfSpace;
     private int column;
+    private boolean left;
+    private boolean top;
+    private boolean right;
+    private boolean bottom;
 
     public SpacesItemDecoration(int space, int column) {
         this.space = space;
         this.column = column;
         halfSpace = space / 2;
+    }
+
+    public SpacesItemDecoration(int space, int column, boolean left, boolean top, boolean right, boolean bottom) {
+        this.space = space;
+        this.halfSpace = space/2;
+        this.column = column;
+        this.left = left;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
     }
 
     @Override

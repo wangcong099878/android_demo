@@ -34,7 +34,7 @@ public class PhoneConstant {
 
     public static boolean isHaveVibrator = false;
 
-    public static String[] bands = {"16th"};
+    public static String[] bands = {"16th","16s"};
 
     public static void init(Context context){
         boolean isMeizu = QMUIDeviceHelper.isMeizu();

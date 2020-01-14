@@ -598,7 +598,7 @@ public class QMUITabSegment extends HorizontalScrollView {
             dispatchTabUnselected(prev);
             dispatchTabSelected(index);
             if (mIsShowAnimation)
-                YoYo.with(Anim.Shake.getYoyo()).duration(200).playOn(nowView);
+                YoYo.with(Anim.ZoomIn.getYoyo()).duration(200).playOn(nowView);
             setTextViewTypeface(prevView.getTextView(), false);
             setTextViewTypeface(nowView.getTextView(), true);
             prevView.updateDecoration(prevModel, false);

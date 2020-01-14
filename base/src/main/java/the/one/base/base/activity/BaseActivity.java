@@ -76,7 +76,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         return false;
     }
 
-
     /**
      *  @TODO 需要显示点击返回显示 是否退出
      */
@@ -235,6 +234,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showFailTips(String msg) {
+        hideLoadingDialog();
         QMUIDialogUtil.FailTipsDialog(this, msg);
     }
 

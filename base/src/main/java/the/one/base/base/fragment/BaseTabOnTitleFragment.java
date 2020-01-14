@@ -18,6 +18,7 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -44,8 +45,6 @@ public abstract class BaseTabOnTitleFragment extends BaseTabFragment {
     protected void initView(View rootView) {
         mViewPager = rootView.findViewById(R.id.view_pager);
         mMagicIndicator = new MagicIndicator(_mActivity);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mMagicIndicator.setLayoutParams(params);
         mTopLayout.setCenterView(mMagicIndicator);
         super.initView(rootView);
     }

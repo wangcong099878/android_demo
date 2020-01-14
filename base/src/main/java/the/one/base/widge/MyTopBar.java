@@ -82,7 +82,7 @@ import the.one.base.R;
  * <li>设置标题/副标题，且支持设置标题/副标题的水平对齐方式。</li>
  * </ul>
  */
-public class MyTopBar extends RelativeLayout  {
+public class MyTopBar extends RelativeLayout {
 
     private static final String TAG = "MyTopBar";
 
@@ -125,7 +125,6 @@ public class MyTopBar extends RelativeLayout  {
     private boolean isNoBackground = false;
 
 
-
     public MyTopBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initVar();
@@ -164,7 +163,6 @@ public class MyTopBar extends RelativeLayout  {
         mRightLastViewId = DEFAULT_VIEW_ID;
         mLeftViewList = new ArrayList<>();
         mRightViewList = new ArrayList<>();
-
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -176,7 +174,6 @@ public class MyTopBar extends RelativeLayout  {
         getCommonFieldFormTypedArray(context, array);
         boolean hasSeparator = array.getBoolean(R.styleable.QMUITopBar_qmui_topbar_need_separator, true);
         array.recycle();
-
         Drawable bgDrawable;
         try {
             bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
@@ -187,7 +184,7 @@ public class MyTopBar extends RelativeLayout  {
         if (isNoBackground) {
             setBackgroundDividerEnabled(hasSeparator);
         } else {
-                setBackground(bgDrawable);
+            setBackground(bgDrawable);
         }
 
     }
@@ -238,6 +235,17 @@ public class MyTopBar extends RelativeLayout  {
         LayoutParams params = (LayoutParams) mCenterView.getLayoutParams();
         if (params == null) {
             params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        }else{
+            if(mLeftLastViewId != DEFAULT_VIEW_ID){
+                params.addRule(RelativeLayout.RIGHT_OF,mLeftLastViewId);
+            }else{
+                params.leftMargin = mTopBarTextBtnPaddingHor;
+            }
+            if(mRightLastViewId != DEFAULT_VIEW_ID){
+                params.addRule(RelativeLayout.LEFT_OF,mRightLastViewId);
+            }else{
+                params.rightMargin = mTopBarTextBtnPaddingHor;
+            }
         }
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         addView(view, params);
@@ -369,11 +377,12 @@ public class MyTopBar extends RelativeLayout  {
 
     /**
      * 标题和副标题设置点击监听
+     *
      * @param l
      */
-    public void setTitleAndSubTitleClickListener(OnClickListener l){
-        if(null != mTitleView) mTitleView.setOnClickListener(l);
-        if(null != mSubTitleView) mSubTitleView.setOnClickListener(l);
+    public void setTitleAndSubTitleClickListener(OnClickListener l) {
+        if (null != mTitleView) mTitleView.setOnClickListener(l);
+        if (null != mSubTitleView) mSubTitleView.setOnClickListener(l);
     }
 
     /**
@@ -616,12 +625,12 @@ public class MyTopBar extends RelativeLayout  {
      */
     private Button generateTopBarTextButton(String text) {
         Button button = new Button(getContext());
-        button.setBackgroundResource(0);
+        button.setBackground(QMUIResHelper.getAttrDrawable(getContext(),R.attr.selectableItemBackgroundBorderless));
         button.setMinWidth(0);
         button.setMinHeight(0);
         button.setMinimumWidth(0);
         button.setMinimumHeight(0);
-        button.setPadding(mTopBarTextBtnPaddingHor, 0, mTopBarTextBtnPaddingHor, 0);
+        button.setPadding(mTopBarTextBtnPaddingHor, 0,mTopBarTextBtnPaddingHor, 0);
         button.setTextColor(mTopBarTextBtnTextColor);
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTopBarTextBtnTextSize);
         button.setGravity(Gravity.CENTER);
@@ -636,7 +645,7 @@ public class MyTopBar extends RelativeLayout  {
      */
     private QMUIAlphaImageButton generateTopBarImageButton(int imageResourceId) {
         QMUIAlphaImageButton backButton = new QMUIAlphaImageButton(getContext());
-        backButton.setBackgroundColor(Color.TRANSPARENT);
+        backButton.setBackground(QMUIResHelper.getAttrDrawable(getContext(),R.attr.selectableItemBackgroundBorderless));
         backButton.setImageResource(imageResourceId);
         return backButton;
     }
@@ -772,42 +781,43 @@ public class MyTopBar extends RelativeLayout  {
             }
             int titleContainerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(titleContainerWidth, MeasureSpec.EXACTLY);
             mTitleContainerView.measure(titleContainerWidthMeasureSpec, heightMeasureSpec);
-        } else if (mCenterView != null) {
-            // 计算左侧 View 的总宽度
-            int leftViewWidth = getLeftViewsWidth();
-            // 计算右侧 View 的总宽度
-            int rightViewWidth = getRightViewsWidth();
-            int widthSize = MeasureSpec.getSize(widthMeasureSpec) - Math.max(leftViewWidth, rightViewWidth) * 2;
-            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-            int centerWidthMeasureSpec, centerHeightMeasureSpec;
-            ViewGroup.LayoutParams lp = mCenterView.getLayoutParams();
-            if (lp != null) {
-                if (lp.width > 0) {
-                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(widthSize, lp.width), MeasureSpec.EXACTLY);
-                } else if (lp.width == ViewGroup.LayoutParams.MATCH_PARENT) {
-                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
-                } else {
-                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST);
-                }
-                if (lp.height > 0) {
-                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(heightSize, lp.height), MeasureSpec.EXACTLY);
-                } else if (lp.height == ViewGroup.LayoutParams.MATCH_PARENT) {
-                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
-                } else {
-                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
-                }
-            } else {
-                centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST);
-                centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
-            }
-            mCenterView.measure(centerWidthMeasureSpec, centerHeightMeasureSpec);
         }
+//        if (mCenterView != null) {
+//            // 计算左侧 View 的总宽度
+//            int leftViewWidth = getLeftViewsWidth();
+//            // 计算右侧 View 的总宽度
+//            int rightViewWidth = getRightViewsWidth();
+//            int widthSize = MeasureSpec.getSize(widthMeasureSpec) - Math.max(leftViewWidth, rightViewWidth) * 2;
+//            int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+//            int centerWidthMeasureSpec, centerHeightMeasureSpec;
+//            ViewGroup.LayoutParams lp = mCenterView.getLayoutParams();
+//            if (lp != null) {
+//                if (lp.width > 0) {
+//                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(widthSize, lp.width), MeasureSpec.EXACTLY);
+//                } else if (lp.width == ViewGroup.LayoutParams.MATCH_PARENT) {
+//                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
+//                } else {
+//                    centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST);
+//                }
+//                if (lp.height > 0) {
+//                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.min(heightSize, lp.height), MeasureSpec.EXACTLY);
+//                } else if (lp.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+//                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
+//                } else {
+//                    centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
+//                }
+//            } else {
+//                centerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.AT_MOST);
+//                centerHeightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
+//            }
+//            mCenterView.measure(centerWidthMeasureSpec, centerHeightMeasureSpec);
+//        }
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        layoutView(l, t, r, b, mTitleContainerView, mCenterView);
+        layoutView(l, t, r, b, mTitleContainerView);
     }
 
     private void layoutView(int l, int t, int r, int b, View... views) {
@@ -817,18 +827,31 @@ public class MyTopBar extends RelativeLayout  {
                 int viewHeight = view.getMeasuredHeight();
                 int viewTop = (b - t - view.getMeasuredHeight()) / 2;
                 int viewLeft = getPaddingLeft();
+                int viewRight = getPaddingRight();
                 if (view == mTitleContainerView) {
                     if ((mTitleGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == Gravity.CENTER_HORIZONTAL) {
                         // 标题水平居中
                         viewLeft = (r - l - mTitleContainerView.getMeasuredWidth()) / 2;
                     } else {
-                        viewLeft += QMUIResHelper.getAttrDimen(getContext(),
-                                R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside)+getLeftViewsWidth();
+                        viewLeft +=mTitleMarginHorWhenNoBtnAside;
                     }
-                } else if (view == mCenterView) {
-                    viewLeft = (r - l - mCenterView.getMeasuredWidth()) / 2;
+                    viewRight = viewLeft +viewWidth;
                 }
-                view.layout(viewLeft, viewTop, viewLeft + viewWidth, viewTop + viewHeight);
+//                else if (view == mCenterView) {
+//                    int leftWidth = getLeftViewsWidth();
+//                    if (leftWidth > 0)
+//                        viewLeft += (l + leftWidth) ;
+//                    else {
+//                        viewLeft += mTitleMarginHorWhenNoBtnAside;
+//                    }
+//                    int rightWidth = getRightViewsWidth();
+//                    if (rightWidth > 0) {
+//                        viewRight = r - rightWidth;
+//                    }else{
+//                        viewRight += mTitleMarginHorWhenNoBtnAside;
+//                    }
+//                }
+                view.layout(viewLeft, viewTop, viewRight, viewTop + viewHeight);
             }
         }
     }
@@ -844,17 +867,13 @@ public class MyTopBar extends RelativeLayout  {
     private int getViewsWidth(List<View> views) {
         int width = 0;
         if (null != views && views.size() > 0) {
-            for (int leftViewIndex = 0; leftViewIndex < views.size(); leftViewIndex++) {
-                View leftView = views.get(leftViewIndex);
-                if (leftView.getVisibility() != GONE) {
-                    width += leftView.getMeasuredWidth();
+            for (int viewIndex = 0; viewIndex < views.size(); viewIndex++) {
+                View view = views.get(viewIndex);
+                if (view.getVisibility() != GONE) {
+                    width += view.getMeasuredWidth();
                 }
             }
         }
-//        else {
-//            width = QMUIResHelper.getAttrDimen(getContext(),
-//                    R.attr.qmui_topbar_title_margin_horizontal_when_no_btn_aside);
-//        }
         return width;
     }
 

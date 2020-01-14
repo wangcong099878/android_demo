@@ -130,10 +130,7 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
         if (!StatusBarUtil.isTranslucent(getContext())) {
             setBackgroundDividerEnabled(hasSeparator);
         } else {
-            if (null == bgDrawable)
-                setBackgroundColor(mTopBarBgColor);
-            else
-                setBackground(bgDrawable);
+            setBackground(bgDrawable);
         }
     }
 

@@ -7,4 +7,7 @@
     <string name="long_fruit_name">这是一个超长的水果名称这是一个超长的水果名称这是一个超长的水果名称</string>
 
     <string name="location_select_tips">由于城市信息在不断的变化，这里面的数据可能也不太准确。这些都是可以自行去改变，直接在json里去更改。</string>
+
+    <string name="popup_info_str">若今生迷局深陷，射影含沙。\n便许你来世袖手天下，一幕繁华。 \n你可愿转身落座，掌间朱砂，共我温酒煮茶。
+\n若今生堕落红尘，残花败柳。\n便许你来世一枝独秀，倾心挽留。\n你可愿蓦然相爱，与我煮酒，共伴一生长久。</string>
 </resources>

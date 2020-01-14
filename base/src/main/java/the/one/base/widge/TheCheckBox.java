@@ -70,11 +70,19 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
         this.unCheck = getDrawable(unCheck);
     }
 
+    public Drawable getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Drawable current) {
+        this.current = current;
+    }
+
     private void init(Context context) {
         isCheck = getDrawable(R.drawable.qmui_icon_checkbox_checked);
         unCheck = getDrawable(R.drawable.qmui_icon_checkbox_normal);
         setImageDrawable(unCheck);
-        setBackground(QMUIResHelper.getAttrDrawable(context, R.attr.selectableItemBackground));
+        setBackground(QMUIResHelper.getAttrDrawable(context, R.attr.selectableItemBackgroundBorderless));
         setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         setOnClickListener(this);
         if (!TextUtils.isEmpty(getText()))
@@ -94,7 +102,7 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
     }
 
     private void setImageDrawable(Drawable drawable) {
-        current = drawable;
+        setCurrent(drawable);
         setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
     }
 
