@@ -5,6 +5,7 @@
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_6</item>
 
+        <item name="qmui_topbar_height">50dp</item>
         <!--TopBar主题设置-->
         <!-- 1. 白色背景-->
 <!--        <item name="QMUITopBarStyle">@style/TopBarWhite</item>-->

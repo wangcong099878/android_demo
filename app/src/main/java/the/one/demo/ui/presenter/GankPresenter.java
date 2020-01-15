@@ -70,6 +70,7 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
 
             @Override
             public void onResponse(String response, int id) {
+                Log.e(TAG, "onResponse: "+response );
                 if (isViewAttached()) {
                     JSONObject jsonObject = null;
                     try {

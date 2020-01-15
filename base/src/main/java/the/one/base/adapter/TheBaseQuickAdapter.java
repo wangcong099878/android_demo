@@ -1,6 +1,7 @@
 package the.one.base.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
@@ -91,6 +92,14 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
                     mShadow,
                     getShadowAlpha());
         }
+    }
+
+    protected int getColor(int colorRes){
+        return ContextCompat.getColor(mContext,colorRes);
+    }
+
+    protected Drawable getDrawable(int drawableRes){
+        return ContextCompat.getDrawable(mContext,drawableRes);
     }
 
     protected void showView(View... views) {

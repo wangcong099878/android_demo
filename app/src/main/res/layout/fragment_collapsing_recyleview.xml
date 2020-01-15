@@ -7,32 +7,33 @@
 
     <com.qmuiteam.qmui.widget.QMUIAppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        android:layout_height="270dp"
+        android:background="@color/qmui_config_color_white"
+        android:fitsSystemWindows="true">
 
         <the.one.base.widge.TheCollapsingTopBarLayout
             android:id="@+id/collapsing_topbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="match_parent"
             android:minHeight="?attr/qmui_topbar_height"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:qmui_collapsedTitleGravity="center"
-            app:qmui_contentScrim="?config_color"
+            app:qmui_contentScrim="@color/qmui_config_color_white"
             app:qmui_expandedTitleGravity="center_horizontal|bottom"
             app:qmui_expandedTitleMarginBottom="20dp"
-            app:qmui_statusBarScrim="?config_color">
+            app:qmui_statusBarScrim="@color/qmui_config_color_white">
 
-            <FrameLayout
-                android:id="@+id/fl_body"
+            <ImageView
+                android:id="@+id/iv_picture"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="false"
+                android:scaleType="centerCrop"
                 app:qmui_layout_collapseMode="parallax"
                 app:qmui_layout_collapseParallaxMultiplier="0.7"
-                tools:ignore="MissingPrefix"/>
+                tools:ignore="MissingPrefix" />
 
-            <the.one.base.widge.MyTopBar
+            <com.qmuiteam.qmui.widget.QMUITopBar
                 android:id="@+id/topbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/qmui_topbar_height"
@@ -44,11 +45,15 @@
 
     </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
 </android.support.design.widget.CoordinatorLayout>
 

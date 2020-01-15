@@ -3,18 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <EditText
+    <the.one.base.widge.TheSearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/search_stroke_bg"
-        android:drawablePadding="8dp"
-        android:drawableStart="@drawable/mz_titlebar_search_layout_ic_search_dark"
-        android:hint="搜索好汉"
-        android:padding="6dp"
-        android:textSize="14sp" />
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

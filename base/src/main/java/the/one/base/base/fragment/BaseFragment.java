@@ -625,7 +625,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             try {
                 mUnbinder.unbind();
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
     }

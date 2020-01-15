@@ -42,10 +42,10 @@ public abstract class BasePullExtendFragment extends BaseFragment {
     protected ExtendListFooter mExtendFooter;
     protected FrameLayout body;
 
-    protected RecyclerView mHeaderRc;
-    protected RecyclerView mFooterRc;
-
     protected abstract int getBodyLayoutId();
+
+    protected abstract void initHeaderRc(RecyclerView rcHeader);
+    protected abstract void initFooterRc(RecyclerView rcFooter);
 
     @Override
     protected int getContentViewId() {
@@ -62,10 +62,10 @@ public abstract class BasePullExtendFragment extends BaseFragment {
         mPullExtend = rootView.findViewById(R.id.pull_extend);
         mExtendHeader = rootView.findViewById(R.id.extend_header);
         mExtendFooter = rootView.findViewById(R.id.extend_footer);
-        mHeaderRc= mExtendHeader.getRecyclerView();
-        mFooterRc = mExtendFooter.getRecyclerView();
         body = rootView.findViewById(R.id.body);
         setCustomLayout(body,getBodyLayoutId());
+        initHeaderRc(mExtendHeader.getRecyclerView());
+        initFooterRc(mExtendFooter.getRecyclerView());
     }
 
 }

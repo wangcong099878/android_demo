@@ -11,9 +11,7 @@ import butterknife.BindView;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.R;
-import the.one.demo.adapter.TagCloudAdapter;
-import the.one.demo.ui.gank.GankIndexFragment;
-import the.one.demo.ui.sample.fragment.SampleFragment;
+import the.one.demo.ui.adapter.TagCloudAdapter;
 import the.one.demo.ui.wallpaper.WallpaperFragment;
 
 
@@ -97,9 +95,9 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
     @Override
     public void onTagItemClick(String tag) {
         if(tag.equals(TAG_GANK)){
-            startFragment(new GankIndexFragment());
+            startActivity(GankActivity.class);
         }else if(tag.equals(TAG_SAMPLE)){
-            startFragment(new SampleFragment());
+            startActivity(SampleActivity.class);
         }else if(tag.equals(TAG_BINGO)){
             startActivity(BingoActivity.class);
         }else if(tag.equals(TAG_WALLPAPER)){
