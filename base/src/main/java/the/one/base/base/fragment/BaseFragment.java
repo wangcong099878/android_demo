@@ -239,7 +239,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        _mActivity = getBaseFragmentActivity();
+        _mActivity = getActivity();
     }
 
     @Override
