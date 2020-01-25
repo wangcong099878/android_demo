@@ -414,17 +414,19 @@ public class AppInfoManager {
     public static void installApk(Context context, File file) {
         if(null == context || null == file) return;
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri uri;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+            uri= Uri.fromFile(file);
         } else {
             // 声明需要的零时权限
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             // 第二个参数，即第一步中配置的authorities
-            Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider",
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider",
                     file);
-            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
         }
+        // 这个得放在后面
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(uri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 
