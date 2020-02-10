@@ -75,7 +75,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         addToGroup("感谢", Gank, Copy);
         addToGroup("第三方", QMUI, Adapter, NineGrid);
 
-        findViewByTopView(R.id.tv_welfare).setOnClickListener(this);
     }
 
     @Override
@@ -104,9 +103,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         switch (view.getId()) {
             case R.id.iv_icon:
                 BaseWebExplorerActivity.newInstance(_mActivity,title, url);
-                break;
-            case R.id.tv_welfare:
-                startFragment(new WelfareFragment());
                 break;
         }
     }

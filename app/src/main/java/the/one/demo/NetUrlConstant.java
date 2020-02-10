@@ -14,16 +14,7 @@ public class NetUrlConstant {
     public static final String GANK_CATEGORY = GANK_API + "data/";
     public static final String GANK_PUBLISH = GANK_API + "add2gank";
 
-    public static final String WELFARE_BASE_URL = "http://www.mzitu.com/";
 
-    public static final String HOT = "hot";
-    public static final String XING_GAN = "xinggan";
-    public static final String JAPAN = "japan";
-    public static final String TAIWAN = "taiwan";
-    public static final String MM = "mm";
-    public static final String ZIPAI = "zipai";
-    public static final String JIEPAI = "jiepai";
-    public static final String BEST = "best";
 
     public static final String TODAY = GANK_API + "today";
 
@@ -39,6 +30,16 @@ public class NetUrlConstant {
     public static String[] title = { NetUrlConstant.ANDROID, NetUrlConstant.APP,
             NetUrlConstant.IOS, NetUrlConstant.EXTENSION, NetUrlConstant.RECOMMEND, NetUrlConstant.FRONT, NetUrlConstant.RELAX, NetUrlConstant.WELFARE};
 
+    public static final String WELFARE_BASE_URL = "http://www.mzitu.com/";
+
+    public static final String HOT = "hot";
+    public static final String XING_GAN = "xinggan";
+    public static final String JAPAN = "japan";
+    public static final String TAIWAN = "taiwan";
+    public static final String MM = "mm";
+    public static final String ZIPAI = "zipai";
+    public static final String JIEPAI = "jiepai";
+    public static final String BEST = "best";
     public static String[] welfareTitle = { "推荐","火热","性感","清纯","日本","台湾","自拍","街拍"};
 
     public static String[] welfareUrl = { BEST,HOT, XING_GAN, MM, JAPAN, TAIWAN, ZIPAI,JIEPAI};

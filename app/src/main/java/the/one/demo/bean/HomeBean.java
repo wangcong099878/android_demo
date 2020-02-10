@@ -31,20 +31,20 @@ import java.util.List;
  */
 public class HomeBean {
 
-        @SerializedName("Android")
-        public List<GankBean> Android;
-        @SerializedName("App")
-        public List<GankBean> App;
-        @SerializedName("iOS")
-        public List<GankBean> iOS;
-        @SerializedName("休息视频")
-        public List<GankBean> relax;
-        @SerializedName("前端")
-        public List<GankBean> front;
-        @SerializedName("拓展资源")
-        public List<GankBean> extension;
-        @SerializedName("瞎推荐")
-        public List<GankBean> recommend;
-        @SerializedName("福利")
-        public List<GankBean> welfare;
+    @SerializedName("Android")
+    public List<GankBean> Android;
+    @SerializedName("App")
+    public List<GankBean> App;
+    @SerializedName("iOS")
+    public List<GankBean> iOS;
+    @SerializedName("休息视频")
+    public List<GankBean> relax;
+    @SerializedName("前端")
+    public List<GankBean> front;
+    @SerializedName("拓展资源")
+    public List<GankBean> extension;
+    @SerializedName("瞎推荐")
+    public List<GankBean> recommend;
+    @SerializedName("福利")
+    public List<GankBean> welfare;
 }

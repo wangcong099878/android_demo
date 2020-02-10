@@ -56,7 +56,7 @@ import the.one.net.entity.PageInfoBean;
  */
 public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
 
-    private static final String TAG = "WelfarePresenter";
+    private static final String TAG = "MzituPresenter";
 
     @SuppressLint("CheckResult")
     public void getData(final Context context, final String type, final int page) {

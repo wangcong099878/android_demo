@@ -22,6 +22,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import the.one.base.Interface.ImageSnap;
+
 /**
  * @author The one
  * @date 2019/3/4 0004
@@ -51,9 +53,6 @@ public class GankBean {
     private String who;
     @SerializedName("images")
     private List<String> images;
-
-    private String refer;
-    private String link;
 
     private int width = 230;
     private int height;
@@ -154,28 +153,10 @@ public class GankBean {
         this.height = height;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public String getRefer() {
-        return refer;
-    }
-
-    public void setRefer(String refer) {
-        this.refer = refer;
-    }
-
     @Override
     public String toString() {
         return "GankBean{" +
                 "url='" + url + '\'' +
-                ", refer='" + refer + '\'' +
-                ", link='" + link + '\'' +
                 '}';
     }
 }

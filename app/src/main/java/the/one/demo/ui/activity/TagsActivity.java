@@ -5,6 +5,7 @@ import android.content.Intent;
 import the.one.base.base.activity.BaseFragmentActivity;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.demo.constant.WallpaperConstant;
+import the.one.demo.ui.fragment.TagsFragment;
 import the.one.demo.util.WallpaperUtil;
 
 

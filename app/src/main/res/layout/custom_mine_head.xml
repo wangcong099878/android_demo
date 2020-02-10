@@ -6,12 +6,6 @@
     android:paddingBottom="30dp"
     android:background="@color/qmui_config_color_white">
 
-    <TextView
-        android:id="@+id/tv_welfare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text=" " />
 
     <the.one.base.widge.RoundImageView
         android:id="@+id/iv_icon"

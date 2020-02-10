@@ -15,7 +15,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.demo.NetUrlConstant;
 import the.one.demo.ui.adapter.GankAdapter;
-import the.one.demo.ui.adapter.WelfareAdapter;
+import the.one.demo.ui.adapter.MzitiuAdapter;
 import the.one.demo.bean.GankBean;
 import the.one.demo.ui.presenter.GankPresenter;
 
@@ -89,7 +89,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return isWelfare ? new WelfareAdapter() : new GankAdapter();
+        return isWelfare ? new MzitiuAdapter() : new GankAdapter();
     }
 
     @Override
