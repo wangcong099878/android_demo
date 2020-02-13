@@ -6,7 +6,7 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseGroupListFragment;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
 
 

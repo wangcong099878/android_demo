@@ -1,5 +1,6 @@
 package the.one.base;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
@@ -43,6 +44,7 @@ import the.one.base.util.SpiderMan;
  */
 public class BaseApplication extends MultiDexApplication {
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     public static Context getInstance(){

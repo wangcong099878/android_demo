@@ -9,7 +9,7 @@
         <the.one.base.widge.ScaleImageView
             android:id="@+id/girl_item_iv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:scaleType="centerCrop" />
 
         <TextView

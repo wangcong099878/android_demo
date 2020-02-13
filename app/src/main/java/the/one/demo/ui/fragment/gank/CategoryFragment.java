@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BaseTitleTabFragment;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
 
 

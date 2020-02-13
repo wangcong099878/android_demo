@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BaseTitleTabFragment;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.MzituConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
 
 
@@ -54,15 +55,15 @@ public class MzituFragment extends BaseTitleTabFragment {
 
     @Override
     protected void addTabs() {
-        for (int i = 0; i < NetUrlConstant.welfareTitle.length; i++) {
-            addTab(NetUrlConstant.welfareTitle[i]);
+        for (int i = 0; i < MzituConstant.welfareTitle.length; i++) {
+            addTab(MzituConstant.welfareTitle[i]);
         }
     }
 
     @Override
     protected void addFragment(ArrayList<BaseFragment> fragments) {
-        for (int i = 0; i < NetUrlConstant.welfareUrl.length; i++) {
-            fragments.add(MzituItemFragment.newInstance(NetUrlConstant.welfareUrl[i]));
+        for (int i = 0; i < MzituConstant.welfareUrl.length; i++) {
+            fragments.add(MzituItemFragment.newInstance(MzituConstant.welfareUrl[i]));
         }
     }
 }

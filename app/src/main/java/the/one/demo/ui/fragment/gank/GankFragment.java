@@ -13,7 +13,7 @@ import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.ui.adapter.GankAdapter;
 import the.one.demo.ui.adapter.MzitiuAdapter;
 import the.one.demo.bean.GankBean;

@@ -75,7 +75,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        mImageSnapAdapter = new ImageSnapAdapter();
+        mImageSnapAdapter = new ImageSnapAdapter<T>();
         mImageSnapAdapter.setOnImageClickListener(this);
         return mImageSnapAdapter;
     }

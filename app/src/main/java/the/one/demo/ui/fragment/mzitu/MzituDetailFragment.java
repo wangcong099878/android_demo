@@ -1,48 +1,75 @@
 package the.one.demo.ui.fragment.mzitu;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import the.one.base.base.fragment.BaseImageSnapFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
-import the.one.demo.bean.MzituBean;
+import the.one.demo.bean.Mzitu;
 import the.one.demo.ui.presenter.MzituPresenter;
 
-public class MzituDetailFragment extends BaseImageSnapFragment<MzituBean> {
+public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
-    public static MzituDetailFragment newInstance(String url){
-        MzituDetailFragment fragment =  new MzituDetailFragment();
+    public static MzituDetailFragment newInstance(Mzitu mzitu) {
+        MzituDetailFragment fragment = new MzituDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(DataConstant.URL,url);
+        bundle.putParcelable(DataConstant.DATA, mzitu);
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    private String mUrl;
+    public static MzituDetailFragment newInstance(List<Mzitu> mzitus, String url, int position, int page) {
+        MzituDetailFragment fragment = new MzituDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(DataConstant.DATA, (ArrayList<? extends Parcelable>) mzitus);
+        bundle.putString(DataConstant.URL, url);
+        bundle.putInt(DataConstant.POSITION, position);
+        bundle.putInt(DataConstant.DATA2, page);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    private Mzitu mMzitu;
+    private List<Mzitu> mMzitus;
+    private int position;
+    private String URL;
     private MzituPresenter presenter;
 
     private int mTotal;
 
     @Override
-    protected int getOrientation() {
-        return LinearLayoutManager.VERTICAL;
-    }
-
-    @Override
     protected void initView(View rootView) {
-        assert getArguments() != null;
-        mUrl = getArguments().getString(DataConstant.URL);
+        Bundle bundle = getArguments();
+        assert bundle != null;
+        mMzitu = bundle.getParcelable(DataConstant.DATA);
+        if (null == mMzitu) {
+            mMzitus = bundle.getParcelableArrayList(DataConstant.DATA);
+            position = bundle.getInt(DataConstant.POSITION);
+            page = bundle.getInt(DataConstant.DATA2);
+            URL = bundle.getString(DataConstant.URL);
+        }
         super.initView(rootView);
     }
 
     @Override
     protected void requestServer() {
-        presenter.getDetailData(mUrl);
+        if (null == mMzitu) {
+            if (isFirst) {
+                onComplete(mMzitus);
+                recycleView.scrollToPosition(position);
+            } else {
+                Log.e(TAG, "requestServer: "+page );
+                presenter.getData(URL,page);
+            }
+        } else {
+            presenter.getDetailData(mMzitu.getLink());
+        }
     }
 
     @Override
@@ -51,24 +78,25 @@ public class MzituDetailFragment extends BaseImageSnapFragment<MzituBean> {
     }
 
     @Override
-    public void onComplete(List<MzituBean> data) {
+    public void onComplete(List<Mzitu> data) {
         mTotal = data.size();
         super.onComplete(data);
     }
 
     @Override
-    protected void onScrollChanged(MzituBean item,int position) {
+    protected void onScrollChanged(Mzitu item, int position) {
         position++;
-        mTopLayout.setTitle(position+"/"+mTotal);
+        if (null != mMzitu)
+            mTopLayout.setTitle(position + "/" + mTotal);
     }
 
     @Override
-    public void onClick(MzituBean data) {
+    public void onClick(Mzitu data) {
 
     }
 
     @Override
-    public boolean onLongClick(MzituBean data) {
+    public boolean onLongClick(Mzitu data) {
         return false;
     }
 }

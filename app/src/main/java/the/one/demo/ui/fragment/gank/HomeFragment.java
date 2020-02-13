@@ -16,7 +16,7 @@ import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.TheCollapsingTopBarLayout;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
 import the.one.demo.ui.adapter.HomeAdapter;
 import the.one.demo.bean.GankBean;

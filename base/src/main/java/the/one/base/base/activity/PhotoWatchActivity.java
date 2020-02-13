@@ -160,7 +160,6 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
     }
 
     private String getDownloadFileName() {
-        Log.e(TAG, "getDownloadFileName: " + mPath);
         String suffix = "jpg";
         if (mPath.contains(".")) {
             int position = mPath.lastIndexOf(".");
@@ -179,7 +178,7 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
     }
 
     private void downPhoto() {
-        Download download = new Download(mPath, getDownloadFileName());
+        Download download = new Download(mPath,"Pictures", getDownloadFileName());
         download.setImage(true);
         DownloadService.startDown(this, download);
     }

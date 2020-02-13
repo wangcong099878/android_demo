@@ -36,9 +36,9 @@ public class FileDirectoryUtil {
      */
     private static  String CACHE = "Cache";
     /**
-     * 更新包名称
+     * 更新包下载地址
      */
-    private static  String UPDATE_APK_NAME = "update.apk";
+    private static  String UPDATE_APK_FILE_NAME = "APK";
     /**
      * 补丁
      */
@@ -79,7 +79,7 @@ public class FileDirectoryUtil {
      * @return
      */
     public static String getUpdateAPKDownloadPath(){
-        return getDownloadPath() + File.separator + UPDATE_APK_NAME;
+        return getDownloadPath() + File.separator + UPDATE_APK_FILE_NAME;
     }
 
     /**
@@ -111,7 +111,7 @@ public class FileDirectoryUtil {
      * @return
      */
     public static String getVideoPath(){
-        return getPath( CACHE );
+        return getPath( VIDEO );
     }
 
     /**
@@ -161,9 +161,9 @@ public class FileDirectoryUtil {
          */
         public String mPatch = "Patch";
         /**
-         * 更新包名字
+         * 更新包下载路径名称
          */
-        public String mUpdateApkName = "update.apk";
+        public String mUpdateApkFileName = "update.apk";
 
         public String getIndex() {
             return mIndex;
@@ -219,11 +219,11 @@ public class FileDirectoryUtil {
         }
 
         public String getUpdateApkName() {
-            return mUpdateApkName;
+            return mUpdateApkFileName;
         }
 
         public Builder setUpdateApkName(String mUpdateApkName) {
-            this.mUpdateApkName = mUpdateApkName;
+            this.mUpdateApkFileName = mUpdateApkName;
             return this;
         }
 
@@ -234,7 +234,7 @@ public class FileDirectoryUtil {
             FileDirectoryUtil.VIDEO = getVideo();
             FileDirectoryUtil.CACHE = getCache();
             FileDirectoryUtil.PATCH = getPatch();
-            FileDirectoryUtil.UPDATE_APK_NAME = getUpdateApkName();
+            FileDirectoryUtil.UPDATE_APK_FILE_NAME = getUpdateApkName();
             return this;
         }
     }

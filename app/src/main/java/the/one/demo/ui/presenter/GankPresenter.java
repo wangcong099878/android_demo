@@ -24,7 +24,7 @@ import java.util.List;
 import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.bean.GankBean;
 import the.one.net.entity.PageInfoBean;
 

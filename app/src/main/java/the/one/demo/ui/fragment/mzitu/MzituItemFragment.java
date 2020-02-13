@@ -8,7 +8,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
-import the.one.demo.bean.MzituBean;
+import the.one.demo.bean.Mzitu;
+import the.one.demo.constant.MzituConstant;
 import the.one.demo.ui.adapter.MzitiuAdapter;
 import the.one.demo.ui.presenter.MzituPresenter;
 
@@ -38,7 +39,7 @@ import the.one.demo.ui.presenter.MzituPresenter;
  * @email 625805189@qq.com
  * @remark
  */
-public class MzituItemFragment extends BaseDataFragment<MzituBean> {
+public class MzituItemFragment extends BaseDataFragment<Mzitu> {
 
     public static MzituItemFragment newInstance(String url){
         MzituItemFragment fragment = new MzituItemFragment();
@@ -70,8 +71,12 @@ public class MzituItemFragment extends BaseDataFragment<MzituBean> {
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        MzituBean gankBean = (MzituBean) adapter.getItem(position);
-        startFragment(MzituDetailFragment.newInstance(gankBean.getLink()));
+        Mzitu mzitu = (Mzitu) adapter.getItem(position);
+        if(MzituConstant.isNoDetail(url)){
+            startFragment(MzituDetailFragment.newInstance(adapter.getData(),url,position,page));
+        }else {
+            startFragment(MzituDetailFragment.newInstance(mzitu));
+        }
     }
 
     @Override

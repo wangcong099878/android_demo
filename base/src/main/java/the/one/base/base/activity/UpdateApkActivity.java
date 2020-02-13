@@ -121,7 +121,7 @@ public class UpdateApkActivity extends BaseActivity {
     }
 
     private File checkIsDownload() {
-        File file = new File(FileDirectoryUtil.getDownloadPath(), downloadName);
+        File file = new File(FileDirectoryUtil.getUpdateAPKDownloadPath(), downloadName);
         if (file.exists()) {
             // 判断服务器APK大小，可能没有返回大小
             if (downloadInfo.getApkSize() > 0) {

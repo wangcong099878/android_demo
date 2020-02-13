@@ -1,7 +1,5 @@
 package the.one.demo.ui.presenter;
 
-import android.util.Log;
-
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -16,9 +14,8 @@ import java.util.List;
 import okhttp3.Call;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseDataView;
-import the.one.demo.NetUrlConstant;
-import the.one.demo.bean.GankBean;
-import the.one.demo.bean.MzituBean;
+import the.one.demo.bean.Mzitu;
+import the.one.demo.constant.MzituConstant;
 
 
 //  ┏┓　　　┏┓
@@ -46,10 +43,14 @@ import the.one.demo.bean.MzituBean;
  * @email 625805189@qq.com
  * @remark
  */
-public class MzituPresenter extends BasePresenter<BaseDataView<MzituBean>> {
+public class MzituPresenter extends BasePresenter<BaseDataView<Mzitu>> {
     public void getData(String url, final int page) {
-        final String fakeRefer = NetUrlConstant.WELFARE_BASE_URL + url + "/";
-        url = fakeRefer + "page/" + page;
+        final String fakeRefer = MzituConstant.WELFARE_BASE_URL + url + "/";
+        if(MzituConstant.isNoDetail(url)){
+            url = fakeRefer + "/comment-page-"+page +"/#comments";
+        }else{
+            url = fakeRefer + "page/" + page;
+        }
         OkHttpUtils.get().url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -60,24 +61,24 @@ public class MzituPresenter extends BasePresenter<BaseDataView<MzituBean>> {
             @Override
             public void onResponse(String response, int id) {
                 if (isViewAttached()) {
-                    List<MzituBean> mzitus = new ArrayList<>();
+                    List<Mzitu> mzitus = new ArrayList<>();
                     Document doc = Jsoup.parse(response);
                     Elements items = doc.select("div.postlist").select("li");
                     for (Element element : items) {
-                        MzituBean mzituBean = new MzituBean();
-                        mzituBean.setRefer(fakeRefer);
+                        Mzitu mzitu = new Mzitu();
+                        mzitu.setRefer(fakeRefer);
                         Element imageInfo = element.select("img").first();
-                        mzituBean.setUrl(imageInfo.attr("data-original"));
-                        mzituBean.setLink(element.select("a[href]").attr("href"));
+                        mzitu.setUrl(imageInfo.attr("data-original"));
+                        mzitu.setLink(element.select("a[href]").attr("href"));
                         try {
-                            mzituBean.setWidth(Integer.parseInt(imageInfo.attr("width")));
-                            mzituBean.setHeight(Integer.parseInt(imageInfo.attr("height")));
-                            mzituBean.setTitle(imageInfo.attr("alt"));
-                            mzituBean.setDate(element.select("span").last().html());
+                            mzitu.setWidth(Integer.parseInt(imageInfo.attr("width")));
+                            mzitu.setHeight(Integer.parseInt(imageInfo.attr("height")));
+                            mzitu.setTitle(imageInfo.attr("alt"));
+                            mzitu.setDate(element.select("span").last().html());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        mzitus.add(mzituBean);
+                        mzitus.add(mzitu);
                     }
                     getView().onComplete(mzitus);
                 }
@@ -89,9 +90,9 @@ public class MzituPresenter extends BasePresenter<BaseDataView<MzituBean>> {
     public void getDetailData(final String url) {
         OkHttpUtils.get().url(url).build().execute(new StringCallback() {
 
-            private MzituBean getGankBean(String imageUrl,int page){
+            private Mzitu getGankBean(String imageUrl, int page){
                 String refer = url +"/"+page;
-                return new MzituBean(imageUrl,refer);
+                return new Mzitu(imageUrl,refer);
             }
 
             @Override
@@ -103,7 +104,7 @@ public class MzituPresenter extends BasePresenter<BaseDataView<MzituBean>> {
             @Override
             public void onResponse(String response, int id) {
                 if (isViewAttached()) {
-                    List<MzituBean> gankBeans = new ArrayList<>();
+                    List<Mzitu> gankBeans = new ArrayList<>();
                     Document doc = Jsoup.parse(response);
                     String firstUrl = doc.select("div.main-image").select("img").attr("src");
                     String baseUrl = firstUrl.substring(0, firstUrl.length() - 6);

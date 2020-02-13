@@ -19,6 +19,8 @@ package the.one.demo.ui.adapter;
 //      ┗┻┛　┗┻┛
 
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -30,7 +32,7 @@ import the.one.base.adapter.TheBaseViewHolder;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.ScaleImageView;
 import the.one.demo.R;
-import the.one.demo.bean.MzituBean;
+import the.one.demo.bean.Mzitu;
 
 /**
  * @author The one
@@ -39,20 +41,19 @@ import the.one.demo.bean.MzituBean;
  * @email 625805189@qq.com
  * @remark
  */
-public class MzitiuAdapter extends TheBaseQuickAdapter<MzituBean> {
+public class MzitiuAdapter extends TheBaseQuickAdapter<Mzitu> {
 
     public MzitiuAdapter() {
         super(R.layout.item_welfare);
     }
 
     @Override
-    protected void convert(TheBaseViewHolder helper, MzituBean item) {
+    protected void convert(TheBaseViewHolder helper, Mzitu item) {
         QMUILinearLayout linearLayout =helper.getView(R.id.container);
         setRadiusAndShadow(linearLayout);
-        helper.setText(R.id.tv_title,item.getTitle())
-                .setText(R.id.tv_date,item.getDate());
+        setData(helper,R.id.tv_title,item.getTitle());
+        setData(helper,R.id.tv_date,item.getDate());
         ScaleImageView imageView = helper.getView(R.id.girl_item_iv);
-        imageView.setInitSize(item.getWidth(), item.getHeight());
         String refer = item.getRefer();
         if (TextUtils.isEmpty(refer)) {
             GlideUtil.load(mContext, item.getUrl(), imageView);
@@ -61,6 +62,16 @@ public class MzitiuAdapter extends TheBaseQuickAdapter<MzituBean> {
                     .addHeader("Referer", refer)
                     .build());
             Glide.with(mContext).load(glideUrl).into(imageView);
+        }
+    }
+
+    private void setData(TheBaseViewHolder helper,int id,String content){
+        TextView textView = helper.getView(id);
+        if(TextUtils.isEmpty(content)){
+            textView.setVisibility(View.GONE);
+        }else{
+            textView.setText(content);
+            textView.setVisibility(View.VISIBLE);
         }
     }
 }

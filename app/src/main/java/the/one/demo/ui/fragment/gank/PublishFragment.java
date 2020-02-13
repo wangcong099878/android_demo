@@ -20,7 +20,7 @@ import okhttp3.Call;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.QMUIDialogUtil;
-import the.one.demo.NetUrlConstant;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
 import the.one.net.util.FailUtil;
 
