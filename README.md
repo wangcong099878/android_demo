@@ -82,16 +82,6 @@ style AppTheme继承BaseTheme
 
 #### 以上三个必须要！！！
 
-#### 混淆
-
-```
--dontwarn the.one.net.**
--dontwarn the.one.base.**
--keep class the.one.base.** { *; }
--keep class the.one.net.** { *; }
-
-
-```
 
 #### 感谢
 
