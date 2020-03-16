@@ -304,8 +304,8 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (getPresenter() != null) getPresenter().detachView();
+        super.onDestroy();
         if (isRegisterEventBus()) EventBusUtil.unregister(this);
         try { unbinder.unbind(); } catch (Exception e) { }
     }

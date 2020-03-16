@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        applicationId "the.one.aqtour"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':base')
+    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'com.youth.banner:banner:1.4.10' // 轮播
+    implementation 'com.shuyu:GSYVideoPlayer:6.0.3' // 播放器
+    implementation 'com.github.CB-ysx:CBRatingBar:3.0.1' // 评分
+    implementation 'com.wx.goodview:goodview:1.0.0' // 点赞
+    implementation 'org.litepal.android:java:3.0.0' // 数据库
+    implementation 'com.github.NanoHttpd.nanohttpd:nanohttpd:master' //M3U8下载
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+}

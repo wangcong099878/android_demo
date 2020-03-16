@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/def_padding"
+        android:paddingEnd="@dimen/def_padding"
+        android:paddingBottom="@dimen/def_padding"
+        android:paddingTop="@dimen/def_padding">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/qmui_config_color_gray_1"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            tools:text="长安十二时辰" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/qmui_config_color_gray_5"
+                android:textSize="12sp"
+                tools:text="电视剧" />
+
+            <TextView
+                android:id="@+id/tv_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="2dp"
+                android:text="@string/introduce"
+                android:textColor="?attr/config_color"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/def_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.cb.ratingbar.CBRatingBar
+                android:id="@+id/rating_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:starCanTouch="false"
+                app:starCount="5"
+                app:starCoverColor="#ff0000"
+                app:starCoverDir="left_to_right"
+                app:starEndColor="@color/app_color_theme_7"
+                app:starFillColor="#EEEEEE"
+                app:starMaxProgress="10"
+                app:starProgress="0"
+                app:starShowStroke="true"
+                app:starSize="20dp"
+                app:starSpace="10dp"
+                app:starStartColor="@color/app_color_theme_5"
+                app:starStrokeColor="#FFFFFF"
+                app:starStrokeWidth="1dp"
+                app:starUseGradient="true" />
+
+
+            <the.one.base.widge.TheCheckBox
+                android:id="@+id/cb_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp" />
+
+            <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                android:id="@+id/ib_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_svg_download" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/config_background_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/def_padding"
+        android:paddingEnd="@dimen/def_padding"
+        android:paddingBottom="@dimen/def_padding"
+        android:paddingTop="@dimen/def_padding"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:background="?config_color" />
+
+        <TextView
+            android:id="@+id/series_type_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="剧集"
+
+            android:textStyle="bold"
+            android:textColor="@color/qmui_config_color_gray_1"
+            android:textSize="15sp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/total_series"
+            android:layout_width="wrap_content"
+            android:gravity="end"
+            android:textSize="14sp"
+            android:padding="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/qmui_config_color_gray_5"
+            android:layout_height="match_parent"
+            tools:text="1  >"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_series"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/def_padding"
+        android:layout_marginBottom="@dimen/def_padding"/>
+
+
+</LinearLayout>

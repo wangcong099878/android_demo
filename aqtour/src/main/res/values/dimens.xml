@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="category_btn_radio">3dp</dimen>
+
+    <dimen name="default_radius">30dp</dimen>
+
+    <dimen name="default_circular_width">3.5dp</dimen>
+    <dimen name="edge">10dp</dimen>
+    <dimen name="default_text_size">14sp</dimen>
+    <dimen name="def_padding">14dp</dimen>
+
+
+</resources>

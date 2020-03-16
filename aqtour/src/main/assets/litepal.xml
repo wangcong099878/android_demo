@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal >
+    <dbname value="aqtour"/>   <!-- 数据库的名字 -->
+    <version value="1"/>  <!-- 数据库的版本号 -->
+
+    <list>
+        <!-- 配置模型类 -->
+        <mapping class="the.one.aqtour.bean.QSPVideo"/>
+        <mapping class="the.one.aqtour.m3u8downloader.bean.M3U8Task"/>
+    </list>
+</litepal>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/qmui_s_list_item_bg_with_border_none"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <the.one.aqtour.widge.CustomRoundAngleImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#11000000"
+            android:gravity="end"
+            android:padding="7dp"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingStart="5dp"
+        android:paddingBottom="10dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/qmui_config_color_gray_1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textSize="14sp"
+            tools:text="受益人" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_actors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:maxLines="2"
+            android:minLines="2"
+            android:textColor="@color/qmui_config_color_gray_3"
+            android:textSize="12sp"
+            tools:text="大鹏 刘岩" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
