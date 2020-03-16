@@ -6,15 +6,15 @@
 
 #### 预览
 
-![aqtour_search](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_search.png "aqtour_search.png")
+![aqtour_home](https://images.gitee.com/uploads/images/2020/0316/162732_62b43a91_2286054.png "aqtour_home.png")
 
-![aqtour_home](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_home.png "aqtour_home.png")
+![aqtour_play](https://images.gitee.com/uploads/images/2020/0316/162852_6b1a1f44_2286054.png "aqtour_play.png")
 
-![aqtour_collection](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_collection.png "aqtour_collection.png")
+![aqtour_search](https://images.gitee.com/uploads/images/2020/0316/162903_ec87d382_2286054.png "aqtour_search.png")
 
-![aqtour_download](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_download.png "aqtour_download.png")
+![aqtour_collection](https://images.gitee.com/uploads/images/2020/0316/162916_bd59d541_2286054.png "aqtour_collection.png")
 
-![aqtour_play](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_play.png "aqtour_play.png")
+![aqtour_download](https://images.gitee.com/uploads/images/2020/0316/162924_0c564acd_2286054.png "aqtour_download.png")
 
 #### 下载体验
 [下载地址](https://gitee.com/theoneee/TheBase/blob/master/aqtour/release/aqtour-release.apk)
