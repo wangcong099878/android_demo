@@ -6,7 +6,15 @@
 
 #### 预览
 
+![aqtour_search](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_search.png "aqtour_search.png")
 
+![aqtour_home](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_home.png "aqtour_home.png")
+
+![aqtour_collection](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_collection.png "aqtour_collection.png")
+
+![aqtour_download](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_download.png "aqtour_download.png")
+
+![aqtour_play](https://gitee.com/theoneee/TheBase/blob/master/image/aqtour_play.png "aqtour_play.png")
 
 #### 下载体验
 [下载地址](https://gitee.com/theoneee/TheBase/blob/master/aqtour/release/aqtour-release.apk)
