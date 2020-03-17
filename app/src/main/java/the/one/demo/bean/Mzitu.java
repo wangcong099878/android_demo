@@ -23,6 +23,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import the.one.base.Interface.ImageSnap;
+import the.one.demo.Interface.IWelfare;
 
 /**
  * @author The one
@@ -31,7 +32,7 @@ import the.one.base.Interface.ImageSnap;
  * @email 625805189@qq.com
  * @remark
  */
-public class Mzitu implements ImageSnap, Parcelable {
+public class Mzitu implements ImageSnap, Parcelable ,IWelfare {
 
     private String url;
     private String link;
@@ -73,10 +74,12 @@ public class Mzitu implements ImageSnap, Parcelable {
         return title;
     }
 
+
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @Override
     public String getDate() {
         return date;
     }

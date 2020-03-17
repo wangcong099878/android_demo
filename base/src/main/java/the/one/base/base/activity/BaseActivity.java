@@ -20,6 +20,7 @@ import butterknife.Unbinder;
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
+import the.one.base.util.ActivityListUtil;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
@@ -92,6 +93,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityListUtil.getInstance().addActivityToList(this);
         if (isStatusBarLightMode()) {
             QMUIStatusBarHelper.translucent(this);
             QMUIStatusBarHelper.setStatusBarLightMode(this);

@@ -34,6 +34,7 @@ public class SpiderMan implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(Thread t, Throwable ex) {
         CrashModel model = SpiderUtil.parseCrash(ex);
         handleException(model);
+        ActivityListUtil.getInstance().cleanActivityList();
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 

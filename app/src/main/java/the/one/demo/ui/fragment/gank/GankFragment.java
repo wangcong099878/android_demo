@@ -89,7 +89,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return isWelfare ? new MzitiuAdapter() : new GankAdapter();
+        return isWelfare ? new MzitiuAdapter<GankBean>() : new GankAdapter();
     }
 
     @Override

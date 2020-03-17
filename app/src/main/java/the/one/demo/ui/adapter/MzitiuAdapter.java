@@ -31,6 +31,7 @@ import the.one.base.adapter.TheBaseQuickAdapter;
 import the.one.base.adapter.TheBaseViewHolder;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.ScaleImageView;
+import the.one.demo.Interface.IWelfare;
 import the.one.demo.R;
 import the.one.demo.bean.Mzitu;
 
@@ -41,14 +42,14 @@ import the.one.demo.bean.Mzitu;
  * @email 625805189@qq.com
  * @remark
  */
-public class MzitiuAdapter extends TheBaseQuickAdapter<Mzitu> {
+public class MzitiuAdapter<T extends IWelfare> extends TheBaseQuickAdapter<T> {
 
     public MzitiuAdapter() {
         super(R.layout.item_welfare);
     }
 
     @Override
-    protected void convert(TheBaseViewHolder helper, Mzitu item) {
+    protected void convert(TheBaseViewHolder helper, T item) {
         QMUILinearLayout linearLayout =helper.getView(R.id.container);
         setRadiusAndShadow(linearLayout);
         setData(helper,R.id.tv_title,item.getTitle());
@@ -56,9 +57,9 @@ public class MzitiuAdapter extends TheBaseQuickAdapter<Mzitu> {
         ScaleImageView imageView = helper.getView(R.id.girl_item_iv);
         String refer = item.getRefer();
         if (TextUtils.isEmpty(refer)) {
-            GlideUtil.load(mContext, item.getUrl(), imageView);
+            GlideUtil.load(mContext, item.getImageUrl(), imageView);
         } else {
-            GlideUrl glideUrl = new GlideUrl(item.getUrl(), new LazyHeaders.Builder()
+            GlideUrl glideUrl = new GlideUrl(item.getImageUrl(), new LazyHeaders.Builder()
                     .addHeader("Referer", refer)
                     .build());
             Glide.with(mContext).load(glideUrl).into(imageView);

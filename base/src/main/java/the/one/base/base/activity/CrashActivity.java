@@ -135,7 +135,6 @@ public class CrashActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 AppInfoManager.restartApp(CrashActivity.this);
-                finish();
             }
         });
     }

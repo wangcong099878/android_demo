@@ -1,6 +1,7 @@
 package the.one.base.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
@@ -610,23 +612,6 @@ public class AppInfoManager {
         context.startActivity(new Intent(context.getPackageManager().getLaunchIntentForPackage(packagename)));
     }
 
-
-//  /**
-//   * 获得当前版本信息
-//   * @param keyValues key信息
-//   * @return RequestParams
-//   */
-//  public static RequestParams getRequestParams(HashMap<String,String> keyValues){
-//      RequestParams params = new RequestParams();
-//      Iterator iterator = keyValues.entrySet().iterator();
-//        while(iterator.hasNext()){
-//            Map.Entry entry = (Map.Entry) iterator.next();
-//            Object key = entry.getKey();
-//            params.put((String) key, entry.getValue().toString());
-//        }
-//      return params;
-//  }
-
     /**
      * 获得包名
      *
@@ -678,19 +663,19 @@ public class AppInfoManager {
 
     /**
      * 重启app
-     * @param context
+     * @param activity
      */
-    public static void restartApp(Context context) {
-        PackageManager packageManager = context.getPackageManager();
+    public static void restartApp(@NonNull Activity activity) {
+        PackageManager packageManager = activity.getPackageManager();
         if (null == packageManager) {
             return;
         }
-        final Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        final Intent intent = packageManager.getLaunchIntentForPackage(activity.getPackageName());
         if (intent != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);
+            activity.finish();
+            activity.startActivity(intent);
         }
     }
-
 
 }

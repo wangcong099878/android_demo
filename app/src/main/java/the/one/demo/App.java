@@ -3,6 +3,7 @@ package the.one.demo;
 import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.widge.StatusLayout;
+import the.one.demo.ui.activity.LauncherActivity;
 
 
 //  ┏┓　　　┏┓
@@ -37,7 +38,6 @@ public class App extends BaseApplication {
         super.onCreate();
         initFilePath();
         initStatusDrawable();
-
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }

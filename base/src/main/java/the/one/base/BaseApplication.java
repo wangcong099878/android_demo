@@ -47,7 +47,7 @@ public class BaseApplication extends MultiDexApplication {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    public static Context getInstance(){
+    public static Context getInstance() {
         return context;
     }
 
@@ -63,7 +63,7 @@ public class BaseApplication extends MultiDexApplication {
         PhoneConstant.init(context);
     }
 
-    protected void initSpiderMan(){
+    protected void initSpiderMan() {
         SpiderMan.init(this);
     }
 
@@ -82,11 +82,11 @@ public class BaseApplication extends MultiDexApplication {
         });
     }
 
-    protected boolean isDebug(){
+    protected boolean isDebug() {
         return true;
     }
 
-    protected String setLoggerName(){
+    protected String setLoggerName() {
         return getString(R.string.app_name);
     }
 

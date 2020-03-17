@@ -2,7 +2,7 @@ package the.one.demo.constant;
 
 public class MzituConstant {
 
-    public static final String WELFARE_BASE_URL = "http://www.mzitu.com/";
+    public static final String WELFARE_BASE_URL = "https://www.mzitu.com/";
 
     public static final String HOT = "hot";
     public static final String XING_GAN = "xinggan";

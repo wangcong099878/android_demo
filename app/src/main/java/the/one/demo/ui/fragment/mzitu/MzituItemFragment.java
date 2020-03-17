@@ -61,7 +61,7 @@ public class MzituItemFragment extends BaseDataFragment<Mzitu> {
     protected BaseQuickAdapter getAdapter() {
         url = getArguments().getString(DataConstant.URL);
         goneView(mTopLayout);
-        return new MzitiuAdapter();
+        return new MzitiuAdapter<Mzitu>();
     }
 
     @Override

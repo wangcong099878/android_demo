@@ -1,8 +1,12 @@
 package the.one.demo.ui.fragment.gank;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.qmuiteam.qmui.widget.QMUIAppBarLayout;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
@@ -11,18 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
 import the.one.base.widge.TheCollapsingTopBarLayout;
-import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
-import the.one.demo.ui.adapter.HomeAdapter;
 import the.one.demo.bean.GankBean;
 import the.one.demo.bean.HomeBean;
 import the.one.demo.bean.HomeHeadSection;
 import the.one.demo.bean.HomeItemSection;
+import the.one.demo.constant.NetUrlConstant;
+import the.one.demo.ui.adapter.HomeAdapter;
 import the.one.demo.ui.presenter.HomePresenter;
 import the.one.demo.ui.view.HomeView;
 
@@ -63,6 +69,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     ImageView ivHead;
     @BindView(R.id.collapsing_topbar_layout)
     TheCollapsingTopBarLayout mCollapsingTopBarLayout;
+    @BindView(R.id.appbar_layout)
+    QMUIAppBarLayout appbarLayout;
 
     private HomePresenter presenter;
     private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
@@ -96,6 +104,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected void initView(View rootView) {
+        mStatusLayout = rootView.findViewById(R.id.status_layout);
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
         mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
         mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_white));
@@ -122,8 +131,9 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected void requestServer() {
-        presenter.getData(HomePresenter.TYPE_WELFARE);
+        showLoadingPage();
         presenter.getData(HomePresenter.TYPE_TODAY);
+        presenter.getData(HomePresenter.TYPE_WELFARE);
     }
 
     @Override
@@ -156,6 +166,9 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         sections.add(parseSection(resultsBean.recommend, NetUrlConstant.RECOMMEND));
         sections.add(parseSection(resultsBean.welfare, NetUrlConstant.WELFARE));
         mAdapter.setData(sections);
+        showView(appbarLayout);
+        goneView(mStatusLayout);
+        showContentPage();
     }
 
     private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans, String head) {
@@ -193,4 +206,5 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         super.onPause();
         setWelfare();
     }
+
 }

@@ -1,5 +1,7 @@
 package the.one.demo.ui.presenter;
 
+import android.view.View;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -52,12 +54,21 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public static final int TYPE_WELFARE = 1;
 
     public void getData( final int type) {
-        String url = type == TYPE_TODAY? NetUrlConstant.TODAY: NetUrlConstant.GANK_CATEGORY + NetUrlConstant.WELFARE + "/" + NetUrlConstant.COUNT + "/1";
+        String url = type == TYPE_TODAY? NetUrlConstant.TODAY: NetUrlConstant.GANK_CATEGORY + NetUrlConstant.WELFARE + "/" + NetUrlConstant.COUNT + "/2";
         OkHttpUtils.get().url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                if (isViewAttached())
-                    getView().showErrorPage(FailUtil.getFailString(e));
+                if (isViewAttached()){
+                    if(type == TYPE_TODAY){
+                        getView().showErrorPage(FailUtil.getFailString(e), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                getView().showLoadingPage();
+                                getData(type);
+                            }
+                        });
+                    }
+                }
             }
 
             @Override

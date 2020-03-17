@@ -19,6 +19,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -83,10 +84,10 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
                             List<GankBean> itemData = new Gson().fromJson(personObject,
                                     new TypeToken<List<GankBean>>() {
                                     }.getType());
-                            if (type != NetUrlConstant.WELFARE) {
+                            if (!type.equals(NetUrlConstant.WELFARE)) {
                                 getView().onComplete(itemData,null,"无"+type+"相关数据");
                             } else
-                                parseSize(context, itemData, null);
+                                parseSize(context, itemData,page);
                         }
 
                     } catch (JSONException e) {
@@ -99,7 +100,8 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
         });
     }
 
-    private void parseSize(Context context, final List<GankBean> data,final PageInfoBean pageInfoBean) {
+    private void parseSize(Context context, final List<GankBean> data,final int page) {
+        final List<GankBean> gankBeans = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
             final int position = i;
             final GankBean item = data.get(i);
@@ -108,17 +110,24 @@ public class GankPresenter extends BasePresenter<BaseDataView<GankBean>> {
                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                     item.setWidth(resource.getWidth());
                     item.setHeight(resource.getHeight());
-                    if (position == data.size() - 1) {
-                        getView().onComplete(data, pageInfoBean);
-                    }
+                    //只添加图片存在的
+                    gankBeans.add(item);
+                    check();
                 }
 
                 @Override
                 public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                    if (position == data.size() - 1) {
-                        getView().onComplete(data, pageInfoBean);
-                    }
+                    check();
                     super.onLoadFailed(errorDrawable);
+                }
+
+                private void check(){
+                    if (position == data.size() - 1) {
+//                        if(gankBeans.size() > 0){
+//
+//                        }
+                        getView().onComplete(gankBeans, null);
+                    }
                 }
             });
         }

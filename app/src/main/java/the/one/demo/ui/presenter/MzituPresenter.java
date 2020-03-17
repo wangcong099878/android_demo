@@ -1,5 +1,7 @@
 package the.one.demo.ui.presenter;
 
+import android.util.Log;
+
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -51,7 +53,9 @@ public class MzituPresenter extends BasePresenter<BaseDataView<Mzitu>> {
         }else{
             url = fakeRefer + "page/" + page;
         }
-        OkHttpUtils.get().url(url).build().execute(new StringCallback() {
+        Log.e(TAG, "getData: "+url );
+        OkHttpUtils.get()
+                .url(url).build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 if (isViewAttached())
