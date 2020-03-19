@@ -21,8 +21,8 @@ package the.one.base.base.fragment;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import the.one.base.Interface.IPageInfo;
 import the.one.base.R;
-import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one
@@ -50,7 +50,7 @@ public abstract class BaseCoordinatorRcFragment<T> extends BaseDataFragment<T> {
     }
 
     @Override
-    public void setPageInfo(PageInfoBean mPageInfo) {
+    public void setPageInfo(IPageInfo mPageInfo) {
         super.setPageInfo(mPageInfo);
         showView(flCoordinatorLayout);
     }

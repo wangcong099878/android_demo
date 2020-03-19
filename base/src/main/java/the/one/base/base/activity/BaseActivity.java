@@ -105,7 +105,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);
         if (getPresenter() != null) {
-            getPresenter().attachView(this);
+            getPresenter().attachView(this,this);
         }
         if (isRegisterEventBus()) {
             EventBusUtil.register(this);

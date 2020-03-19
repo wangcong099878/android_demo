@@ -40,7 +40,7 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
 
     public final String TAG = this.getClass().getSimpleName();
 
-    protected abstract BaseFragment getBaseFragment();
+    protected abstract BaseFragment getFirstFragment();
 
     protected boolean LightMode() {
         return false;
@@ -67,7 +67,7 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
             QMUIStatusBarHelper.translucent(this, ContextCompat.getColor(this,R.color.qmui_config_color_transparent));
         }
         if (savedInstanceState == null) {
-            BaseFragment fragment = getBaseFragment();
+            BaseFragment fragment = getFirstFragment();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(getContextViewId(), fragment, fragment.getClass().getSimpleName())

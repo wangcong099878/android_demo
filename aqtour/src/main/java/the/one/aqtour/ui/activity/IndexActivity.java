@@ -47,7 +47,7 @@ import the.one.base.util.FileDirectoryUtil;
 public class IndexActivity extends BaseFragmentActivity implements  Observer<Boolean> {
 
     @Override
-    protected BaseFragment getBaseFragment() {
+    protected BaseFragment getFirstFragment() {
         requestPermission();
         return new QSPIndexFragment();
     }

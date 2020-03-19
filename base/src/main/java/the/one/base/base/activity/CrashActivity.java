@@ -21,9 +21,11 @@ package the.one.base.base.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,6 +46,7 @@ import the.one.base.util.AppInfoManager;
 import the.one.base.util.FileUtils;
 import the.one.base.util.ShareUtil;
 import the.one.base.widge.MyTopBarLayout;
+import the.one.base.widge.ThePopupWindow;
 
 /**
  * @author The one
@@ -58,12 +61,13 @@ public class CrashActivity extends BaseActivity {
     private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private CrashModel model;
 
+    protected View mRoot;
     private MyTopBarLayout mTopBarLayout;
+    protected View mErrorLayout;
     private ScrollView mErrorInfoLayout;
-    private AppCompatImageView ivClose;
-    private TextView tvShowErrorInfoLayout;
-    private QMUIRoundButton mSave;
-    private RelativeLayout mSaveLayout;
+    private AppCompatImageView ivClose,ivCrash;
+    private TextView tvShowErrorInfo;
+    private QMUIRoundButton mReportError,mReStart;
 
     @Override
     protected boolean isStatusBarLightMode() {
@@ -80,58 +84,44 @@ public class CrashActivity extends BaseActivity {
     protected void initView(View mRootView) {
         model = getIntent().getParcelableExtra(DataConstant.DATA);
         if (model == null) return;
+        mRoot = findViewById(R.id.root);
         mTopBarLayout = findViewById(R.id.top_layout);
-        mSaveLayout = findViewById(R.id.save_layout);
-        mErrorInfoLayout = findViewById(R.id.error_info_layout);
-        tvShowErrorInfoLayout = findViewById(R.id.tv_show_info_layout);
-        ivClose = findViewById(R.id.iv_close);
-        mSave = findViewById(R.id.save);
+        tvShowErrorInfo = findViewById(R.id.tv_show_info_layout);
+        ivCrash = findViewById(R.id.iv_crash);
+        mReportError = findViewById(R.id.report_error);
+        mReStart = findViewById(R.id.restart);
 
-        TextView textMessage = findViewById(R.id.textMessage);
-        TextView tv_className = findViewById(R.id.tv_className);
-        TextView tv_methodName = findViewById(R.id.tv_methodName);
-        TextView tv_lineNumber = findViewById(R.id.tv_lineNumber);
-        TextView tv_exceptionType = findViewById(R.id.tv_exceptionType);
-        TextView tv_fullException = findViewById(R.id.tv_fullException);
-        TextView tv_time = findViewById(R.id.tv_time);
-        TextView tv_model = findViewById(R.id.tv_model);
-        TextView tv_brand = findViewById(R.id.tv_brand);
-        TextView tv_version = findViewById(R.id.tv_version);
 
-        textMessage.setText(model.getExceptionMsg());
-        tv_className.setText(model.getFileName());
-        tv_methodName.setText(model.getMethodName());
-        tv_lineNumber.setText(String.valueOf(model.getLineNumber()));
-        tv_exceptionType.setText(model.getExceptionType());
-        tv_fullException.setText(model.getFullException());
-        tv_time.setText(df.format(model.getTime()));
-        CrashModel.Device device = model.getDevice();
-        tv_model.setText(device.getModel());
-        tv_brand.setText(device.getBrand());
-        tv_version.setText(device.getVersion());
+        TypedArray array = obtainStyledAttributes(null, R.styleable.CrashLayout, R.attr.CrashLayoutStyle, 0);
+        Drawable crash_drawable = array.getDrawable(R.styleable.CrashLayout_crash_drawable);
+        String crash_report_tip = array.getString(R.styleable.CrashLayout_crash_report_tip);
+        String crash_title = array.getString(R.styleable.CrashLayout_crash_title);
+        String crash_restart = array.getString(R.styleable.CrashLayout_crash_restart);
+        String crash_show_info = array.getString(R.styleable.CrashLayout_crash_show_info);
+        array.recycle();
 
-        mTopBarLayout.setTitle(getStringg(R.string.crash_title)).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+        ivCrash.setImageDrawable(crash_drawable);
+        mReStart.setText(crash_restart);
+        tvShowErrorInfo.setText(crash_show_info);
+        mReportError.setText(crash_report_tip);
+        mTopBarLayout.setTitle(crash_title).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
 
-        tvShowErrorInfoLayout.setOnClickListener(new View.OnClickListener() {
+        initErrorInfoLayout();
+
+        tvShowErrorInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goneView(mSaveLayout);
+                showErrorInfoPop();
             }
         });
-        ivClose.setOnClickListener(new View.OnClickListener() {
+        mReportError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showView(mSaveLayout);
+                reportError();
             }
         });
-        mSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveErrorImage();
-            }
-        });
-        findViewById(R.id.restart).setOnClickListener(new View.OnClickListener() {
+        mReStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppInfoManager.restartApp(CrashActivity.this);
@@ -139,8 +129,15 @@ public class CrashActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 反馈Error
+     * 默认发送错误图片
+     */
+    protected void reportError(){
+        saveErrorImage();
+    }
+
     private void saveErrorImage() {
-        goneView(mSaveLayout);
         showLoadingDialog("打印病例中...");
         Bitmap bt = getBitmapByView();
         if (null == bt) showFailTips("图片获取失败");
@@ -150,7 +147,6 @@ public class CrashActivity extends BaseActivity {
         if (!saveFile.exists()) showFailTips("图片失效了");
         hideLoadingDialog();
         ShareUtil.shareImageFile(this, saveFile, "快点抢救吧~");
-        showView(mSaveLayout);
     }
 
     public Bitmap getBitmapByView() {
@@ -166,6 +162,57 @@ public class CrashActivity extends BaseActivity {
         mErrorInfoLayout.draw(svCanvas);
         svCanvas.drawBitmap(svBitmap, 0, 0, paint);
         return svBitmap;
+    }
+
+    protected void initErrorInfoLayout(){
+        mErrorLayout = getView(R.layout.custom_crash_info);
+        mErrorInfoLayout = mErrorLayout.findViewById(R.id.error_layout);
+        TextView textMessage = mErrorLayout.findViewById(R.id.textMessage);
+        TextView tv_className = mErrorLayout.findViewById(R.id.tv_className);
+        TextView tv_methodName = mErrorLayout.findViewById(R.id.tv_methodName);
+        TextView tv_lineNumber = mErrorLayout.findViewById(R.id.tv_lineNumber);
+        TextView tv_exceptionType = mErrorLayout.findViewById(R.id.tv_exceptionType);
+        TextView tv_fullException = mErrorLayout.findViewById(R.id.tv_fullException);
+        TextView tv_time = mErrorLayout.findViewById(R.id.tv_time);
+        TextView tv_model = mErrorLayout.findViewById(R.id.tv_model);
+        TextView tv_brand = mErrorLayout.findViewById(R.id.tv_brand);
+        TextView tv_version = mErrorLayout.findViewById(R.id.tv_version);
+        mErrorLayout.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mErrorInfoPop.hide();
+            }
+        });
+
+        textMessage.setText(model.getExceptionMsg());
+        tv_className.setText(model.getFileName());
+        tv_methodName.setText(model.getMethodName());
+        tv_lineNumber.setText(String.valueOf(model.getLineNumber()));
+        tv_exceptionType.setText(model.getExceptionType());
+        tv_fullException.setText(model.getFullException());
+        tv_time.setText(df.format(model.getTime()));
+        CrashModel.Device device = model.getDevice();
+        tv_model.setText(device.getModel());
+        tv_brand.setText(device.getBrand());
+        tv_version.setText(device.getVersion());
+    }
+
+    protected ThePopupWindow mErrorInfoPop;
+
+    protected void showErrorInfoPop(){
+        if(null == mErrorInfoPop){
+            mErrorInfoPop = new ThePopupWindow(this,mRoot,mErrorLayout,mTopBarLayout);
+        }
+        mErrorInfoPop.show();
+    }
+
+    @Override
+    protected void doOnBackPressed() {
+        if(null != mErrorInfoPop && mErrorInfoPop.isShowing()){
+            mErrorInfoPop.hide();
+            return;
+        }
+        super.doOnBackPressed();
     }
 
     @Override

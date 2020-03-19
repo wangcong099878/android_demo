@@ -61,7 +61,7 @@ public class WallpaperUtil {
         }
         // 时间排序
         Collections.sort(vList, comp);
-        listener.onComplete(vList);
+        listener.onSearchComplete(vList);
     }
 
     Comparator comp = new Comparator() {
@@ -119,7 +119,7 @@ public class WallpaperUtil {
 //    }
 
     public interface OnCompleteListener {
-        void onComplete(List<Wallpaper> datas);
+        void onSearchComplete(List<Wallpaper> datas);
     }
 
 

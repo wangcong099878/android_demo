@@ -1,10 +1,10 @@
 package the.one.aqtour.ui.activity;
 
-import the.one.base.base.activity.LauncherActivity;
+import the.one.base.base.activity.SampleLauncherActivity;
 
-public class Launcher extends LauncherActivity {
+public class Launcher extends SampleLauncherActivity {
     @Override
-    protected Class getActivity() {
+    protected Class getMainActivity() {
         return IndexActivity.class;
     }
 }

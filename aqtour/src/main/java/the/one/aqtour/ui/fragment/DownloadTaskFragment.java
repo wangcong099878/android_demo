@@ -24,8 +24,8 @@ import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.event.SuccessEvent;
+import the.one.base.model.SamplePageInfoBean;
 import the.one.base.util.EventBusUtil;
-import the.one.net.entity.PageInfoBean;
 
 
 public class DownloadTaskFragment extends BaseDataFragment<M3U8Task> {
@@ -68,7 +68,7 @@ public class DownloadTaskFragment extends BaseDataFragment<M3U8Task> {
     @Override
     protected void requestServer() {
         mTasks = VideoDownloadUtil.getVideoDownloadList(isDownload);
-        onComplete(mTasks, new PageInfoBean(1, 1));
+        onComplete(mTasks, new SamplePageInfoBean(1, 1));
         setPullLayoutEnabled(false);
 
     }

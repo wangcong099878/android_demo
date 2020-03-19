@@ -4,11 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.rxjava.rxlife.RxLife;
 import com.wx.goodview.GoodView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.Call;
+import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.bean.QSPVideo;
 import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.m3u8downloader.M3U8Downloader;
@@ -20,7 +23,6 @@ import the.one.aqtour.util.QSPSoupUtil;
 import the.one.aqtour.util.VideoDownloadUtil;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.widge.TheCheckBox;
-import the.one.net.util.FailUtil;
 
 public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
 
@@ -36,31 +38,25 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
      */
     public void getVideoDetail(final QSPVideo video) {
         getView().showLoadingPage();
-        OkHttpUtils.get()
-                .url(getUrl(video.url))
-                .tag(TAG)
-                .build()
-                .execute(new StringCallback() {
+        RxHttp.get(getUrl(video.url))
+            .asString()
+            .observeOn(AndroidSchedulers.mainThread())
+            .as(RxLife.as(this))
+            .subscribe(s -> {
+                //请求成功
+                QSPSoupUtil.parseVideoDetail(s, video);
+                if (isViewAttached()) {
+                    getView().onDetailComplete();
+                }
+            }, throwable -> {
+                //请求失败
+               showErrorPage(throwable.getMessage(), "", "刷新试试", new View.OnClickListener() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-                        if (isViewAttached()) {
-                            getView().showErrorPage(FailUtil.getFailString(e), "", "刷新试试", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    getVideoDetail(video);
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        QSPSoupUtil.parseVideoDetail(response, video);
-                        if (isViewAttached()) {
-                            getView().onDetailComplete();
-                        }
+                    public void onClick(View view) {
+                        getVideoDetail(video);
                     }
                 });
+            });
     }
 
     /**
@@ -69,27 +65,23 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
      * @param url
      */
     public void getSeriesPlayPath(String url) {
-        OkHttpUtils.get()
-                .url(getUrl(url))
-                .tag(TAG)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        if (isViewAttached()) {
-                            getView().showFailTips(FailUtil.getFailString(e));
-                            getView().onSeriesError();
-                        }
-                    }
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        String path = QSPSoupUtil.getVideoPlayPath(response);
-                        if (isViewAttached()) {
-                            getView().onSeriesComplete(path);
-                        }
-                    }
-                });
+        RxHttp.get(getUrl(url))
+            .asString()
+            .observeOn(AndroidSchedulers.mainThread())
+            .as(RxLife.as(this))
+            .subscribe(s -> {
+                //请求成功
+                String path = QSPSoupUtil.getVideoPlayPath(s);
+                if (isViewAttached()) {
+                    getView().onSeriesComplete(path);
+                }
+            }, throwable -> {
+                //请求失败
+                getView().showFailTips(throwable.getMessage());
+                getView().onSeriesError();
+            });
+
     }
 
     /**

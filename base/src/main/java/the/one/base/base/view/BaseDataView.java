@@ -22,7 +22,7 @@ import android.view.View;
 
 import java.util.List;
 
-import the.one.net.entity.PageInfoBean;
+import the.one.base.Interface.IPageInfo;
 
 /**
  * @author The one
@@ -34,9 +34,9 @@ import the.one.net.entity.PageInfoBean;
 public interface BaseDataView<T> extends BaseView {
 
     void onComplete(List<T> data);
-    void onComplete(List<T> data, PageInfoBean pageInfoBean);
-    void onComplete(List<T> data, PageInfoBean pageInfoBean,String emptyString);
-    void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyString, String btnString, View.OnClickListener listener);
+    void onComplete(List<T> data, IPageInfo pageInfoBean);
+    void onComplete(List<T> data, IPageInfo pageInfoBean,String emptyString);
+    void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString, String btnString, View.OnClickListener listener);
 
     void refresh();
     void onFail(Exception e);

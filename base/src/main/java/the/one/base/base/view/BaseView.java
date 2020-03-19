@@ -45,7 +45,7 @@ public interface BaseView {
     /**
      * 显示进度弹窗
      *
-     * @param tips
+     * @param msg
      */
     void showProgressDialog(String msg);
 
@@ -140,7 +140,13 @@ public interface BaseView {
      */
     void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener);
 
+    /**
+     * 显示成功提示
+     */
     void showSuccessTips(String msg);
 
+    /**
+     * 显示错误提示
+     */
     void showFailTips(String msg);
 }

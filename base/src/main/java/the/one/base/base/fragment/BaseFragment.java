@@ -44,8 +44,6 @@ import the.one.base.widge.MyTopBar;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
-import the.one.net.callback.Callback;
-import the.one.net.entity.PageInfoBean;
 
 import static android.view.View.NO_ID;
 
@@ -268,7 +266,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
         if (getPresenter() != null)
-            getPresenter().attachView(this);
+            getPresenter().attachView(this,this);
         if (isRegisterEventBus())
             EventBusUtil.register(this);
         if (showTitleBar()) {
@@ -584,23 +582,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected int successType = 1;
-    public Callback<String> simpleCallBack = new Callback<String>() {
-        @Override
-        public void onSuccess(String response, String msg, PageInfoBean pageInfoBean) {
-            showSuccessExit(msg);
-        }
 
-        @Override
-        public void onFailure(int resultCode, String errorMsg) {
-            showFailTips(errorMsg);
-        }
-
-        @Override
-        public void onFinish() {
-            super.onFinish();
-            hideLoadingDialog();
-        }
-    };
 
     public void finish() {
         popBackStack();

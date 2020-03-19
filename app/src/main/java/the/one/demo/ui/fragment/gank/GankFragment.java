@@ -1,13 +1,20 @@
 package the.one.demo.ui.fragment.gank;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rxhttp.wrapper.param.RxHttp;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.fragment.BaseDataFragment;
@@ -96,6 +103,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
     protected void requestServer() {
         gankPresenter.getData(_mActivity, mType, page);
     }
+
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

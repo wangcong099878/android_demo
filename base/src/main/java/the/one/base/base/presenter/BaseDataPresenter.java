@@ -18,11 +18,13 @@ package the.one.base.base.presenter;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.graphics.drawable.Drawable;
+import android.view.View;
+
 import java.util.List;
 
+import the.one.base.Interface.IPageInfo;
 import the.one.base.base.view.BaseDataView;
-import the.one.net.callback.ListCallback;
-import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one
@@ -33,20 +35,28 @@ import the.one.net.entity.PageInfoBean;
  */
 public class BaseDataPresenter<T> extends BasePresenter<BaseDataView<T>> {
 
-    protected ListCallback<List<T>> callback = new ListCallback<List<T>>() {
-        @Override
-        public void onSuccess(List<T> response, String msg, PageInfoBean pageInfoBean) {
-            if(isViewAttached()){
-                getView().onComplete(response,pageInfoBean);
-            }
-        }
 
-        @Override
-        public void onFailure(int resultCode, String errorMsg) {
-            if(isViewAttached()){
-                getView().onFail(errorMsg);
-            }
+    protected void onComplete(List<T> data) {
+        onComplete(data, null);
+    }
+
+    protected void onComplete(List<T> data, IPageInfo pageInfoBean) {
+        onComplete(data, pageInfoBean, "");
+    }
+
+    protected void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString) {
+        onComplete(data, pageInfoBean, emptyString, "", null);
+    }
+
+    protected void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString, String btnString, View.OnClickListener listener) {
+        if (isViewAttached())
+            getView().onComplete(data);
+    }
+
+    protected void onFail(String error) {
+        if (isViewAttached()) {
+            getView().onFail(error);
         }
-    };
+    }
 
 }

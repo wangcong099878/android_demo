@@ -9,9 +9,6 @@ import java.util.Map;
 
 import the.one.base.base.activity.UpdateApkActivity;
 import the.one.base.model.IApkUpdate;
-import the.one.net.BaseHttpRequest;
-import the.one.net.callback.Callback;
-
 /**
  * @author The one
  * @date 2018/10/16 0016
@@ -19,20 +16,19 @@ import the.one.net.callback.Callback;
  * @email 625805189@qq.com
  * @remark
  */
-public class UpdateApkUtil<T extends IApkUpdate> extends BaseHttpRequest {
+public class UpdateApkUtil<T extends IApkUpdate>  {
 
     protected Activity mContext;
     protected QMUITipDialog loadingDialog;
     protected boolean isShowProgress;
 
-    public void check(Activity activity, Map<String, Object> map, String url, final boolean isShowProgress, Callback callback) {
+    public void check(Activity activity, Map<String, Object> map, String url, final boolean isShowProgress) {
         mContext = activity;
         this.isShowProgress = isShowProgress;
         if (isShowProgress) {
             showCheckDialog();
         }
         if (!checkIsDownload(activity)) {
-            get(url, map, callback);
         }
     }
 

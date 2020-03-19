@@ -32,7 +32,7 @@ import the.one.demo.ui.fragment.gank.GankIndexFragment;
  */
 public class GankActivity extends BaseFragmentActivity {
     @Override
-    protected BaseFragment getBaseFragment() {
+    protected BaseFragment getFirstFragment() {
         return new GankIndexFragment();
     }
 }

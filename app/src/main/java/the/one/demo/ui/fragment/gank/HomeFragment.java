@@ -133,13 +133,13 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     protected void requestServer() {
         showLoadingPage();
         presenter.getData(HomePresenter.TYPE_TODAY);
-        presenter.getData(HomePresenter.TYPE_WELFARE);
     }
 
     @Override
     public void onWelfareComplete(final List<GankBean> data) {
         welfare = data;
         setWelfare();
+
     }
 
     private void setWelfare() {
@@ -155,6 +155,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     public void onTodayComplete(final HomeBean resultsBean) {
+        presenter.getData(HomePresenter.TYPE_WELFARE);
         mCollapsingTopBarLayout.setTitle("今日最新干货");
         sections = new ArrayList<>();
         sections.add(parseSection(resultsBean.Android, NetUrlConstant.ANDROID));

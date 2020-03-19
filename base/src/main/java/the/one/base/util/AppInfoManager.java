@@ -371,7 +371,7 @@ public class AppInfoManager {
                 PackageManager packageManager = context.getPackageManager();
                 if (packageManager != null) {
                     if (PackageManager.PERMISSION_GRANTED == packageManager.checkPermission(permission, context
-                        .getPackageName())) {
+                            .getPackageName())) {
                         return true;
                     }
                     Log.d("AppUtils", "Have you  declared permission " + permission + " in AndroidManifest.xml ?");
@@ -416,19 +416,17 @@ public class AppInfoManager {
     public static void installApk(Context context, File file) {
         if(null == context || null == file) return;
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri;
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            uri= Uri.fromFile(file);
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
         } else {
             // 声明需要的零时权限
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             // 第二个参数，即第一步中配置的authorities
-            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider",
+            Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider",
                     file);
+            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
         }
-        // 这个得放在后面
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(uri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
 
@@ -543,8 +541,8 @@ public class AppInfoManager {
             Thread tout = new Thread(new Runnable() {
                 public void run() {
                     BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(m_process.getInputStream()),
-                        8192);
+                            new InputStreamReader(m_process.getInputStream()),
+                            8192);
                     String ls_1;
                     try {
                         while ((ls_1 = bufferedReader.readLine()) != null) {
@@ -567,8 +565,8 @@ public class AppInfoManager {
             Thread terr = new Thread(new Runnable() {
                 public void run() {
                     BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(m_process.getErrorStream()),
-                        8192);
+                            new InputStreamReader(m_process.getErrorStream()),
+                            8192);
                     String ls_1;
                     try {
                         while ((ls_1 = bufferedReader.readLine()) != null) {
@@ -611,6 +609,23 @@ public class AppInfoManager {
     public static void runApp(Context context, String packagename) {
         context.startActivity(new Intent(context.getPackageManager().getLaunchIntentForPackage(packagename)));
     }
+
+
+//  /**
+//   * 获得当前版本信息
+//   * @param keyValues key信息
+//   * @return RequestParams
+//   */
+//  public static RequestParams getRequestParams(HashMap<String,String> keyValues){
+//      RequestParams params = new RequestParams();
+//      Iterator iterator = keyValues.entrySet().iterator();
+//        while(iterator.hasNext()){
+//            Map.Entry entry = (Map.Entry) iterator.next();
+//            Object key = entry.getKey();
+//            params.put((String) key, entry.getValue().toString());
+//        }
+//      return params;
+//  }
 
     /**
      * 获得包名

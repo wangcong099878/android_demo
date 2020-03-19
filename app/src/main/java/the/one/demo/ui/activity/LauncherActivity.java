@@ -17,15 +17,17 @@
 package the.one.demo.ui.activity;
 
 
+import the.one.base.base.activity.SampleLauncherActivity;
+
 /**
  * @author cginechen
  * @date 2016-12-08
  */
 
-public class LauncherActivity extends the.one.base.base.activity.LauncherActivity {
+public class LauncherActivity extends SampleLauncherActivity {
 
     @Override
-    protected Class getActivity() {
+    protected Class getMainActivity() {
         return TagsActivity.class;
     }
 

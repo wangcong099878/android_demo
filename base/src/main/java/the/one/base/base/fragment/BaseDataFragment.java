@@ -33,13 +33,13 @@ import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
 import java.util.List;
 
+import the.one.base.Interface.IPageInfo;
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.WWPullRefreshLayout;
 import the.one.base.widge.decoration.SpacesItemDecoration;
-import the.one.net.entity.PageInfoBean;
 
 import static android.support.v7.widget.RecyclerView.*;
 
@@ -112,7 +112,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     protected LayoutManager layoutManager;
     protected WWPullRefreshLayout pullLayout;
 
-    public PageInfoBean pageInfoBean;
+    public IPageInfo pageInfoBean;
     public String empty_str = "无数据";
 
     public int page = 1;
@@ -250,12 +250,12 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     }
 
     @Override
-    public void onComplete(List<T> data, PageInfoBean pageInfoBean) {
+    public void onComplete(List<T> data, IPageInfo pageInfoBean) {
         onComplete(data, pageInfoBean, empty_str);
     }
 
     @Override
-    public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyString) {
+    public void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString) {
         onComplete(data, pageInfoBean, emptyString, "刷新试试", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -301,7 +301,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      * @param emptyStr     空页面提示语
      */
     @Override
-    public void onComplete(List<T> data, PageInfoBean pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
+    public void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
             if (isFirst || isHeadFresh) {
                 adapter.setNewData(data);
@@ -350,9 +350,9 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      *
      * @param mPageInfo
      */
-    public void setPageInfo(PageInfoBean mPageInfo) {
+    public void setPageInfo(IPageInfo mPageInfo) {
         this.pageInfoBean = mPageInfo;
-        if (null == mPageInfo || mPageInfo.getPageTotalCount() > mPageInfo.getPage()) {
+        if (null == mPageInfo || mPageInfo.getPageTotalCount() > mPageInfo.getCurrentPage()) {
             page++;
             adapter.loadMoreComplete();
         } else {

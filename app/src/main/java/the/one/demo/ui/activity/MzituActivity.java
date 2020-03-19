@@ -7,7 +7,7 @@ import the.one.demo.ui.fragment.mzitu.MzituFragment;
 public class MzituActivity extends BaseFragmentActivity {
 
     @Override
-    protected BaseFragment getBaseFragment() {
+    protected BaseFragment getFirstFragment() {
         return new MzituFragment();
     }
 }

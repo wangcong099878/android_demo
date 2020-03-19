@@ -21,10 +21,10 @@ package the.one.base.base.fragment;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import the.one.base.Interface.IPageInfo;
 import the.one.base.R;
 import the.one.base.widge.MyTopBar;
 import the.one.base.widge.TheCollapsingTopBarLayout;
-import the.one.net.entity.PageInfoBean;
 
 /**
  * @author The one
@@ -68,7 +68,7 @@ public abstract class BaseCollapsingTopBarRcFragment<T> extends BaseDataFragment
     }
 
     @Override
-    public void setPageInfo(PageInfoBean mPageInfo) {
+    public void setPageInfo(IPageInfo mPageInfo) {
         super.setPageInfo(mPageInfo);
         showView(flCoordinatorLayout);
     }

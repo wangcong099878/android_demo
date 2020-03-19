@@ -36,7 +36,7 @@ import the.one.demo.util.WallpaperUtil;
  */
 public class TagsActivity extends BaseFragmentActivity {
     @Override
-    protected BaseFragment getBaseFragment() {
+    protected BaseFragment getFirstFragment() {
         return new TagsFragment();
     }
 

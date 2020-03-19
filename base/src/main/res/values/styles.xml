@@ -4,12 +4,15 @@
     <style name="BaseTheme" parent="QMUI.Compat.NoActionBar">
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_1</item>
+        <item name="config_bg_color">@color/qmui_config_color_white</item>
         <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
         <item name="checked_color">?config_color</item>
         <!--普通颜色-->
         <item name="tab_normal_color">@color/qmui_config_color_gray_2</item>
         <!--选中颜色-->
         <item name="tab_select_color">?config_color</item>
+        <!--崩溃界面样式-->
+        <item name="CrashLayoutStyle">@style/crash_layout_style</item>
 
         <item name="qmui_topbar_height">40dp</item>
         <item name="qmui_config_color_blue">?config_color</item>
@@ -21,8 +24,6 @@
 
     <style name="TopBarWhite" parent="QMUI.TopBar">
         <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_dark</item>
-        <item name="qmui_topbar_text_btn_padding_horizontal">12dp</item>
-        <item name="qmui_topbar_title_margin_horizontal_when_no_btn_aside">12dp</item>
     </style>
 
     <style name="TopBarDark" parent="QMUI.TopBar">
@@ -30,8 +31,6 @@
         <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>
         <item name="qmui_topbar_left_back_drawable_id">@drawable/mz_titlebar_ic_back_light</item>
-        <item name="qmui_topbar_text_btn_padding_horizontal">10dp</item>
-        <item name="qmui_topbar_title_margin_horizontal_when_no_btn_aside">12dp</item>
     </style>
 
     <style name="match_wrap">
@@ -95,11 +94,6 @@
         <item name="android:windowExitAnimation">@anim/anim_from_top_out</item>
     </style>
 
-    <style name="PopAnimStyleFromTop2Bottom">
-        <item name="android:windowEnterAnimation">@anim/anim_from_top_in</item>
-        <item name="android:windowExitAnimation">@anim/anim_from_bottom_out</item>
-    </style>
-
     <style name="custom_bottom_text_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -119,13 +113,23 @@
         <item name="android:windowBackground">@null</item>
     </style>
 
+
     <style name="crash_text_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/qmui_config_color_gray_4</item>
+        <item name="android:textColor">@color/qmui_config_color_gray_3</item>
     </style>
+
+    <style name="crash_layout_style">
+        <item name="crash_drawable">@drawable/ic_crash</item>
+        <item name="crash_report_tip">@string/crash_report_tip</item>
+        <item name="crash_title">@string/crash_title</item>
+        <item name="crash_restart">@string/restart</item>
+        <item name="crash_show_info">@string/crash_show_info</item>
+    </style>
+
 
 
 </resources>

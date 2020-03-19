@@ -19,10 +19,10 @@ import butterknife.BindView;
 import okhttp3.Call;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.presenter.BasePresenter;
+import the.one.base.util.NetFailUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
-import the.one.net.util.FailUtil;
 
 
 //  ┏┓　　　┏┓
@@ -150,7 +150,7 @@ public class PublishFragment extends BaseFragment implements View.OnClickListene
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         hideLoadingDialog();
-                        showFailTips(FailUtil.getFailString(e));
+                        showFailTips(NetFailUtil.getFailString(e));
                     }
 
                     @Override

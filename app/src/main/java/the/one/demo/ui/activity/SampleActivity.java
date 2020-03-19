@@ -32,7 +32,7 @@ import the.one.demo.ui.fragment.sample.SampleFragment;
  */
 public class SampleActivity extends BaseFragmentActivity {
     @Override
-    protected BaseFragment getBaseFragment() {
+    protected BaseFragment getFirstFragment() {
         return new SampleFragment();
     }
 }

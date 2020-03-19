@@ -19,9 +19,12 @@ package the.one.aqtour.ui.presenter;
 //      ┗┻┛　┗┻┛
 
 
+import com.rxjava.rxlife.RxLife;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import okhttp3.Call;
+import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.util.QSPSoupUtil;
 
@@ -35,21 +38,18 @@ import the.one.aqtour.util.QSPSoupUtil;
 public class QSPSearchPresenter extends BaseVideoPresenter {
 
     public void getSearchVideoList(String search,int page){
-        request(QSPConstant.getSearchUrl(search, page), new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                if(isViewAttached()){
-                    getView().onFail(e);
-                }
-            }
+        RxHttp.get(QSPConstant.getSearchUrl(search, page))
+            .asString()
+            .observeOn(AndroidSchedulers.mainThread())
+            .as(RxLife.as(this))
+            .subscribe(s -> {
+                //请求成功
+                getView().onSuccess(QSPSoupUtil.parseSearchList(s));
+            }, throwable -> {
+                //请求失败
+               onFail(throwable.getMessage());
+            });
 
-            @Override
-            public void onResponse(String response, int id) {
-                if(isViewAttached()){
-                    getView().onSuccess(QSPSoupUtil.parseSearchList(response));
-                }
-            }
-        });
     }
 
 }
