@@ -7,9 +7,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
 import the.one.demo.bean.GankBean;
+import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.ui.adapter.GankAdapter;
 import the.one.demo.ui.presenter.GankPresenter;
 
@@ -43,6 +43,7 @@ public class StickLayoutFragment extends BaseDataFragment<GankBean> {
 
     private GankPresenter presenter;
 
+    // 这里需要对布局进行更改
     @Override
     protected int getContentViewId() {
         return R.layout.fragment_stick_layout;
@@ -58,6 +59,7 @@ public class StickLayoutFragment extends BaseDataFragment<GankBean> {
         super.initView(rootView);
         initFragmentBack("StickLayout");
 //        recycleView.setNestedScrollingEnabled(false);
+        //对LayoutManager进行重新设置
         recycleView.setLayoutManager(new LinearLayoutManager(_mActivity) {
             @Override
             public boolean canScrollVertically() {

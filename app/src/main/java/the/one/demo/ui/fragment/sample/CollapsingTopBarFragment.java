@@ -12,10 +12,10 @@ import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.widge.TheCollapsingTopBarLayout;
-import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.R;
-import the.one.demo.ui.adapter.GankAdapter;
 import the.one.demo.bean.GankBean;
+import the.one.demo.constant.NetUrlConstant;
+import the.one.demo.ui.adapter.GankAdapter;
 import the.one.demo.ui.presenter.GankPresenter;
 
 
@@ -76,7 +76,7 @@ public class CollapsingTopBarFragment extends BaseDataFragment<GankBean> {
     @Override
     protected void onLazyInit() {
         super.onLazyInit();
-        loadImage("http://theone.0851zy.com/2019/11/25/6e81f85c50e649cab8e0aca7493239bf.jpeg",ivPicture);
+        loadImage("https://ww1.sinaimg.cn/large/0065oQSqly1ftzsj15hgvj30sg15hkbw.jpg",ivPicture);
     }
 
     @Override

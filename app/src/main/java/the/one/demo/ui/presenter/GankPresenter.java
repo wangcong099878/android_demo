@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -21,15 +19,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.base.presenter.BaseDataPresenter;
 import the.one.base.util.ExceptionHelper;
-import the.one.base.util.NetFailUtil;
-import the.one.demo.constant.NetUrlConstant;
 import the.one.demo.bean.GankBean;
+import the.one.demo.constant.NetUrlConstant;
 
 
 //  ┏┓　　　┏┓
@@ -59,12 +55,9 @@ import the.one.demo.bean.GankBean;
  */
 public class GankPresenter extends BaseDataPresenter<GankBean> {
 
-    private static final String TAG = "MzituPresenter";
-
     @SuppressLint("CheckResult")
     public void getData(final Context context, final String type, final int page) {
         String url = NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page;
-
         RxHttp.get(url)
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

@@ -12,7 +12,6 @@ import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
-import the.one.demo.ui.activity.GankActivity;
 import the.one.demo.ui.activity.SampleActivity;
 import the.one.demo.ui.activity.MzituActivity;
 import the.one.demo.ui.adapter.TagCloudAdapter;
@@ -52,7 +51,6 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
 
     TagCloudAdapter adapter;
 
-    private String TAG_GANK = "Gank";
     private String TAG_SAMPLE = "Sample";
     private String TAG_WALLPAPER = "Wallpaper";
     private String TAG_BINGO = "Bingo";
@@ -60,7 +58,7 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_thanks;
+        return R.layout.fragment_tags;
     }
 
     @Override
@@ -82,7 +80,6 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
     protected void initView(View mRootView) {
         List<String> tags = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            tags.add(TAG_GANK);
             tags.add(TAG_SAMPLE);
             tags.add(TAG_BINGO);
             tags.add(TAG_WALLPAPER);
@@ -100,9 +97,7 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
 
     @Override
     public void onTagItemClick(String tag) {
-        if(tag.equals(TAG_GANK)){
-            startActivity(GankActivity.class);
-        }else if(tag.equals(TAG_SAMPLE)){
+       if(tag.equals(TAG_SAMPLE)){
             startActivity(SampleActivity.class);
         }else if(tag.equals(TAG_BINGO)){
             startActivity(BingoActivity.class);

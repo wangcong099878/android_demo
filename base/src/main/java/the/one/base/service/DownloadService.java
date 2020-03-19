@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -28,12 +29,13 @@ import the.one.base.model.Download;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.BroadCastUtil;
 import the.one.base.util.FileDirectoryUtil;
+import the.one.base.util.NetFailUtil;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.ToastUtil;
 
 public class DownloadService extends Service {
 
-    public static final String TAG = "DOWNLOAD";
+    public static final String TAG = "DownloadService";
 
     public static final String URL = "url";
     public static final String DOWNLOAD_OK = "download_ok";
@@ -72,8 +74,9 @@ public class DownloadService extends Service {
     }
 
     private void startDown() {
-       final String destFile = TextUtils.isEmpty(mDownload.getDestFileDir()) ? FileDirectoryUtil.getDownloadPath() : mDownload.getDestFileDir();
-        OkHttpUtils
+        String downloadPath = FileDirectoryUtil.getDownloadPath();
+       final String destFile = TextUtils.isEmpty(mDownload.getDestFileDir()) ? downloadPath : downloadPath+File.separator+mDownload.getDestFileDir();
+       OkHttpUtils
                 .get()
                 .url(mDownload.getUrl())
                 .tag(mDownload.getUrl())
@@ -84,6 +87,7 @@ public class DownloadService extends Service {
                     public void onError(Call call, Exception e, int id) {
                         BroadCastUtil.send(DownloadService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, e.getMessage());
                         updateNotification("下载失败", false);
+                        ToastUtil.showLongToast(NetFailUtil.getFailString(e));
                         File file = new File(destFile,mDownload.getName());
                         if(file.exists()){
                             file.delete();

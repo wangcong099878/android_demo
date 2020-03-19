@@ -22,8 +22,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import the.one.base.Interface.ImageSnap;
-import the.one.demo.Interface.IWelfare;
 
 /**
  * @author The one
@@ -32,7 +30,7 @@ import the.one.demo.Interface.IWelfare;
  * @email 625805189@qq.com
  * @remark
  */
-public class GankBean implements IWelfare {
+public class GankBean {
 
     @SerializedName("_id")
     private String id;
@@ -161,22 +159,18 @@ public class GankBean implements IWelfare {
                 '}';
     }
 
-    @Override
     public String getTitle() {
         return null;
     }
 
-    @Override
     public String getDate() {
         return null;
     }
 
-    @Override
     public String getImageUrl() {
         return url;
     }
 
-    @Override
     public String getRefer() {
         return null;
     }

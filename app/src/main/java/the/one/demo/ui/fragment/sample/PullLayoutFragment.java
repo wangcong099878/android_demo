@@ -9,7 +9,7 @@ import java.util.List;
 
 import the.one.base.base.fragment.BasePullExtendFragment;
 import the.one.demo.R;
-import the.one.demo.ui.adapter.OverFlyingLayoutManager;
+import the.one.demo.widget.OverFlyingLayoutManager;
 import the.one.demo.ui.adapter.PullExtendAdapter;
 import the.one.demo.bean.SimpleBean;
 

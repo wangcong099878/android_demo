@@ -109,6 +109,17 @@ public class Download implements Parcelable {
         this.isImage = in.readByte() != 0;
     }
 
+    @Override
+    public String toString() {
+        return "Download{" +
+                "url='" + url + '\'' +
+                ", destFileDir='" + destFileDir + '\'' +
+                ", name='" + name + '\'' +
+                ", isUpdateApk=" + isUpdateApk +
+                ", isImage=" + isImage +
+                '}';
+    }
+
     public static final Creator<Download> CREATOR = new Creator<Download>() {
         @Override
         public Download createFromParcel(Parcel source) {

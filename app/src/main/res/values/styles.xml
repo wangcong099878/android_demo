@@ -23,21 +23,6 @@
         <item name="qmui_topbar_title_gravity">left_center</item>
     </style>
 
-    <style name="publish_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">@dimen/dp_10</item>
-        <item name="android:paddingEnd">@dimen/dp_10</item>
-        <item name="android:layout_marginTop">15dp</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-    </style>
-
-    <style name="publish_title_style" parent="publish_style">
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
     <style name="QMUI.Button" parent="@style/ButtonBase.Compat" />
     <style name="QMUI.Button.Red" parent="QMUI.Button">
         <item name="qmui_backgroundColor">@color/qmui_config_color_red</item>

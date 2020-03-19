@@ -87,7 +87,6 @@ public class IndexActivity extends BaseFragmentActivity implements  Observer<Boo
 
     }
 
-
     private String encryptKey = "5282E6434B7B56A295EC11F861FA0EAD";
 
     private void initM3U8Download(){
@@ -98,8 +97,6 @@ public class IndexActivity extends BaseFragmentActivity implements  Observer<Boo
                 .setDebugMode(true)
         ;
         try {
-//            String key = AES128Utils.getAESKey();
-//            Log.e(TAG, "initM3U8Download:  key = "+key );
            M3U8Downloader.getInstance().setEncryptKey(encryptKey);
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +122,6 @@ public class IndexActivity extends BaseFragmentActivity implements  Observer<Boo
                 })
                 .setCanceledOnTouchOutside(false)
                 .show()
-
                 .setOnKeyListener(new IOnKeyBackClickListener());
     }
 

@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">The one</string>
 
-    <string name="select_type">选择类型</string>
-    <string name="publish_des">内容描述</string>
-    <string name="publish_url">内容地址</string>
     <string name="long_fruit_name">这是一个超长的水果名称这是一个超长的水果名称这是一个超长的水果名称</string>
 
     <string name="location_select_tips">由于城市信息在不断的变化，这里面的数据可能也不太准确。这些都是可以自行去改变，直接在json里去更改。</string>

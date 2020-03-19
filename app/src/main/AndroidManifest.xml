@@ -35,9 +35,6 @@
         <activity android:name=".ui.activity.SampleActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
 
-        <activity android:name=".ui.activity.GankActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
-
         <activity android:name=".ui.activity.MzituActivity"/>
 
         <activity android:name=".ui.activity.BingoActivity"/>

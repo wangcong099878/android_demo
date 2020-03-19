@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Gank</string>
+
+
+    <string name="select_type">选择类型</string>
+    <string name="publish_des">内容描述</string>
+    <string name="publish_url">内容地址</string>
+</resources>
