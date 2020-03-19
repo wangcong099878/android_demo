@@ -2,22 +2,21 @@
 
 #### 介绍
 主要以[QMUI](https://github.com/Tencent/QMUI_Android)封装的一个基础框架。
-写了一个[Gank](http://gank.io/)客户端用来测试此框架。
 
 #### 预览
 
 
-[如何写一个常用的主界面（ViewPager+Tab）](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/fragment/gank/GankIndexFragment.java)
+[如何写一个常用的主界面（ViewPager+Tab）](https://gitee.com/theoneee/TheBase/blob/master/gank/src/main/java/the/one/gank/ui/fragment/GankIndexFragment.java)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164724_adc57bb3_2286054.png "index_fragment.png")
 
 
-[如何写一个常用的TitleBar+Tab+ViewPager布局](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/fragment/gank/CategoryFragment.java)
+[如何写一个常用的TitleBar+Tab+ViewPager布局](https://gitee.com/theoneee/TheBase/blob/master/gank/src/main/java/the/one/gank/ui/fragment/CategoryFragment.java)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164857_396d70bc_2286054.png "titlebar_tab_viewpager.png")
 
 
-[如何写一个常用的数据显示界面](https://gitee.com/theoneee/TheBase/blob/master/app/src/main/java/the/one/demo/ui/fragment/gank/GankFragment.java)
+[如何写一个常用的数据显示界面](https://gitee.com/theoneee/TheBase/blob/master/gank/src/main/java/the/one/gank/ui/fragment/GankFragment.java)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0925/164925_69861416_2286054.gif "70641806-d40e-434e-8220-e087e0f31a93.gif")
 
@@ -45,8 +44,15 @@ LIST? GRID? STAGGERED? 一句代码
 
 
 
-#### 更多请结合Demo看代码
-[下载地址](https://gitee.com/theoneee/TheBase/blob/master/app/release/app-release.apk)
+#### 更多请结合几个项目看代码
+
+[Demo](https://gitee.com/theoneee/TheBase/blob/master/app/release/app-release.apk)
+
+
+[Aqtour](https://gitee.com/theoneee/TheBase/blob/master/aqtour/release/aqtour-release.apk)
+
+
+[Gank](https://gitee.com/theoneee/TheBase/blob/master/gank/release/gank-release.apk)
 
 
 #### 交流
@@ -69,8 +75,12 @@ allprojects {
 ```
 2.app的build里dependencies下添加
 ```
-annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 implementation 'com.gitee.theoneee:TheBase:lastversion'
+
+以下非必须
+annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:2.0.0' //集成了RxHttp，如需使用则添加
+annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1' //butterknife 注解
+
 ```
 3.manifest里application指定  
 ```android:name="the.one.base.BaseApplication" ```
@@ -108,6 +118,10 @@ style AppTheme继承BaseTheme
  'com.wkp:StickLayout:1.0.6'
  'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
  'top.androidman:superbutton:1.1.0'
+ 'com.rxjava.rxhttp:rxhttp:2.0.0'
+
+  .....
+
 ```
 
 还有一些为了自定义，集成到了项目里，所以并没有在依赖里出现，但是都保留原作者信息。
