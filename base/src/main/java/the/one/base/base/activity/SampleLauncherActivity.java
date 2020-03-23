@@ -18,7 +18,12 @@ package the.one.base.base.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+
+import the.one.base.R;
 
 /**
  * @author cginechen
@@ -40,4 +45,5 @@ public abstract class SampleLauncherActivity extends Activity {
         startActivity(intent);
         finish();
     }
+
 }

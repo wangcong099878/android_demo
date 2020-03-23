@@ -1,5 +1,8 @@
 package the.one.gank.ui.fragment;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -8,6 +11,7 @@ import java.util.ArrayList;
 
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BaseTitleTabFragment;
+import the.one.base.util.QMUIStatusBarHelper;
 import the.one.gank.R;
 import the.one.gank.constant.NetUrlConstant;
 
@@ -38,6 +42,16 @@ import the.one.gank.constant.NetUrlConstant;
  * @remark
  */
 public class CategoryFragment extends BaseTitleTabFragment {
+
+    @Override
+    protected boolean isNeedChangeStatusBarMode() {
+        return true;
+    }
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return true;
+    }
 
     @Override
     protected void initView(View rootView) {

@@ -9,7 +9,6 @@ import java.util.List;
 
 import the.one.aqtour.R;
 import the.one.aqtour.bean.QSPCategory;
-import the.one.aqtour.ui.fragment.DownloadFragment;
 import the.one.aqtour.ui.presenter.QSPCategoryPresenter;
 import the.one.aqtour.ui.view.QSPCategoryView;
 import the.one.base.base.fragment.BaseFragment;
@@ -56,6 +55,7 @@ public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategor
         goneView(mSearchView, mDownload, mCollection);
         super.initView(rootView);
     }
+
 
     @Override
     protected boolean tabFromNet() {

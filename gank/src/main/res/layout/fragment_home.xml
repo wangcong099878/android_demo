@@ -11,7 +11,7 @@
     <com.qmuiteam.qmui.widget.QMUIAppBarLayout
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="250dp"
         android:visibility="invisible"
         android:background="@color/qmui_config_color_white"
         android:fitsSystemWindows="true">
@@ -34,6 +34,16 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="false"
                 android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:qmui_layout_collapseMode="parallax"
+                app:qmui_layout_collapseParallaxMultiplier="0.7"
+                tools:ignore="MissingPrefix" />
+
+            <com.zhpan.bannerview.BannerViewPager
+                android:id="@+id/banner_view"
+                android:layout_width="match_parent"
+                android:fitsSystemWindows="false"
+                android:layout_height="match_parent"
                 app:qmui_layout_collapseMode="parallax"
                 app:qmui_layout_collapseParallaxMultiplier="0.7"
                 tools:ignore="MissingPrefix" />

@@ -51,6 +51,10 @@
             android:exported="false"
             android:label="@string/download_service_name" />
 
+        <meta-data
+            android:name="the.one.base.https.OkHttpGlideModule"
+            android:value="GlideModule" />
+
     </application>
 
 

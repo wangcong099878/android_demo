@@ -1,11 +1,15 @@
 package the.one.gank.ui.fragment;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.util.Log;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.util.QMUIStatusBarHelper;
 import the.one.gank.R;
 import the.one.gank.constant.NetUrlConstant;
 
@@ -38,6 +42,23 @@ import the.one.gank.constant.NetUrlConstant;
 public class MyFragment extends BaseGroupListFragment implements View.OnClickListener {
 
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
+
+//    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+//    public void onLazyResume() {
+//        super.onLazyResume();
+//        Log.e("onLazyResume", "onLazyResume: "+TAG );
+//        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+//    }
+
+    @Override
+    protected boolean isNeedChangeStatusBarMode() {
+        return true;
+    }
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return true;
+    }
 
     @Override
     protected boolean showTitleBar() {

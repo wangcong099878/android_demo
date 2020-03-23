@@ -87,14 +87,18 @@ public class TheCollapsingTopBarLayout extends QMUICollapsingTopBarLayout {
         @Override
         public void onOffsetChanged(AppBarLayout layout, int verticalOffset) {
             if (null != mStateChangeListener) {
+                State state ;
                 if (verticalOffset == 0) {
-                    mCurrentState = State.EXPANDED;
+                    state = State.EXPANDED;
                 } else if (Math.abs(verticalOffset) >= layout.getTotalScrollRange()) {
-                    mCurrentState = State.COLLAPSED;
+                    state = State.COLLAPSED;
                 } else {
-                    mCurrentState = State.IDLE;
+                    state = State.IDLE;
                 }
-                mStateChangeListener.onStateChanged(mCurrentState, verticalOffset);
+                if(state != mCurrentState){
+                    mCurrentState = state;
+                    mStateChangeListener.onStateChanged(mCurrentState, verticalOffset);
+                }
             }
         }
     }

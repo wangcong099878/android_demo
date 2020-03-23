@@ -327,7 +327,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         showView(flTopLayout);
         adapter.setNewData(data);
         showContentPage();
-
         setPullLayoutEnabled(true);
         isFirst = false;
     }

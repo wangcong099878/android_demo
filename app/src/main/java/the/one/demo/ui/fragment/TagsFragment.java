@@ -13,9 +13,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
 import the.one.demo.ui.activity.SampleActivity;
-import the.one.demo.ui.activity.MzituActivity;
 import the.one.demo.ui.adapter.TagCloudAdapter;
-import the.one.demo.ui.wallpaper.WallpaperFragment;
 
 
 //  ┏┓　　　┏┓
@@ -52,9 +50,7 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
     TagCloudAdapter adapter;
 
     private String TAG_SAMPLE = "Sample";
-    private String TAG_WALLPAPER = "Wallpaper";
     private String TAG_BINGO = "Bingo";
-    private String TAG_MZITU = "Mzitu";
 
     @Override
     protected int getContentViewId() {
@@ -82,8 +78,6 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
         for (int i = 0; i < 5; i++) {
             tags.add(TAG_SAMPLE);
             tags.add(TAG_BINGO);
-            tags.add(TAG_WALLPAPER);
-            tags.add(TAG_MZITU);
         }
         adapter = new TagCloudAdapter(_mActivity, tags);
         adapter.setListener(this);
@@ -101,10 +95,6 @@ public class TagsFragment extends BaseFragment implements TagCloudAdapter.OnTagI
             startActivity(SampleActivity.class);
         }else if(tag.equals(TAG_BINGO)){
             startActivity(BingoActivity.class);
-        }else if(tag.equals(TAG_WALLPAPER)){
-            startFragment(new WallpaperFragment());
-        }else if(tag.equals(TAG_MZITU)){
-            startActivity(MzituActivity.class);
         }
     }
 

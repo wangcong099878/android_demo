@@ -1,2 +1,4 @@
 include ':app', ':base', ':aqtour'
 include ':gank'
+include ':wallpaper'
+include ':mzitu'

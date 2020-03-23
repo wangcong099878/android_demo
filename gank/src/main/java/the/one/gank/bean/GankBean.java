@@ -152,6 +152,8 @@ public class GankBean {
         this.height = height;
     }
 
+
+
     @Override
     public String toString() {
         return "GankBean{" +

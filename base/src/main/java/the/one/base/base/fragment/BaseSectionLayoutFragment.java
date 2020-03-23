@@ -155,7 +155,6 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
         mSectionLayout.setAdapter(mAdapter,isStickyHeader());
     }
 
-
     @Override
     public void onMoveTarget(int offset) {
 

@@ -1,12 +1,21 @@
 package the.one.gank.ui.fragment;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUIAppBarLayout;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
+import com.zhpan.bannerview.BannerViewPager;
+import com.zhpan.bannerview.adapter.OnPageChangeListenerAdapter;
+import com.zhpan.bannerview.constants.IndicatorGravity;
+import com.zhpan.bannerview.holder.HolderCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +25,16 @@ import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.GlideUtil;
+import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.gank.R;
+import the.one.gank.bean.Banner;
 import the.one.gank.bean.GankBean;
 import the.one.gank.bean.HomeBean;
 import the.one.gank.bean.HomeHeadSection;
 import the.one.gank.bean.HomeItemSection;
 import the.one.gank.constant.NetUrlConstant;
+import the.one.gank.ui.adapter.BannerViewHolder;
 import the.one.gank.ui.adapter.HomeAdapter;
 import the.one.gank.ui.presenter.HomePresenter;
 import the.one.gank.ui.view.HomeView;
@@ -53,7 +65,7 @@ import the.one.gank.ui.view.HomeView;
  * @email 625805189@qq.com
  * @remark
  */
-public class HomeFragment extends BaseSectionLayoutFragment implements HomeView {
+public class HomeFragment extends BaseSectionLayoutFragment implements HomeView ,TheCollapsingTopBarLayout.AppBarStateChangeListener{
 
     private final int STATE_COLLAPSED = 0;
     private final int STATE_EXPANDED = 1;
@@ -66,26 +78,14 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     TheCollapsingTopBarLayout mCollapsingTopBarLayout;
     @BindView(R.id.appbar_layout)
     QMUIAppBarLayout appbarLayout;
+    @BindView(R.id.banner_view)
+    BannerViewPager<Banner, BannerViewHolder> mBannerViewPager;
 
     private HomePresenter presenter;
     private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
-    private List<GankBean> welfare;
 
-//    private boolean isCollapsed = false;
-//
-//    public boolean isCollapsed() {
-//        return isCollapsed;
-//    }
-//
-//    @Override
-//    protected boolean isNeedChangeStatusBarMode() {
-//        return true;
-//    }
-//
-//    @Override
-//    protected boolean isStatusBarLightMode() {
-//        return isCollapsed;
-//    }
+    private boolean isCollapsed = false;
+    private boolean isOnPause = false;
 
     @Override
     protected boolean showTitleBar() {
@@ -98,25 +98,46 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     }
 
     @Override
+    protected boolean isNeedChangeStatusBarMode() {
+        return true;
+    }
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return isCollapsed && appbarLayout.getVisibility() == View.VISIBLE;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onLazyResume() {
+        isOnPause = false;
+        super.onLazyResume();
+        if (mBannerViewPager != null)
+            mBannerViewPager.startLoop();
+    }
+
+    @Override
     protected void initView(View rootView) {
         mStatusLayout = rootView.findViewById(R.id.status_layout);
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
         mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
-        mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_white));
-//        mCollapsingTopBarLayout.setStateChangeListener(new TheCollapsingTopBarLayout.AppBarStateChangeListener() {
-//            @Override
-//            public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
-//                if (state == TheCollapsingTopBarLayout.State.COLLAPSED) {
-//                    isCollapsed = true;
-//                    QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-//                } else if (state == TheCollapsingTopBarLayout.State.EXPANDED) {
-//                    isCollapsed = false;
-//                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-//                }
-//            }
-//        });
+        mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_transparent));
+        mCollapsingTopBarLayout.setTitle("今日最新干货");
+        mCollapsingTopBarLayout.setStateChangeListener(this);
         initStickyLayout();
         initData();
+    }
+
+
+    @Override
+    public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
+        if(isOnPause) return;
+        if (state == TheCollapsingTopBarLayout.State.COLLAPSED) {
+            isCollapsed = true;
+            QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+        } else if (state == TheCollapsingTopBarLayout.State.EXPANDED) {
+            isCollapsed = false;
+            QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+        }
     }
 
     @Override
@@ -127,31 +148,34 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @Override
     protected void requestServer() {
         showLoadingPage();
-        presenter.getData(HomePresenter.TYPE_TODAY);
+        presenter.getTodayData();
+        presenter.getBanner();
     }
 
     @Override
-    public void onWelfareComplete(final List<GankBean> data) {
-        welfare = data;
-        setWelfare();
-
-    }
-
-    private void setWelfare() {
-        if (null != welfare) {
-            int size = welfare.size();
-            if (size > 0) {
-                int index = (int) (Math.random() * (size));
-                GankBean gankBean = welfare.get(index);
-                GlideUtil.load(_mActivity, gankBean.getUrl(), ivHead);
-            }
-        }
+    public void onWelfareComplete(final List<Banner> data) {
+        showContentPage();
+        mBannerViewPager
+                .setIndicatorGravity(IndicatorGravity.END)
+                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity,R.attr.config_color))
+                .setHolderCreator(new HolderCreator<BannerViewHolder>() {
+                    @Override
+                    public BannerViewHolder createViewHolder() {
+                        return new BannerViewHolder();
+                    }
+                })
+                .setOnPageClickListener(new BannerViewPager.OnPageClickListener() {
+                    @Override
+                    public void onPageClick(int position) {
+                        Banner banner = data.get(position);
+                        BaseWebExplorerActivity.newInstance(_mActivity, banner.getTitle(), banner.getUrl());
+                    }
+                })
+                .create(data);
     }
 
     @Override
     public void onTodayComplete(final HomeBean resultsBean) {
-        presenter.getData(HomePresenter.TYPE_WELFARE);
-        mCollapsingTopBarLayout.setTitle("今日最新干货");
         sections = new ArrayList<>();
         sections.add(parseSection(resultsBean.Android, NetUrlConstant.ANDROID));
         sections.add(parseSection(resultsBean.iOS, NetUrlConstant.IOS));
@@ -162,9 +186,14 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         sections.add(parseSection(resultsBean.recommend, NetUrlConstant.RECOMMEND));
         sections.add(parseSection(resultsBean.welfare, NetUrlConstant.WELFARE));
         mAdapter.setData(sections);
+        showContentPage();
+    }
+
+    @Override
+    public void showContentPage() {
         showView(appbarLayout);
         goneView(mStatusLayout);
-        showContentPage();
+        super.showContentPage();
     }
 
     private QMUISection<HomeHeadSection, HomeItemSection> parseSection(List<GankBean> gankBeans, String head) {
@@ -197,10 +226,15 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         return presenter = new HomePresenter();
     }
 
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     @Override
     public void onPause() {
+        isOnPause = true;
         super.onPause();
-        setWelfare();
+        if (mBannerViewPager != null) {
+            mBannerViewPager.stopLoop();
+        }
     }
 
 }

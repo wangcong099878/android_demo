@@ -37,20 +37,23 @@ public class BaseDataPresenter<T> extends BasePresenter<BaseDataView<T>> {
 
 
     protected void onComplete(List<T> data) {
-        onComplete(data, null);
+        if (isViewAttached())
+            getView().onComplete(data);
     }
 
     protected void onComplete(List<T> data, IPageInfo pageInfoBean) {
-        onComplete(data, pageInfoBean, "");
+        if (isViewAttached())
+            getView().onComplete(data, pageInfoBean);
     }
 
     protected void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString) {
-        onComplete(data, pageInfoBean, emptyString, "", null);
+        if (isViewAttached())
+            getView().onComplete(data, pageInfoBean, emptyString);
     }
 
     protected void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString, String btnString, View.OnClickListener listener) {
         if (isViewAttached())
-            getView().onComplete(data);
+            getView().onComplete(data, pageInfoBean, emptyString, btnString, listener);
     }
 
     protected void onFail(String error) {

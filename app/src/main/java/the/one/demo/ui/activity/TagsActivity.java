@@ -1,12 +1,8 @@
 package the.one.demo.ui.activity;
 
-import android.content.Intent;
-
 import the.one.base.base.activity.BaseFragmentActivity;
 import the.one.base.base.fragment.BaseFragment;
-import the.one.demo.constant.WallpaperConstant;
-import the.one.demo.ui.fragment.TagsFragment;
-import the.one.demo.util.WallpaperUtil;
+import the.one.demo.ui.fragment.SampleFragment;
 
 
 //  ┏┓　　　┏┓
@@ -35,25 +31,10 @@ import the.one.demo.util.WallpaperUtil;
  * @remark
  */
 public class TagsActivity extends BaseFragmentActivity {
+
     @Override
     protected BaseFragment getFirstFragment() {
-        return new TagsFragment();
+        return new SampleFragment();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == WallpaperConstant.REQUEST_LIVE_PAPER) {
-            if (WallpaperUtil.isLiveWallpaperChanged(this)) {
-                goHome();
-            }
-        }
-    }
-
-    public  void goHome() {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        startActivity(intent);
-    }
 }

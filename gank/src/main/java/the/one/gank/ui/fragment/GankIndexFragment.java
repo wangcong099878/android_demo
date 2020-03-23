@@ -40,8 +40,8 @@ public class GankIndexFragment extends BaseHomeFragment {
     }
 
     @Override
-    protected boolean isStatusBarLightMode() {
-        return true;
+    protected boolean isNeedChangeStatusBarMode() {
+        return false;
     }
 
     @Override

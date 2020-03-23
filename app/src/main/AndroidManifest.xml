@@ -35,44 +35,10 @@
         <activity android:name=".ui.activity.SampleActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
 
-        <activity android:name=".ui.activity.MzituActivity"/>
-
         <activity android:name=".ui.activity.BingoActivity"/>
 
         <activity android:name=".ui.activity.CameraSamplePermissionActivity" />
 
-
-        <!-- 配置实时壁纸Service -->
-        <service
-            android:name=".service.wallpaper.DynamicWallpaper1"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:process=":wallpaper">
-            <!-- 为实时壁纸配置intent-filter -->
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-            <!-- 为实时壁纸配置meta-data -->
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/livewallpaper" />
-        </service>
-        <!-- 配置实时壁纸Service -->
-        <service
-            android:name=".service.wallpaper.DynamicWallpaper2"
-            android:label="@string/app_name"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:process=":wallpaper">
-
-            <!-- 为实时壁纸配置intent-filter -->
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-            <!-- 为实时壁纸配置meta-data -->
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/livewallpaper" />
-        </service>
 
     </application>
 
