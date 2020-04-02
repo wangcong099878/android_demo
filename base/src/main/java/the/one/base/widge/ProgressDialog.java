@@ -39,7 +39,11 @@ public class ProgressDialog extends AlertDialog implements QMUIProgressBar.QMUIP
         tips_loading_msg.setText(this.message);
     }
 
-    public void setProgress(int percent,int total) {
+    public QMUIProgressBar getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int percent, int total) {
         if (null != progress && percent != oldPercent) {
             oldPercent = percent;
             progress.setMaxValue(total);

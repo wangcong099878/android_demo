@@ -76,7 +76,7 @@ public class BasePresenter<V extends BaseView> implements LifecycleOwner{
     }
 
     protected void onFail(Throwable t) {
-        onFail(ExceptionHelper.handleNetworkException(t));
+        onFail(ExceptionHelper.handleException(t));
     }
 
     protected void onFail(String error) {

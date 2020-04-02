@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.zhpan.bannerview.holder.ViewHolder;
 
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 import the.one.gank.R;
 import the.one.gank.bean.Banner;
 

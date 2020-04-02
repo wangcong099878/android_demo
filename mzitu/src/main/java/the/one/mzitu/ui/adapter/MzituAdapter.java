@@ -29,7 +29,7 @@ import com.qmuiteam.qmui.layout.QMUILinearLayout;
 
 import the.one.base.adapter.TheBaseQuickAdapter;
 import the.one.base.adapter.TheBaseViewHolder;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.ScaleImageView;
 import the.one.mzitu.R;
 import the.one.mzitu.bean.Mzitu;

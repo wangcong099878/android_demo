@@ -23,7 +23,7 @@ public class ErrorInfo {
 
     public ErrorInfo(Throwable throwable) {
         this.throwable = throwable;
-        String errorMsg = ExceptionHelper.handleNetworkException(throwable); //网络异常
+        String errorMsg = ExceptionHelper.handleException(throwable); //网络异常
         if (throwable instanceof HttpStatusCodeException) { //请求失败异常
             String code = throwable.getLocalizedMessage();
             if ("416".equals(code)) {

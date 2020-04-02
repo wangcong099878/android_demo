@@ -19,7 +19,7 @@ import com.luck.picture.lib.tools.StringUtils;
 import java.io.File;
 
 import the.one.base.R;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 
 ;
 

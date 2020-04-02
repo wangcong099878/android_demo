@@ -63,7 +63,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
                 onComplete(mMzitus);
                 recycleView.scrollToPosition(position);
             } else {
-                presenter.getData(URL,page);
+                presenter.getCategoryData(URL,page);
             }
         } else {
             presenter.getDetailData(mMzitu.getLink());

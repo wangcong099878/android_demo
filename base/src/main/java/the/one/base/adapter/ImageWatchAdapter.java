@@ -1,13 +1,21 @@
 package the.one.base.adapter;
 
 import android.support.v4.view.PagerAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.luck.picture.lib.photoview.PhotoView;
+import com.qmuiteam.qmui.widget.QMUIProgressBar;
 
 import java.util.List;
+
+import the.one.base.R;
+import the.one.base.util.glide.GlideUtil;
+import the.one.base.util.glide.SampleGlideProgressListener;
 
 /**
  * Created by Administrator on 2018/3/15 0015.
@@ -27,10 +35,13 @@ public class ImageWatchAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
+        RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.item_image_snap,null);
         final String path = datas.get(position);
-        final PhotoView photoView = new PhotoView(container.getContext());
+        final PhotoView photoView = relativeLayout.findViewById(R.id.photo_view);
+        QMUIProgressBar progressBar = relativeLayout.findViewById(R.id.progressbar);
+        GlideUtil.loadImageWithProgress(container.getContext(),path,photoView,new SampleGlideProgressListener(photoView,progressBar));
         Glide.with(container.getContext()).load(path).into(photoView);
-        container.addView(photoView);
+        container.addView(relativeLayout);
         photoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

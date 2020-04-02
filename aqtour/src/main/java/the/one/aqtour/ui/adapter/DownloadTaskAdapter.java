@@ -11,7 +11,7 @@ import the.one.aqtour.m3u8downloader.bean.M3U8Task;
 import the.one.aqtour.m3u8downloader.bean.M3U8TaskState;
 import the.one.base.adapter.TheBaseQuickAdapter;
 import the.one.base.adapter.TheBaseViewHolder;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 
 public class DownloadTaskAdapter extends TheBaseQuickAdapter<M3U8Task> {
 

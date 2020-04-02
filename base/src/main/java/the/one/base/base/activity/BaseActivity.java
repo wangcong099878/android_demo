@@ -22,7 +22,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
 import the.one.base.util.ActivityListUtil;
 import the.one.base.util.EventBusUtil;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;

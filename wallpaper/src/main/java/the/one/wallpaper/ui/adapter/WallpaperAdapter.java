@@ -6,7 +6,7 @@ import com.qmuiteam.qmui.layout.QMUIRelativeLayout;
 
 import the.one.base.adapter.TheBaseQuickAdapter;
 import the.one.base.adapter.TheBaseViewHolder;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 import the.one.wallpaper.R;
 import the.one.wallpaper.bean.Wallpaper;
 

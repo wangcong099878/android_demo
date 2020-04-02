@@ -101,18 +101,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
                 if (adapter.getData().size() > position)
                     onScrollChanged((T) adapter.getData().get(position),position);
             }
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == SCROLL_STATE_IDLE) {
-                    isGlidePause = false;
-                    Glide.with(_mActivity).resumeRequests();
-                } else if (!isGlidePause) {
-                    isGlidePause = true;
-                    Glide.with(_mActivity).pauseRequests();
-                }
-            }
         };
     }
 

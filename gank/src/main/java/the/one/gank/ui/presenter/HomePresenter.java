@@ -46,17 +46,15 @@ import the.one.gank.ui.view.HomeView;
  */
 public class HomePresenter extends BasePresenter<HomeView> {
 
-    public static final int TYPE_TODAY = 0;
-    public static final int TYPE_WELFARE = 1;
 
     public void getTodayData() {
         RxHttp.get(NetUrlConstant.TODAY)
-                .asString()
+                .asResponseOld(HomeBean.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(RxLife.as(this))
                 .subscribe(s -> {
                     //请求成功
-                    onResponse(s);
+                    getView().onTodayComplete(s);
                 }, throwable -> {
                     //请求失败
                     showErrorPage(ExceptionHelper.handleNetworkException(throwable), new View.OnClickListener() {
@@ -85,27 +83,4 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     }
 
-    public void getTest(){
-
-    }
-
-    private void onResponse(String response) {
-        if (isViewAttached()) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(response);
-                boolean error = jsonObject.getBoolean("error");
-                if (error) {
-                    getView().showErrorPage("请求失败");
-                } else {
-                    String result = jsonObject.getString("results");
-                        HomeBean homeBean = JsonUtil.fromJson(result, HomeBean.class);
-                        getView().onTodayComplete(homeBean);
-                }
-            } catch (JSONException e) {
-                showErrorPage("解析错误");
-                e.printStackTrace();
-            }
-        }
-    }
 }

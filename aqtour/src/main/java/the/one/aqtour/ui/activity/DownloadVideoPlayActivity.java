@@ -16,7 +16,7 @@ import the.one.aqtour.m3u8downloader.utils.M3U8PathUtil;
 import the.one.aqtour.widge.StandardTheVideoPlayer;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 
 public class DownloadVideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPlayer> {
 

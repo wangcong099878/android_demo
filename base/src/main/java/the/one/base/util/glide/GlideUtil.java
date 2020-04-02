@@ -1,0 +1,109 @@
+package the.one.base.util.glide;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
+
+import the.one.base.Interface.GlideProgressListener;
+import the.one.base.R;
+
+
+/**
+ * @author The one
+ * @date 2018/8/7 0007
+ * @describe TODO
+ * @email 625805189@qq.com
+ * @remark
+ */
+public class GlideUtil {
+
+    public static void load(Context context, String url, ImageView imageView) {
+        load(context, url, imageView, getDefaultOptions());
+    }
+
+    public static void load(Context context, String url, ImageView imageView, RequestOptions options) {
+        load(context, url, imageView, options, null);
+    }
+
+
+    public static void loadImageAsBitmap(Context context, String path) {
+        loadImageAsBitmap(context, path, new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+
+            }
+        });
+    }
+
+    public static void loadImageAsBitmap(Context context, String path, SimpleTarget<Bitmap> simpleTarget) {
+        Glide.with(context).
+                asBitmap().
+                load(path).
+                into(simpleTarget);
+    }
+
+    public static void loadImageWithProgress(Context context, String url, ImageView imageView, GlideProgressListener listener) {
+        load(context, url, imageView, getDefaultOptions(), listener);
+    }
+
+    public static void loadImageWithProgress(Context context, Object url, ImageView imageView, RequestOptions options, GlideProgressListener listener) {
+        load(context, url, imageView, options, listener);
+    }
+
+
+    public static void load(Context context,final Object url, ImageView imageView, RequestOptions options, GlideProgressListener listener) {
+        if (null == url) return;
+        if (null == context) return;
+        if (null == imageView) return;
+        if (null != listener) {
+            GlideProgressInterceptor.addListener(url, listener);
+        }
+
+        Glide.with(context)
+                .load(url)
+                .transition(new DrawableTransitionOptions().crossFade())// 渐入渐出效果
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        if (null != listener) {
+                            listener.onProgress(0,false);
+                            GlideProgressInterceptor.removeListener(url);
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        if (null != listener) {
+                            listener.onProgress(0,true);
+                            GlideProgressInterceptor.removeListener(url);
+                        }
+                        return false;
+                    }
+                })
+                .apply(options)
+                .into(imageView);
+    }
+
+    private static RequestOptions getDefaultOptions() {
+        return new RequestOptions()
+                .placeholder(R.drawable.pa_shape)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+    }
+}

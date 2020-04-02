@@ -13,6 +13,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/aqtour" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/gank" />
+            <option value="$PROJECT_DIR$/mzitu" />
+            <option value="$PROJECT_DIR$/wallpaper" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

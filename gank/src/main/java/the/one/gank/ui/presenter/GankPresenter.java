@@ -56,47 +56,29 @@ import the.one.gank.constant.NetUrlConstant;
 public class GankPresenter extends BaseDataPresenter<GankBean> {
 
 
-    @SuppressLint("CheckResult")
     public void getData(final Context context, final String type, final int page) {
         String url = NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page;
-
         RxHttp.get(url)
-                .asString()
+                .asResponseListOld(GankBean.class)
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
                 .as(RxLife.as(this))
                 .subscribe(s -> {
                     //请求成功
-                    onSuccess(s, type, context);
+                    if (!type.equals(NetUrlConstant.WELFARE)) {
+                        onComplete(s, null, "无" + type + "相关数据");
+                    } else
+                        parseSize(context, s);
                 }, throwable -> {
                     //请求失败
                     onFail(ExceptionHelper.handleNetworkException(throwable));
                 });
     }
 
-    private void onSuccess(String response, String type, Context context) {
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(response);
-            boolean error = jsonObject.getBoolean("error");
-            if (error) {
-                getView().onFail("错误");
-            } else {
-                String personObject = jsonObject.getString("results");
-                List<GankBean> itemData = new Gson().fromJson(personObject,
-                        new TypeToken<List<GankBean>>() {
-                        }.getType());
-                if (!type.equals(NetUrlConstant.WELFARE)) {
-                    onComplete(itemData, null, "无" + type + "相关数据");
-                } else
-                    parseSize(context, itemData);
-            }
-
-        } catch (JSONException e) {
-            onFail("解析错误");
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * 获取图片的宽高，剔除掉图片不存在的
+     * @param context
+     * @param data
+     */
     private void parseSize(Context context, final List<GankBean> data) {
         final List<GankBean> gankBeans = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {

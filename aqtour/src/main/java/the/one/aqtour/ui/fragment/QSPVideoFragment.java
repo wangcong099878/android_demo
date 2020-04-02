@@ -22,7 +22,7 @@ import the.one.aqtour.ui.presenter.QSPVideoPresenter;
 import the.one.aqtour.widge.CustomRoundAngleImageView;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 
 public class QSPVideoFragment extends BaseVideoFragment {
 

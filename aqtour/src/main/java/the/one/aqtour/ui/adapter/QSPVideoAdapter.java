@@ -11,7 +11,7 @@ import the.one.aqtour.bean.QSPVideo;
 import the.one.aqtour.bean.QSPVideoSection;
 import the.one.aqtour.widge.CustomRoundAngleImageView;
 import the.one.base.adapter.TheBaseViewHolder;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 
 public class QSPVideoAdapter extends BaseSectionQuickAdapter<QSPVideoSection,TheBaseViewHolder> {
 

@@ -4,6 +4,7 @@ package the.one.base.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -21,8 +22,15 @@ import the.one.base.R;
  */
 public class ExceptionHelper {
 
-    //处理网络异常
-    public static <T> String handleNetworkException(T throwable) {
+    //处理异常
+    public static <T> String handleException(T throwable) {
+        if(throwable instanceof Throwable){
+            Throwable t = (Throwable) throwable;
+            String error = t.getLocalizedMessage();
+            if(!TextUtils.isEmpty(error)){
+                return error;
+            }
+        }
         int stringId = -1;
         if (throwable instanceof UnknownHostException) {
             if (!isNetworkConnected(BaseApplication.getInstance())) {

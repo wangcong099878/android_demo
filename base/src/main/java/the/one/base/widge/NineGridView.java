@@ -15,7 +15,7 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.ArrayList;
 
 import the.one.base.base.activity.PhotoWatchActivity;
-import the.one.base.util.GlideUtil;
+import the.one.base.util.glide.GlideUtil;
 
 /**
  * 描述：

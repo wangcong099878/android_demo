@@ -66,7 +66,7 @@ public class MzituItemFragment extends BaseDataFragment<Mzitu> {
 
     @Override
     protected void requestServer() {
-        presenter.getData(url,page);
+        presenter.getCategoryData(url,page);
     }
 
     @Override

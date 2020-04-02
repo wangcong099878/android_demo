@@ -2,8 +2,6 @@ package the.one.gank.ui.fragment;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,7 +11,6 @@ import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
 import com.zhpan.bannerview.BannerViewPager;
-import com.zhpan.bannerview.adapter.OnPageChangeListenerAdapter;
 import com.zhpan.bannerview.constants.IndicatorGravity;
 import com.zhpan.bannerview.holder.HolderCreator;
 
@@ -24,7 +21,6 @@ import butterknife.BindView;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.base.util.GlideUtil;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.gank.R;
