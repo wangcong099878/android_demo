@@ -55,6 +55,10 @@ LIST? GRID? STAGGERED? 一句代码
 [Gank](https://gitee.com/theoneee/TheBase/raw/master/gank/release/gank-release.apk)
 
 
+[Mzitu](https://gitee.com/theoneee/TheBase/raw/master/apk/release/mzitu-release.apk)
+
+
+
 #### 交流
 
 QQ群： 761201022
@@ -97,9 +101,7 @@ style AppTheme继承BaseTheme
 
 [QMUI](https://github.com/Tencent/QMUI_Android)
 
-[Gank](http://gank.io/)
-
-[KotlinGankApp](https://github.com/JayGengi/KotlinGankApp)
+[RxHttp](https://github.com/liujingxing/okhttp-RxHttp)
 
 #### 第三方库
 
@@ -125,6 +127,13 @@ style AppTheme继承BaseTheme
 ```
 
 还有一些为了自定义，集成到了项目里，所以并没有在依赖里出现，但是都保留原作者信息。
+
+
+项目内容数据纯属项目练手。
+
+
+
+you are the one.
 
 
 
