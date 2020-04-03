@@ -16,7 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import java.io.File;
@@ -339,4 +339,7 @@ public class DeviceUtil {
     }
 
 
+    public static boolean isAndroidQ() {
+        return android.os.Build.VERSION.SDK_INT >= 29;
+    }
 }

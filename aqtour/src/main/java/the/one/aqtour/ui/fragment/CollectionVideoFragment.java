@@ -2,11 +2,11 @@ package the.one.aqtour.ui.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.aqtour.bean.QSPVideo;
 import the.one.aqtour.bean.QSPVideoSection;
 import the.one.aqtour.constant.QSPConstant;
@@ -36,7 +36,7 @@ public class CollectionVideoFragment extends BaseVideoFragment {
     protected void requestServer() {
         empty_str = "没有任何收藏";
         onComplete(LitePalUtil.getCollectionVideoList(QSPConstant.BASE_URL));
-        adapter.loadMoreEnd();
+        adapter.getLoadMoreModule().loadMoreEnd();
     }
 
     @Override

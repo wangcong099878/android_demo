@@ -1,7 +1,8 @@
 package the.one.base.util.glide;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Registry;
@@ -17,10 +18,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
-import rxhttp.HttpSender;
 import rxhttp.wrapper.ssl.SSLSocketFactoryImpl;
 import rxhttp.wrapper.ssl.X509TrustManagerImpl;
-import the.one.base.util.glide.GlideProgressInterceptor;
 
 
 // 注意这个注解一定要加上，HttpGlideModule是自定义的名字

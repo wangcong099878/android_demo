@@ -1,13 +1,6 @@
 package the.one.base.adapter;
 
-import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 import the.one.base.R;
 import the.one.base.model.PopupItem;
@@ -19,43 +12,19 @@ import the.one.base.model.PopupItem;
  * @email 625805189@qq.com
  * @remark
  */
-public class ListPopupAdapter extends EntityAdapter<PopupItem, ListPopupAdapter.ViewHolder> {
+public class ListPopupAdapter extends TheBaseQuickAdapter<PopupItem> {
 
-    public ListPopupAdapter(Context context, List<PopupItem> data) {
-        super(context,data);
+
+    public ListPopupAdapter() {
+        super(R.layout.simple_list_item);
     }
 
     @Override
-    public int getLayoutRes() {
-        return R.layout.simple_list_item;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int position, View convertView) {
-        return new ViewHolder(convertView);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, final int position, final PopupItem data) {
-        if (data != null) {
-          if(0 != data.getImage()){
-              holder.ivIcon.setImageResource(data.getImage());
-          }
-          holder.tvTitle.setText(data.getTitle());
-        } else {
-            Log.e("LOG", "null");
+    protected void convert(@NotNull TheBaseViewHolder holder, PopupItem data) {
+        if(0 != data.getImage()){
+            holder.getImageView(R.id.icon).setImageResource(data.getImage());
         }
+        holder.setText(R.id.text,data.getTitle());
     }
 
-
-    public class ViewHolder extends EntityAdapter.BaseHolder {
-
-        ImageView ivIcon;
-        TextView tvTitle;
-        public ViewHolder(View convertView) {
-            super(convertView);
-            ivIcon = convertView.findViewById(R.id.icon);
-            tvTitle = convertView.findViewById(R.id.text);
-        }
-    }
 }

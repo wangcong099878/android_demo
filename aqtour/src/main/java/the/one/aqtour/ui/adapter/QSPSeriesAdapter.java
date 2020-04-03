@@ -1,9 +1,9 @@
 package the.one.aqtour.ui.adapter;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.aqtour.R;
 import the.one.aqtour.bean.QSPSeries;
 import the.one.base.adapter.TheBaseQuickAdapter;
@@ -66,11 +66,11 @@ public class QSPSeriesAdapter extends TheBaseQuickAdapter<QSPSeries> {
         btnSeries.setText(series.name);
         if (-1 != mSelect && mSelect == helper.getAdapterPosition()) {
             btnSeries.setSelected(true);
-            btnSeries.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+            btnSeries.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
         } else {
             btnSeries.setSelected(false);
-            btnSeries.setTextColor(ContextCompat.getColor(mContext, R.color.qmui_config_color_gray_4));
-            helper.addOnClickListener(R.id.btn_series);
+            btnSeries.setTextColor(ContextCompat.getColor(getContext(), R.color.qmui_config_color_gray_4));
+            addChildClickViewIds(R.id.btn_series);
         }
     }
 }

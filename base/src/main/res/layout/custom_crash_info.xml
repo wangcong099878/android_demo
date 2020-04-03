@@ -6,7 +6,7 @@
     android:background="@color/white">
 
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,64 +21,11 @@
         android:layout_height="match_parent"
         android:layout_above="@id/iv_close">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
+        <TextView
                 android:id="@+id/textMessage"
                 style="@style/crash_text_style"
                 android:textColor="@color/qmui_config_color_gray_3"
                 android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tv_className"
-                style="@style/crash_text_style"
-                android:layout_marginTop="20dp" />
-
-
-            <TextView
-                android:id="@+id/tv_methodName"
-                style="@style/crash_text_style" />
-
-
-            <TextView
-                android:id="@+id/tv_lineNumber"
-                style="@style/crash_text_style" />
-
-
-            <TextView
-                android:id="@+id/tv_exceptionType"
-                style="@style/crash_text_style" />
-
-
-            <TextView
-                android:id="@+id/tv_time"
-                style="@style/crash_text_style" />
-
-
-            <TextView
-                android:id="@+id/tv_model"
-                style="@style/crash_text_style" />
-
-
-            <TextView
-                android:id="@+id/tv_brand"
-                style="@style/crash_text_style" />
-
-
-            <TextView
-                android:id="@+id/tv_version"
-                style="@style/crash_text_style" />
-
-            <TextView
-                android:id="@+id/tv_fullException"
-                style="@style/crash_text_style"
-                android:layout_marginTop="20dp" />
-        </LinearLayout>
 
     </ScrollView>
 

@@ -2,12 +2,13 @@ package the.one.aqtour.m3u8downloader.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.Collections;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class SPHelper {
 

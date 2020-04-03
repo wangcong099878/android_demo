@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -20,10 +18,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
+import the.one.base.Interface.OnError;
 import the.one.base.base.presenter.BaseDataPresenter;
-import the.one.base.util.ExceptionHelper;
 import the.one.demo.bean.GankBean;
 import the.one.demo.constant.NetUrlConstant;
 
@@ -65,9 +65,9 @@ public class GankPresenter extends BaseDataPresenter<GankBean> {
                 .subscribe(s -> {
                     //请求成功
                     onSuccess(s, type, context);
-                }, throwable -> {
+                }, (OnError) error -> {
                     //请求失败
-                    onFail(ExceptionHelper.handleNetworkException(throwable));
+                    onFail(error.getErrorMsg());
                 });
     }
 

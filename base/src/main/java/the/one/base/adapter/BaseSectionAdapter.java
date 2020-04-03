@@ -1,12 +1,13 @@
 package the.one.base.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView.LayoutParams;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.qmuiteam.qmui.widget.section.QMUIDefaultStickySectionAdapter;
 import com.qmuiteam.qmui.widget.section.QMUISection;
@@ -111,10 +112,10 @@ public abstract class BaseSectionAdapter<H extends QMUISection.Model<H>,
             mHeaderLayout = new LinearLayout(header.getContext());
             if (orientation == LinearLayout.VERTICAL) {
                 mHeaderLayout.setOrientation(LinearLayout.VERTICAL);
-                mHeaderLayout.setLayoutParams(new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+                mHeaderLayout.setLayoutParams(new RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             } else {
                 mHeaderLayout.setOrientation(LinearLayout.HORIZONTAL);
-                mHeaderLayout.setLayoutParams(new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
+                mHeaderLayout.setLayoutParams(new RecyclerView.LayoutParams(WRAP_CONTENT, MATCH_PARENT));
             }
         }
         final int childCount = mHeaderLayout.getChildCount();
@@ -160,10 +161,10 @@ public abstract class BaseSectionAdapter<H extends QMUISection.Model<H>,
             mFooterLayout = new LinearLayout(footer.getContext());
             if (orientation == LinearLayout.VERTICAL) {
                 mFooterLayout.setOrientation(LinearLayout.VERTICAL);
-                mFooterLayout.setLayoutParams(new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
+                mFooterLayout.setLayoutParams(new RecyclerView.LayoutParams(MATCH_PARENT, WRAP_CONTENT));
             } else {
                 mFooterLayout.setOrientation(LinearLayout.HORIZONTAL);
-                mFooterLayout.setLayoutParams(new LayoutParams(WRAP_CONTENT, MATCH_PARENT));
+                mFooterLayout.setLayoutParams(new RecyclerView.LayoutParams(WRAP_CONTENT, MATCH_PARENT));
             }
         }
         final int childCount = mFooterLayout.getChildCount();

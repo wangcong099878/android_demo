@@ -1,12 +1,11 @@
 package the.one.aqtour;
 
-import android.content.SharedPreferences;
-
 import com.shuyu.gsyvideoplayer.cache.CacheFactory;
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
 
 import org.litepal.LitePal;
 
+import the.one.aqtour.ui.activity.Launcher;
 import the.one.base.BaseApplication;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
@@ -38,6 +37,11 @@ import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
  * @remark
  */
 public class App extends BaseApplication {
+
+    @Override
+    protected Class getStartActivity() {
+        return Launcher.class;
+    }
 
     @Override
     public void onCreate() {

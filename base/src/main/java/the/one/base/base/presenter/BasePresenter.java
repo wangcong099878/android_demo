@@ -18,16 +18,17 @@ package the.one.base.base.presenter;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 import the.one.base.base.view.BaseView;
 import the.one.base.util.ExceptionHelper;
 import the.one.base.util.NetFailUtil;
+
 
 /**
  * @author The one
@@ -36,7 +37,7 @@ import the.one.base.util.NetFailUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class BasePresenter<V extends BaseView> implements LifecycleOwner{
+public class BasePresenter<V extends BaseView> implements LifecycleOwner {
 
     protected final String TAG = this.getClass().getSimpleName();
 
@@ -46,10 +47,11 @@ public class BasePresenter<V extends BaseView> implements LifecycleOwner{
     /**
      * 绑定view，一般在初始化中调用该方法
      */
-    public void attachView(V baseView,LifecycleOwner lifecycleOwner) {
+    public void attachView(V baseView, LifecycleOwner lifecycleOwner) {
         this.baseView = baseView;
         this.lifecycleOwner = lifecycleOwner;
     }
+
     /**
      * 断开view，一般在onDestroy中调用
      */
@@ -57,61 +59,77 @@ public class BasePresenter<V extends BaseView> implements LifecycleOwner{
         this.baseView = null;
         this.lifecycleOwner = null;
     }
+
     /**
      * 是否与View建立连接
      * 每次调用业务请求的时候都要出先调用方法检查是否与View建立连接
      */
-    public boolean isViewAttached(){
+    public boolean isViewAttached() {
         return baseView != null;
     }
+
     /**
      * 获取连接的view
      */
-    public V getView(){
+    public V getView() {
         return baseView;
     }
 
     protected void onFail(Exception e) {
-        onFail(NetFailUtil.getFailString(e));
+        onFail(NetFailUtil.getFailString(e),null);
     }
 
     protected void onFail(Throwable t) {
-        onFail(ExceptionHelper.handleException(t));
+        onFail(ExceptionHelper.handleException(t),null);
     }
 
-    protected void onFail(String error) {
+    protected void onFail(Throwable t, View.OnClickListener listener) {
+        onFail(ExceptionHelper.handleException(t),listener);
+    }
+
+    protected void onFail(String error, View.OnClickListener listener) {
         if (isViewAttached()) {
-            getView().showEmptyPage(error);
+            getView().showEmptyPage(error,listener);
         }
     }
 
-    protected void showErrorPage(String title){
+    protected void showFailTips(String msg) {
+        if (isViewAttached())
+            getView().showFailTips(msg);
+    }
+
+    protected void showSuccessTips(String msg) {
+        if (isViewAttached())
+            getView().showSuccessTips(msg);
+    }
+
+    protected void showErrorPage(String title) {
         if (isViewAttached()) {
             getView().showErrorPage(title);
         }
     }
 
-    protected void showErrorPage(String title, View.OnClickListener listener){
+    protected void showErrorPage(String title, View.OnClickListener listener) {
         if (isViewAttached()) {
-            getView().showErrorPage(title,listener);
+            getView().showErrorPage(title, listener);
         }
     }
 
-    protected void showErrorPage(String title, String btnString, View.OnClickListener listener){
+    protected void showErrorPage(String title, String btnString, View.OnClickListener listener) {
         if (isViewAttached()) {
-            getView().showErrorPage(title,btnString,listener);
+            getView().showErrorPage(title, btnString, listener);
         }
     }
 
-    protected void showErrorPage(String title, String content, String btnString, View.OnClickListener listener){
+    protected void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
         if (isViewAttached()) {
-            getView().showErrorPage(title,content,btnString,listener);
+            getView().showErrorPage(title, content, btnString, listener);
         }
     }
 
     protected void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
         if (isViewAttached()) {
-            getView().showErrorPage(drawable, title,content,btnString,listener);
+            getView().showErrorPage(drawable, title, content, btnString, listener);
         }
     }
 

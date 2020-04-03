@@ -1,8 +1,8 @@
 package the.one.demo.ui.fragment;
 
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import androidx.fragment.app.FragmentManager;
 import butterknife.OnClick;
 import the.one.base.base.fragment.BaseFragment;
 import the.one.base.base.fragment.BasePopupLayoutFragment;

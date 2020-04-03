@@ -1,19 +1,21 @@
-package the.one.base.widge;
+package the.one.base.widge.pullrefresh;
 
 import android.content.Context;
 import android.os.Vibrator;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 
 import com.qmuiteam.qmui.util.QMUIColorHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
 import the.one.base.R;
 import the.one.base.constant.PhoneConstant;
+import the.one.base.widge.ProgressWheel;
 
 
 //  ┏┓　　　┏┓
@@ -41,7 +43,7 @@ import the.one.base.constant.PhoneConstant;
  * @email 625805189@qq.com
  * @remark
  */
-public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRefreshLayout.IRefreshView {
+public class FlymeStyleLoadingView extends RelativeLayout implements QMUIPullRefreshLayout.IRefreshView {
 
     private static final String TAG = "PullRefreshLoadingView";
 
@@ -53,12 +55,12 @@ public class PullRefreshLoadingView extends RelativeLayout implements QMUIPullRe
 
     private boolean isPrepare = false;
 
-    public PullRefreshLoadingView(Context context) {
+    public FlymeStyleLoadingView(Context context) {
         super(context);
         init(context);
     }
 
-    public PullRefreshLoadingView(Context context, AttributeSet attrs) {
+    public FlymeStyleLoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }

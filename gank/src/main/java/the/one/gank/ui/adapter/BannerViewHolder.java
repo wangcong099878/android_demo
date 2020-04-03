@@ -1,11 +1,11 @@
 package the.one.gank.ui.adapter;
 
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.zhpan.bannerview.holder.ViewHolder;
 
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import the.one.base.util.glide.GlideUtil;
 import the.one.gank.R;
 import the.one.gank.bean.Banner;

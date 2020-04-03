@@ -3,7 +3,6 @@ package the.one.base.util;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,10 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIKeyboardHelper;
-import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.qmuiteam.qmui.util.QMUIViewHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -378,14 +377,14 @@ public class QMUIDialogUtil {
         }
 
         @Override
-        public View onBuildContent(QMUIDialog dialog, ScrollView parent) {
+        public View onBuildContent(QMUIDialog dialog) {
             LinearLayout layout = new LinearLayout(mContext);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             int padding = QMUIDisplayHelper.dp2px(mContext, 20);
             layout.setPadding(padding, padding, padding, padding);
             mEditText = new EditText(mContext);
-            QMUIViewHelper.setBackgroundKeepingPadding(mEditText, QMUIResHelper.getAttrDrawable(mContext, R.attr.qmui_list_item_bg_with_border_bottom));
+//            QMUIViewHelper.setBackgroundKeepingPadding(mEditText, QMUIResHelper.getAttrDrawable(mContext, R.attr.qmui_list_item_bg_with_border_bottom));
             mEditText.setHint(mTitle);
             LinearLayout.LayoutParams editTextLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, QMUIDisplayHelper.dpToPx(50));
             editTextLP.bottomMargin = QMUIDisplayHelper.dp2px(mContext, 15);
@@ -399,6 +398,7 @@ public class QMUIDialogUtil {
             layout.addView(content);
             return layout;
         }
+
     }
 
     public static void showTipsDialog(Context context, int Type, String tips,OnTipsDialogDismissListener listener) {

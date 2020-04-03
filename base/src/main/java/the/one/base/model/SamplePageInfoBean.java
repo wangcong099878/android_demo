@@ -33,4 +33,9 @@ public class SamplePageInfoBean implements IPageInfo {
     public int getPageSize() {
         return pageSize;
     }
+
+    @Override
+    public int getTotalCount() {
+        return 0;
+    }
 }

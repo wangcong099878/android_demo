@@ -1,4 +1,4 @@
-package the.one.base.util;
+package the.one.base.util.crash;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -20,9 +20,8 @@ package the.one.base.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
 
-import the.one.base.model.CrashModel;
+import the.one.base.BaseApplication;
 
 /**
  * @author The one
@@ -31,44 +30,45 @@ import the.one.base.model.CrashModel;
  * @email 625805189@qq.com
  * @remark
  */
-public class SpiderUtil {
+public class CrashThrowableParseUtil {
 
 
-    static CrashModel parseCrash(Throwable ex) {
-        CrashModel model = new CrashModel();
+    public static String parseCrash(Throwable ex) {
+        StringBuilder builder = new StringBuilder();
         try {
-            model.setEx(ex);
-            model.setTime(new Date().getTime());
             if (ex.getCause() != null) {
                 ex = ex.getCause();
             }
-            model.setExceptionMsg(ex.getMessage());
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             ex.printStackTrace(pw);
+            StringBuilder builder1 = new StringBuilder();
+            builder1.append(sw.toString())
+                    .append("\n");
             pw.flush();
-            String exceptionType = ex.getClass().getName();
-
             StackTraceElement element = parseThrowable(ex);
-            if (element == null) return model;
-
-            model.setLineNumber(element.getLineNumber());
-            model.setClassName(element.getClassName());
-            model.setFileName(element.getFileName());
-            model.setMethodName(element.getMethodName());
-            model.setExceptionType(exceptionType);
-
-            model.setFullException(sw.toString());
+            if (element == null) return builder1.toString();
+            builder.append("Class:  ")
+                    .append(element.getFileName())
+                    .append("\n")
+                    .append("Method:  ")
+                    .append(element.getMethodName())
+                    .append("\n")
+                    .append("Line:  ")
+                    .append(element.getLineNumber())
+                    .append("\n")
+                    .append("\n")
+                    .append(builder1.toString());
         } catch (Exception e) {
-            return model;
+            return ex.toString();
         }
-        return model;
+        return builder.toString();
     }
 
     static StackTraceElement parseThrowable(Throwable ex) {
         if (ex == null || ex.getStackTrace() == null || ex.getStackTrace().length == 0) return null;
         StackTraceElement element;
-        String packageName = SpiderMan.getContext().getPackageName();
+        String packageName = BaseApplication.getInstance().getPackageName();
         for (StackTraceElement ele : ex.getStackTrace()) {
             if (ele.getClassName().contains(packageName)) {
                 element = ele;
@@ -77,10 +77,6 @@ public class SpiderUtil {
         }
         element = ex.getStackTrace()[0];
         return element;
-    }
-
-    static String getCachePath() {
-        return SpiderMan.getContext().getCacheDir().getAbsolutePath();
     }
 
 }

@@ -7,12 +7,12 @@
     android:paddingBottom="7dp"
     android:orientation="horizontal">
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_title_res"
         android:layout_width="20dp"
         android:layout_height="20dp" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -23,7 +23,7 @@
         android:textColor="@color/qmui_config_color_gray_1"
         tools:text="标题" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_more"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

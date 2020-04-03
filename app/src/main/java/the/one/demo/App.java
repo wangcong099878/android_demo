@@ -34,6 +34,11 @@ import the.one.demo.ui.activity.LauncherActivity;
 public class App extends BaseApplication {
 
     @Override
+    protected Class getStartActivity() {
+        return LauncherActivity.class;
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         initFilePath();
@@ -65,13 +70,4 @@ public class App extends BaseApplication {
                 .build();
     }
 
-    /**
-     * 是否打印日志
-     *
-     * @return
-     */
-    @Override
-    protected boolean isDebug() {
-        return false;
-    }
 }

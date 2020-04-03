@@ -1,7 +1,5 @@
 package the.one.gank.ui.fragment;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -17,6 +15,8 @@ import com.zhpan.bannerview.holder.HolderCreator;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 import butterknife.BindView;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;

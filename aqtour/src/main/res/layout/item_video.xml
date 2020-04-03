@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/qmui_s_list_item_bg_with_border_none"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -36,7 +35,7 @@
         android:paddingStart="5dp"
         android:paddingBottom="10dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +46,7 @@
             android:textSize="14sp"
             tools:text="受益人" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_actors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package the.one.base.widge;
+package the.one.base.widge.pullrefresh;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -6,10 +6,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import androidx.annotation.ColorInt;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;

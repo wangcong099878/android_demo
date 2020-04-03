@@ -18,17 +18,16 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +35,8 @@ import java.util.List;
 import the.one.base.R;
 import the.one.base.adapter.FullyGridLayoutManager;
 import the.one.base.adapter.GridImageAdapter;
+import the.one.base.base.activity.PhotoWatchActivity;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.base.constant.DataConstant;
 import the.one.base.util.SelectPictureUtil;
 
 /**
@@ -47,12 +46,13 @@ import the.one.base.util.SelectPictureUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class BasePictureSelectorFragment extends BaseFragment implements GridImageAdapter.onAddPicClickListener, BaseQuickAdapter.OnItemClickListener {
+public class BasePictureSelectorFragment extends BaseFragment implements GridImageAdapter.onAddPicClickListener, OnItemClickListener {
 
     protected RecyclerView mRecyclerView;
     protected List<LocalMedia> mSelectList = new ArrayList<>();
 
-    protected GridImageAdapter mImageAdapter;
+//    protected GridImageAdapter mImageAdapter;
+    protected GridImageAdapter mImageAdapter2;
 
     protected int getMaxSelectNum() {
         return 9;
@@ -76,11 +76,12 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
         initAroundView();
 
         initLayoutManager();
-        mImageAdapter = new GridImageAdapter(this);
-        mImageAdapter.setSelectMax(getMaxSelectNum());
-        mImageAdapter.setOnItemClickListener(this);
-        mRecyclerView.setAdapter(mImageAdapter);
-        mImageAdapter.setNewData(mSelectList);
+//        mImageAdapter = new GridImageAdapter(this);
+        mImageAdapter2 = new GridImageAdapter(_mActivity,this);
+        mImageAdapter2.setSelectMax(getMaxSelectNum());
+        mImageAdapter2.setList(mSelectList);
+        mRecyclerView.setAdapter(mImageAdapter2);
+        mImageAdapter2.setOnItemClickListener(this);
     }
 
     protected void initLayoutManager() {
@@ -107,33 +108,61 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
     }
 
     protected void onResult() {
-        mImageAdapter.setNewData(mSelectList);
+        mImageAdapter2.setList(mSelectList);
     }
 
-    @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        LocalMedia localMedia = (LocalMedia) adapter.getItem(position);
-        String pictureType = localMedia.getPictureType();
-        int mediaType = PictureMimeType.pictureToVideo(pictureType);
-        switch (mediaType) {
-            case 1:
-                // 预览图片 可自定长按保存路径
-                PictureSelector.create(_mActivity).externalPicturePreview(position, mSelectList);
-                break;
-            case 2:
-                // 预览视频
-                PictureSelector.create(_mActivity).externalPictureVideo(localMedia.getPath());
-                break;
-            case 3:
-                // 预览音频
-                PictureSelector.create(_mActivity).externalPictureAudio(localMedia.getPath());
-                break;
-        }
-    }
+//    @Override
+//    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//        if (mSelectList.size() > 0) {
+//            LocalMedia localMedia = (LocalMedia) adapter.getItem(position);
+//            String pictureType = localMedia.getMimeType();
+//            int mediaType = PictureMimeType.getMimeType(pictureType);
+//            switch (mediaType) {
+//                case 1:
+//                    // 预览图片 可自定长按保存路径
+//                    PictureSelector.create(_mActivity).externalPicturePreview(position, mSelectList, 500);
+//                    break;
+//                case 2:
+//                    // 预览视频
+//                    PictureSelector.create(_mActivity).externalPictureVideo(localMedia.getPath());
+//                    break;
+//                case 3:
+//                    // 预览音频
+//                    PictureSelector.create(_mActivity).externalPictureAudio(localMedia.getPath());
+//                    break;
+//            }
+//        }
+//    }
 
     @Override
     public void onAddPicClick() {
         SelectPictureUtil.getInstance().initSelectPicture(this, mSelectList);
     }
 
+    @Override
+    public void onItemClick(View v, int position) {
+        if (mSelectList.size() > 0) {
+            LocalMedia localMedia = (LocalMedia) mSelectList.get(position);
+            String pictureType = localMedia.getMimeType();
+            int mediaType = PictureMimeType.getMimeType(pictureType);
+            switch (mediaType) {
+                case PictureConfig.TYPE_VIDEO:
+                    // 预览视频
+                    PictureSelector.create(_mActivity).externalPictureVideo(localMedia.getPath());
+                    break;
+                case PictureConfig.TYPE_AUDIO:
+                    // 预览音频
+                    PictureSelector.create(_mActivity).externalPictureAudio(localMedia.getPath());
+                    break;
+                default:
+                    ArrayList<String> images = new ArrayList<>();
+                    images.add("http://abc.2008php.com/2013_Website_appreciate/2013-03-13/20130313000352.jpg");
+                    for (LocalMedia media:mSelectList){
+                        images.add(media.getPath());
+                    }
+                    PhotoWatchActivity.startThisActivity(_mActivity,v,images,position);
+                    break;
+            }
+        }
+    }
 }

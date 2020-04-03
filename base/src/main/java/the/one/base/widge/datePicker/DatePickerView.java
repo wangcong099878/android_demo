@@ -8,7 +8,7 @@ import android.graphics.Paint.FontMetricsInt;
 import android.graphics.Paint.Style;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;

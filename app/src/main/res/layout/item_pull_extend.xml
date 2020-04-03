@@ -11,9 +11,9 @@
         android:id="@+id/ll_parent"
         android:gravity="center"
         app:qmui_showBorderOnlyBeforeL="true"
-        app:qmui_outerNormalColor="?attr/qmui_config_color_background"
-        app:qmui_borderColor="?attr/qmui_config_color_separator"
-        android:background="@drawable/qmui_s_list_item_bg_with_border_none"
+        app:qmui_outerNormalColor="@color/qmui_config_color_background"
+        app:qmui_borderColor="@color/qmui_config_color_separator"
+        android:background="@color/white"
         android:orientation="vertical">
         <ImageView
             android:id="@+id/iv_icon"

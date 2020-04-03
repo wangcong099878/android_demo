@@ -24,13 +24,6 @@ public class ExceptionHelper {
 
     //处理异常
     public static <T> String handleException(T throwable) {
-        if(throwable instanceof Throwable){
-            Throwable t = (Throwable) throwable;
-            String error = t.getLocalizedMessage();
-            if(!TextUtils.isEmpty(error)){
-                return error;
-            }
-        }
         int stringId = -1;
         if (throwable instanceof UnknownHostException) {
             if (!isNetworkConnected(BaseApplication.getInstance())) {

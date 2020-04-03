@@ -6,11 +6,8 @@ import android.view.View;
 
 import com.rxjava.rxlife.RxLife;
 import com.wx.goodview.GoodView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import okhttp3.Call;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.bean.QSPVideo;
 import the.one.aqtour.constant.QSPConstant;
@@ -21,6 +18,7 @@ import the.one.aqtour.ui.view.QSPVideoDetailView;
 import the.one.aqtour.util.LitePalUtil;
 import the.one.aqtour.util.QSPSoupUtil;
 import the.one.aqtour.util.VideoDownloadUtil;
+import the.one.base.Interface.OnError;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.widge.TheCheckBox;
 
@@ -48,9 +46,9 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
                 if (isViewAttached()) {
                     getView().onDetailComplete();
                 }
-            }, throwable -> {
+            }, (OnError) error -> {
                 //请求失败
-               showErrorPage(throwable.getMessage(), "", "刷新试试", new View.OnClickListener() {
+               showErrorPage(error.getErrorMsg(), "", "刷新试试", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         getVideoDetail(video);

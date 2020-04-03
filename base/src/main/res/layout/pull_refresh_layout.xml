@@ -13,10 +13,10 @@
         android:clickable="false"
         wheel:matProg_barColor="?config_color"
         wheel:matProg_barWidth="3dp"
-        wheel:matProg_rimWidth="2dp"
+        wheel:matProg_rimWidth="3dp"
         wheel:matProg_rimColor="@color/qmui_config_color_gray_9" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

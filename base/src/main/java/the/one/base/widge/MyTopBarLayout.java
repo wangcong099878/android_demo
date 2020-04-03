@@ -43,27 +43,25 @@ package the.one.base.widge;
 
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
-import com.qmuiteam.qmui.util.QMUIDrawableHelper;
+import com.qmuiteam.qmui.layout.QMUIFrameLayout;
+import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
+import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
+import com.qmuiteam.qmui.skin.defaultAttr.IQMUISkinDefaultAttrProvider;
 import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.qmuiteam.qmui.util.QMUIViewHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 
+import androidx.collection.SimpleArrayMap;
+import the.one.base.Interface.OnTopBarDoubleClickListener;
 import the.one.base.R;
-import the.one.base.util.StatusBarUtil;
 
 /**
  * 这是一个对 {@link QMUITopBar} 的代理类，需要它的原因是：
@@ -77,16 +75,11 @@ import the.one.base.util.StatusBarUtil;
  * @date 2016-11-26
  */
 
-public class MyTopBarLayout extends FrameLayout implements View.OnClickListener {
+public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultAttrProvider, View.OnClickListener {
 
-    private static final String TAG = "MyTopBarLayout";
+    private SimpleArrayMap<String, Integer> mDefaultSkinAttrs = new SimpleArrayMap<>(2);
 
     private MyTopBar mTopBar;
-    private Drawable mTopBarBgWithSeparatorDrawableCache;
-
-    private int mTopBarSeparatorColor;
-    private int mTopBarBgColor;
-    private int mTopBarSeparatorHeight;
 
     private OnTopBarDoubleClickListener onTopBarDoubleClickListener;
 
@@ -105,33 +98,26 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
 
     public MyTopBarLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.QMUITopBar, R.attr.QMUITopBarStyle, 0);
-        mTopBarSeparatorColor = array.getColor(R.styleable.QMUITopBar_qmui_topbar_separator_color,
-                ContextCompat.getColor(context, R.color.qmui_config_color_separator));
-        mTopBarSeparatorHeight = array.getDimensionPixelSize(R.styleable.QMUITopBar_qmui_topbar_separator_height, 1);
-        mTopBarBgColor = array.getColor(R.styleable.QMUITopBar_qmui_topbar_bg_color, Color.WHITE);
-        boolean hasSeparator = array.getBoolean(R.styleable.QMUITopBar_qmui_topbar_need_separator, true);
-
         // 构造一个透明的背景且无分隔线的TopBar，背景与分隔线有QMUITopBarLayout控制
-        mTopBar = new MyTopBar(context, true);
-        mTopBar.getCommonFieldFormTypedArray(context, array);
+        mDefaultSkinAttrs.put(QMUISkinValueBuilder.BOTTOM_SEPARATOR, R.attr.qmui_skin_support_topbar_separator_color);
+        mDefaultSkinAttrs.put(QMUISkinValueBuilder.BACKGROUND, R.attr.qmui_skin_support_topbar_bg);
+        mTopBar = new MyTopBar(context, attrs, defStyleAttr);
+        mTopBar.setBackground(null);
+        mTopBar.updateBottomDivider(0, 0, 0, 0);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 QMUIResHelper.getAttrDimen(context, R.attr.qmui_topbar_height));
         addView(mTopBar, lp);
 
-        array.recycle();
-        Drawable bgDrawable;
-        try {
-            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
-        } catch (Exception e) {
-            bgDrawable = null;
-        }
-        if (!StatusBarUtil.isTranslucent(getContext())) {
-            setBackgroundDividerEnabled(hasSeparator);
-        } else {
-            setBackground(bgDrawable);
-        }
+//        Drawable bgDrawable;
+//        try {
+//            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
+//            if (null != bgDrawable)
+//                setBackground(bgDrawable);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
     }
 
     public MyTopBar getTopBar() {
@@ -146,16 +132,12 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
         mTopBar.setCenterView(view);
     }
 
-    public TextView setTitle(int resId) {
+    public QMUIQQFaceView setTitle(int resId) {
         return mTopBar.setTitle(resId);
     }
 
-    public TextView setTitle(String title) {
+    public QMUIQQFaceView setTitle(String title) {
         return mTopBar.setTitle(title);
-    }
-
-    public TextView setEmojiTitle(String title) {
-        return mTopBar.setEmojiTitle(title);
     }
 
     public void showTitlteView(boolean toShow) {
@@ -166,8 +148,8 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
         mTopBar.setSubTitle(resId);
     }
 
-    public void setSubTitle(String subTitle) {
-        mTopBar.setSubTitle(subTitle);
+    public QMUIQQFaceView setSubTitle(String subTitle) {
+       return mTopBar.setSubTitle(subTitle);
     }
 
     public void setTitleGravity(int gravity) {
@@ -218,14 +200,6 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
         return mTopBar.addLeftBackImageButton();
     }
 
-    public int getTopBarBgColor() {
-        return mTopBarBgColor;
-    }
-
-    public void setTopBarBgColor(int mTopBarBgColor) {
-        this.mTopBarBgColor = mTopBarBgColor;
-    }
-
     public void removeAllLeftViews() {
         mTopBar.removeAllLeftViews();
     }
@@ -244,7 +218,7 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
      * @param alpha 取值范围：[0, 255]，255表示不透明
      */
     public void setBackgroundAlpha(int alpha) {
-        this.getBackground().setAlpha(alpha);
+        this.getBackground().mutate().setAlpha(alpha);
     }
 
     /**
@@ -262,23 +236,6 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
         return alphaInt;
     }
 
-    /**
-     * 设置是否要 Topbar 底部的分割线
-     *
-     * @param enabled true 为显示底部分割线，false 则不显示
-     */
-    public void setBackgroundDividerEnabled(boolean enabled) {
-        if (enabled) {
-            if (mTopBarBgWithSeparatorDrawableCache == null) {
-                mTopBarBgWithSeparatorDrawableCache = QMUIDrawableHelper.
-                        createItemSeparatorBg(mTopBarSeparatorColor, mTopBarBgColor, mTopBarSeparatorHeight, false);
-            }
-            QMUIViewHelper.setBackgroundKeepingPadding(this, mTopBarBgWithSeparatorDrawableCache);
-        } else {
-            QMUIViewHelper.setBackgroundColorKeepPadding(this, mTopBarBgColor);
-        }
-    }
-
 
     private long lastClickMillis = 0;     // 双击事件中，上次被点击时间
 
@@ -293,12 +250,13 @@ public class MyTopBarLayout extends FrameLayout implements View.OnClickListener 
         }
     }
 
+    public void setDefaultSkinAttr(String name, int attr) {
+        mDefaultSkinAttrs.put(name, attr);
+    }
 
-    /**
-     * 标题栏双击事件监听
-     */
-    public interface OnTopBarDoubleClickListener {
-        void onDoubleClicked(View v);
+    @Override
+    public SimpleArrayMap<String, Integer> getDefaultSkinAttrs() {
+        return mDefaultSkinAttrs;
     }
 }
 

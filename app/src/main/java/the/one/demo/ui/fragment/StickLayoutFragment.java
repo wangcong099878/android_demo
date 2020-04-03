@@ -1,10 +1,10 @@
 package the.one.demo.ui.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.demo.R;
@@ -67,7 +67,7 @@ public class StickLayoutFragment extends BaseDataFragment<GankBean> {
             }
         });
         // 这个控件会让Adapter一直触发OnLoadMoreListener，所以这里处理掉，所以不建议用这个控件有加载更多的操作
-        adapter.setOnLoadMoreListener(null,recycleView);
+        adapter.getLoadMoreModule().setOnLoadMoreListener(null);
         showLoadingPage();
     }
 

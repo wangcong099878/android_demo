@@ -22,6 +22,9 @@
     <color name="app_color_theme_9">#EE85C1</color> <!-- Pink Rose -->
 
 
+    <color name="white">#ffffffff</color>
+    <color name="black">@color/qmui_config_color_black</color>
+
     <color name="we_chat_black">#232323</color>
 
     <color name="divider_color">#eee</color>

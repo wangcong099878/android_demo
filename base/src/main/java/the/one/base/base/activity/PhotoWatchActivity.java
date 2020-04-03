@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -212,4 +212,11 @@ public class PhotoWatchActivity extends BaseActivity implements ImageWatchAdapte
 
     }
 
+    @Override
+    protected void onDestroy() {
+        if(null != adapter){
+            adapter.clear();
+        }
+        super.onDestroy();
+    }
 }

@@ -164,8 +164,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
             mTopBarLayout.setTitle(mTitle);
         } else {
             QMUIStatusBarHelper.setStatusBarLightMode(this);
-            mTopBarLayout.setTopBarBgColor(getColorr(R.color.white));
-            mTopBarLayout.setBackgroundDividerEnabled(true);
+            mTopBarLayout.getTopBar().setBackgroundColor(getColorr(R.color.qmui_config_color_white));
             mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

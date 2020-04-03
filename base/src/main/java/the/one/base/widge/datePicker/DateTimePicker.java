@@ -4,10 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +13,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -71,7 +71,7 @@ public class QSPSoupUtil {
                 }
                 if (!TextUtils.isEmpty(title)) {
                     if (isIndex && null != contents && contents.size() > 0)
-                        videoSections.add(new QSPVideoSection(true, title, QSPConstant.BASE_URL + titleRes, moreUrl));
+                        videoSections.add(new QSPVideoSection( title, QSPConstant.BASE_URL + titleRes, moreUrl));
                     parseVideo(contents, videoSections, null);
                 }
             }

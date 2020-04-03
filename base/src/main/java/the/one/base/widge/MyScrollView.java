@@ -1,8 +1,8 @@
 package the.one.base.widge;
 
 import android.content.Context;
-import android.support.v4.view.NestedScrollingChild;
-import android.support.v4.view.NestedScrollingChildHelper;
+import androidx.core.view.NestedScrollingChild;
+import androidx.core.view.NestedScrollingChildHelper;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 

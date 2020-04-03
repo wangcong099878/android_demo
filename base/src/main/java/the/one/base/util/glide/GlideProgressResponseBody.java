@@ -1,6 +1,7 @@
 package the.one.base.util.glide;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 
@@ -77,7 +78,6 @@ public class GlideProgressResponseBody extends ResponseBody {
             if (listener != null && totalBytesRead == fullLength) {
                 listener = null;
             }
-
             currentProgress = progress;
             return bytesRead;
         }

@@ -3,10 +3,6 @@ package the.one.aqtour.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +11,17 @@ import android.widget.TextView;
 
 import com.cb.ratingbar.CBRatingBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import the.one.aqtour.R;
 import the.one.aqtour.bean.QSPSeries;
@@ -146,7 +148,7 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
 
     private void initView() {
         mVideoAdapter = new QSPVideoAdapter();
-        mVideoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mVideoAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 QSPVideoSection videoSection = (QSPVideoSection) adapter.getItem(position);
@@ -393,7 +395,7 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
         return hidePopupWindow(mSeriesPopup);
     }
 
-    private BaseQuickAdapter.OnItemChildClickListener seriesClildClickListener = new BaseQuickAdapter.OnItemChildClickListener() {
+    private OnItemChildClickListener seriesClildClickListener = new OnItemChildClickListener() {
         @Override
         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
             getSeriesPlayPath(position);

@@ -24,7 +24,7 @@ import the.one.base.R;
  * @author ranjinrong
  * Create 2017-6-7
  */
-public class RoundImageView extends android.support.v7.widget.AppCompatImageView {
+public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView {
 	private int mBorderThickness = 0;
 	private Context mContext;
 	private int defaultColor = 0xFFFFFFFF;

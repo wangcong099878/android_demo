@@ -1,11 +1,11 @@
 package the.one.aqtour.m3u8downloader;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.File;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import the.one.aqtour.m3u8downloader.bean.M3U8;
 import the.one.aqtour.m3u8downloader.bean.M3U8Task;
 import the.one.aqtour.m3u8downloader.bean.M3U8TaskState;

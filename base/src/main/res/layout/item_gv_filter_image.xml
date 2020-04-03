@@ -39,8 +39,6 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/buybuybuy"
-            android:drawableLeft="@drawable/video_icon"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"

@@ -19,14 +19,15 @@ package the.one.aqtour.ui.presenter;
 //      ┗┻┛　┗┻┛
 
 
+import android.view.View;
+
 import com.rxjava.rxlife.RxLife;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import okhttp3.Call;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.util.QSPSoupUtil;
+import the.one.base.Interface.OnError;
 
 /**
  * @author The one
@@ -45,9 +46,14 @@ public class QSPSearchPresenter extends BaseVideoPresenter {
             .subscribe(s -> {
                 //请求成功
                 getView().onSuccess(QSPSoupUtil.parseSearchList(s));
-            }, throwable -> {
+            }, (OnError) error -> {
                 //请求失败
-               onFail(throwable.getMessage());
+               onFail(error.getErrorMsg(), new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       getSearchVideoList(search,page);
+                   }
+               });
             });
 
     }

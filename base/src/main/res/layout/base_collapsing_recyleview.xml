@@ -37,14 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/qmui_topbar_height"
                 android:fitsSystemWindows="true"
-                app:qmui_layout_collapseMode="pin"
-                app:qmui_topbar_bg_color="@color/qmui_config_color_transparent"
-                app:qmui_topbar_need_separator="false" />
+                app:qmui_layout_collapseMode="pin" />
         </the.one.base.widge.TheCollapsingTopBarLayout>
 
     </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

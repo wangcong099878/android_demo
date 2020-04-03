@@ -1,12 +1,13 @@
 package the.one.base.widge.datePicker;
 
 import android.content.Context;
-import android.support.annotation.IntRange;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.IntRange;
 
 import java.util.List;
 

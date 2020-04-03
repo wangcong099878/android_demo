@@ -1,11 +1,8 @@
 package the.one.base.util;
 
-import android.app.Activity;
-import android.content.Context;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
-
-import java.util.Map;
 
 import the.one.base.base.activity.UpdateApkActivity;
 import the.one.base.model.IApkUpdate;
@@ -18,41 +15,34 @@ import the.one.base.model.IApkUpdate;
  */
 public class UpdateApkUtil<T extends IApkUpdate>  {
 
-    protected Activity mContext;
-    protected QMUITipDialog loadingDialog;
-    protected boolean isShowProgress;
+    protected AppCompatActivity mContext;
+    private QMUITipDialog loadingDialog;
 
-    public void check(Activity activity, Map<String, Object> map, String url, final boolean isShowProgress) {
-        mContext = activity;
-        this.isShowProgress = isShowProgress;
-        if (isShowProgress) {
-            showCheckDialog();
-        }
-        if (!checkIsDownload(activity)) {
-        }
+    public UpdateApkUtil(AppCompatActivity mContext) {
+        this.mContext = mContext;
     }
 
-    protected boolean checkIsDownload(Context context) {
-        if (ServiceUtil.isDownloadApkServiceExisted(context)) {
-            QMUIDialogUtil.FailTipsDialog(context, "更新包正在下载中");
+    protected boolean checkIsDownload() {
+        if (ServiceUtil.isDownloadApkServiceExisted(mContext)) {
+            QMUIDialogUtil.FailTipsDialog(mContext, "更新包正在下载中");
             return true;
         } else
             return false;
     }
 
-    protected void onComplete(T response) {
+    protected void onComplete(T response,boolean showCheck) {
         if (response.isNewVersion()) {
             showNewVersionDialog(response);
-        } else if (isShowProgress) {
+        } else if (showCheck){
             showIsNewVersionDialog();
-            mContext = null;
         }
+        hideCheckDialog();
     }
 
     /**
      * 显示检查进度Dialog
      */
-    private void showCheckDialog() {
+    protected void showCheckDialog() {
         loadingDialog = QMUIDialogUtil.LoadingTipsDialog(mContext, "检查中");
         loadingDialog.show();
     }
@@ -60,7 +50,7 @@ public class UpdateApkUtil<T extends IApkUpdate>  {
     /**
      * 去掉检查进度Dialog
      */
-    public void hideCheckDialog() {
+    protected void hideCheckDialog() {
         if (null != loadingDialog && loadingDialog.isShowing()) {
             loadingDialog.dismiss();
         }
@@ -69,7 +59,7 @@ public class UpdateApkUtil<T extends IApkUpdate>  {
     /**
      * 显示已是最新提示语
      */
-    private void showIsNewVersionDialog() {
+    protected void showIsNewVersionDialog() {
         QMUIDialogUtil.SuccessTipsDialog(mContext, "已是最新版本", new QMUIDialogUtil.OnTipsDialogDismissListener() {
             @Override
             public void onDismiss() {
@@ -81,7 +71,7 @@ public class UpdateApkUtil<T extends IApkUpdate>  {
     /**
      * 显示新版本提示
      */
-    private void showNewVersionDialog(final T response) {
+    protected void showNewVersionDialog(final T response) {
         UpdateApkActivity.startDown(mContext,response);
     }
 

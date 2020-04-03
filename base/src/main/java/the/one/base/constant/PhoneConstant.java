@@ -32,7 +32,7 @@ import com.qmuiteam.qmui.util.QMUIDeviceHelper;
  */
 public class PhoneConstant {
 
-    public static boolean isHaveVibrator = false;
+    public static boolean isHaveVibrator = true;
 
     public static String[] bands = {"16th","16s"};
 

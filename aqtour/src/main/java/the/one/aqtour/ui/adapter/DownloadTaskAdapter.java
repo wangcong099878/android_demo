@@ -26,7 +26,7 @@ public class DownloadTaskAdapter extends TheBaseQuickAdapter<M3U8Task> {
     @Override
     protected void convert(TheBaseViewHolder helper, final M3U8Task item) {
         helper.setText(R.id.tv_name,item.getFullName());
-        GlideUtil.load(mContext,item.getCover(),helper.getImageView(R.id.cover));
+        GlideUtil.load(getContext(),item.getCover(),helper.getImageView(R.id.cover));
         TextView tvStatus = helper.getView(R.id.tv_status);
         QMUIProgressBar progressBar = helper.getView(R.id.progressbar);
         setStateText(tvStatus,progressBar, item);

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.qmuiteam.qmui.widget.QMUIWindowInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <com.qmuiteam.qmui.widget.QMUIViewPager
-        android:id="@+id/qmui_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:layout_marginBottom="@dimen/home_tab_height" />
+            android:id="@+id/qmui_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/home_tab_height"
+            android:overScrollMode="never" />
 
-    <the.one.base.widge.QMUITabSegment
-        android:id="@+id/tab_segment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/home_tab_height"
-        android:layout_gravity="bottom"
-        android:background="?attr/qmui_list_item_bg_with_border_top"
-        android:textSize="12sp"
-        app:qmui_tab_icon_position="top" />
+    <the.one.base.widge.tagsegment.TheTabSegment
+            android:id="@+id/tab_segment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_tab_height"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:textSize="12sp"
+            app:qmui_tab_icon_position="top" />
 
 </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>

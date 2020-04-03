@@ -1,9 +1,8 @@
 package the.one.aqtour.m3u8downloader.bean;
 
-import android.support.annotation.NonNull;
-
 import org.litepal.crud.LitePalSupport;
 
+import androidx.annotation.NonNull;
 import the.one.aqtour.m3u8downloader.utils.MD5Utils;
 
 

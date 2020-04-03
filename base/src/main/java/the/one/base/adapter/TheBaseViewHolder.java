@@ -3,7 +3,7 @@ package the.one.base.adapter;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 
 //  ┏┓　　　┏┓

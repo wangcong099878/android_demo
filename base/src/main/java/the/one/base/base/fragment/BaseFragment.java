@@ -1,17 +1,10 @@
 package the.one.base.base.fragment;
 
 import android.app.Activity;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,17 +23,24 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
 import the.one.base.util.EventBusUtil;
-import the.one.base.util.glide.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
+import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.MyTopBar;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ProgressDialog;
@@ -332,8 +332,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected void addTopBarBackBtn() {
-        if (null != mTopLayout)
+        if (null != mTopLayout){
             addTopBarBackBtn(mTopLayout.getTopBar());
+        }
     }
 
     protected void addTopBarBackBtn(MyTopBar topBar) {
@@ -636,4 +637,5 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         }
         super.onBackPressed();
     }
+
 }

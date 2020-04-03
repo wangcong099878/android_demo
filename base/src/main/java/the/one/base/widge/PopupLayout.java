@@ -8,14 +8,15 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.NestedScrollingParent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.view.NestedScrollingParent;
 
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
@@ -348,7 +349,7 @@ public class PopupLayout extends LinearLayout implements NestedScrollingParent {
     }
 
     private void setStatusBarWhite(){
-        setStatusBarColor(ContextCompat.getColor(getContext(),R.color.white));
+        setStatusBarColor(ContextCompat.getColor(getContext(),R.color.qmui_config_color_white));
     }
 
     private void setStatusBarColor(int color){

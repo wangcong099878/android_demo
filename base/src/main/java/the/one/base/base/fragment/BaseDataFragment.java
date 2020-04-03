@@ -18,30 +18,35 @@ package the.one.base.base.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUICenterGravityRefreshOffsetCalculator;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import the.one.base.Interface.IPageInfo;
+import the.one.base.Interface.OnTopBarDoubleClickListener;
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
-import the.one.base.widge.MyTopBarLayout;
-import the.one.base.widge.WWPullRefreshLayout;
 import the.one.base.widge.decoration.SpacesItemDecoration;
+import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
-import static android.support.v7.widget.RecyclerView.*;
+import static androidx.recyclerview.widget.RecyclerView.LayoutManager;
+import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
  * @author The one
@@ -51,8 +56,8 @@ import static android.support.v7.widget.RecyclerView.*;
  * @remark
  */
 public abstract class BaseDataFragment<T> extends BaseFragment
-        implements BaseDataView<T>, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemLongClickListener,
-        QMUIPullRefreshLayout.OnPullListener, MyTopBarLayout.OnTopBarDoubleClickListener {
+        implements BaseDataView<T>, OnItemClickListener, OnItemLongClickListener,
+        QMUIPullRefreshLayout.OnPullListener, OnTopBarDoubleClickListener {
 
     /**
      * List
@@ -110,7 +115,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     protected RecyclerView recycleView;
     protected BaseQuickAdapter adapter;
     protected LayoutManager layoutManager;
-    protected WWPullRefreshLayout pullLayout;
+    protected PullRefreshLayout pullLayout;
 
     public IPageInfo pageInfoBean;
     public String empty_str = "无数据";
@@ -147,19 +152,22 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     protected void initAdapter() {
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+        adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMoreRequested() {
+            public void onLoadMore() {
                 requestServer();
             }
-        }, recycleView);
-        adapter.disableLoadMoreIfNotFullPage();
+        });
+//        adapter.addLoadMoreModule(new BaseQuickAdapter.RequestLoadMoreListener() {
+//            @Override
+//            public void onLoadMoreRequested() {
+//            }
+//        }, recycleView);
+        adapter.getLoadMoreModule().checkDisableLoadMoreIfNotFullPage();
         // 打开动画效果
-        adapter.openLoadAnimation();
+        adapter.setAnimationEnable(true);
         // 动画一直执行
-        adapter.isFirstOnly(true);
-        adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        adapter.setNotDoAnimationCount(10);
+        adapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.AlphaIn);
     }
 
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
@@ -289,7 +297,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             showToast(errorMsg);
             onHeadFreshSuccess();
         } else {
-            adapter.loadMoreFail();
+            adapter.getLoadMoreModule().loadMoreFail();
         }
     }
 
@@ -304,11 +312,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     public void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyStr, String btnString, View.OnClickListener listener) {
         if (null == data || data.size() == 0) {
             if (isFirst || isHeadFresh) {
-                adapter.setNewData(data);
+                adapter.setNewInstance(data);
                 if (isHeadFresh) onHeadFreshSuccess();
                 showEmptyPage(emptyStr, btnString, listener);
             } else {
-                adapter.loadMoreEnd();
+                adapter.getLoadMoreModule().loadMoreEnd();
             }
         } else {
             if (isFirst) {
@@ -325,14 +333,14 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     protected void onFirstComplete(List<T> data) {
         showView(flBottomLayout);
         showView(flTopLayout);
-        adapter.setNewData(data);
+        adapter.setNewInstance(data);
         showContentPage();
         setPullLayoutEnabled(true);
         isFirst = false;
     }
 
     protected void onHeadFreshComplete(List<T> data) {
-        adapter.setNewData(data);
+        adapter.setNewInstance(data);
         onHeadFreshSuccess();
     }
 
@@ -353,9 +361,9 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         this.pageInfoBean = mPageInfo;
         if (null == mPageInfo || mPageInfo.getPageTotalCount() > mPageInfo.getCurrentPage()) {
             page++;
-            adapter.loadMoreComplete();
+            adapter.getLoadMoreModule().loadMoreComplete();
         } else {
-            adapter.loadMoreEnd(mPageInfo.getPageTotalCount() == 1);
+            adapter.getLoadMoreModule().loadMoreEnd(mPageInfo.getPageTotalCount() == 1);
         }
     }
 
@@ -371,7 +379,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      */
     @Override
     public void onNormal() {
-        adapter.loadMoreEnd(true);
+        adapter.getLoadMoreModule().loadMoreEnd(true);
         setPullLayoutEnabled(false);
         showView(flBottomLayout);
         showView(flTopLayout);

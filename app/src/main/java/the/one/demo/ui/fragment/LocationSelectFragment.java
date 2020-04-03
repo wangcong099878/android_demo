@@ -1,10 +1,10 @@
 package the.one.demo.ui.fragment;
 
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
+import androidx.fragment.app.FragmentManager;
 import the.one.base.Interface.OnAddressSelectorListener;
 import the.one.base.base.fragment.AddressSelectorFragment;
 import the.one.base.base.fragment.BaseGroupListFragment;

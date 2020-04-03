@@ -56,12 +56,12 @@ public class WelfareAdapter extends TheBaseQuickAdapter<GankBean> {
         ScaleImageView imageView = helper.getView(R.id.girl_item_iv);
         String refer = item.getRefer();
         if (TextUtils.isEmpty(refer)) {
-            GlideUtil.load(mContext, item.getImageUrl(), imageView);
+            GlideUtil.load(getContext(), item.getImageUrl(), imageView);
         } else {
             GlideUrl glideUrl = new GlideUrl(item.getImageUrl(), new LazyHeaders.Builder()
                     .addHeader("Referer", refer)
                     .build());
-            Glide.with(mContext).load(glideUrl).into(imageView);
+            Glide.with(getContext()).load(glideUrl).into(imageView);
         }
     }
 

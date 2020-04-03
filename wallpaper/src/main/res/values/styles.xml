@@ -2,13 +2,6 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
-        <item name="qmui_topbar_height">50dp</item>
-        <item name="QMUITopBarStyle">@style/TopBarStyle</item>
-    </style>
-
-    <style name="TopBarStyle" parent="TopBarWhite">
-        <item name="qmui_topbar_bg_color">@color/white</item>
-        <item name="qmui_topbar_need_separator">false</item>
     </style>
 
 </resources>

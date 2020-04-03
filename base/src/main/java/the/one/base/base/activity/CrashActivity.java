@@ -19,32 +19,32 @@ package the.one.base.base.activity;
 //      ┗┻┛　┗┻┛
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.base.constant.DataConstant;
-import the.one.base.model.CrashModel;
-import the.one.base.util.AppInfoManager;
 import the.one.base.util.FileUtils;
+import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.ShareUtil;
+import the.one.base.util.crash.CrashConfig;
+import the.one.base.util.crash.CrashUtil;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.ThePopupWindow;
 
@@ -57,10 +57,6 @@ import the.one.base.widge.ThePopupWindow;
  */
 public class CrashActivity extends BaseActivity {
 
-    @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private CrashModel model;
-
     protected View mRoot;
     private MyTopBarLayout mTopBarLayout;
     protected View mErrorLayout;
@@ -68,6 +64,8 @@ public class CrashActivity extends BaseActivity {
     private AppCompatImageView ivClose,ivCrash;
     private TextView tvShowErrorInfo;
     private QMUIRoundButton mReportError,mReStart;
+    private CrashConfig mConfig;
+    private String mDetailErrorStr;
 
     @Override
     protected boolean isStatusBarLightMode() {
@@ -82,15 +80,15 @@ public class CrashActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void initView(View mRootView) {
-        model = getIntent().getParcelableExtra(DataConstant.DATA);
-        if (model == null) return;
+        mConfig = CrashUtil.getConfigFromIntent(getIntent());
+        if (mConfig == null) return;
+        mDetailErrorStr = CrashUtil.getAllErrorDetailsFromIntent(CrashActivity.this, getIntent());
         mRoot = findViewById(R.id.root);
         mTopBarLayout = findViewById(R.id.top_layout);
         tvShowErrorInfo = findViewById(R.id.tv_show_info_layout);
         ivCrash = findViewById(R.id.iv_crash);
         mReportError = findViewById(R.id.report_error);
         mReStart = findViewById(R.id.restart);
-
 
         TypedArray array = obtainStyledAttributes(null, R.styleable.CrashLayout, R.attr.CrashLayoutStyle, 0);
         Drawable crash_drawable = array.getDrawable(R.styleable.CrashLayout_crash_drawable);
@@ -105,7 +103,7 @@ public class CrashActivity extends BaseActivity {
         tvShowErrorInfo.setText(crash_show_info);
         mReportError.setText(crash_report_tip);
         mTopBarLayout.setTitle(crash_title).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
-        mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
+        mTopBarLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_white));
 
         initErrorInfoLayout();
 
@@ -124,9 +122,17 @@ public class CrashActivity extends BaseActivity {
         mReStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppInfoManager.restartApp(CrashActivity.this);
+                restartAPP();
             }
         });
+    }
+
+    /**
+     * 获取错误信息
+     * @return
+     */
+    protected String getDetailErrorStr(){
+        return mDetailErrorStr;
     }
 
     /**
@@ -134,10 +140,37 @@ public class CrashActivity extends BaseActivity {
      * 默认发送错误图片
      */
     protected void reportError(){
-        saveErrorImage();
+        shareErrorContent();
     }
 
-    private void saveErrorImage() {
+    /**
+     * 重启APP
+     */
+    protected void restartAPP(){
+        CrashUtil.restartApplication(CrashActivity.this, mConfig);
+    }
+
+    /**
+     * 复制到剪切板
+     */
+    protected void copyErrorInfo(){
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        // 将文本内容放到系统剪贴板里。
+        cm.setPrimaryClip(ClipData.newPlainText("崩溃日志", mDetailErrorStr));
+        QMUIDialogUtil.SuccessTipsDialog(CrashActivity.this, "复制成功");
+    }
+
+    /**
+     * 分享文本内容
+     */
+    protected void shareErrorContent(){
+        ShareUtil.shareText(CrashActivity.this,"发送错误报告",mDetailErrorStr);
+    }
+
+    /**
+     * 分享错误信息图片
+     */
+    protected void saveErrorImage() {
         showLoadingDialog("打印病例中...");
         Bitmap bt = getBitmapByView();
         if (null == bt) showFailTips("图片获取失败");
@@ -149,7 +182,7 @@ public class CrashActivity extends BaseActivity {
         ShareUtil.shareImageFile(this, saveFile, "快点抢救吧~");
     }
 
-    public Bitmap getBitmapByView() {
+    protected Bitmap getBitmapByView() {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         int height = 0;
         for (int i = 0; i < mErrorInfoLayout.getChildCount(); i++) {
@@ -168,33 +201,13 @@ public class CrashActivity extends BaseActivity {
         mErrorLayout = getView(R.layout.custom_crash_info);
         mErrorInfoLayout = mErrorLayout.findViewById(R.id.error_layout);
         TextView textMessage = mErrorLayout.findViewById(R.id.textMessage);
-        TextView tv_className = mErrorLayout.findViewById(R.id.tv_className);
-        TextView tv_methodName = mErrorLayout.findViewById(R.id.tv_methodName);
-        TextView tv_lineNumber = mErrorLayout.findViewById(R.id.tv_lineNumber);
-        TextView tv_exceptionType = mErrorLayout.findViewById(R.id.tv_exceptionType);
-        TextView tv_fullException = mErrorLayout.findViewById(R.id.tv_fullException);
-        TextView tv_time = mErrorLayout.findViewById(R.id.tv_time);
-        TextView tv_model = mErrorLayout.findViewById(R.id.tv_model);
-        TextView tv_brand = mErrorLayout.findViewById(R.id.tv_brand);
-        TextView tv_version = mErrorLayout.findViewById(R.id.tv_version);
         mErrorLayout.findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mErrorInfoPop.hide();
             }
         });
-
-        textMessage.setText(model.getExceptionMsg());
-        tv_className.setText(model.getFileName());
-        tv_methodName.setText(model.getMethodName());
-        tv_lineNumber.setText(String.valueOf(model.getLineNumber()));
-        tv_exceptionType.setText(model.getExceptionType());
-        tv_fullException.setText(model.getFullException());
-        tv_time.setText(df.format(model.getTime()));
-        CrashModel.Device device = model.getDevice();
-        tv_model.setText(device.getModel());
-        tv_brand.setText(device.getBrand());
-        tv_version.setText(device.getVersion());
+        textMessage.setText(mDetailErrorStr);
     }
 
     protected ThePopupWindow mErrorInfoPop;
@@ -218,13 +231,6 @@ public class CrashActivity extends BaseActivity {
     @Override
     public BasePresenter getPresenter() {
         return null;
-    }
-
-    public static void handleException(Context context, CrashModel model) {
-        Intent intent = new Intent(context, CrashActivity.class);
-        intent.putExtra(DataConstant.DATA, model);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
     }
 
 }

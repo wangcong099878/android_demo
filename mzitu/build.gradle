@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion parent.ext.compileSdkVersion
+    buildToolsVersion = parent.ext.buildVersion
 
     defaultConfig {
+        minSdkVersion parent.ext.minSdkVersion
+        targetSdkVersion parent.ext.targetSdkVersion
         applicationId "the.one.mzitu"
-        minSdkVersion 21
-        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -32,7 +32,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':base')
-    implementation 'org.jsoup:jsoup:1.11.3'
-    annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:2.0.0' //注解处理器，生成RxHttp类,必须
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation "org.jsoup:jsoup:$jsoupVersion"
+    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }

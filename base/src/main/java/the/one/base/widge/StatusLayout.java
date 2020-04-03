@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
@@ -45,7 +46,7 @@ public class StatusLayout extends RelativeLayout {
     List<View> contentViews = new ArrayList<>();
 
     RelativeLayout loadingStateRelativeLayout;
-    View loadingStateProgressBar;
+    ProgressWheel loadingStateProgressBar;
 
     RelativeLayout emptyStateRelativeLayout;
     ImageView emptyStateImageView;
@@ -107,10 +108,10 @@ public class StatusLayout extends RelativeLayout {
 
         //Loading state attrs
         loadingStateProgressBarWidth =
-                typedArray.getDimensionPixelSize(R.styleable.StatusLayout_loadingProgressBarWidth, 100);
+                typedArray.getDimensionPixelSize(R.styleable.StatusLayout_loadingProgressBarWidth, 30);
 
         loadingStateProgressBarHeight =
-                typedArray.getDimensionPixelSize(R.styleable.StatusLayout_loadingProgressBarHeight, 100);
+                typedArray.getDimensionPixelSize(R.styleable.StatusLayout_loadingProgressBarHeight, 30);
 
         loadingStateBackgroundColor =
                 typedArray.getColor(R.styleable.StatusLayout_loadingBackgroundColor, Color.TRANSPARENT);
@@ -363,10 +364,6 @@ public class StatusLayout extends RelativeLayout {
 
             loadingStateProgressBar = view.findViewById(R.id.loading_view);
 
-            loadingStateProgressBar.getLayoutParams().width = loadingStateProgressBarWidth;
-            loadingStateProgressBar.getLayoutParams().height = loadingStateProgressBarHeight;
-            loadingStateProgressBar.requestLayout();
-
             //Set background type_color_selector if not TRANSPARENT
             if (loadingStateBackgroundColor != Color.TRANSPARENT) {
                 this.setBackgroundColor(loadingStateBackgroundColor);
@@ -381,6 +378,7 @@ public class StatusLayout extends RelativeLayout {
             loadingStateRelativeLayout.setVisibility(VISIBLE);
         }
     }
+
 
     private void setEmptyView() {
         if (emptyStateRelativeLayout == null) {
@@ -490,6 +488,14 @@ public class StatusLayout extends RelativeLayout {
                 this.setBackgroundDrawable(currentBackground);
             }
         }
+    }
+
+    public ProgressWheel getLoadingStateProgressBar() {
+        return loadingStateProgressBar;
+    }
+
+    public RelativeLayout getLoadingStateRelativeLayout() {
+        return loadingStateRelativeLayout;
     }
 
     public static class Builder {

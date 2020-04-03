@@ -1,6 +1,6 @@
 package the.one.base.util;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -9,6 +9,8 @@ import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
 import java.util.List;
+
+import the.one.base.util.glide.GlideEngine;
 
 /**
  * @author The one
@@ -42,6 +44,7 @@ public class SelectPictureUtil {
     public void initSelectPicture(Fragment fragment, List<LocalMedia> selectList, boolean showCamera, boolean crop,boolean compress,  int spanCount, int mode, int maxSelect) {
         PictureSelector.create(fragment)
                 .openGallery(PictureMimeType.ofImage())
+                .loadImageEngine(GlideEngine.createGlideEngine())
                 .isCamera(showCamera)
                 .imageSpanCount(spanCount)// 每行显示个数 int
                 .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
@@ -57,7 +60,7 @@ public class SelectPictureUtil {
                 .openClickSound(false)// 是否开启点击声音 true or false
                 .rotateEnabled(true) // 裁剪是否可旋转图片 true or false
                 .scaleEnabled(true)// 裁剪是否可放大缩小图片 true or false
-                .cropCompressQuality(50)// 裁剪压缩质量 默认90 int
+                .cutOutQuality(50)// 裁剪压缩质量 默认90 int
                 .minimumCompressSize(1000)// 小于100kb的图片不压缩
                 .compressSavePath(FileDirectoryUtil.getCachePath())//压缩图片保存地址
                 .setOutputCameraPath(File.separator + FileDirectoryUtil.getIndexPath() + File.separator + FileDirectoryUtil.getPicturePath())
@@ -73,11 +76,12 @@ public class SelectPictureUtil {
                                 int maxSecond, int minSecond, int recordSecond) {
         PictureSelector.create(fragment)
                 .openGallery(PictureMimeType.ofVideo())
+                .loadImageEngine(GlideEngine.createGlideEngine())
                 .isCamera(showCamera)
                 .imageSpanCount(spanCount)// 每行显示个数 int
                 .selectionMode(PictureConfig.SINGLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                 .compress(isCompress)// 是否压缩 true or false
-                .cropCompressQuality(compressRate)
+                .cutOutQuality(compressRate)
                 .withAspectRatio(1, 1)
                 .hideBottomControls(true)
                 .openClickSound(false)// 是否开启点击声音 true or false
@@ -88,4 +92,5 @@ public class SelectPictureUtil {
                 .recordVideoSecond(recordSecond)//视频秒数录制 默认60s int
                 .forResult(PictureConfig.CHOOSE_REQUEST);
     }
+
 }

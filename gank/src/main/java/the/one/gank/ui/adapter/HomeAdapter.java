@@ -1,6 +1,6 @@
 package the.one.gank.ui.adapter;
 
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.widget.section.QMUISection;

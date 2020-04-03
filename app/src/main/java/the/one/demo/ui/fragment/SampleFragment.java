@@ -42,7 +42,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("使用示例");
+        mTopLayout.setTitle("使用示例").getPaint().setFakeBoldText(true);
         PICTURE_SELECTOR = CreateDetailItemView("BasePictureSelectorFragment", "选择图片、视频、音频", false, true);
         WEB_VIEW = CreateDetailItemView("BaseWebExplorerActivity", "网页", true);
         PULL_EXTEND = CreateDetailItemView("BasePullExtendFragment", "下拉菜单", true);
@@ -62,7 +62,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
         CRASH  = CreateDetailItemView("App Crash","当程序崩溃后...",true);
         SEARCH_VIEW = CreateDetailItemView("TheSearchView","带有删除按键的SearchView",true);
-        POPUP_WINDOW = CreateDetailItemView("ThePopupWindow","带有进出动画的PopupWindow",true);
+        POPUP_WINDOW = CreateDetailItemView("ThePopupWindow","带有进出动画的PopupWindow",false,true);
         STICK_LAYOUT = CreateDetailItemView("StickLayout","让其任意一个直接子控件滑动时停留在顶部",false,true);
 
 
@@ -70,7 +70,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
         addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT);
         addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,CRASH);
-        addToGroup(TEST);
+//        addToGroup(TEST);
     }
 
     @Override

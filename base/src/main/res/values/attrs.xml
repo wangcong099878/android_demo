@@ -7,6 +7,7 @@
     <attr name="config_bg_color" format="color"/>
     <attr name="tab_normal_color" format="color"/>
     <attr name="tab_select_color" format="color"/>
+    <attr name="glide_fail_drawable" format="reference"/>
 
     <attr name="CrashLayoutStyle" format="reference"/>
 

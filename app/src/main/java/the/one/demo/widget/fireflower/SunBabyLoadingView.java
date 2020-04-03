@@ -9,13 +9,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
+
+import androidx.annotation.NonNull;
 
 
 public class SunBabyLoadingView extends View {

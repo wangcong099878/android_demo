@@ -1,17 +1,17 @@
 package the.one.demo.ui.fragment;
 
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.base.fragment.BasePullExtendFragment;
 import the.one.demo.R;
-import the.one.demo.widget.OverFlyingLayoutManager;
-import the.one.demo.ui.adapter.PullExtendAdapter;
 import the.one.demo.bean.SimpleBean;
+import the.one.demo.ui.adapter.PullExtendAdapter;
+import the.one.demo.widget.OverFlyingLayoutManager;
 
 
 //  ┏┓　　　┏┓

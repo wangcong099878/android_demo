@@ -48,7 +48,35 @@ import java.util.List;
  */
 public class ShareUtil {
 
-    public static void shareImageFile(Context context,File file,String title) {
+    public static final String PACKAGE_WECHAT = "com.tencent.mm";
+    public static final String PACKAGE_MOBILE_QQ = "com.tencent.mobileqq";
+    public static final String PACKAGE_QZONE = "com.qzone";
+    public static final String PACKAGE_SINA = "com.sina.weibo";
+    /**
+     * 微信7.0版本号，兼容处理微信7.0版本分享到朋友圈不支持多图片的问题
+     */
+    private static final int VERSION_CODE_FOR_WEI_XIN_VER7 = 1380;
+
+
+
+    //分享文字
+    public static void shareText(Context context, String shareText) {
+        shareText(context, "分享到", shareText);
+    }
+
+    //分享文字
+    public static void shareText(Context context, String title, String shareText) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        shareIntent.setType("text/plain");
+
+        //设置分享列表的标题，并且每次都显示分享列表
+        context.startActivity(Intent.createChooser(shareIntent, title));
+    }
+
+
+    public static void shareImageFile(Context context, File file, String title) {
         if (file != null) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
@@ -71,16 +99,6 @@ public class ShareUtil {
             context.startActivity(Intent.createChooser(intent, title));
         }
     }
-
-    public static final String PACKAGE_WECHAT = "com.tencent.mm";
-    public static final String PACKAGE_MOBILE_QQ = "com.tencent.mobileqq";
-    public static final String PACKAGE_QZONE = "com.qzone";
-    public static final String PACKAGE_SINA = "com.sina.weibo";
-
-    /**
-     * 微信7.0版本号，兼容处理微信7.0版本分享到朋友圈不支持多图片的问题
-     */
-    private static final int VERSION_CODE_FOR_WEI_XIN_VER7 = 1380;
 
     // 判断是否安装指定app
     public static boolean isInstallApp(Context context, String app_package) {
@@ -120,7 +138,7 @@ public class ShareUtil {
                 mContext.startActivity(shareIntent);
 //                mContext.startActivity(Intent.createChooser(shareIntent, "Share"));
             } catch (Exception e) {
-                QMUIDialogUtil.FailTipsDialog(mContext,"分享图片到QQ失败");
+                QMUIDialogUtil.FailTipsDialog(mContext, "分享图片到QQ失败");
             }
         } else {
             Toast.makeText(mContext, "您需要安装QQ客户端", Toast.LENGTH_LONG).show();
@@ -167,7 +185,7 @@ public class ShareUtil {
                     mContext.startActivity(intent);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    QMUIDialogUtil.FailTipsDialog(mContext,"分享图片到微信失败");
+                    QMUIDialogUtil.FailTipsDialog(mContext, "分享图片到微信失败");
                 }
             }
 

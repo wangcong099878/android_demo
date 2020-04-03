@@ -1,29 +1,23 @@
 package the.one.gank.ui.presenter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.rxjava.rxlife.RxLife;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
+import the.one.base.Interface.OnError;
 import the.one.base.base.presenter.BaseDataPresenter;
-import the.one.base.util.ExceptionHelper;
 import the.one.gank.bean.GankBean;
 import the.one.gank.constant.NetUrlConstant;
 
@@ -68,9 +62,9 @@ public class GankPresenter extends BaseDataPresenter<GankBean> {
                         onComplete(s, null, "无" + type + "相关数据");
                     } else
                         parseSize(context, s);
-                }, throwable -> {
+                }, (OnError) error -> {
                     //请求失败
-                    onFail(ExceptionHelper.handleNetworkException(throwable));
+                    onFail(error.getErrorMsg());
                 });
     }
 

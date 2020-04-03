@@ -1,8 +1,8 @@
 package the.one.base.util;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Application;
+
+import com.tencent.mmkv.MMKV;
 
 /**
  * @author The one
@@ -13,88 +13,72 @@ import android.content.SharedPreferences;
  */
 public class SpUtil {
 
-    private static SpUtil spUtil;
-    private static SharedPreferences preferences;
-    private static SharedPreferences.Editor editor;
+    private static SpUtil spUtil = null;
+    private static MMKV kv = null;
 
     public static SpUtil getInstance() {
         if (spUtil == null) {
             spUtil = new SpUtil();
         }
+        if(null == kv){
+            kv = MMKV.defaultMMKV();
+        }
         return spUtil;
     }
 
-    public void init(Context context) {
-        init(context, context.getPackageName());
-    }
-
-    @SuppressLint("CommitPrefEdits")
-    public void init(Context context, String sharedName) {
-        preferences = context.getSharedPreferences(sharedName, Context.MODE_MULTI_PROCESS);
-        editor = preferences.edit();
+    public static void init(Application context) {
+        MMKV.initialize(context);
     }
 
     public String getString(String key) {
-        String s = preferences.getString(key, null);
-        return s;
+        return getString(key,null);
     }
 
     public String getString(String key, String value) {
-        String s = preferences.getString(key, value);
-        return s;
+        return kv.decodeString(key,value);
     }
 
     public void putString(String key, String value) {
-        editor.putString(key, value);
-        editor.commit();
+        kv.encode(key,value);
     }
 
     public int getInt(String key, int value) {
-        int s = preferences.getInt(key, value);
-        return s;
+        return kv.decodeInt(key,value);
     }
 
     public void putInt(String key, int value) {
-        editor.putInt(key, value);
-        editor.commit();
-    }
-
-    public boolean getBoolean(String key, boolean value) {
-        boolean s = preferences.getBoolean(key, value);
-        return s;
+        kv.encode(key,value);
     }
 
     public boolean getBoolean(String key) {
-        boolean s = preferences.getBoolean(key, false);
-        return s;
+        return getBoolean(key,false);
+    }
+
+    public boolean getBoolean(String key, boolean value) {
+        return kv.decodeBool(key,value);
     }
 
     public void putBoolean(String key, boolean value) {
-        editor.putBoolean(key, value);
-        editor.commit();
+        kv.encode(key,value);
     }
 
     public long getLong(String key, long value) {
-        long s = preferences.getLong(key, value);
-        return s;
+        return kv.decodeLong(key,value);
     }
 
     public void putLong(String key, long value) {
-        editor.putLong(key, value);
-        editor.commit();
+        kv.encode(key,value);
     }
 
     public float getFloat(String key, float value) {
-        float s = preferences.getFloat(key, value);
-        return s;
+        return kv.decodeFloat(key,value);
     }
 
     public void putFloat(String key, float value) {
-        editor.putFloat(key, value);
-        editor.commit();
+        kv.encode(key,value);
     }
 
     public void clear() {
-        editor.clear();
+        kv.clearAll();
     }
 }

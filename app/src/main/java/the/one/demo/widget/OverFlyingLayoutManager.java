@@ -1,13 +1,14 @@
 package the.one.demo.widget;
 
 import android.graphics.Rect;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntRange;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.IntRange;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by LuckyCrystal on 2017/6/6.

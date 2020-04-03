@@ -15,10 +15,17 @@ public interface IPageInfo {
      * @return
      */
     int getCurrentPage();
+
     /**
      * 页数内容数量
      * @return
      */
     int getPageSize();
+
+    /**
+     * 内容数量
+     * @return
+     */
+    int getTotalCount();
 
 }

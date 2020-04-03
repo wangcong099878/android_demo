@@ -2,8 +2,6 @@ package the.one.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.multidex.MultiDexApplication;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -11,10 +9,14 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 
-import the.one.base.constant.PhoneConstant;
+import androidx.annotation.Nullable;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
+import the.one.base.base.activity.CrashActivity;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
-import the.one.base.util.SpiderMan;
+import the.one.base.util.crash.CrashConfig;
+import the.one.base.util.crash.CrashUtil;
 
 
 //  ┏┓　　　┏┓
@@ -42,29 +44,47 @@ import the.one.base.util.SpiderMan;
  * @email 625805189@qq.com
  * @remark
  */
-public class BaseApplication extends MultiDexApplication {
+public abstract class BaseApplication extends MultiDexApplication {
 
     @SuppressLint("StaticFieldLeak")
-    private static Context context;
+    protected static Context context;
 
     public static Context getInstance() {
         return context;
     }
 
+    protected abstract Class getStartActivity();
+
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
-        initSpiderMan();
+        CrashUtil.install(this);
+        MultiDex.install(this);
+        initCrashConfig();
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance(this).register();
-        SpUtil.getInstance().init(this);
+        SpUtil.init(this);
         initLogger();
-        PhoneConstant.init(context);
     }
 
-    protected void initSpiderMan() {
-        SpiderMan.init(this);
+    /**
+     * @TODO 初始化异常捕捉配置
+     * @remark https://github.com/Ereza/CustomActivityOnCrash
+     */
+    protected void initCrashConfig(){
+        CrashConfig.Builder.create()
+                .backgroundMode(CrashConfig.BACKGROUND_MODE_SHOW_CUSTOM)
+                .enabled(true)
+                .trackActivities(true)
+                .minTimeBetweenCrashesMs(2000)
+                // 重启的 Activity
+                .restartActivity(getStartActivity())
+                // 错误的 Activity
+                .errorActivity(CrashActivity.class)
+                // 设置监听器
+//                .eventListener(new YourCustomEventListener())
+                .apply();
     }
 
     protected void initLogger() {
@@ -72,22 +92,14 @@ public class BaseApplication extends MultiDexApplication {
                 .showThreadInfo(true)      //（可选）是否显示线程信息。 默认值为true
                 .methodCount(2)               // （可选）要显示的方法行数。 默认2
                 .methodOffset(7)               // （可选）设置调用堆栈的函数偏移值，0的话则从打印该Log的函数开始输出堆栈信息，默认是0
-                .tag(setLoggerName())                  //（可选）每个日志的全局标记。 默认PRETTY_LOGGER（如上图）
+                .tag(getString(R.string.app_name))                  //（可选）每个日志的全局标记。 默认PRETTY_LOGGER（如上图）
                 .build();
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
             @Override
             public boolean isLoggable(int priority, @Nullable String tag) {
-                return isDebug();
+                return BuildConfig.DEBUG;
             }
         });
-    }
-
-    protected boolean isDebug() {
-        return true;
-    }
-
-    protected String setLoggerName() {
-        return getString(R.string.app_name);
     }
 
 }

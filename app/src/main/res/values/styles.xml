@@ -4,8 +4,8 @@
     <style name="AppTheme" parent="BaseTheme">
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_6</item>
+        <item name="QMUITopBarStyle">@style/TopBarWhite</item>
 
-        <item name="qmui_topbar_height">50dp</item>
         <!--TopBar主题设置-->
         <!-- 1. 白色背景-->
 <!--        <item name="QMUITopBarStyle">@style/TopBarWhite</item>-->
@@ -14,12 +14,11 @@
 <!--        <item name="QMUITopBarStyle">@style/TopBarStyle</item>-->
 
         <!-- 3. 渐变色的背景-->
-        <item name="qmui_topbar_bg_drawable">@drawable/main_ripple_bg</item>
+<!--        <item name="qmui_topbar_bg_drawable">@drawable/main_ripple_bg</item>-->
 
     </style>
 
     <style name="TopBarStyle" parent="TopBarDark">
-        <item name="qmui_topbar_bg_color">@color/app_color_theme_6</item>
         <item name="qmui_topbar_title_gravity">left_center</item>
     </style>
 

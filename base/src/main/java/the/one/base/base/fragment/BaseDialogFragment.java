@@ -3,12 +3,13 @@ package the.one.base.base.fragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import androidx.fragment.app.DialogFragment;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 

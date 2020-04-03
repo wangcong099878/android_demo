@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <the.one.base.widge.WWPullRefreshLayout
+    <the.one.base.widge.pullrefresh.PullRefreshLayout
         android:id="@+id/pullLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,6 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    </the.one.base.widge.WWPullRefreshLayout>
+    </the.one.base.widge.pullrefresh.PullRefreshLayout>
 
 </RelativeLayout>

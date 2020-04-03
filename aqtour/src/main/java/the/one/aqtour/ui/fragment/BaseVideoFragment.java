@@ -43,7 +43,7 @@ public abstract class BaseVideoFragment extends BaseDataFragment<QSPVideoSection
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         QSPVideoSection section = (QSPVideoSection) adapter.getItem(position);
-        if (null != section && !section.isHeader) {
+        if (null != section && !section.isHeader()) {
             VideoPlayActivity.startThisActivity(_mActivity, section.t);
         }
     }

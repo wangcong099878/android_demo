@@ -1,14 +1,14 @@
 package the.one.aqtour.bean;
 
-import com.chad.library.adapter.base.entity.SectionEntity;
+import the.one.base.model.BaseSectionEntity;
 
-public class QSPVideoSection extends SectionEntity<QSPVideo> {
+public class QSPVideoSection extends BaseSectionEntity<QSPVideo> {
 
     public String moreUrl;
     public String headRes;
 
-    public QSPVideoSection(boolean isHeader, String header,String headRes,String moreUrl) {
-        super(isHeader, header);
+    public QSPVideoSection(String header,String headRes,String moreUrl) {
+        super(header);
         this.headRes = headRes;
         this.moreUrl = moreUrl;
     }
@@ -16,6 +16,5 @@ public class QSPVideoSection extends SectionEntity<QSPVideo> {
     public QSPVideoSection(QSPVideo qspVideo) {
         super(qspVideo);
     }
-
 
 }

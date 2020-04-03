@@ -21,13 +21,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
-import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
+import androidx.core.view.ViewCompat;
 
 import com.qmuiteam.qmui.util.QMUIDeviceHelper;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;

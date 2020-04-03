@@ -1,10 +1,15 @@
 package the.one.base.widge;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogBuilder;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogView;
 
 
 //  ┏┓　　　┏┓
@@ -38,9 +43,11 @@ public class UpdateApkDialogBuilder extends QMUIDialogBuilder<UpdateApkDialogBui
         super(context);
     }
 
+    @Nullable
     @Override
-    protected void onCreateContent(QMUIDialog dialog, ViewGroup parent, Context context) {
-
+    protected View onCreateContent(@NonNull QMUIDialog dialog, @NonNull QMUIDialogView parent, @NonNull Context context) {
+        return null;
     }
+
 
 }

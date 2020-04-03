@@ -3,13 +3,14 @@ package the.one.base.base.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.qmuiteam.qmui.arch.QMUIActivity;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
@@ -20,13 +21,12 @@ import butterknife.Unbinder;
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
-import the.one.base.util.ActivityListUtil;
 import the.one.base.util.EventBusUtil;
-import the.one.base.util.glide.GlideUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
+import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.ProgressDialog;
 
 
@@ -78,9 +78,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     /**
-     *  @TODO 需要显示点击返回显示 是否退出
+     * @TODO 需要显示点击返回显示 是否退出
      */
-    protected boolean isExitActivity() { return false; }
+    protected boolean isExitActivity() {
+        return false;
+    }
 
     protected boolean isStatusBarLightMode() {
         return !StatusBarUtil.isTranslucent(this);
@@ -93,19 +95,19 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityListUtil.getInstance().addActivityToList(this);
+        setSkinManager(null);
         if (isStatusBarLightMode()) {
             QMUIStatusBarHelper.translucent(this);
             QMUIStatusBarHelper.setStatusBarLightMode(this);
         } else {
-            QMUIStatusBarHelper.translucent(this,getColorr(R.color.qmui_config_color_transparent));
+            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
             QMUIStatusBarHelper.setStatusBarDarkMode(this);
         }
         View mRootView = getView(getContentViewId());
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);
         if (getPresenter() != null) {
-            getPresenter().attachView(this,this);
+            getPresenter().attachView(this, this);
         }
         if (isRegisterEventBus()) {
             EventBusUtil.register(this);
@@ -136,36 +138,38 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showProgressDialog(String msg) {
-        showProgressDialog(0,100,msg);
+        showProgressDialog(0, 100, msg);
     }
 
     @Override
     public void showProgressDialog(int percent) {
-        showProgressDialog(percent,100);
+        showProgressDialog(percent, 100);
     }
 
     @Override
     public void showProgressDialog(int percent, int total) {
-        showProgressDialog(percent,total,"上传中");
+        showProgressDialog(percent, total, "上传中");
     }
 
     @Override
-    public void showProgressDialog(int percent, int total,String msg) {
+    public void showProgressDialog(int percent, int total, String msg) {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage(msg);
-            progressDialog.setCanceledOnTouchOutside(false);
+        }
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(msg);
+        progressDialog.setProgress(percent, total);
+        if (!progressDialog.isShowing())
             progressDialog.show();
 
-        }
-        if (progressDialog.isShowing())
-            progressDialog.setProgress(percent,total);
     }
 
     @Override
     public void hideProgressDialog() {
-        if (null != progressDialog && progressDialog.isShowing())
+        if (null != progressDialog && progressDialog.isShowing()){
             progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
     @Override
@@ -277,13 +281,13 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         }
     }
 
-    public void startActivityFinishCurrent(Class c,boolean finish) {
+    public void startActivityFinishCurrent(Class c) {
         startActivity(new Intent(this, c));
-        if(finish) finish();
+        finish();
     }
 
     public void startActivity(Class c) {
-        startActivityFinishCurrent(c,false);
+        startActivity(new Intent(this, c));
     }
 
     public boolean isNotNullAndEmpty(String content, String tips) {
@@ -309,7 +313,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         if (getPresenter() != null) getPresenter().detachView();
         super.onDestroy();
         if (isRegisterEventBus()) EventBusUtil.unregister(this);
-        try { unbinder.unbind(); } catch (Exception e) { }
+        try {
+            unbinder.unbind();
+        } catch (Exception e) {
+        }
     }
 
     private long exitTime = 0;
@@ -328,5 +335,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         }
         super.doOnBackPressed();
     }
+
 
 }

@@ -1,30 +1,31 @@
 package the.one.aqtour.ui.presenter;
 
+import android.view.View;
+
 import com.rxjava.rxlife.RxLife;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import okhttp3.Call;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.util.QSPSoupUtil;
+import the.one.base.Interface.OnError;
 
 public class QSPVideoPresenter extends BaseVideoPresenter {
 
     private boolean isIndex = false;
 
-    public void getVideoList(String url, final int page) {
+    public void getVideoList(final String url, final int page) {
         isIndex = url.equals("/");
-        url = QSPConstant.BASE_URL + url;
+        String URL = QSPConstant.BASE_URL + url;
         if (!isIndex) {
-            if (url.endsWith(CATEGORY_FIX)) {
-                url = url.replace(CATEGORY_FIX, page + CATEGORY_FIX);
+            if (URL.endsWith(CATEGORY_FIX)) {
+                URL = URL.replace(CATEGORY_FIX, page + CATEGORY_FIX);
             } else {
-                url = url.replace(FIX, "-" + page + FIX);
+                URL = URL.replace(FIX, "-" + page + FIX);
             }
         }
 
-        RxHttp.get(url)
+        RxHttp.get(URL)
             .asString()
             .observeOn(AndroidSchedulers.mainThread())
             .as(RxLife.as(this))
@@ -34,9 +35,14 @@ public class QSPVideoPresenter extends BaseVideoPresenter {
                 if (isIndex) {
                     getView().onNormal();
                 }
-            }, throwable -> {
+            }, (OnError) error  -> {
                 //请求失败
-               onFail(throwable.getMessage());
+               onFail(error.getErrorMsg(), new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       getVideoList(url,page);
+                   }
+               });
             });
     }
 

@@ -1,15 +1,11 @@
 package the.one.gank.ui.fragment;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.Log;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseGroupListFragment;
-import the.one.base.util.QMUIStatusBarHelper;
 import the.one.gank.R;
 import the.one.gank.constant.NetUrlConstant;
 

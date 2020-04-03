@@ -1,26 +1,20 @@
 package the.one.base.adapter;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestOptions;
 import com.luck.picture.lib.photoview.PhotoView;
+import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
 
-import the.one.base.Interface.GlideProgressListener;
 import the.one.base.Interface.ImageSnap;
 import the.one.base.R;
-import the.one.base.util.glide.GlideUtil;
-import the.one.base.util.glide.SampleGlideProgressListener;
+import the.one.base.util.glide.GlideEngine;
 
 public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T> {
 
@@ -31,19 +25,22 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
     }
 
     private RequestOptions options;
+    private GlideEngine mGlideEngine;
 
     public ImageSnapAdapter() {
         super(R.layout.item_image_snap);
         options = new RequestOptions()
                 .placeholder(R.drawable.image_snap_loading_bg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
+        mGlideEngine = GlideEngine.createGlideEngine();
     }
 
     @Override
     protected void convert(TheBaseViewHolder helper, final T item) {
-        RelativeLayout container = helper.getView(R.id.container);
+        FrameLayout container = helper.getView(R.id.container);
         QMUIProgressBar progressBar = container.findViewById(R.id.progressbar);
         PhotoView photoView = container.findViewById(R.id.photo_view);
+        SubsamplingScaleImageView longImg = container.findViewById(R.id.longImg);
         photoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +67,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                     .addHeader("Referer", refer)
                     .build());
         }
-        SampleGlideProgressListener listener = new SampleGlideProgressListener(photoView, progressBar);
-        GlideUtil.loadImageWithProgress(mContext, url, photoView, options, listener);
+        mGlideEngine.loadImageWithProgress(getContext(),url,photoView,longImg,progressBar);
     }
 
     public interface OnImageClickListener<T extends ImageSnap> {

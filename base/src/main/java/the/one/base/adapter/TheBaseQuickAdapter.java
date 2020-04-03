@@ -2,13 +2,15 @@ package the.one.base.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.qmuiteam.qmui.layout.IQMUILayout;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
@@ -44,7 +46,7 @@ import the.one.base.util.StringUtils;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBaseViewHolder> {
+public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBaseViewHolder> implements LoadMoreModule {
 
     private int mPriceColor;
     private int mConfigColor;
@@ -60,7 +62,7 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
     }
 
     protected float getShadowAlpha() {
-        return 0.55f;
+        return 0.35f;
     }
 
     public TheBaseQuickAdapter(int layoutResId, @Nullable List<T> data) {
@@ -95,11 +97,11 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
     }
 
     protected int getColor(int colorRes){
-        return ContextCompat.getColor(mContext,colorRes);
+        return ContextCompat.getColor(getContext(),colorRes);
     }
 
     protected Drawable getDrawable(int drawableRes){
-        return ContextCompat.getDrawable(mContext,drawableRes);
+        return ContextCompat.getDrawable(getContext(),drawableRes);
     }
 
     protected void showView(View... views) {
@@ -188,7 +190,7 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
      * @return
      */
     protected SpannableString parsePriceString(double price, String left, String right, int color, float fontSize) {
-        return StringUtils.PriceStyleString(mContext, price, left, right, color, fontSize);
+        return StringUtils.PriceStyleString(getContext(), price, left, right, color, fontSize);
     }
 
 }

@@ -3,7 +3,6 @@ package the.one.demo.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -11,6 +10,7 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import java.util.Random;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import the.one.base.base.activity.BaseActivity;
 import the.one.base.base.presenter.BasePresenter;

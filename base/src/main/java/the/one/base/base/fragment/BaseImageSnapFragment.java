@@ -1,20 +1,18 @@
 package the.one.base.base.fragment;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
 import the.one.base.Interface.ImageSnap;
 import the.one.base.R;
 import the.one.base.adapter.ImageSnapAdapter;
-
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 
 public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDataFragment<T> implements
@@ -38,7 +36,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     }
 
     protected int getOrientation(){
-        return LinearLayoutManager.HORIZONTAL;
+        return RecyclerView.HORIZONTAL;
     }
 
     @Override
@@ -56,10 +54,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         rootView.setBackgroundColor(getColorr(R.color.we_chat_black));
         mStatusLayout.setBackgroundColor(getColorr(R.color.we_chat_black));
         mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
-        mTopLayout.setTitle("");
-        mTopLayout.setSubTitle("");
-        mTopLayout.getTopBar().getTitleView().setTextColor(getColorr(R.color.white));
-        mTopLayout.getTopBar().getSubTitleView().setTextColor(getColorr(R.color.white));
         mTopLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,6 +21,7 @@
             android:minHeight="?attr/qmui_topbar_height"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:qmui_collapsedTitleGravity="center"
+            app:qmui_followTopBarCommonSkin="false"
             app:qmui_contentScrim="@color/qmui_config_color_white"
             app:qmui_expandedTitleGravity="center|bottom"
             app:qmui_expandedTitleMarginBottom="20dp"
@@ -53,15 +52,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/qmui_topbar_height"
                 android:fitsSystemWindows="true"
-                app:qmui_layout_collapseMode="parallax"
-                app:qmui_topbar_bg_color="@color/qmui_config_color_transparent"
-                app:qmui_topbar_need_separator="false" />
+                app:qmui_layout_collapseMode="parallax"/>
         </the.one.base.widge.TheCollapsingTopBarLayout>
     </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
 
     <com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout
         android:id="@+id/section_layout"
         android:layout_width="match_parent"
+        android:overScrollMode="never"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -69,4 +67,4 @@
         android:id="@+id/status_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

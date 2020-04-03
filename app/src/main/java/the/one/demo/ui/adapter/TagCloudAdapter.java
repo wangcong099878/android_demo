@@ -1,7 +1,6 @@
 package the.one.demo.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import com.moxun.tagcloudlib.view.TagsAdapter;
 
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import the.one.demo.R;
 
 

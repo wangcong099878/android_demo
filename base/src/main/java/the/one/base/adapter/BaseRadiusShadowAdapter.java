@@ -1,10 +1,11 @@
 package the.one.base.adapter;
 
-import android.support.annotation.Nullable;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.qmuiteam.qmui.layout.IQMUILayout;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
@@ -38,7 +39,7 @@ import the.one.base.BaseApplication;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseRadiusShadowAdapter<T> extends BaseQuickAdapter<T,BaseViewHolder> {
+public abstract class BaseRadiusShadowAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     private int mRadius ;
     private int mShadow ;
@@ -57,11 +58,6 @@ public abstract class BaseRadiusShadowAdapter<T> extends BaseQuickAdapter<T,Base
 
     public BaseRadiusShadowAdapter( int layoutResId, @Nullable List<T> data) {
         super(layoutResId, data);
-        initRadioShadow();
-    }
-
-    public BaseRadiusShadowAdapter(@Nullable List<T> data) {
-        super(data);
         initRadioShadow();
     }
 

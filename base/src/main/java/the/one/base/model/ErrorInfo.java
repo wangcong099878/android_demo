@@ -36,6 +36,8 @@ public class ErrorInfo {
             this.errorCode = Integer.valueOf(errorCode);
             errorMsg = throwable.getMessage();
             if (TextUtils.isEmpty(errorMsg)) errorMsg = errorCode;//errorMsg为空，显示errorCode
+        }else{
+            errorMsg = ExceptionHelper.handleException(throwable);
         }
         this.errorMsg = errorMsg;
     }

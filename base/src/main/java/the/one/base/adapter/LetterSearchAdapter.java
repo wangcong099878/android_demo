@@ -21,7 +21,6 @@ package the.one.base.adapter;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import the.one.base.adapter.TheBaseViewHolder;;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +30,8 @@ import the.one.base.R;
 import the.one.base.util.ColorUtils;
 import the.one.base.widge.CircleTextView;
 import the.one.base.widge.TheCheckBox;
+
+;
 
 /**
  * @author The one
@@ -90,8 +91,8 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
 
     public void selectAll(boolean all) {
         if (all)
-            for (int i = 0; i < mData.size(); i++) {
-                selects.put(i, mData.get(i));
+            for (int i = 0; i < getData().size(); i++) {
+                selects.put(i, getData().get(i));
             }
         else
             selects.clear();
@@ -111,9 +112,9 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
 
     @Override
     protected void convert(final TheBaseViewHolder helper, final T item) {
-        helper.setText(R.id.tv_item_city_listview_name, item.getName())
-                .addOnClickListener(R.id.ll_contact)
-                .addOnLongClickListener(R.id.ll_contact);
+        helper.setText(R.id.tv_item_city_listview_name, item.getName());
+        addChildClickViewIds(R.id.ll_contact);
+        addChildLongClickViewIds(R.id.ll_contact);
         TheCheckBox smoothCheckBox = helper.getView(R.id.check_box);
 
         if (showCheckBox) {
@@ -127,10 +128,10 @@ public class LetterSearchAdapter<T extends IContacts> extends BaseQuickAdapter<T
         CircleTextView cName = helper.getView(R.id.tv_name);
         String name = item.getName().substring(0, 1);
         cName.setText(name);
-        cName.setBackColor(ColorUtils.getBackgroundColorId(name, mContext));
+        cName.setBackColor(ColorUtils.getBackgroundColorId(name, getContext()));
         CircleTextView letter = helper.getView(R.id.tv_item_city_listview_letter);
         letter.setText(item.getPinYin());
-        letter.setBackColor(ColorUtils.getBackgroundColorId(item.getPinYin(), mContext));
+        letter.setBackColor(ColorUtils.getBackgroundColorId(item.getPinYin(), getContext()));
         // 判断此开头拼音在map中的位置，如果和（当前位置-头部数量）相同则显示
         letter.setVisibility(letterIndexes.get(item.getPinYin()) == (helper.getLayoutPosition() - getHeaderLayoutCount()) ? View.VISIBLE : View.GONE);
     }
