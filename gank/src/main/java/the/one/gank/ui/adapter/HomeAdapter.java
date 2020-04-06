@@ -1,18 +1,19 @@
 package the.one.gank.ui.adapter;
 
-import androidx.core.content.ContextCompat;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 
 import java.util.ArrayList;
 
-import the.one.base.adapter.BaseSectionAdapter;
+import the.one.base.adapter.BaseQMUISectionAdapter;
 import the.one.base.util.StringUtils;
 import the.one.base.widge.NineGridView;
 import the.one.gank.R;
 import the.one.gank.bean.HomeHeadSection;
 import the.one.gank.bean.HomeItemSection;
+
 
 
 //  ┏┓　　　┏┓
@@ -40,7 +41,7 @@ import the.one.gank.bean.HomeItemSection;
  * @email 625805189@qq.com
  * @remark
  */
-public class HomeAdapter extends BaseSectionAdapter<HomeHeadSection, HomeItemSection> {
+public class HomeAdapter extends BaseQMUISectionAdapter<HomeHeadSection, HomeItemSection> {
 
     public HomeAdapter() {
         super(R.layout.item_home_head,R.layout.item_home_item);
@@ -58,7 +59,7 @@ public class HomeAdapter extends BaseSectionAdapter<HomeHeadSection, HomeItemSec
         NineGridView nineImageLayout = holder.itemView.findViewById(R.id.nine_grid);
         HomeItemSection itemSection = section.getItemAt(itemIndex);
         String author = "#" + itemSection.remark + "  ";
-        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, ContextCompat.getColor(mContext, R.color.qmui_config_color_blue),StringUtils.Type.ForegroundColorSpan));
+        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, QMUIResHelper.getAttrColor(mContext,R.attr.config_color),StringUtils.Type.ForegroundColorSpan));
         if (null == itemSection.images || itemSection.images.size() < 1) {
             if(itemSection.url.endsWith(".jpg")){
                 ArrayList<String> strings = new ArrayList<>();

@@ -3,6 +3,7 @@ package the.one.gank.ui.presenter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -52,6 +53,7 @@ public class GankPresenter extends BaseDataPresenter<GankBean> {
 
     public void getData(final Context context, final String type, final int page) {
         String url = NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page;
+        Log.e(TAG, "getData: "+url );
         RxHttp.get(url)
                 .asResponseListOld(GankBean.class)
                 .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调

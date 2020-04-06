@@ -158,11 +158,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 requestServer();
             }
         });
-//        adapter.addLoadMoreModule(new BaseQuickAdapter.RequestLoadMoreListener() {
-//            @Override
-//            public void onLoadMoreRequested() {
-//            }
-//        }, recycleView);
         adapter.getLoadMoreModule().checkDisableLoadMoreIfNotFullPage();
         // 打开动画效果
         adapter.setAnimationEnable(true);

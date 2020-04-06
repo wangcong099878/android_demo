@@ -3,6 +3,8 @@ package the.one.mzitu.ui.fragment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
+
 import java.util.ArrayList;
 
 import the.one.base.base.fragment.BaseFragment;
@@ -46,7 +48,7 @@ public class MzituFragment extends BaseTitleTabFragment {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        TextView tvTitle = mTopLayout.setTitle("妹子图");
+        QMUIQQFaceView tvTitle = mTopLayout.setTitle("妹子图");
         tvTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         tvTitle.getPaint().setFakeBoldText(true);
     }

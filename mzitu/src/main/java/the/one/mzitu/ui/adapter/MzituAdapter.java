@@ -55,14 +55,15 @@ public class MzituAdapter extends TheBaseQuickAdapter<Mzitu> {
         setData(helper,R.id.tv_date,item.getDate());
         ScaleImageView imageView = helper.getView(R.id.girl_item_iv);
         String refer = item.getRefer();
+        Object path;
         if (TextUtils.isEmpty(refer)) {
-            GlideUtil.load(mContext, item.getImageUrl(), imageView);
+            path= item.getImageUrl();
         } else {
-            GlideUrl glideUrl = new GlideUrl(item.getImageUrl(), new LazyHeaders.Builder()
+            path = new GlideUrl(item.getImageUrl(), new LazyHeaders.Builder()
                     .addHeader("Referer", refer)
                     .build());
-            Glide.with(mContext).load(glideUrl).into(imageView);
         }
+        GlideUtil.load(getContext(),path,imageView);
     }
 
     private void setData(TheBaseViewHolder helper,int id,String content){

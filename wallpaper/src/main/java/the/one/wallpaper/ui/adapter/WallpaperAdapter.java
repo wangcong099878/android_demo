@@ -49,7 +49,7 @@ public class WallpaperAdapter extends TheBaseQuickAdapter<Wallpaper> {
 
     @Override
     protected void convert(TheBaseViewHolder helper, Wallpaper item) {
-        GlideUtil.load(mContext,item.path, (ImageView) helper.getView(R.id.iv_image));
+        GlideUtil.load(getContext(),item.path, (ImageView) helper.getView(R.id.iv_image));
         QMUIRelativeLayout relativeLayout = helper.getView(R.id.parent);
         setRadiusAndShadow(relativeLayout);
     }

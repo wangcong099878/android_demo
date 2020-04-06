@@ -24,6 +24,7 @@ import android.os.Parcelable;
 
 import the.one.base.Interface.ImageSnap;
 
+
 /**
  * @author The one
  * @date 2019/6/24 0024

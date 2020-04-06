@@ -3,7 +3,6 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="BaseTheme">
         <!-- Customize your theme here. -->
-       <item name="QMUITopBarStyle">@style/TopBarWhite</item>
     </style>
 
 </resources>

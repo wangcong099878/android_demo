@@ -44,7 +44,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseSectionAdapter<H extends QMUISection.Model<H>,
+public abstract class BaseQMUISectionAdapter<H extends QMUISection.Model<H>,
         T extends QMUISection.Model<T>> extends QMUIDefaultStickySectionAdapter<H, T> {
 
     public static final int ITEM_INDEX_LIST_HEADER = -1;
@@ -65,7 +65,7 @@ public abstract class BaseSectionAdapter<H extends QMUISection.Model<H>,
     private LinearLayout mHeaderLayout;
     private LinearLayout mFooterLayout;
 
-    public BaseSectionAdapter(int itemHeaderLayoutId, int itemLayoutId) {
+    public BaseQMUISectionAdapter(int itemHeaderLayoutId, int itemLayoutId) {
         this.itemHeaderLayoutId = itemHeaderLayoutId;
         this.itemLayoutId = itemLayoutId;
     }

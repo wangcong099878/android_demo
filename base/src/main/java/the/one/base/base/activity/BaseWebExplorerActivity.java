@@ -152,27 +152,35 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     protected void initTopBar() {
-        if (!mIsWhiteBg && StatusBarUtil.isTranslucent(this)) {
-            QMUIStatusBarHelper.setStatusBarDarkMode(this);
-            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
-            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    doOnBackPressed();
-                }
-            });
-            mTopBarLayout.setTitle(mTitle);
-        } else {
-            QMUIStatusBarHelper.setStatusBarLightMode(this);
-            mTopBarLayout.getTopBar().setBackgroundColor(getColorr(R.color.qmui_config_color_white));
-            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    doOnBackPressed();
-                }
-            });
-            mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
-        }
+        mTopBarLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doOnBackPressed();
+            }
+        });
+        mTopBarLayout.setTitle(mTitle);
+
+//        if (!mIsWhiteBg && StatusBarUtil.isTranslucent(this)) {
+//            QMUIStatusBarHelper.setStatusBarDarkMode(this);
+//            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
+//            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    doOnBackPressed();
+//                }
+//            });
+//            mTopBarLayout.setTitle(mTitle);
+//        } else {
+//            QMUIStatusBarHelper.setStatusBarLightMode(this);
+//            mTopBarLayout.getTopBar().setBackgroundColor(getColorr(R.color.qmui_config_color_white));
+//            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    doOnBackPressed();
+//                }
+//            });
+//            mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+//        }
 
     }
 

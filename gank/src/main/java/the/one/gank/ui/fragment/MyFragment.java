@@ -1,12 +1,19 @@
 package the.one.gank.ui.fragment;
 
+import android.util.Log;
 import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
+import com.rxjava.rxlife.RxLife;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import rxhttp.wrapper.param.RxHttp;
+import the.one.base.Interface.OnError;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.util.ExceptionHelper;
 import the.one.gank.R;
+import the.one.gank.bean.Test;
 import the.one.gank.constant.NetUrlConstant;
 
 
@@ -92,6 +99,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         addToGroup("感谢", Gank, Copy);
         addToGroup("第三方", QMUI, Adapter, NineGrid);
 
+
     }
 
     @Override
@@ -123,5 +131,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 break;
         }
     }
+
 
 }

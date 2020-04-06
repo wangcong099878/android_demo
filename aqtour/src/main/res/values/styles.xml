@@ -1,10 +1,8 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="BaseTheme">
+    <style name="AppTheme" parent="Theme1">
         <item name="config_color">@color/app_color_theme_6</item>
-        <item name="QMUITopBarStyle">@style/TopBarWhite</item>
-        <item name="qmui_topbar_height">50dp</item>
     </style>
 
 </resources>

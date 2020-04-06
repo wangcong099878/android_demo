@@ -59,9 +59,8 @@ public abstract class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         context = this;
-        CrashUtil.install(this);
-        MultiDex.install(this);
         initCrashConfig();
+        MultiDex.install(this);
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance(this).register();
         SpUtil.init(this);
@@ -73,6 +72,7 @@ public abstract class BaseApplication extends MultiDexApplication {
      * @remark https://github.com/Ereza/CustomActivityOnCrash
      */
     protected void initCrashConfig(){
+        CrashUtil.install(this);
         CrashConfig.Builder.create()
                 .backgroundMode(CrashConfig.BACKGROUND_MODE_SHOW_CUSTOM)
                 .enabled(true)

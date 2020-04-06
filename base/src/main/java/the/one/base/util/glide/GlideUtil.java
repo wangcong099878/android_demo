@@ -32,16 +32,16 @@ import the.one.base.R;
  */
 public class GlideUtil {
 
-    public static void load(Context context, String url, ImageView imageView) {
+    public static void load(Context context, Object url, ImageView imageView) {
         load(context, url, imageView, getDefaultOptions());
     }
 
-    public static void load(Context context, String url, ImageView imageView, RequestOptions options) {
+    public static void load(Context context, Object url, ImageView imageView, RequestOptions options) {
         load(context, url, imageView, options, null);
     }
 
 
-    public static void loadImageAsBitmap(Context context, String path) {
+    public static void loadImageAsBitmap(Context context, Object path) {
         loadImageAsBitmap(context, path, new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -50,14 +50,14 @@ public class GlideUtil {
         });
     }
 
-    public static void loadImageAsBitmap(Context context, String path, SimpleTarget<Bitmap> simpleTarget) {
+    public static void loadImageAsBitmap(Context context, Object path, SimpleTarget<Bitmap> simpleTarget) {
         Glide.with(context).
                 asBitmap().
                 load(path).
                 into(simpleTarget);
     }
 
-    public static void loadImageWithProgress(Context context, String url, ImageView imageView, GlideProgressListener listener) {
+    public static void loadImageWithProgress(Context context, Object url, ImageView imageView, GlideProgressListener listener) {
         load(context, url, imageView, getDefaultOptions(), listener);
     }
 
@@ -100,7 +100,7 @@ public class GlideUtil {
                 .into(imageView);
     }
 
-    private static RequestOptions getDefaultOptions() {
+    public static RequestOptions getDefaultOptions() {
         return new RequestOptions()
                 .placeholder(R.drawable.pa_shape)
                 .centerCrop()

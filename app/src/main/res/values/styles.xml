@@ -1,10 +1,9 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="BaseTheme">
+    <style name="AppTheme" parent="DarkStyle">
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_6</item>
-        <item name="QMUITopBarStyle">@style/TopBarWhite</item>
 
         <!--TopBar主题设置-->
         <!-- 1. 白色背景-->
@@ -18,9 +17,6 @@
 
     </style>
 
-    <style name="TopBarStyle" parent="TopBarDark">
-        <item name="qmui_topbar_title_gravity">left_center</item>
-    </style>
 
     <style name="QMUI.Button" parent="@style/ButtonBase.Compat" />
     <style name="QMUI.Button.Red" parent="QMUI.Button">

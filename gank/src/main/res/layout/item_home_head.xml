@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
-            android:background="@color/qmui_config_color_blue"/>
+            android:background="?config_color"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -27,7 +27,7 @@
             android:textSize="16sp"
             android:layout_marginLeft="@dimen/dp_10"
             android:textStyle="bold"
-            android:textColor="@color/qmui_config_color_blue"
+            android:textColor="?config_color"
             tools:text="IOS"/>
     </LinearLayout>
 

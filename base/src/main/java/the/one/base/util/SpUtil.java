@@ -1,6 +1,7 @@
 package the.one.base.util;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.tencent.mmkv.MMKV;
 
@@ -26,8 +27,8 @@ public class SpUtil {
         return spUtil;
     }
 
-    public static void init(Application context) {
-        MMKV.initialize(context);
+    public static void init(Context context) {
+        MMKV.initialize(context.getApplicationContext());
     }
 
     public String getString(String key) {

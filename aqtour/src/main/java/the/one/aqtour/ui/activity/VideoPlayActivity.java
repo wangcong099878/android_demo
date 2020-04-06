@@ -183,7 +183,8 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
         mIbDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.downloadVideo(mPlayPath, mVideo.cover, getTitleName(), getSeriesName());
+                String m3u8Url = "https://m3u8.pps11.com/wodeshipin_water_m3u8/guochanjingxuan/77_20200223063310602/77_20200223063310602.m3u8";
+                mPresenter.downloadVideo(m3u8Url, mVideo.cover, getTitleName(), getSeriesName());
             }
         });
         mCbCollection.setIsCheckDrawable(R.drawable.ic_collection_select);

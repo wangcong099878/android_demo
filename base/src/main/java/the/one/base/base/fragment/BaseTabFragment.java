@@ -121,8 +121,8 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     protected void initView(View rootView) {
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
-        normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.tab_normal_color);
-        selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.tab_select_color);
+        normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_normal_color);
+        selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_selected_color);
     }
 
     @Override
@@ -309,9 +309,11 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     @Override
     public void onDoubleClicked(View v) {
-        Fragment fragment = pageAdapter.getItem(INDEX);
-        if (fragment instanceof BaseDataFragment) {
-            ((BaseDataFragment) fragment).onDoubleClicked(v);
+        if(null != pageAdapter){
+            Fragment fragment = pageAdapter.getItem(INDEX);
+            if (fragment instanceof BaseDataFragment) {
+                ((BaseDataFragment) fragment).onDoubleClicked(v);
+            }
         }
     }
 }

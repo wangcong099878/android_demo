@@ -43,7 +43,7 @@ import the.one.base.widge.TheCheckBox;
  * @email 625805189@qq.com
  * @remark
  */
-public class LetterSearcherAdapter<T> extends BaseSectionAdapter<LetterSearchSection, LetterSearchSection> {
+public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearchSection, LetterSearchSection> {
 
     private static final String TAG = "LetterSearcherAdapter";
 
