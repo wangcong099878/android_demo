@@ -9,10 +9,6 @@
         <item name="qmui_tab_selected_text_size">?attr/qmui_skin_support_tab_size</item>
     </style>
 
-
-
-
-
     <style name="match_wrap">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

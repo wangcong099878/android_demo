@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="DarkStyle">
+    <style name="AppTheme" parent="WhiteStyle">
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_6</item>
 

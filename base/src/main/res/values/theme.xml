@@ -21,7 +21,6 @@
         <item name="qmui_skin_support_tab_sign_count_view_bg_color">@color/qmui_config_color_red</item>
         <item name="qmui_skin_support_tab_bg">@color/qmui_config_color_white</item>
 
-
     </style>
 
 
@@ -39,7 +38,7 @@
         <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_gray_1</item>
         <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_gray_1</item>
         <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_gray_1</item>
-        <item name="qmui_skin_support_topbar_separator_color">@color/qmui_config_color_separator</item>
+        <item name="qmui_skin_support_topbar_separator_color">@color/qmui_config_color_transparent</item>
         <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_dark</item>
 
         <item name="qmui_skin_support_tab_normal_color">@color/qmui_config_color_gray_2</item>

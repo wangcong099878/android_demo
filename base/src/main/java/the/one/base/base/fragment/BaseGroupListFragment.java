@@ -33,7 +33,7 @@ import the.one.base.widge.overscroll.OverScrollScrollView;
 /**
  * @author The one
  * @date 2018/12/28 0028
- * @describe TODO
+ * @describe QMUIGroupListView 的一些封装
  * @email 625805189@qq.com
  * @remark
  */

@@ -34,6 +34,7 @@ public class TagsActivity extends BaseFragmentActivity {
 
     @Override
     protected BaseFragment getFirstFragment() {
+//        return new TagsFragment();
         return new SampleFragment();
     }
 
