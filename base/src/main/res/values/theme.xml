@@ -26,7 +26,8 @@
     </style>
 
     <!--白色样式-->
-    <style name="TopBarWhiteStyle" parent="BaseTheme">
+    <style name="LightStyle" parent="BaseTheme">
+        <!--Custom-->
         <!--主色调-->
         <item name="config_bg_color">@color/white</item>
 
@@ -41,7 +42,7 @@
         <item name="qmui_skin_support_tab_normal_color">@color/qmui_config_color_gray_2</item>
         <item name="qmui_skin_support_tab_selected_color">?config_color</item>
 
-        <item name="qmui_skin_support_s_common_list_bg">@drawable/qmui_s_list_item_bg_2</item>
+<!--        <item name="qmui_skin_support_s_common_list_bg">@drawable/qmui_s_list_item_bg_2</item>-->
         <item name="qmui_skin_support_common_list_title_color">@color/qmui_config_color_gray_1</item>
         <item name="qmui_skin_support_common_list_detail_color">@color/qmui_config_color_gray_5</item>
 
@@ -73,18 +74,21 @@
 
     </style>
 
-    <style name="WhiteStyle" parent="LightStyle">
+    <style name="TopBarWhiteTheme" parent="LightStyle">
         <item name="config_color">@color/app_color_theme_6</item>
-
+        <!--QMUI-->
+        <item name="qmui_skin_support_topbar_bg">@color/qmui_config_color_white</item>
+        <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_gray_1</item>
+        <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_gray_2</item>
+        <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_gray_1</item>
+        <item name="qmui_skin_support_topbar_separator_color">@color/qmui_config_color_transparent</item>
+        <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_dark</item>
     </style>
 
     <style name="Theme1" parent="LightStyle">
         <!--主色调-->
         <item name="config_color">@color/app_color_theme_6</item>
     </style>
-    <style name="Theme2" parent="Theme1">
-        <!--主色调-->
-        <item name="config_color">@color/app_color_theme_8</item>
-    </style>
+
 
 </resources>

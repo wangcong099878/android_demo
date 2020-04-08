@@ -7,8 +7,7 @@
     <the.one.base.widge.overscroll.OverScrollScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?config_bg_color">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +23,7 @@
                 android:id="@+id/groupListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/config_background_bg"/>
+                android:background="@color/qmui_config_color_background"/>
 
             <FrameLayout
                 android:id="@+id/fl_child_bottom_layout"

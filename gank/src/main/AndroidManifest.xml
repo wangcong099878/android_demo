@@ -15,14 +15,14 @@
         tools:ignore="UnusedAttribute">
         <activity android:name=".ui.activity.LauncherActivity"
             android:theme="@style/StartAppTheme">
-
-        </activity>
-        <activity android:name=".ui.activity.GankActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.GankActivity">
+
         </activity>
     </application>
 

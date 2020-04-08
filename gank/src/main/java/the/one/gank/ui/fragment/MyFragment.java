@@ -39,13 +39,6 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
 
     QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
 
-//    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-//    public void onLazyResume() {
-//        super.onLazyResume();
-//        Log.e("onLazyResume", "onLazyResume: "+TAG );
-//        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-//    }
-
     @Override
     protected boolean isNeedChangeStatusBarMode() {
         return true;
@@ -92,7 +85,7 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         addToGroup("感谢", Gank, Copy);
         addToGroup("第三方", QMUI, Adapter, NineGrid);
 
-        addToGroup( Gank, Copy, QMUI, Adapter, NineGrid);
+//        addToGroup( Gank, Copy, QMUI, Adapter, NineGrid);
     }
 
     @Override

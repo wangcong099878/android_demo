@@ -2,11 +2,11 @@ package the.one.base.adapter;
 
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-
-import java.util.List;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 /**
  * @author The one
@@ -15,7 +15,7 @@ import java.util.List;
  * @email 625805189@qq.com
  * @remark
  */
-public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
+public class TabFragmentAdapter<T> extends FragmentStatePagerAdapter {
 
     private List<T> fragments;
     /**
@@ -23,17 +23,16 @@ public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
      */
     private boolean destroyItem = true;
 
+    public TabFragmentAdapter(FragmentManager fm, List<T> fragments) {
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        this.fragments = fragments;
+    }
+
     public TabFragmentAdapter(FragmentManager fm, List<T> fragments, boolean destroy) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragments = fragments;
         this.destroyItem = destroy;
     }
-
-    public TabFragmentAdapter(FragmentManager fm, List<T> fragments) {
-        super(fm);
-        this.fragments = fragments;
-    }
-
 
     @Override
     public Fragment getItem(int position) {

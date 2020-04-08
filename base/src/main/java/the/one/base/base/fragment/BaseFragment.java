@@ -141,7 +141,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onLazyResume() {
         if (isNeedChangeStatusBarMode()) {
-            Log.e("TAG", "onLazyResume: "+TAG );
             if (isStatusBarLightMode()) {
                 QMUIStatusBarHelper.translucent(getBaseFragmentActivity());
                 QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());

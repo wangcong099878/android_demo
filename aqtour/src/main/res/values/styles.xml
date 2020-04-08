@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme1">
+    <style name="AppTheme" parent="TopBarWhiteTheme">
         <item name="config_color">@color/app_color_theme_6</item>
     </style>
 

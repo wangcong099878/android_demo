@@ -55,10 +55,6 @@ public abstract class BaseHomeFragment extends BaseTabFragment {
     @Override
     protected void initTabAndPager() {
         mTabSegment.setMode(QMUITabSegment.MODE_FIXED);
-        mTabSegment.updateTopSeparatorColor(getColorr(R.color.qmui_config_color_gray_1));
-        //是否有 Indicator
-//        mTabSegment.setHa(false);
-//        mTabSegment.setShowAnimation(true);
         super.initTabAndPager();
     }
 

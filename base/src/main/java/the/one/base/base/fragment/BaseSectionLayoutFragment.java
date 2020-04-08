@@ -21,16 +21,15 @@ package the.one.base.base.fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.R;
 import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
@@ -80,7 +79,9 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
         return 2;
     }
 
-    protected boolean isStickyHeader(){return true;}
+    protected boolean isStickyHeader() {
+        return true;
+    }
 
     /**
      * 设置适配器
@@ -111,7 +112,8 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
 
     @Override
     protected void onLazyInit() {
-            requestServer();
+        showLoadingPage();
+        requestServer();
     }
 
     protected void initRefreshLayout() {
@@ -153,7 +155,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
     protected void initData() {
         mAdapter = createAdapter();
         mAdapter.setCallback(this);
-        mSectionLayout.setAdapter(mAdapter,isStickyHeader());
+        mSectionLayout.setAdapter(mAdapter, isStickyHeader());
     }
 
     @Override

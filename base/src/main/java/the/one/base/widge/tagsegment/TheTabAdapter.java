@@ -17,7 +17,7 @@ public class TheTabAdapter extends QMUITabAdapter {
 
     @Override
     public void onClick(QMUITabView view) {
-        YoYo.with(Anim.ZoomIn.getYoyo()).duration(200).playOn(view);
         super.onClick(view);
+        YoYo.with(Anim.ZoomIn.getYoyo()).duration(200).playOn(view);
     }
 }

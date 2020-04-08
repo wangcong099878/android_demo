@@ -59,8 +59,6 @@ public class CategoryFragment extends BaseTitleTabFragment {
         mTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         mTitle.getPaint().setFakeBoldText(true);
         // 这里不用注释掉,更换继承这里要改成true(是否有分割线)
-        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_white));
-
     }
 
     @Override

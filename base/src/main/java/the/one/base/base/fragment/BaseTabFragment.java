@@ -75,6 +75,8 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     protected CommonNavigator mCommonNavigator;
     protected QMUIViewPager mViewPager;
     protected TabFragmentAdapter<BaseFragment> pageAdapter;
+    protected int normalColor;
+    protected int selectColor;
     protected int INDEX = 0;
 
     /**
@@ -123,6 +125,10 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         mTabs = new ArrayList<>();
         normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_normal_color);
         selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_selected_color);
+        //添加双击监听
+        if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
+            mTopLayout.setOnTopBarDoubleClickListener(this);
+        }
     }
 
     @Override
@@ -139,22 +145,6 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         addTabs();
         addFragment(fragments);
         initTabAndPager();
-        //添加双击监听
-        if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
-            mTopLayout.setOnTopBarDoubleClickListener(this);
-        }
-    }
-
-    protected int normalColor;
-    protected int selectColor;
-
-    protected void initIndicator() {
-        mCommonNavigator = new CommonNavigator(_mActivity);
-        mCommonNavigator.setScrollPivotX(0.65f);
-        mCommonNavigator.setAdjustMode(isAdjustMode());
-        mCommonNavigator.setAdapter(getNavigatorAdapter());
-        mMagicIndicator.setNavigator(mCommonNavigator);
-        ViewPagerHelper.bind(mMagicIndicator, mViewPager);
     }
 
     protected void initTabAndPager() {
@@ -177,18 +167,32 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
             }
         });
         mViewPager.setSwipeable(setViewPagerSwipe());
+        initSegment();
+        initIndicator();
+        showContentPage();
+    }
+
+    protected void initSegment() {
         if (null != mTabSegment) {
             mTabBuilder = mTabSegment.tabBuilder();
             mTabBuilder.skinChangeWithTintColor(false);
             for (TabBean tab : mTabs) {
-                mTabSegment.addTab(createTab(tab));
+                mTabSegment.addTab(createQMUITab(tab));
             }
             mTabSegment.addOnTabSelectedListener(this);
             mTabSegment.setupWithViewPager(mViewPager, false);
         }
-        if (null != mMagicIndicator)
-            initIndicator();
-        showContentPage();
+    }
+
+    protected void initIndicator() {
+        if (null != mMagicIndicator) {
+            mCommonNavigator = new CommonNavigator(_mActivity);
+            mCommonNavigator.setScrollPivotX(0.65f);
+            mCommonNavigator.setAdjustMode(isAdjustMode());
+            mCommonNavigator.setAdapter(getNavigatorAdapter());
+            mMagicIndicator.setNavigator(mCommonNavigator);
+            ViewPagerHelper.bind(mMagicIndicator, mViewPager);
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -276,25 +280,41 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     }
 
+    /**
+     * 初始化Tabs
+     */
     protected abstract void addTabs();
 
     /**
-     * 初始化fragment
-     *
-     * @param fragments
+     * 初始化Fragments
      */
     protected abstract void addFragment(ArrayList<BaseFragment> fragments);
 
 
+    /**
+     * 添加只有文字的Tab
+     * @param title  标题
+     */
     protected void addTab(String title) {
         mTabs.add(new TabBean(title));
     }
 
+    /**
+     * 添加有图标和文字的Tab
+     * @param normal 未选中时的图标
+     * @param select 选中时的图标
+     * @param title 标题
+     */
     protected void addTab(int normal, int select, String title) {
-        mTabs.add(new TabBean(title,normal,select));
+        mTabs.add(new TabBean(title, normal, select));
     }
 
-    private QMUITab createTab(TabBean tabBean) {
+    /**
+     * 创建QMUITab
+     * @param tabBean init得到的
+     * @return
+     */
+    private QMUITab createQMUITab(TabBean tabBean) {
         if (tabBean.getNormalDrawable() != -1) {
             mTabBuilder.setNormalDrawable(getDrawablee(tabBean.getNormalDrawable()));
         }
@@ -309,7 +329,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     @Override
     public void onDoubleClicked(View v) {
-        if(null != pageAdapter){
+        if (null != pageAdapter) {
             Fragment fragment = pageAdapter.getItem(INDEX);
             if (fragment instanceof BaseDataFragment) {
                 ((BaseDataFragment) fragment).onDoubleClicked(v);

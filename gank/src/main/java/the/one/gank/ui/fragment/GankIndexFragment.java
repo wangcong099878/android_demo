@@ -63,21 +63,4 @@ public class GankIndexFragment extends BaseHomeFragment {
         fragments.add(new MyFragment());
     }
 
-//    @Override
-//    public void onTabSelected(int index) {
-//        super.onTabSelected(index);
-//        switch (index) {
-//            case 0:
-//                HomeFragment fragment = (HomeFragment) pageAdapter.getItem(0);
-//                if (!fragment.isCollapsed()) {
-//                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-//                }
-//                break;
-//            default:
-//                QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-//                break;
-//
-//
-//        }
-//    }
 }
