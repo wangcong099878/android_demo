@@ -38,7 +38,12 @@ public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR, WEB_VIEW, POPUP_LAYOUT, COLLAPSING_TOP_BAR,
             PULL_EXTEND, STATUS_BAR_HELP, STRING_UTIL, PROGRESS_DIALOG, CAMERA, DATE_PICKER, LETTER_SEARCH,
-            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST;
+            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST,WHITE_BLACK_THEME;
+
+    @Override
+    protected boolean isExitFragment() {
+        return true;
+    }
 
     @Override
     protected void addGroupListView() {
@@ -65,11 +70,13 @@ public class SampleFragment extends BaseGroupListFragment {
         POPUP_WINDOW = CreateDetailItemView("ThePopupWindow","带有进出动画的PopupWindow",false,true);
         STICK_LAYOUT = CreateDetailItemView("StickLayout","让其任意一个直接子控件滑动时停留在顶部",false,true);
 
+        WHITE_BLACK_THEME = CreateDetailItemView("AppMourningThemeUtil","让整个App黑白化",false,true);
 
         TEST = CreateNormalItemView("测试");
 
-        addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT);
-        addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,CRASH);
+        addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,
+                SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT);
+        addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,WHITE_BLACK_THEME,CRASH);
 //        addToGroup(TEST);
     }
 
@@ -111,6 +118,8 @@ public class SampleFragment extends BaseGroupListFragment {
             startFragment(new ThePopupWindowFragment());
         }else if (v == STICK_LAYOUT) {
            startFragment(new StickLayoutFragment());
+        }else{
+            startFragment(new BlackWhiteThemeFragment());
         }
     }
 

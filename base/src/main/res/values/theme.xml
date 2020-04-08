@@ -8,38 +8,35 @@
         <item name="qmui_dialog_min_width">300dp</item>
         <item name="qmui_dialog_max_width">350dp</item>
         <item name="qmui_skin_support_tab_size">12sp</item>
+        <item name="qmui_skin_support_tab_sign_count_view_bg_color">@color/qmui_config_color_red</item>
+        <item name="qmui_skin_support_tab_bg">@color/qmui_config_color_white</item>
 
         <item name="QMUITopBarStyle">@style/BaseTopBarStyle</item>
         <item name="QMUITabSegmentStyle">@style/BaseSegmentStyle</item>
 
         <!--Custom-->
+        <item name="config_color">@color/app_color_theme_6</item>
+        <item name="config_bg_color">@color/white</item>
+        <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
+        <item name="checked_color">?config_color</item>
         <item name="glide_fail_drawable">@drawable/svg_image_fail</item>
         <!--崩溃界面样式-->
         <item name="CrashLayoutStyle">@style/crash_layout_style</item>
 
-
-        <item name="qmui_skin_support_tab_sign_count_view_bg_color">@color/qmui_config_color_red</item>
-        <item name="qmui_skin_support_tab_bg">@color/qmui_config_color_white</item>
-
     </style>
 
-
     <!--白色样式-->
-    <style name="WhiteStyle" parent="BaseTheme">
-        <!--Custom-->
+    <style name="TopBarWhiteStyle" parent="BaseTheme">
         <!--主色调-->
-        <item name="config_color">@color/app_color_theme_1</item>
         <item name="config_bg_color">@color/white</item>
-        <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
-        <item name="checked_color">?config_color</item>
 
         <!--QMUI-->
-        <item name="qmui_skin_support_topbar_bg">@color/qmui_config_color_white</item>
-        <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_gray_1</item>
-        <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_gray_1</item>
-        <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_gray_1</item>
+        <item name="qmui_skin_support_topbar_bg">?config_color</item>
+        <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_white</item>
+        <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_white</item>
+        <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_separator_color">@color/qmui_config_color_transparent</item>
-        <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_dark</item>
+        <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_light</item>
 
         <item name="qmui_skin_support_tab_normal_color">@color/qmui_config_color_gray_2</item>
         <item name="qmui_skin_support_tab_selected_color">?config_color</item>
@@ -53,11 +50,9 @@
 
     <!--深色（夜间）样式-->
     <style name="DarkStyle" parent="BaseTheme">
-
         <!--Custom-->
         <!--主色调-->
-        <item name="config_color">@color/app_color_theme_2</item>
-        <item name="config_bg_color">@color/qmui_config_color_gray_9</item>
+        <item name="config_bg_color">@color/qmui_config_color_background</item>
         <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
         <item name="checked_color">?config_color</item>
 
@@ -78,16 +73,14 @@
 
     </style>
 
-    <style name="Theme1" parent="WhiteStyle">
-        <!--主色调-->
+    <style name="WhiteStyle" parent="LightStyle">
         <item name="config_color">@color/app_color_theme_6</item>
 
-        <!--QMUI-->
-        <item name="qmui_skin_support_topbar_title_color">@color/white</item>
-        <item name="qmui_skin_support_topbar_subtitle_color">@color/white</item>
-        <item name="qmui_skin_support_topbar_image_tint_color">@color/white</item>
-        <item name="qmui_skin_support_topbar_separator_color">@color/picture_color_transparent</item>
-        <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_dark</item>
+    </style>
+
+    <style name="Theme1" parent="LightStyle">
+        <!--主色调-->
+        <item name="config_color">@color/app_color_theme_6</item>
     </style>
     <style name="Theme2" parent="Theme1">
         <!--主色调-->

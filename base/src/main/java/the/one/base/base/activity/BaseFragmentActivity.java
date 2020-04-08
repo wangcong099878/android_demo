@@ -19,13 +19,14 @@ package the.one.base.base.activity;
 //      ┗┻┛　┗┻┛
 
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 
 import com.qmuiteam.qmui.arch.QMUIFragmentActivity;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
+import androidx.core.content.ContextCompat;
 import the.one.base.R;
 import the.one.base.base.fragment.BaseFragment;
+import the.one.base.util.AppMourningThemeUtil;
 import the.one.base.util.StatusBarUtil;
 
 /**
@@ -57,6 +58,7 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppMourningThemeUtil.notify(getWindow());
         setSkinManager(null);
         if (LightMode())
             QMUIStatusBarHelper.setStatusBarLightMode(this);

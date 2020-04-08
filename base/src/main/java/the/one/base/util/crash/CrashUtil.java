@@ -29,10 +29,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -48,6 +44,9 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import the.one.base.base.activity.CrashActivity;
 
 
@@ -372,6 +371,11 @@ public final class CrashUtil {
         activity.finish();
         activity.startActivity(intent);
         killCurrentProcess();
+    }
+
+    public static void restartApplication(@NonNull Activity activity) {
+        Intent intent = new Intent(activity, config.getRestartActivityClass());
+        restartApplicationWithIntent(activity, intent, config);
     }
 
     public static void restartApplication(@NonNull Activity activity, @NonNull CrashConfig config) {

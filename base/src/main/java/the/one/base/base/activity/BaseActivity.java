@@ -9,18 +9,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
 import com.qmuiteam.qmui.arch.QMUIActivity;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.base.view.BaseView;
+import the.one.base.util.AppMourningThemeUtil;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
@@ -95,6 +95,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppMourningThemeUtil.notify(getWindow());
         setSkinManager(null);
         if (isStatusBarLightMode()) {
             QMUIStatusBarHelper.translucent(this);
