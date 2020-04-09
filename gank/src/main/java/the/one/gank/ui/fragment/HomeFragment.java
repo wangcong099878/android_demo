@@ -1,13 +1,11 @@
 package the.one.gank.ui.fragment;
 
-import android.os.Build;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 
-import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
+import com.qmuiteam.qmui.widget.QMUIAppBarLayout;
+import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
 import com.zhpan.bannerview.BannerViewPager;
@@ -17,12 +15,9 @@ import com.zhpan.bannerview.holder.HolderCreator;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
 import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseSectionLayoutFragment;
 import the.one.base.base.presenter.BasePresenter;
@@ -71,15 +66,15 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     private final int STATE_COLLAPSED = 0;
     private final int STATE_EXPANDED = 1;
 
-//    @BindView(R.id.topbar)
-//    QMUITopBar mTopBar;
-//    @BindView(R.id.iv_head)
-//    ImageView ivHead;
-//    @BindView(R.id.collapsing_topbar_layout)
-//    TheCollapsingTopBarLayout mCollapsingTopBarLayout;
-//    @BindView(R.id.appbar_layout)
-//    QMUIAppBarLayout appbarLayout;
-//    @BindView(R.id.banner_view)
+    @BindView(R.id.topbar)
+    QMUITopBar mTopBar;
+    @BindView(R.id.iv_head)
+    ImageView ivHead;
+    @BindView(R.id.collapsing_topbar_layout)
+    TheCollapsingTopBarLayout mCollapsingTopBarLayout;
+    @BindView(R.id.appbar_layout)
+    QMUIAppBarLayout appbarLayout;
+    @BindView(R.id.banner_view)
     BannerViewPager<Banner, BannerViewHolder> mBannerViewPager;
     private HomeAdapter mAdapter;
 
@@ -90,15 +85,15 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     private boolean isCollapsed = false;
     private boolean isOnPause = false;
 
-//    @Override
-//    protected boolean showTitleBar() {
-//        return false;
-//    }
+    @Override
+    protected boolean showTitleBar() {
+        return false;
+    }
 
-//    @Override
-//    protected int getContentViewId() {
-//        return R.layout.fragment_home;
-//    }
+    @Override
+    protected int getContentViewId() {
+        return R.layout.fragment_home;
+    }
 
 
     @Override
@@ -113,8 +108,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected boolean isStatusBarLightMode() {
-        return isCollapsed;
-//        return isCollapsed && appbarLayout.getVisibility() == View.VISIBLE;
+        return isCollapsed && appbarLayout.getVisibility() == View.VISIBLE;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -127,52 +121,20 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected boolean isStickyHeader() {
-        return false;
+        return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initView(View rootView) {
-        super.initView(rootView);
-        mBannerHeight= QMUIDisplayHelper.dp2px(_mActivity,250);
-        Log.e(TAG, "onScrolled: mBannerHeight = "+mBannerHeight);
-        mSectionLayout.getRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                float percent = getY(recyclerView) / (mBannerHeight *1.0f);
-                Log.e(TAG, "onScrolled: "+percent);
-                int alpha = (int) (percent * 255);
-                mTopLayout.setBackgroundAlpha(alpha);
-            }
-        });
-        mStatusLayout.setFitsSystemWindows(false);
-        setMargins(mStatusLayout, 0, 0, 0, 0);
-        mTopLayout.setBackgroundColor(getColorr(R.color.white));
-        mBannerViewPager = new BannerViewPager<Banner, BannerViewHolder>(_mActivity);
-        mBannerViewPager.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,mBannerHeight ));
-        mAdapter.addHeaderView(mBannerViewPager);
-//        mStatusLayout = rootView.findViewById(R.id.status_layout);
-//        mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
-//        mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
-//        mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_transparent));
-//        mCollapsingTopBarLayout.setTitle("今日最新干货");
-//        mCollapsingTopBarLayout.setStateChangeListener(this);
-//        initStickyLayout();
-//        initData();
+        mStatusLayout = rootView.findViewById(R.id.status_layout);
+        mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
+        mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
+        mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_transparent));
+        mCollapsingTopBarLayout.setTitle("今日最新干货");
+        mCollapsingTopBarLayout.setStateChangeListener(this);
+        initStickyLayout();
+        initData();
     }
-
-    private int getY(RecyclerView recyclerView) {
-        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        int position = linearLayoutManager.findFirstVisibleItemPosition();
-        View firstVisiableChildView = linearLayoutManager.findViewByPosition(position);
-        int itemHeight = firstVisiableChildView.getHeight();
-        int itemTop = firstVisiableChildView.getTop();
-        int iposition = position * itemHeight;
-        int iResult = iposition - itemTop;
-        return iResult;
-    }
-
 
     @Override
     public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
@@ -235,8 +197,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     public void showContentPage() {
-//        showView(appbarLayout);
-//        goneView(mStatusLayout);
+        showView(appbarLayout);
+        goneView(mStatusLayout);
         super.showContentPage();
     }
 

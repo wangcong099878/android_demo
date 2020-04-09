@@ -1,4 +1,4 @@
-package the.one.base.model;
+package the.one.gank.bean;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -18,41 +18,22 @@ package the.one.base.model;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import com.chad.library.adapter.base.entity.SectionEntity;
+import the.one.base.model.BaseSectionEntity;
 
 /**
  * @author The one
- * @date 2020/4/3 0003
+ * @date 2020/4/9 0009
  * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public class BaseSectionEntity<T> implements SectionEntity {
+public class HomeSection extends BaseSectionEntity<GankBean> {
 
-    public final String header;
-    public final T t;
-
-    public BaseSectionEntity(String header) {
-        this(header,null);
+    public HomeSection(String header) {
+        super(header);
     }
 
-    public BaseSectionEntity(T t) {
-        this(null,t);
-    }
-
-    public BaseSectionEntity(String header,T t) {
-        this.header = header;
-        this.t = t;
-    }
-
-
-    @Override
-    public boolean isHeader() {
-        return null == t;
-    }
-
-    @Override
-    public int getItemType() {
-        return isHeader() ? HEADER_TYPE : NORMAL_TYPE;
+    public HomeSection(String header,GankBean gankBean) {
+        super(header,gankBean);
     }
 }

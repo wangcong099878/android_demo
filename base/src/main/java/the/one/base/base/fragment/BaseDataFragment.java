@@ -33,7 +33,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import the.one.base.Interface.IPageInfo;
@@ -41,6 +40,7 @@ import the.one.base.Interface.OnTopBarDoubleClickListener;
 import the.one.base.R;
 import the.one.base.base.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
+import the.one.base.util.OffsetLinearLayoutManager;
 import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
@@ -100,7 +100,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      * @return
      */
     protected int setSpacing() {
-        return 12;
+        return 14;
     }
 
     /**
@@ -114,7 +114,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     protected RecyclerView recycleView;
     protected BaseQuickAdapter adapter;
-    protected LayoutManager layoutManager;
     protected PullRefreshLayout pullLayout;
 
     public IPageInfo pageInfoBean;
@@ -135,17 +134,21 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         recycleView = rootView.findViewById(R.id.recycle_view);
         pullLayout = rootView.findViewById(R.id.pullLayout);
         adapter = getAdapter();
-        if (null != pullLayout) {
-            pullLayout.setDragRate(0.5f);
-            pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
-            pullLayout.setOnPullListener(this);
-            pullLayout.setEnabled(false);
-        }
+        initPullLayout();
         initAdapter();
         initRecycleView(recycleView, setType(), adapter);
         //添加双击监听
         if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
             mTopLayout.setOnTopBarDoubleClickListener(this);
+        }
+    }
+
+    protected void initPullLayout() {
+        if (null != pullLayout) {
+            pullLayout.setDragRate(0.5f);
+            pullLayout.setRefreshOffsetCalculator(new QMUICenterGravityRefreshOffsetCalculator());
+            pullLayout.setOnPullListener(this);
+            pullLayout.setEnabled(false);
         }
     }
 
@@ -167,11 +170,15 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
         if (isNeedSpace())
-            recycleView.addItemDecoration(new SpacesItemDecoration(QMUIDisplayHelper.dp2px(_mActivity, setSpacing()), setType() == TYPE_LIST ? 1 : setColumn()));
+            recycleView.addItemDecoration(new SpacesItemDecoration(adapter.getHeaderLayoutCount(), QMUIDisplayHelper.dp2px(_mActivity, setSpacing()), setType() == TYPE_LIST ? 1 : setColumn()));
+        recycleView.setLayoutManager(getLayoutManager(type));
+        recycleView.addOnScrollListener(getOnScrollListener());
+        recycleView.setAdapter(adapter);
+    }
+
+    protected LayoutManager getLayoutManager(int type) {
+        LayoutManager layoutManager;
         switch (type) {
-            case TYPE_LIST:
-                layoutManager = new LinearLayoutManager(getActivity());
-                break;
             case TYPE_GRID:
                 layoutManager = new GridLayoutManager(getActivity(), setColumn());
                 break;
@@ -179,22 +186,11 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 layoutManager = new StaggeredGridLayoutManager(setColumn(), StaggeredGridLayoutManager.VERTICAL);
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
                 break;
+            default:
+                layoutManager = new OffsetLinearLayoutManager(getActivity());
+                break;
         }
-        recycleView.addOnScrollListener(new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-        // 滑动时禁止加载图片
-        recycleView.addOnScrollListener(getOnScrollListener());
-        recycleView.setLayoutManager(layoutManager);
-        recycleView.setAdapter(adapter);
+        return layoutManager;
     }
 
     protected OnScrollListener getOnScrollListener() {
@@ -210,11 +206,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                     Glide.with(_mActivity).pauseRequests();
                 }
             }
-
-
         };
     }
-
 
     @Override
     protected void onLazyInit() {
@@ -363,7 +356,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     }
 
     protected void setPullLayoutEnabled(boolean enabled) {
-        if (null != pullLayout){
+        if (null != pullLayout) {
             pullLayout.setEnabled(enabled);
             pullLayout.finishRefresh();
         }

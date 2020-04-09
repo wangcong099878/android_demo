@@ -6,7 +6,7 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
  * @author The one
@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
  * @email 625805189@qq.com
  * @remark
  */
-public class TabFragmentAdapter<T> extends FragmentStatePagerAdapter {
+public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
 
     private List<T> fragments;
     /**
@@ -24,12 +24,12 @@ public class TabFragmentAdapter<T> extends FragmentStatePagerAdapter {
     private boolean destroyItem = true;
 
     public TabFragmentAdapter(FragmentManager fm, List<T> fragments) {
-        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm);
         this.fragments = fragments;
     }
 
     public TabFragmentAdapter(FragmentManager fm, List<T> fragments, boolean destroy) {
-        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm);
         this.fragments = fragments;
         this.destroyItem = destroy;
     }

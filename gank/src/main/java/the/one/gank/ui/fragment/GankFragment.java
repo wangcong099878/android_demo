@@ -78,11 +78,6 @@ public class GankFragment extends BaseDataFragment<GankBean> {
     }
 
     @Override
-    protected boolean isNeedSpace() {
-        return isWelfare;
-    }
-
-    @Override
     protected int setColumn() {
         return 2;
     }
