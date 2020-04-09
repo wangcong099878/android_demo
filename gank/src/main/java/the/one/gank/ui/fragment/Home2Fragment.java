@@ -76,6 +76,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     private boolean isLightMode = true;
     private boolean isDark;
     private boolean isLight;
+    private boolean isVisible;
 
     @Override
     protected boolean translucentFull() {
@@ -117,8 +118,9 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
 //        adapter.addHeaderView(mBanner, 0);
 
         mBannerViewPager = (BannerViewPager) getView(R.layout.banner_viewpager);
-
+        // 直接new出来不知道为什么轮播无效
 //                mBannerViewPager = new BannerViewPager<>(_mActivity);
+        // getView得到后，虽然布局里设置了高度，不知道为什么无效，这里重新设置一次
         mBannerViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
@@ -147,10 +149,10 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                 if (y >= height) percent = 1;
                 else
                     percent = y / (height * 1.0f);
-                isLightMode = percent>0.5;
-                if(isLightMode&&isDark){
+                isLightMode = percent > 0.5;
+                if (isLightMode && isDark) {
                     setStatusBarLightMode();
-                }else if(!isLightMode&&isLight){
+                } else if (!isLightMode && isLight) {
                     setStatusBarDarkMode();
                 }
                 mTitleView.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1), percent));
@@ -234,16 +236,18 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         onNormal();
     }
 
-    private void setStatusBarDarkMode(){
+    private void setStatusBarDarkMode() {
         isDark = true;
         isLight = false;
-        QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+        if (isVisible)
+            QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
     }
 
-    private void setStatusBarLightMode(){
+    private void setStatusBarLightMode() {
         isDark = false;
         isLight = true;
-        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+        if (isVisible)
+            QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
     }
 
     private void parseSection(List<GankBean> gankBeans, String head) {
@@ -262,6 +266,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     @Override
     public void onPause() {
         super.onPause();
+        isVisible = false;
         if (mBannerViewPager != null) {
             mBannerViewPager.stopLoop();
         }
@@ -272,6 +277,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onLazyResume() {
+        isVisible = true;
         super.onLazyResume();
         if (mBannerViewPager != null)
             mBannerViewPager.startLoop();
