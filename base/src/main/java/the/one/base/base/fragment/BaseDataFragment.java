@@ -109,7 +109,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      * @return
      */
     protected boolean isNeedSpace() {
-        return true;
+        return setType()!=TYPE_LIST;
     }
 
     protected RecyclerView recycleView;

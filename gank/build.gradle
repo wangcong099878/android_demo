@@ -31,6 +31,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':base')
+    implementation "com.youth.banner:banner:$bannerVersion"
     implementation "com.zhpan.library:bannerview:$bannerviewVersion"
     annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"

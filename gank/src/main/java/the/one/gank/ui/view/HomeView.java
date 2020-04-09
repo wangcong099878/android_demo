@@ -21,8 +21,7 @@ package the.one.gank.ui.view;
 import java.util.List;
 
 import the.one.base.base.view.BaseView;
-import the.one.gank.bean.Banner;
-import the.one.gank.bean.GankBean;
+import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.HomeBean;
 
 /**
@@ -34,7 +33,7 @@ import the.one.gank.bean.HomeBean;
  */
 public interface HomeView extends BaseView {
 
-    void onWelfareComplete(List<Banner> data);
+    void onWelfareComplete(List<BannerBean> data);
 
     void onTodayComplete(HomeBean data);
 

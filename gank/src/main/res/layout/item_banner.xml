@@ -20,6 +20,6 @@
         android:layout_marginBottom="20dp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:textSize="17sp"/>
+        android:textSize="18sp"/>
 
 </RelativeLayout>

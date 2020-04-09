@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -501,7 +500,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     public View getView(int layoutId) {
-        return LayoutInflater.from(getContext()).inflate(layoutId, null);
+        return LayoutInflater.from(getContext()).inflate(layoutId, null,false);
     }
 
     public Drawable getDrawablee(int id) {

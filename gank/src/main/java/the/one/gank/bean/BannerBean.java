@@ -1,6 +1,6 @@
 package the.one.gank.bean;
 
-public class Banner {
+public class BannerBean {
 
 
     /**

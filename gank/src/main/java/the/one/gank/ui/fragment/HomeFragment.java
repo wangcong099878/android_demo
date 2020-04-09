@@ -24,7 +24,7 @@ import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.gank.R;
-import the.one.gank.bean.Banner;
+import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.GankBean;
 import the.one.gank.bean.HomeBean;
 import the.one.gank.bean.HomeHeadSection;
@@ -75,13 +75,12 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     @BindView(R.id.appbar_layout)
     QMUIAppBarLayout appbarLayout;
     @BindView(R.id.banner_view)
-    BannerViewPager<Banner, BannerViewHolder> mBannerViewPager;
+    BannerViewPager<BannerBean, BannerViewHolder> mBannerViewPager;
     private HomeAdapter mAdapter;
 
     private HomePresenter presenter;
     private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
 
-    private int mBannerHeight;
     private boolean isCollapsed = false;
     private boolean isOnPause = false;
 
@@ -160,7 +159,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     }
 
     @Override
-    public void onWelfareComplete(final List<Banner> data) {
+    public void onWelfareComplete(final List<BannerBean> data) {
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
                 .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity,R.attr.config_color))
@@ -173,8 +172,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
                 .setOnPageClickListener(new BannerViewPager.OnPageClickListener() {
                     @Override
                     public void onPageClick(int position) {
-                        Banner banner = data.get(position);
-                        BaseWebExplorerActivity.newInstance(_mActivity, banner.getTitle(), banner.getUrl());
+                        BannerBean bannerBean = data.get(position);
+                        BaseWebExplorerActivity.newInstance(_mActivity, bannerBean.getTitle(), bannerBean.getUrl());
                     }
                 })
                 .create(data);

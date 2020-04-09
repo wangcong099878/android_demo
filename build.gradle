@@ -78,6 +78,7 @@ allprojects {
         explosionfieldVersion = '1.0.1'
         EasySwipeMenuLayoutVersion = '1.1.4'
         bannerviewVersion = '2.7.1'
+        bannerVersion = '2.0.4'
     }
 }
 

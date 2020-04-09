@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-        <!--    android:background="?attr/selectableItemBackground"-->
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="12dp">
 
 
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="3"
-            android:textSize="16sp"
-            android:ellipsize="end" />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textSize="16sp" />
 
-        <the.one.base.widge.NineGridView
-            android:id="@+id/nine_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:sapcing="4dp"
-            android:layout_marginTop="@dimen/dp_10"/>
+    <the.one.base.widge.NineGridView
+        android:id="@+id/nine_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        app:sapcing="4dp" />
 
 
 </LinearLayout>

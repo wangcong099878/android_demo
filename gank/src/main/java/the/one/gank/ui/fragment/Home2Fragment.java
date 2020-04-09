@@ -2,16 +2,16 @@ package the.one.gank.ui.fragment;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
 import com.qmuiteam.qmui.util.QMUIColorHelper;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.constants.IndicatorGravity;
-import com.zhpan.bannerview.holder.HolderCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +24,16 @@ import the.one.base.base.activity.BaseWebExplorerActivity;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.OffsetLinearLayoutManager;
+import the.one.base.util.QMUIStatusBarHelper;
 import the.one.gank.R;
-import the.one.gank.bean.Banner;
+import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.GankBean;
 import the.one.gank.bean.HomeBean;
 import the.one.gank.bean.HomeSection;
 import the.one.gank.constant.NetUrlConstant;
 import the.one.gank.ui.adapter.BannerViewHolder;
 import the.one.gank.ui.adapter.Home2Adapter;
+import the.one.gank.ui.adapter.TheBannerAdapter;
 import the.one.gank.ui.presenter.HomePresenter;
 import the.one.gank.ui.view.HomeView;
 
@@ -61,15 +63,19 @@ import the.one.gank.ui.view.HomeView;
  * @email 625805189@qq.com
  * @remark
  */
-public class Home2Fragment extends BaseDataFragment<HomeSection> implements HomeView {
+public class Home2Fragment extends BaseDataFragment<HomeSection> implements HomeView, OnBannerListener {
 
-    BannerViewPager<Banner, BannerViewHolder> mBannerViewPager;
+    private BannerViewPager<BannerBean, BannerViewHolder> mBannerViewPager;
+    private Banner mBanner;
     private HomePresenter presenter;
     private int mBannerHeight;
     private List<HomeSection> sections;
+    private List<BannerBean> mBannerBeanData;
     private QMUIQQFaceView mTitleView;
     private String mTitleStr = "";
-
+    private boolean isLightMode = true;
+    private boolean isDark;
+    private boolean isLight;
 
     @Override
     protected boolean translucentFull() {
@@ -83,19 +89,48 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
 
     @Override
     protected boolean isStatusBarLightMode() {
-        return true;
+        return isLightMode;
     }
 
     @Override
     protected void initView(View rootView) {
         mBannerHeight = QMUIDisplayHelper.dp2px(_mActivity, 250);
         mTopLayout.setBackgroundColor(getColorr(R.color.white));
-        mTitleView = mTopLayout.setTitle("");
+        mTitleView = mTopLayout.setTitle("");// 这里设置空的时候mTitleView就被设置为GONE了，点进去看 mTopBar.setTitle
         mTitleView.getPaint().setFakeBoldText(true);
         super.initView(rootView);
-        recycleView.setItemViewCacheSize(50);
-        mStatusLayout.setFitsSystemWindows(false);
+        initBanner();
         setMargins(mStatusLayout, 0, 0, 0, 0);
+        mStatusLayout.setFitsSystemWindows(false);
+        recycleView.setItemViewCacheSize(50);
+    }
+
+    private void initBanner() {
+//        mBanner = (Banner) getView(R.layout.banner_layout);
+//        mBanner = new Banner(getBaseFragmentActivity());
+//        mBanner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
+//        mBanner.setIndicator(new CircleIndicator(_mActivity))
+//                .setIndicatorNormalColor(getColorr(R.color.qmui_config_color_white))
+//                .setIndicatorSelectedColor(QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
+//                .setIndicatorGravity(IndicatorConfig.Direction.CENTER)
+//                .setOnBannerListener(this);
+//        adapter.addHeaderView(mBanner, 0);
+
+        mBannerViewPager = (BannerViewPager) getView(R.layout.banner_viewpager);
+
+//                mBannerViewPager = new BannerViewPager<>(_mActivity);
+        mBannerViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
+        mBannerViewPager
+                .setIndicatorGravity(IndicatorGravity.END)
+                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
+                .setHolderCreator(() -> new BannerViewHolder())
+                .setOnPageClickListener(position -> {
+                    if (null != mBannerBeanData && mBannerBeanData.size() > 0) {
+                        BannerBean bannerBean = mBannerBeanData.get(position);
+                        BaseWebExplorerActivity.newInstance(_mActivity, bannerBean.getTitle(), bannerBean.getUrl());
+                    }
+                });
+        adapter.addHeaderView(mBannerViewPager);
     }
 
     @Override
@@ -112,9 +147,13 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                 if (y >= height) percent = 1;
                 else
                     percent = y / (height * 1.0f);
-
-                // 变化到一半的时候就改变颜色
-                mTitleView.setTextColor(getColorr(percent > 0.5 ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white));
+                isLightMode = percent>0.5;
+                if(isLightMode&&isDark){
+                    setStatusBarLightMode();
+                }else if(!isLightMode&&isLight){
+                    setStatusBarDarkMode();
+                }
+                mTitleView.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1), percent));
                 // 两种写法
                 // 1
                 mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
@@ -142,45 +181,39 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     private void setTitle(String title) {
         if (null != mTitleView && !mTitleStr.equals(title)) {
             mTitleStr = title;
-            mTitleView.setText(mTitleStr);
+            // 由于 mTitleView 已经被设置为GONE状态
+            // 所以这里要用 mTopLayout.setTitle
+            mTopLayout.setTitle(mTitleStr);
+            // 或者下面这样写
+            // mTitleView.setText(mTitleStr);
+            // showView(mTitleView);
         }
     }
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        Home2Adapter adapter = new Home2Adapter();
-        mBannerViewPager = new BannerViewPager<Banner, BannerViewHolder>(_mActivity);
-        mBannerViewPager.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
-        adapter.addHeaderView(mBannerViewPager);
-        return adapter;
+        return new Home2Adapter();
     }
 
     @Override
     protected void requestServer() {
         presenter.getTodayData();
-        presenter.getBanner();
+        if (null == mBannerBeanData || mBannerBeanData.size() == 0)
+            presenter.getBanner();
     }
 
     @Override
-    public void onWelfareComplete(final List<Banner> data) {
-        mBannerViewPager
-                .setIndicatorGravity(IndicatorGravity.END)
-                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
-                .setHolderCreator(new HolderCreator<BannerViewHolder>() {
-                    @Override
-                    public BannerViewHolder createViewHolder() {
-                        return new BannerViewHolder();
-                    }
-                })
-                .setOnPageClickListener(new BannerViewPager.OnPageClickListener() {
-                    @Override
-                    public void onPageClick(int position) {
-                        Banner banner = data.get(position);
-                        BaseWebExplorerActivity.newInstance(_mActivity, banner.getTitle(), banner.getUrl());
-                    }
-                })
-                .create(data);
-        mBannerViewPager.startLoop();
+    public void onWelfareComplete(final List<BannerBean> data) {
+        mBannerBeanData = data;
+        if (null != mBanner) {
+            mBanner.setAdapter(new TheBannerAdapter(mBannerBeanData));
+            mBanner.start();
+
+        }
+        if (null != mBannerViewPager) {
+            mBannerViewPager.create(data);
+            mBannerViewPager.startLoop();
+        }
     }
 
 
@@ -197,7 +230,20 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         parseSection(resultsBean.welfare, NetUrlConstant.WELFARE);
         onComplete(sections);
         showContentPage();
+        setStatusBarDarkMode();
         onNormal();
+    }
+
+    private void setStatusBarDarkMode(){
+        isDark = true;
+        isLight = false;
+        QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+    }
+
+    private void setStatusBarLightMode(){
+        isDark = false;
+        isLight = true;
+        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
     }
 
     private void parseSection(List<GankBean> gankBeans, String head) {
@@ -219,6 +265,9 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         if (mBannerViewPager != null) {
             mBannerViewPager.stopLoop();
         }
+        if (null != mBanner) {
+            mBanner.stop();
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -226,6 +275,14 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         super.onLazyResume();
         if (mBannerViewPager != null)
             mBannerViewPager.startLoop();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void onStart() {
+        super.onStart();
+        if (null != mBanner) {
+            mBanner.start();
+        }
     }
 
     @Override
@@ -238,5 +295,11 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     @Override
     public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         return false;
+    }
+
+    @Override
+    public void OnBannerClick(Object data, int position) {
+        BannerBean bannerBean = (BannerBean) data;
+        BaseWebExplorerActivity.newInstance(_mActivity, bannerBean.getTitle(), bannerBean.getUrl());
     }
 }
