@@ -35,7 +35,7 @@ import java.util.List;
 import the.one.base.R;
 import the.one.base.adapter.FullyGridLayoutManager;
 import the.one.base.adapter.GridImageAdapter;
-import the.one.base.base.activity.PhotoWatchActivity;
+import the.one.base.base.activity.ImagePreviewActivity;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.util.SelectPictureUtil;
 
@@ -160,7 +160,7 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
                     for (LocalMedia media:mSelectList){
                         images.add(media.getPath());
                     }
-                    PhotoWatchActivity.startThisActivity(_mActivity,v,images,position);
+                    ImagePreviewActivity.startThisActivity(_mActivity,v,images,position);
                     break;
             }
         }

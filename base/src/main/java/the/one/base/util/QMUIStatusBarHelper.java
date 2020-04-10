@@ -333,7 +333,6 @@ public class QMUIStatusBarHelper {
     public static boolean FlymeSetStatusBarLightMode(Window window, boolean light) {
         boolean result = false;
         if (window != null) {
-            Log.e(TAG, "FlymeSetStatusBarLightMode: "+Thread.currentThread().toString() );
             // flyme 在 6.2.0.0A 支持了 Android 官方的实现方案，旧的方案失效
             if (Android6SetStatusBarLightMode(window, light)) {
                 return true;

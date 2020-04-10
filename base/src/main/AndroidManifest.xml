@@ -25,7 +25,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".base.activity.PhotoWatchActivity"
+            android:name=".base.activity.ImagePreviewActivity"
             android:theme="@style/TranslucentTheme" />
 
         <activity android:name=".base.activity.BaseWebExplorerActivity" />

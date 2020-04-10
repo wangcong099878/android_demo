@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import the.one.base.base.activity.BaseWebExplorerActivity;
-import the.one.base.base.activity.PhotoWatchActivity;
+import the.one.base.base.activity.ImagePreviewActivity;
 import the.one.base.base.fragment.BaseDataFragment;
 import the.one.base.base.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
@@ -104,7 +104,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
             for (GankBean gankBean: datas){
                 images.add(gankBean.getUrl());
             }
-            PhotoWatchActivity.startThisActivity(_mActivity,view,images,position);
+            ImagePreviewActivity.startThisActivity(_mActivity,view,images,position);
         }
     }
 

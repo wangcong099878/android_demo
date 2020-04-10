@@ -15,7 +15,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 
-import the.one.base.base.activity.PhotoWatchActivity;
+import the.one.base.base.activity.ImagePreviewActivity;
 import the.one.base.util.glide.GlideUtil;
 
 /**
@@ -69,7 +69,7 @@ public class NineGridView extends NineGridLayout {
 
     @Override
     protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
-        PhotoWatchActivity.startThisActivity((Activity) mContext,view,urlList,position);
+        ImagePreviewActivity.startThisActivity((Activity) mContext,view,urlList,position);
     }
 
 }

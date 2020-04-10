@@ -8,7 +8,6 @@ import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
 import com.qmuiteam.qmui.util.QMUIColorHelper;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.constants.IndicatorGravity;
@@ -33,7 +32,6 @@ import the.one.gank.bean.HomeSection;
 import the.one.gank.constant.NetUrlConstant;
 import the.one.gank.ui.adapter.BannerViewHolder;
 import the.one.gank.ui.adapter.Home2Adapter;
-import the.one.gank.ui.adapter.TheBannerAdapter;
 import the.one.gank.ui.presenter.HomePresenter;
 import the.one.gank.ui.view.HomeView;
 
@@ -66,7 +64,6 @@ import the.one.gank.ui.view.HomeView;
 public class Home2Fragment extends BaseDataFragment<HomeSection> implements HomeView, OnBannerListener {
 
     private BannerViewPager<BannerBean, BannerViewHolder> mBannerViewPager;
-    private Banner mBanner;
     private HomePresenter presenter;
     private int mBannerHeight;
     private List<HomeSection> sections;
@@ -107,16 +104,6 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     }
 
     private void initBanner() {
-//        mBanner = (Banner) getView(R.layout.banner_layout);
-//        mBanner = new Banner(getBaseFragmentActivity());
-//        mBanner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
-//        mBanner.setIndicator(new CircleIndicator(_mActivity))
-//                .setIndicatorNormalColor(getColorr(R.color.qmui_config_color_white))
-//                .setIndicatorSelectedColor(QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
-//                .setIndicatorGravity(IndicatorConfig.Direction.CENTER)
-//                .setOnBannerListener(this);
-//        adapter.addHeaderView(mBanner, 0);
-
         mBannerViewPager = (BannerViewPager) getView(R.layout.banner_viewpager);
         // 直接new出来不知道为什么轮播无效
 //                mBannerViewPager = new BannerViewPager<>(_mActivity);
@@ -156,6 +143,8 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                     setStatusBarDarkMode();
                 }
                 mTitleView.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1), percent));
+                mTopLayout.updateBottomSeparatorColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_separator), percent));
+
                 // 两种写法
                 // 1
                 mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
@@ -207,11 +196,6 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     @Override
     public void onWelfareComplete(final List<BannerBean> data) {
         mBannerBeanData = data;
-        if (null != mBanner) {
-            mBanner.setAdapter(new TheBannerAdapter(mBannerBeanData));
-            mBanner.start();
-
-        }
         if (null != mBannerViewPager) {
             mBannerViewPager.create(data);
             mBannerViewPager.startLoop();
@@ -270,9 +254,6 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         if (mBannerViewPager != null) {
             mBannerViewPager.stopLoop();
         }
-        if (null != mBanner) {
-            mBanner.stop();
-        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -281,14 +262,6 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         super.onLazyResume();
         if (mBannerViewPager != null)
             mBannerViewPager.startLoop();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onStart() {
-        super.onStart();
-        if (null != mBanner) {
-            mBanner.start();
-        }
     }
 
     @Override

@@ -29,7 +29,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -41,10 +40,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.webview.QMUIWebView;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewClient;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewContainer;
@@ -60,8 +56,6 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.base.presenter.BasePresenter;
-import the.one.base.util.StatusBarUtil;
-import the.one.base.util.ToastUtil;
 import the.one.base.widge.BridgeWebView;
 import the.one.base.widge.BridgeWebViewClient;
 import the.one.base.widge.MyTopBarLayout;
@@ -73,13 +67,15 @@ import the.one.base.widge.MyTopBarLayout;
  * @email 625805189@qq.com
  * @remark
  */
-public class BaseWebExplorerActivity extends BaseActivity {
+public class BaseWebExplorerActivity extends BaseActivity  {
 
     public static final String EXTRA_URL = "EXTRA_URL";
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
     public static final String EXTRA_NEED_DECODE = "EXTRA_NEED_DECODE";
     public static final String EXTRA_CHANGE_TITLE = "EXTRA_CHANGE_TITLE";
     public static final String EXTRA_TITLE_COLOR = "EXTRA_TITLE_COLOR";
+
+    private static final String IMAGE_LISTENER = "imagelistener";
 
     protected MyTopBarLayout mTopBarLayout;
     protected QMUIWebViewContainer mWebViewContainer;
@@ -93,6 +89,8 @@ public class BaseWebExplorerActivity extends BaseActivity {
     public final static int PROGRESS_GONE = 1;
 
     private ProgressHandler mProgressHandler;
+    private boolean isFirstInit = true;
+    private boolean isSeparatorShow = false;
     private boolean mIsPageFinished = false;
     private boolean mNeedDecodeUrl = false;
     private boolean mIsChangeTitle = true;
@@ -151,6 +149,16 @@ public class BaseWebExplorerActivity extends BaseActivity {
         initWebView();
     }
 
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+        if (isFirstInit) {
+            isFirstInit = false;
+            // 将耗时的放在动画结束后再进行
+            loadUrl();
+        }
+    }
+
     protected void initTopBar() {
         mTopBarLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,29 +167,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
             }
         });
         mTopBarLayout.setTitle(mTitle);
-
-//        if (!mIsWhiteBg && StatusBarUtil.isTranslucent(this)) {
-//            QMUIStatusBarHelper.setStatusBarDarkMode(this);
-//            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
-//            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    doOnBackPressed();
-//                }
-//            });
-//            mTopBarLayout.setTitle(mTitle);
-//        } else {
-//            QMUIStatusBarHelper.setStatusBarLightMode(this);
-//            mTopBarLayout.getTopBar().setBackgroundColor(getColorr(R.color.qmui_config_color_white));
-//            mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    doOnBackPressed();
-//                }
-//            });
-//            mTopBarLayout.setTitle(mTitle).setTextColor(getColorr(R.color.qmui_config_color_gray_1));
-//        }
-
     }
 
     private void updateTitle(String title) {
@@ -212,50 +197,52 @@ public class BaseWebExplorerActivity extends BaseActivity {
         mWebViewContainer.setFitsSystemWindows(!needDispatchSafeAreaInset);
         containerLp.topMargin = needDispatchSafeAreaInset ? 0 : QMUIResHelper.getAttrDimen(this, R.attr.qmui_topbar_height);
         mWebViewContainer.setLayoutParams(containerLp);
-        mWebView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                boolean needConfirm = true;
-                if (needConfirm) {
-                    final String finalURL = url;
-                    new QMUIDialog.MessageDialogBuilder(BaseWebExplorerActivity.this)
-                            .setMessage("确认下载此文件？")
-                            .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
-                                @Override
-                                public void onClick(QMUIDialog dialog, int index) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .addAction(R.string.sure, new QMUIDialogAction.ActionListener() {
-                                @Override
-                                public void onClick(QMUIDialog dialog, int index) {
-                                    dialog.dismiss();
-                                    doDownload(finalURL);
-                                }
-                            })
-                            .show();
-                } else {
-                    doDownload(url);
-                }
-            }
-
-            private void doDownload(String url) {
-                ToastUtil.showToast(url);
-            }
-        });
-
+//        mWebView.setDownloadListener(new DownloadListener() {
+//            @Override
+//            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+//                boolean needConfirm = true;
+//                if (needConfirm) {
+//                    final String finalURL = url;
+//                    new QMUIDialog.MessageDialogBuilder(BaseWebExplorerActivity.this)
+//                            .setMessage("确认下载此文件？")
+//                            .addAction(R.string.cancel, new QMUIDialogAction.ActionListener() {
+//                                @Override
+//                                public void onClick(QMUIDialog dialog, int index) {
+//                                    dialog.dismiss();
+//                                }
+//                            })
+//                            .addAction(R.string.sure, new QMUIDialogAction.ActionListener() {
+//                                @Override
+//                                public void onClick(QMUIDialog dialog, int index) {
+//                                    dialog.dismiss();
+//                                    doDownload(finalURL);
+//                                }
+//                            })
+//                            .show();
+//                } else {
+//                    doDownload(url);
+//                }
+//            }
+//
+//            private void doDownload(String url) {
+//                ToastUtil.showToast(url);
+//            }
+//        });
         mWebView.setWebChromeClient(getWebViewChromeClient());
         mWebView.setWebViewClient(getWebViewClient());
         mWebView.requestFocus(View.FOCUS_DOWN);
 
         setZoomControlGone(mWebView);
         configWebView(mWebViewContainer, mWebView);
-        mWebView.registerHandler("imagelistener", imageHandler);
-        loadUrl();
+        registerHandler();
     }
 
-    protected void loadUrl(){
+    protected void loadUrl() {
         mWebView.loadUrl(mUrl);
+    }
+
+    protected void registerHandler() {
+        mWebView.registerHandler("imagelistener", imageHandler);
     }
 
     protected void configWebView(QMUIWebViewContainer webViewContainer, QMUIWebView webView) {
@@ -263,6 +250,14 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     protected void onScrollWebContent(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        // 滑动后添加分割线
+        if (!isSeparatorShow && scrollY > 10) {
+            isSeparatorShow = true;
+            mTopBarLayout.updateBottomSeparatorColor(getColorr(R.color.qmui_config_color_separator));
+        } else if (isSeparatorShow) {
+            isSeparatorShow = false;
+            mTopBarLayout.updateBottomSeparatorColor(getColorr(R.color.qmui_config_color_white));
+        }
     }
 
     private void handleUrl(String url) {
@@ -295,12 +290,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
         mProgressHandler.sendMessage(msg);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mWebViewContainer.destroy();
-        mWebView = null;
-    }
 
     public static void setZoomControlGone(WebView webView) {
         webView.getSettings().setDisplayZoomControls(false);
@@ -323,6 +312,88 @@ public class BaseWebExplorerActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+
+    // 注入js函数监听
+    protected void addImageClickListener(WebView webView) {
+        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
+        //函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        webView.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                " var array=new Array(); " +
+                " for(var j=0;j<objs.length;j++){ array[j]=objs[j].src; }" +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "    objs[i].onclick=function()  " +
+                "    {  "
+                + "        window.WebViewJavascriptBridge.callHandler('imagelistener',{'position':this.src,'data':array});  " +
+                "    }  " +
+                "}" +
+                "})()");
+    }
+
+
+    protected   BridgeHandler imageHandler = new BridgeHandler() {
+        @Override
+        public void handler(String data, CallBackFunction function) {
+            Log.e(TAG, "handler: " );
+            JSONObject jsonObject = null;
+            ArrayList<String> itemData;
+            int position = 0;
+            try {
+                jsonObject = new JSONObject(data);
+                String src = jsonObject.getString("position");
+                String personObject = jsonObject.getString("data");
+                itemData = new Gson().fromJson(personObject,
+                        new TypeToken<List<String>>() {
+                        }.getType());
+                for (int i = 0; i < itemData.size(); i++) {
+                    String item = itemData.get(i);
+                    if (item.contains("apps.game.qq.com") || item.contains("gpcd.gtimg.cn")) {
+                        itemData.remove(i);
+                    }
+                }
+                for (int i = 0; i < itemData.size(); i++) {
+                    String item = itemData.get(i);
+                    if (item.equals(src)) {
+                        position = i;
+                    }
+                }
+                startPhotoWatchActivity(itemData, position);
+            } catch (JSONException e) {
+                Log.e(TAG, "JSONException: ");
+                e.printStackTrace();
+            }
+        }
+    };
+
+//    protected BridgeHandler getBridgeHandler(){
+//        return new BridgeHandler() {
+//            @Override
+//            public void handler(String data, CallBackFunction function) {
+//                Log.e(TAG, "handler: "+data );
+//                JSONObject jsonObject = null;
+//                ArrayList<String> itemData;
+//                int position = 0;
+//                try {
+//                    jsonObject = new JSONObject(data);
+//                    String src = jsonObject.getString("position");
+//                    String personObject = jsonObject.getString("data");
+//                    itemData = new Gson().fromJson(personObject,
+//                            new TypeToken<List<String>>() {
+//                            }.getType());
+//                    for (int i = 0; i < itemData.size(); i++) {
+//                        String item = itemData.get(i);
+//                        if (item.equals(src)) {
+//                            position = i;
+//                        }
+//                    }
+//                    startPhotoWatchActivity(itemData, position);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//    }
 
     public class ExplorerWebViewChromeClient extends WebChromeClient {
         private BaseWebExplorerActivity mFragment;
@@ -386,24 +457,6 @@ public class BaseWebExplorerActivity extends BaseActivity {
         }
     }
 
-    // 注入js函数监听
-    public static void addImageClickListener(WebView webView) {
-        // 这段js函数的功能就是，遍历所有的img几点，并添加onclick函数，
-        //函数的功能是在图片点击的时候调用本地java接口并传递url过去
-        webView.loadUrl("javascript:(function(){" +
-                "var objs = document.getElementsByTagName(\"img\"); " +
-                " var array=new Array(); " +
-                " for(var j=0;j<objs.length;j++){ array[j]=objs[j].src; }" +
-                "for(var i=0;i<objs.length;i++)  " +
-                "{"
-                + "    objs[i].onclick=function()  " +
-                "    {  "
-                + "        window.WebViewJavascriptBridge.callHandler('imagelistener',{'position':this.src,'data':array});  " +
-                "    }  " +
-                "}" +
-                "})()");
-    }
-
     private class ProgressHandler extends Handler {
 
         private int mDstProgressIndex;
@@ -452,6 +505,10 @@ public class BaseWebExplorerActivity extends BaseActivity {
         }
     }
 
+    protected void startPhotoWatchActivity(ArrayList<String> itemData, int position) {
+        ImagePreviewActivity.startThisActivity(BaseWebExplorerActivity.this, null, itemData, position);
+    }
+
     @Override
     protected void doOnBackPressed() {
         if (mWebView.canGoBack()) {
@@ -460,41 +517,11 @@ public class BaseWebExplorerActivity extends BaseActivity {
             super.doOnBackPressed();
     }
 
-    protected   BridgeHandler imageHandler = new BridgeHandler() {
-        @Override
-        public void handler(String data, CallBackFunction function) {
-            JSONObject jsonObject = null;
-            ArrayList<String> itemData;
-            int position = 0;
-            try {
-                jsonObject = new JSONObject(data);
-                String src = jsonObject.getString("position");
-                String personObject = jsonObject.getString("data");
-                itemData = new Gson().fromJson(personObject,
-                        new TypeToken<List<String>>() {
-                        }.getType());
-                for (int i = 0; i < itemData.size(); i++) {
-                    String item = itemData.get(i);
-                    if (item.contains("apps.game.qq.com") || item.contains("gpcd.gtimg.cn")) {
-                        itemData.remove(i);
-                    }
-                }
-                for (int i = 0; i < itemData.size(); i++) {
-                    String item = itemData.get(i);
-                    if (item.equals(src)) {
-                        position = i;
-                    }
-                }
-                startPhotoWatchActivity(itemData, position);
-            } catch (JSONException e) {
-                Log.e(TAG, "JSONException: ");
-                e.printStackTrace();
-            }
-        }
-    };
-
-    protected void startPhotoWatchActivity(ArrayList<String> itemData, int position) {
-        PhotoWatchActivity.startThisActivity(BaseWebExplorerActivity.this, null, itemData, position);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mWebViewContainer.destroy();
+        mWebView = null;
     }
 
 }

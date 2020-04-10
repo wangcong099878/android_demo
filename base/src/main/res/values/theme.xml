@@ -11,6 +11,8 @@
         <item name="qmui_skin_support_tab_sign_count_view_bg_color">@color/qmui_config_color_red</item>
         <item name="qmui_skin_support_tab_bg">@color/qmui_config_color_white</item>
 
+        <item name="qmui_progress_color">?config_color</item>
+
         <item name="QMUITopBarStyle">@style/BaseTopBarStyle</item>
         <item name="QMUITabSegmentStyle">@style/BaseSegmentStyle</item>
 
@@ -22,6 +24,9 @@
         <item name="glide_fail_drawable">@drawable/svg_image_fail</item>
         <!--崩溃界面样式-->
         <item name="CrashLayoutStyle">@style/crash_layout_style</item>
+
+        <item name="colorAccent">?config_color</item>
+        <item name="colorPrimary">?config_color</item>
 
     </style>
 
