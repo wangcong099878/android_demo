@@ -1,13 +1,9 @@
 package the.one.base.widge;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -15,7 +11,9 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 
-import the.one.base.base.activity.ImagePreviewActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import the.one.base.util.ImagePreviewUtil;
 import the.one.base.util.glide.GlideUtil;
 
 /**
@@ -27,7 +25,7 @@ public class NineGridView extends NineGridLayout {
 
     protected static final int MAX_W_H_RATIO = 3;
 
-    public NineGridView(Activity context) {
+    public NineGridView(Context context) {
         super(context);
     }
 
@@ -69,7 +67,8 @@ public class NineGridView extends NineGridLayout {
 
     @Override
     protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
-        ImagePreviewActivity.startThisActivity((Activity) mContext,view,urlList,position);
+//        ImagePreviewActivity.startThisActivity((Activity) mContext,view,urlList,position);
+       new  ImagePreviewUtil().show(mContext,urlList,position);
     }
 
 }

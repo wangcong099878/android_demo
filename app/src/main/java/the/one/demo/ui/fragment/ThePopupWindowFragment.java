@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.base.widge.ThePopupWindow;
 import the.one.demo.R;
 

@@ -1,7 +1,7 @@
 package the.one.demo.ui.activity;
 
-import the.one.base.base.activity.BaseFragmentActivity;
-import the.one.base.base.fragment.BaseFragment;
+import the.one.base.ui.activity.BaseFragmentActivity;
+import the.one.base.ui.fragment.BaseFragment;
 import the.one.demo.ui.fragment.SampleFragment;
 
 

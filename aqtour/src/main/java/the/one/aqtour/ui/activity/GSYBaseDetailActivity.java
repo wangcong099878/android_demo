@@ -9,7 +9,7 @@ import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 
-import the.one.base.base.activity.BaseActivity;
+import the.one.base.ui.activity.BaseActivity;
 
 public abstract class GSYBaseDetailActivity<T extends GSYBaseVideoPlayer> extends BaseActivity implements VideoAllCallBack {
 

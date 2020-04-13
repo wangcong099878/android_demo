@@ -2,7 +2,6 @@ package the.one.aqtour.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,7 +14,7 @@ import the.one.aqtour.m3u8downloader.bean.M3U8Task;
 import the.one.aqtour.m3u8downloader.server.EncryptM3U8Server;
 import the.one.aqtour.m3u8downloader.utils.M3U8PathUtil;
 import the.one.aqtour.widge.StandardTheVideoPlayer;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.util.glide.GlideUtil;
 

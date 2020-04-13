@@ -20,7 +20,7 @@ package the.one.gank.ui.view;
 
 import java.util.List;
 
-import the.one.base.base.view.BaseView;
+import the.one.base.ui.view.BaseView;
 import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.HomeBean;
 

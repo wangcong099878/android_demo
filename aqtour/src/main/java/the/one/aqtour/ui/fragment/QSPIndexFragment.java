@@ -11,9 +11,9 @@ import the.one.aqtour.R;
 import the.one.aqtour.bean.QSPCategory;
 import the.one.aqtour.ui.presenter.QSPCategoryPresenter;
 import the.one.aqtour.ui.view.QSPCategoryView;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseTitleTabFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.fragment.BaseTitleTabFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.widge.TheSearchView;
 
 public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategoryView {

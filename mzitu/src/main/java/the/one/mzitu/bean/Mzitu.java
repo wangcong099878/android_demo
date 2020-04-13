@@ -114,6 +114,11 @@ public class Mzitu implements ImageSnap, Parcelable  {
     }
 
     @Override
+    public boolean isVideo() {
+        return false;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

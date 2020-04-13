@@ -2,8 +2,8 @@ package the.one.demo.ui.fragment;
 
 import android.view.View;
 
-import the.one.base.base.fragment.BaseGroupListFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseGroupListFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.widge.TheSearchView;
 import the.one.demo.R;
 

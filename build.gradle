@@ -45,7 +45,7 @@ allprojects {
 
         //net
         okhttpVersion = '3.12.6'
-        rxhttpVersion = '2.0.0'
+        rxhttpVersion = '2.1.1'
         rxandroidVersion = '2.1.1'
         rxlifeVersion = '2.0.0'
         okhttpUtilVersion = '2.6.2'

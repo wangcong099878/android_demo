@@ -36,7 +36,7 @@ import the.one.aqtour.ui.presenter.QSPVideoDetailPresenter;
 import the.one.aqtour.ui.view.QSPVideoDetailView;
 import the.one.aqtour.util.LitePalUtil;
 import the.one.aqtour.widge.StandardTheVideoPlayer;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.MyTopBarLayout;

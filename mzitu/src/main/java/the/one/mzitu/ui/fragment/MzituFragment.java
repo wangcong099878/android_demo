@@ -1,14 +1,13 @@
 package the.one.mzitu.ui.fragment;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
 
 import java.util.ArrayList;
 
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseTitleTabFragment;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.fragment.BaseTitleTabFragment;
 import the.one.mzitu.R;
 import the.one.mzitu.constant.MzituConstant;
 

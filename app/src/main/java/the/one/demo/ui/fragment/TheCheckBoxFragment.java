@@ -6,8 +6,8 @@ import com.qmuiteam.qmui.layout.QMUILinearLayout;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import butterknife.BindView;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.widge.TheCheckBox;
 import the.one.demo.R;
 

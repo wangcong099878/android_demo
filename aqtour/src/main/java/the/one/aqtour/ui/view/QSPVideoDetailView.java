@@ -1,6 +1,6 @@
 package the.one.aqtour.ui.view;
 
-import the.one.base.base.view.BaseView;
+import the.one.base.ui.view.BaseView;
 
 public interface QSPVideoDetailView extends BaseView {
 

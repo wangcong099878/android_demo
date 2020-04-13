@@ -25,16 +25,23 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".base.activity.ImagePreviewActivity"
+            android:name=".ui.activity.ImagePreviewActivity"
             android:theme="@style/TranslucentTheme" />
 
-        <activity android:name=".base.activity.BaseWebExplorerActivity" />
+        <activity android:name=".ui.activity.BaseWebExplorerActivity" />
 
         <activity
-            android:name=".base.activity.UpdateApkActivity"
+            android:name=".ui.activity.UpdateApkActivity"
             android:theme="@style/DialogActivityTheme" />
 
-        <activity android:name=".base.activity.CrashActivity" />
+        <activity android:name="cc.shinichi.library.view.ImagePreviewActivity"
+            tools:replace="android:theme"
+            android:theme="@style/BaseTheme">
+
+
+        </activity>
+
+        <activity android:name=".ui.activity.CrashActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

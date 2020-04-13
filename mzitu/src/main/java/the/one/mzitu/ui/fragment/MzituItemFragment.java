@@ -5,8 +5,8 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import the.one.base.base.fragment.BaseDataFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.mzitu.bean.Mzitu;
 import the.one.mzitu.constant.MzituConstant;

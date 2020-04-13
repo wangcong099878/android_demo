@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
-import the.one.base.base.activity.UpdateApkActivity;
-import the.one.base.model.IApkUpdate;
+import the.one.base.ui.activity.UpdateApkActivity;
+import the.one.base.Interface.IApkUpdate;
 /**
  * @author The one
  * @date 2018/10/16 0016

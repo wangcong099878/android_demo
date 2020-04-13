@@ -14,8 +14,8 @@ import the.one.aqtour.m3u8downloader.M3U8Downloader;
 import the.one.aqtour.m3u8downloader.M3U8DownloaderConfig;
 import the.one.aqtour.ui.fragment.QSPIndexFragment;
 import the.one.base.Interface.IOnKeyBackClickListener;
-import the.one.base.base.activity.BaseFragmentActivity;
-import the.one.base.base.fragment.BaseFragment;
+import the.one.base.ui.activity.BaseFragmentActivity;
+import the.one.base.ui.fragment.BaseFragment;
 import the.one.base.util.FileDirectoryUtil;
 
 

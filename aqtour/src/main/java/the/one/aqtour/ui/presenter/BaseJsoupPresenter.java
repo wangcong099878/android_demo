@@ -6,8 +6,8 @@ import android.util.Log;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import the.one.base.base.presenter.BasePresenter;
-import the.one.base.base.view.BaseView;
+import the.one.base.ui.presenter.BasePresenter;
+import the.one.base.ui.view.BaseView;
 
 public class BaseJsoupPresenter<V extends BaseView> extends BasePresenter<V> {
 

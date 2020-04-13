@@ -8,8 +8,8 @@ import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 
 import butterknife.BindView;
-import the.one.base.base.fragment.BaseDataFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.demo.R;

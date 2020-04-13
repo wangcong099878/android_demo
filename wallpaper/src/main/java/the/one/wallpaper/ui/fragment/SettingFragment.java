@@ -5,7 +5,7 @@ import android.widget.CompoundButton;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.wallpaper.constant.WallpaperConstant;
 import the.one.wallpaper.service.DynamicWallpaper1;
 import the.one.wallpaper.service.DynamicWallpaper2;

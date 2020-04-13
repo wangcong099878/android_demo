@@ -11,7 +11,7 @@ import the.one.aqtour.bean.QSPVideo;
 import the.one.aqtour.bean.QSPVideoSection;
 import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.util.LitePalUtil;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.QMUIDialogUtil;
 
 public class CollectionVideoFragment extends BaseVideoFragment {

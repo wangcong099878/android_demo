@@ -7,7 +7,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.base.util.AppMourningThemeUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.crash.CrashUtil;

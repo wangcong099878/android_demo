@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.IOnKeyBackClickListener;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseTabOnTitleFragment;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.fragment.BaseTabOnTitleFragment;
 import the.one.wallpaper.R;
 import the.one.wallpaper.constant.WallpaperConstant;
 

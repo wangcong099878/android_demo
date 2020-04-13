@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.base.util.StringUtils;
 import the.one.demo.R;
 

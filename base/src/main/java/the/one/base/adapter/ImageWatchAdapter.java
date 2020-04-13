@@ -53,16 +53,21 @@ public class ImageWatchAdapter extends PagerAdapter {
         final PhotoView photoView = contentView.findViewById(R.id.photo_view);
         final SubsamplingScaleImageView longImageView = contentView.findViewById(R.id.longImg);
         final QMUIProgressBar progressBar = contentView.findViewById(R.id.progressbar);
-        progressBar.setProgress(0);
-        mGlideEngine.loadImageWithProgress(container.getContext(), path,
-                    photoView, longImageView, progressBar);
-        setClickListener(path,position,photoView,longImageView);
 
+//        setClickListener(path,position,photoView,longImageView);
+//        Glide.with(container.getContext())
+//                .load(path)
+//                .into(photoView);
         imageGifHashMap.remove(path);
         imageGifHashMap.put(path, photoView);
 
         imageHashMap.remove(path);
         imageHashMap.put(path, longImageView);
+
+        progressBar.setProgress(0);
+
+        mGlideEngine.loadImageWithProgress(container.getContext(), path,
+                photoView, longImageView, progressBar);
 
         container.addView(contentView);
         return contentView;

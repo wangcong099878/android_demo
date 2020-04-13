@@ -4,9 +4,9 @@ import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
 import butterknife.OnClick;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BasePopupLayoutFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.fragment.BasePopupLayoutFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.demo.R;
 
 

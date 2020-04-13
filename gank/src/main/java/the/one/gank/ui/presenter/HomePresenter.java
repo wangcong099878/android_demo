@@ -7,7 +7,7 @@ import com.rxjava.rxlife.RxLife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.OnError;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.HomeBean;
 import the.one.gank.constant.NetUrlConstant;

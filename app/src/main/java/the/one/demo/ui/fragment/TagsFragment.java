@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.demo.R;
 import the.one.demo.ui.activity.BingoActivity;
 import the.one.demo.ui.activity.SampleActivity;

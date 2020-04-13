@@ -2,8 +2,6 @@ package the.one.base.util.glide;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
@@ -12,14 +10,10 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
-
+import androidx.annotation.NonNull;
 import okhttp3.OkHttpClient;
-import rxhttp.wrapper.ssl.SSLSocketFactoryImpl;
-import rxhttp.wrapper.ssl.X509TrustManagerImpl;
+import rxhttp.HttpSender;
 
 
 // 注意这个注解一定要加上，HttpGlideModule是自定义的名字
@@ -42,15 +36,16 @@ public final class OkHttpGlideModule extends AppGlideModule {
      * @return
      */
     private  OkHttpClient getOkHttpClient() {
-        X509TrustManager trustAllCert = new X509TrustManagerImpl();
-        SSLSocketFactory sslSocketFactory = new SSLSocketFactoryImpl(trustAllCert);
-        return new OkHttpClient.Builder()
-                .addInterceptor(new GlideProgressInterceptor())
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
-                .hostnameVerifier((hostname, session) -> true) //忽略host验证
-                .build();
+      return   HttpSender.newOkClientBuilder().addInterceptor(new GlideProgressInterceptor()).build();
+//        X509TrustManager trustAllCert = new X509TrustManagerImpl();
+//        SSLSocketFactory sslSocketFactory = new SSLSocketFactoryImpl(trustAllCert);
+//        return new OkHttpClient.Builder()
+//                .addInterceptor(new GlideProgressInterceptor())
+//                .connectTimeout(10, TimeUnit.SECONDS)
+//                .readTimeout(10, TimeUnit.SECONDS)
+//                .writeTimeout(10, TimeUnit.SECONDS)
+//                .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
+//                .hostnameVerifier((hostname, session) -> true) //忽略host验证
+//                .build();
     }
 }

@@ -2,18 +2,10 @@ package the.one.mzitu.presenter;
 
 import com.rxjava.rxlife.RxLife;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import rxhttp.wrapper.param.RxHttp;
-import the.one.base.base.presenter.BaseDataPresenter;
+import the.one.base.ui.presenter.BaseDataPresenter;
 import the.one.mzitu.bean.Mzitu;
 import the.one.mzitu.constant.MzituConstant;
 import the.one.mzitu.util.MzituParseUtil;

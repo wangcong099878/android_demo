@@ -66,6 +66,7 @@ dependencies {
 //    api 'com.github.bumptech.glide:annotations:4.10.0' // 新增
     api 'jp.wasabeef:glide-transformations:3.3.0'
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    implementation 'com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1'
 
     api "com.tencent:mmkv-static:$mmkvVersion"
 

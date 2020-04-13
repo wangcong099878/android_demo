@@ -7,7 +7,7 @@ import com.qmuiteam.qmui.util.QMUIKeyboardHelper;
 
 import the.one.aqtour.R;
 import the.one.aqtour.ui.presenter.QSPSearchPresenter;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.widge.TheSearchView;
 
 

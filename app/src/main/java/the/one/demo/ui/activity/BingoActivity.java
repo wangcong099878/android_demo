@@ -12,8 +12,8 @@ import java.util.Random;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
-import the.one.base.base.activity.BaseActivity;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.activity.BaseActivity;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.demo.R;
 import the.one.demo.widget.fireflower.FireworkView;
 

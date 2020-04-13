@@ -2,8 +2,8 @@ package the.one.gank.ui.fragment;
 
 import java.util.ArrayList;
 
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseHomeFragment;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.fragment.BaseHomeFragment;
 import the.one.gank.R;
 
 

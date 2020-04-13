@@ -4,8 +4,8 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-import the.one.base.base.fragment.BaseFragment;
-import the.one.base.base.fragment.BaseTabOnTitleFragment;
+import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.ui.fragment.BaseTabOnTitleFragment;
 
 public class DownloadFragment extends BaseTabOnTitleFragment {
 

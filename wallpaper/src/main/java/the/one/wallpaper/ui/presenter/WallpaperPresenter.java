@@ -2,7 +2,7 @@ package the.one.wallpaper.ui.presenter;
 
 import java.util.List;
 
-import the.one.base.base.presenter.BaseDataPresenter;
+import the.one.base.ui.presenter.BaseDataPresenter;
 import the.one.base.model.SamplePageInfoBean;
 import the.one.wallpaper.bean.Wallpaper;
 import the.one.wallpaper.constant.WallpaperConstant;

@@ -47,7 +47,7 @@ import java.util.zip.ZipFile;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
-import the.one.base.base.activity.CrashActivity;
+import the.one.base.ui.activity.CrashActivity;
 
 
 // https://github.com/Ereza/CustomActivityOnCrash

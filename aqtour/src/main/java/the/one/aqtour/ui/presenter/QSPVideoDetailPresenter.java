@@ -19,7 +19,7 @@ import the.one.aqtour.util.LitePalUtil;
 import the.one.aqtour.util.QSPSoupUtil;
 import the.one.aqtour.util.VideoDownloadUtil;
 import the.one.base.Interface.OnError;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.widge.TheCheckBox;
 
 public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {

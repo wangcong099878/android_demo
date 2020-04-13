@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.OnError;
-import the.one.base.base.presenter.BaseDataPresenter;
+import the.one.base.ui.presenter.BaseDataPresenter;
 import the.one.gank.bean.GankBean;
 import the.one.gank.constant.NetUrlConstant;
 

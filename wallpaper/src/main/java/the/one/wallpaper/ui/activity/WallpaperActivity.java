@@ -2,8 +2,8 @@ package the.one.wallpaper.ui.activity;
 
 import android.content.Intent;
 
-import the.one.base.base.activity.BaseFragmentActivity;
-import the.one.base.base.fragment.BaseFragment;
+import the.one.base.ui.activity.BaseFragmentActivity;
+import the.one.base.ui.fragment.BaseFragment;
 import the.one.wallpaper.constant.WallpaperConstant;
 import the.one.wallpaper.ui.fragment.WallpaperFragment;
 import the.one.wallpaper.util.WallpaperUtil;

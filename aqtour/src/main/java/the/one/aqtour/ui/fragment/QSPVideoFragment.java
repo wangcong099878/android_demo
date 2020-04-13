@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import the.one.aqtour.bean.QSPCategory;
 import the.one.aqtour.ui.presenter.QSPVideoPresenter;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 
 public class QSPVideoFragment extends BaseVideoFragment {

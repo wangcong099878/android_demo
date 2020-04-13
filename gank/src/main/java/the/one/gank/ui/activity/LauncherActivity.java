@@ -17,7 +17,7 @@
 package the.one.gank.ui.activity;
 
 
-import the.one.base.base.activity.SampleLauncherActivity;
+import the.one.base.ui.activity.SampleLauncherActivity;
 
 /**
  * @author cginechen

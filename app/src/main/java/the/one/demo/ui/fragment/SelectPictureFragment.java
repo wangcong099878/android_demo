@@ -2,7 +2,7 @@ package the.one.demo.ui.fragment;
 
 import android.view.View;
 
-import the.one.base.base.fragment.BasePictureSelectorFragment;
+import the.one.base.ui.fragment.BasePictureSelectorFragment;
 import the.one.base.util.SelectPictureUtil;
 import the.one.demo.R;
 

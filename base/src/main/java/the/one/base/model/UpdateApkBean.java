@@ -21,6 +21,8 @@ package the.one.base.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import the.one.base.Interface.IApkUpdate;
+
 /**
  * @author The one
  * @date 2019/10/22 0022

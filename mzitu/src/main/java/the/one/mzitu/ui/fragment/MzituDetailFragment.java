@@ -7,9 +7,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.base.fragment.BaseImageSnapFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseImageSnapFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
+import the.one.mzitu.R;
 import the.one.mzitu.bean.Mzitu;
 import the.one.mzitu.presenter.MzituPresenter;
 
@@ -85,7 +86,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     protected void onScrollChanged(Mzitu item, int position) {
         position++;
         if (null != mMzitu)
-            mTopLayout.setTitle(position + "/" + mTotal);
+            mTopLayout.setTitle(position + "/" + mTotal).setTextColor(getColorr(R.color.white));
     }
 
     @Override

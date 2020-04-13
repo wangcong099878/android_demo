@@ -7,7 +7,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import the.one.base.base.fragment.BasePullExtendFragment;
+import the.one.base.ui.fragment.BasePullExtendFragment;
 import the.one.demo.R;
 import the.one.demo.bean.SimpleBean;
 import the.one.demo.ui.adapter.PullExtendAdapter;

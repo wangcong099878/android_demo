@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:replace="android:networkSecurityConfig"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         <activity android:name=".ui.activity.LauncherActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">

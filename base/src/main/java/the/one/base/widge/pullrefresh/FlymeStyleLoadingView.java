@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
-
 import com.qmuiteam.qmui.util.QMUIColorHelper;
 import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import the.one.base.R;
-import the.one.base.constant.PhoneConstant;
 import the.one.base.widge.ProgressWheel;
 
 
@@ -90,7 +88,7 @@ public class FlymeStyleLoadingView extends RelativeLayout implements QMUIPullRef
     public void onPull(int i, int i1, int i2) {
         float percent = i * 1.0f / i1;
         if (percent >= 1) {
-            if (!isPrepare && PhoneConstant.isHaveVibrator && vibrator.hasVibrator()) {
+            if (!isPrepare && vibrator.hasVibrator()) {
                 vibrator.vibrate(10);
             }
             isPrepare = true;

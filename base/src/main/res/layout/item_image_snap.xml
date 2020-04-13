@@ -7,18 +7,18 @@
     android:background="@color/we_chat_black">
 
 
-    <com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView
-        android:id="@+id/longImg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <com.luck.picture.lib.photoview.PhotoView
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:scaleType="centerInside" />
+        android:layout_marginRight="2dp" />
+
+    <com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView
+        android:id="@+id/longImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <com.qmuiteam.qmui.widget.QMUIProgressBar
@@ -31,6 +31,15 @@
         app:qmui_progress_color="?config_color"
         app:qmui_stroke_width="3dp"
         app:qmui_type="type_circle" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:srcCompat="@drawable/picture_icon_video_play"
+        android:layout_gravity="center"/>
 
 
 </FrameLayout>

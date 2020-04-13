@@ -77,10 +77,11 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
             position = params.getViewAdapterPosition();
         }
         // 设置到头部的不加间距
-        if (position >= headerNum) {
+        if (position >= headerNum || noHeader()) {
             outRect.left = space;
             outRect.right = space;
-            outRect.top = position ==headerNum?space:halfSpace;
+            // 头部下面的第一个给一整个间距
+            outRect.top = noHeader()&& position == headerNum?space:halfSpace;
             outRect.bottom = halfSpace;
             if (column != 1) {
                 int X = column - index;
@@ -96,6 +97,9 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
         }
+    }
 
+    private boolean noHeader(){
+        return headerNum == 0;
     }
 }

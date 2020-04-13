@@ -10,7 +10,7 @@ import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.ui.view.QSPCategoryView;
 import the.one.aqtour.util.QSPSoupUtil;
 import the.one.base.Interface.OnError;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.presenter.BasePresenter;
 
 public class QSPCategoryPresenter extends BasePresenter<QSPCategoryView> {
 

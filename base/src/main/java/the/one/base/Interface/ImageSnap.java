@@ -5,5 +5,6 @@ public interface ImageSnap {
 
     String getImageUrl();
     String getRefer();
+    boolean isVideo();
 
 }

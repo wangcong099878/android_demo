@@ -9,8 +9,8 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.base.fragment.BaseLetterSearchFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseLetterSearchFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.demo.R;
 import the.one.demo.bean.LsMans;

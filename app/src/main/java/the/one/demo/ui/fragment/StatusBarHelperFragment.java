@@ -6,7 +6,7 @@ import android.view.View;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 
 
 //  ┏┓　　　┏┓

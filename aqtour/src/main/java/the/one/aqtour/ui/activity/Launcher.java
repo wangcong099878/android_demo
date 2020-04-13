@@ -1,6 +1,6 @@
 package the.one.aqtour.ui.activity;
 
-import the.one.base.base.activity.SampleLauncherActivity;
+import the.one.base.ui.activity.SampleLauncherActivity;
 
 public class Launcher extends SampleLauncherActivity {
     @Override

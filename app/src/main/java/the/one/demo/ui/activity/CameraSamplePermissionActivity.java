@@ -2,8 +2,8 @@ package the.one.demo.ui.activity;
 
 import android.view.View;
 
-import the.one.base.base.activity.BaseCameraPermissionActivity;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.activity.BaseCameraPermissionActivity;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.demo.R;
 
 

@@ -4,8 +4,8 @@ import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
-import the.one.base.base.activity.BaseWebExplorerActivity;
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.activity.BaseWebExplorerActivity;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.gank.R;
 import the.one.gank.constant.NetUrlConstant;
 

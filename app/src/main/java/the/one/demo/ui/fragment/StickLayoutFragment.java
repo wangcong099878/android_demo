@@ -5,8 +5,8 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import the.one.base.base.fragment.BaseDataFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.demo.R;
 import the.one.demo.bean.GankBean;
 import the.one.demo.constant.NetUrlConstant;

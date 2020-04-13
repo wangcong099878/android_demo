@@ -12,7 +12,7 @@ import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
-import the.one.base.base.activity.CrashActivity;
+import the.one.base.ui.activity.CrashActivity;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
 import the.one.base.util.crash.CrashConfig;

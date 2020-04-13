@@ -6,8 +6,8 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import androidx.fragment.app.FragmentManager;
 import the.one.base.Interface.OnAddressSelectorListener;
-import the.one.base.base.fragment.AddressSelectorFragment;
-import the.one.base.base.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.AddressSelectorFragment;
+import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.demo.R;
 
 
@@ -51,7 +51,7 @@ public class LocationSelectFragment extends BaseGroupListFragment {
     @Override
     public void onClick(View v) {
         if( v== mLetterSearch){
-            startFragment(new the.one.base.base.fragment.CitySelectFragment());
+            startFragment(new the.one.base.ui.fragment.CitySelectFragment());
         }else if(v == mDialog){
             showSearchDialogFragment();
         }

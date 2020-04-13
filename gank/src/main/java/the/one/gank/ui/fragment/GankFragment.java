@@ -8,10 +8,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.base.activity.BaseWebExplorerActivity;
-import the.one.base.base.activity.ImagePreviewActivity;
-import the.one.base.base.fragment.BaseDataFragment;
-import the.one.base.base.presenter.BasePresenter;
+import the.one.base.ui.activity.BaseWebExplorerActivity;
+import the.one.base.ui.activity.ImagePreviewActivity;
+import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.gank.bean.GankBean;
 import the.one.gank.constant.NetUrlConstant;
