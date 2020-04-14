@@ -47,6 +47,7 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.util.QMUIViewHelper;
+import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +150,7 @@ public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView
         super.onAttachedToWindow();
         ViewParent parent = getParent();
         while (parent instanceof View) {
-            if (parent instanceof TheCollapsingTopBarLayout) {
+            if (parent instanceof QMUICollapsingTopBarLayout) {
                 makeSureTitleContainerView();
                 return;
             }

@@ -79,6 +79,14 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         updateStatusView();
     }
 
+    @Override
+    protected void initAdapter() {
+        super.initAdapter();
+        adapter.setAnimationEnable(true);
+        adapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
+        adapter.setAnimationFirstOnly(false);
+    }
+
     protected void updateStatusView(){
         if (isFullScreen()) {
             setMargins(mStatusLayout, 0, 0, 0, 0);

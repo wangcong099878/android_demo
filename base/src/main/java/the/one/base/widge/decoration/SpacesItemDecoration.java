@@ -45,7 +45,7 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         halfSpace = space / 2;
     }
 
-    public SpacesItemDecoration(int headerNum,int space, int column) {
+    public SpacesItemDecoration(int headerNum, int space, int column) {
         this.headerNum = headerNum;
         this.space = space;
         this.halfSpace = space / 2;
@@ -68,20 +68,20 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
                     (StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams();
             index = params.getSpanIndex();
             position = params.getViewAdapterPosition();
-        } else if(parent.getLayoutManager() instanceof GridLayoutManager){
+        } else if (parent.getLayoutManager() instanceof GridLayoutManager) {
             GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) view.getLayoutParams();
             index = params.getSpanIndex();
             position = params.getViewAdapterPosition();
-        }else{
+        } else {
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
             position = params.getViewAdapterPosition();
         }
         // 设置到头部的不加间距
-        if (position >= headerNum || noHeader()) {
+        if (position >= headerNum) {
             outRect.left = space;
             outRect.right = space;
             // 头部下面的第一个给一整个间距
-            outRect.top = noHeader()&& position == headerNum?space:halfSpace;
+            outRect.top = halfSpace;
             outRect.bottom = halfSpace;
             if (column != 1) {
                 int X = column - index;
@@ -99,7 +99,7 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    private boolean noHeader(){
+    private boolean noHeader() {
         return headerNum == 0;
     }
 }

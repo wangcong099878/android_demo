@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUIAppBarLayout;
+import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.section.QMUISection;
 import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
@@ -22,7 +23,6 @@ import the.one.base.ui.activity.BaseWebExplorerActivity;
 import the.one.base.ui.fragment.BaseSectionLayoutFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.QMUIStatusBarHelper;
-import the.one.base.widge.TheCollapsingTopBarLayout;
 import the.one.gank.R;
 import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.GankBean;
@@ -61,17 +61,15 @@ import the.one.gank.ui.view.HomeView;
  * @email 625805189@qq.com
  * @remark
  */
-public class HomeFragment extends BaseSectionLayoutFragment implements HomeView ,TheCollapsingTopBarLayout.AppBarStateChangeListener{
+public class HomeFragment extends BaseSectionLayoutFragment implements HomeView , QMUICollapsingTopBarLayout.OnOffsetUpdateListener {
 
-    private final int STATE_COLLAPSED = 0;
-    private final int STATE_EXPANDED = 1;
 
     @BindView(R.id.topbar)
     QMUITopBar mTopBar;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.collapsing_topbar_layout)
-    TheCollapsingTopBarLayout mCollapsingTopBarLayout;
+    QMUICollapsingTopBarLayout mCollapsingTopBarLayout;
     @BindView(R.id.appbar_layout)
     QMUIAppBarLayout appbarLayout;
     @BindView(R.id.banner_view)
@@ -130,22 +128,24 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
         mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_transparent));
         mCollapsingTopBarLayout.setTitle("今日最新干货");
-        mCollapsingTopBarLayout.setStateChangeListener(this);
+        mCollapsingTopBarLayout.addOnOffsetUpdateListener(this);
         initStickyLayout();
         initData();
     }
 
+
     @Override
-    public void onStateChanged(TheCollapsingTopBarLayout.State state, int offset) {
+    public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
         if(isOnPause) return;
-        if (state == TheCollapsingTopBarLayout.State.COLLAPSED) {
+        if (offset == 0) {
             isCollapsed = true;
             QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-        } else if (state == TheCollapsingTopBarLayout.State.EXPANDED) {
+        } else if (isCollapsed) {
             isCollapsed = false;
             QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
         }
     }
+
 
     @Override
     protected QMUIStickySectionAdapter createAdapter() {

@@ -21,10 +21,10 @@ package the.one.base.ui.fragment;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import the.one.base.Interface.IPageInfo;
+import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
+import com.qmuiteam.qmui.widget.QMUITopBar;
+
 import the.one.base.R;
-import the.one.base.widge.MyTopBar;
-import the.one.base.widge.TheCollapsingTopBarLayout;
 
 /**
  * @author The one
@@ -35,9 +35,16 @@ import the.one.base.widge.TheCollapsingTopBarLayout;
  */
 public abstract class BaseCollapsingTopBarRcFragment<T> extends BaseDataFragment<T> {
 
-    private TheCollapsingTopBarLayout mCollapsingTopBarLayout;
-    private MyTopBar mTopBar;
-    protected FrameLayout flCoordinatorLayout;
+    protected QMUICollapsingTopBarLayout mCollapsingTopBarLayout;
+    protected QMUITopBar mTopBar;
+    protected FrameLayout flCollapsingContainer;
+
+    protected abstract Object getCollapsingContentLayout();
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return true;
+    }
 
     @Override
     protected boolean showTitleBar() {
@@ -51,25 +58,19 @@ public abstract class BaseCollapsingTopBarRcFragment<T> extends BaseDataFragment
 
     @Override
     protected void initView(View rootView) {
+        mStatusLayout = rootView.findViewById(R.id.status_layout);
         mCollapsingTopBarLayout = rootView.findViewById(R.id.collapsing_topbar_layout);
         mTopBar = rootView.findViewById(R.id.topbar);
+        flCollapsingContainer = rootView.findViewById(R.id.fl_body);
+        setCustomLayout(flCollapsingContainer,getCollapsingContentLayout());
         super.initView(rootView);
     }
 
     @Override
-    protected void initFragmentBack(String title) {
-        mCollapsingTopBarLayout.setTitle(title);
-        mTopBar.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+    public void showContentPage() {
+        showView(flCollapsingContainer);
+        goneView(mStatusLayout);
+        super.showContentPage();
     }
 
-    @Override
-    public void setPageInfo(IPageInfo mPageInfo) {
-        super.setPageInfo(mPageInfo);
-        showView(flCoordinatorLayout);
-    }
 }

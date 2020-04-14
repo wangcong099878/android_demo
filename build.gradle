@@ -65,7 +65,7 @@ allprojects {
         litepalVersion ='3.0.0'
 
         //ui
-        qmuiVersion = '2.0.0-alpha05'
+        qmuiVersion = '2.0.0-alpha07'
         archVersion = '2.0.0-alpha04'
         BaseRecyclerViewAdapterHelperVersion = '3.0.2'
         MagicIndicatorVersion = '1.6.0'

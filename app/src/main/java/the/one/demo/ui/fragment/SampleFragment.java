@@ -60,7 +60,7 @@ public class SampleFragment extends BaseGroupListFragment {
         STRING_UTIL = CreateDetailItemView("StringUtils", "String的工具类", true);
         DATE_PICKER = CreateDetailItemView("DatePickerUtil", "日期选择的工具类", true);
 
-        COLLAPSING_TOP_BAR =  CreateDetailItemView("CollapsingTopBarFragment","顶部折叠样式", true);
+        COLLAPSING_TOP_BAR =  CreateDetailItemView("BaseCollapsingTopBarRcFragment","顶部折叠样式+RC", true);
         PROGRESS_DIALOG = CreateDetailItemView("ProgressDialog","");
         POPUP_LAYOUT = CreateDetailItemView("PopupLayout","");
 

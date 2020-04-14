@@ -14,7 +14,7 @@
         android:background="@color/qmui_config_color_white"
         android:fitsSystemWindows="true">
 
-        <the.one.base.widge.TheCollapsingTopBarLayout
+        <com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout
             android:id="@+id/collapsing_topbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -53,7 +53,7 @@
                 android:layout_height="?attr/qmui_topbar_height"
                 android:fitsSystemWindows="true"
                 app:qmui_layout_collapseMode="parallax"/>
-        </the.one.base.widge.TheCollapsingTopBarLayout>
+        </com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout>
     </com.qmuiteam.qmui.widget.QMUIAppBarLayout>
 
     <com.qmuiteam.qmui.widget.section.QMUIStickySectionLayout
