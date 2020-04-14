@@ -12,15 +12,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import the.one.base.R;
 
 
@@ -47,6 +47,7 @@ public class StatusLayout extends RelativeLayout {
 
     RelativeLayout loadingStateRelativeLayout;
     ProgressWheel loadingStateProgressBar;
+    AppCompatTextView loadingTips;
 
     RelativeLayout emptyStateRelativeLayout;
     ImageView emptyStateImageView;
@@ -363,7 +364,7 @@ public class StatusLayout extends RelativeLayout {
             loadingStateRelativeLayout.setTag(TAG_LOADING);
 
             loadingStateProgressBar = view.findViewById(R.id.loading_view);
-
+            loadingTips = view.findViewById(R.id.loading_tips);
             //Set background type_color_selector if not TRANSPARENT
             if (loadingStateBackgroundColor != Color.TRANSPARENT) {
                 this.setBackgroundColor(loadingStateBackgroundColor);
@@ -496,6 +497,10 @@ public class StatusLayout extends RelativeLayout {
 
     public RelativeLayout getLoadingStateRelativeLayout() {
         return loadingStateRelativeLayout;
+    }
+
+    public AppCompatTextView getLoadingTipsView(){
+        return loadingTips;
     }
 
     public static class Builder {

@@ -56,6 +56,7 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.ui.presenter.BasePresenter;
+import the.one.base.util.ImagePreviewUtil;
 import the.one.base.widge.BridgeWebView;
 import the.one.base.widge.BridgeWebViewClient;
 import the.one.base.widge.MyTopBarLayout;
@@ -67,7 +68,7 @@ import the.one.base.widge.MyTopBarLayout;
  * @email 625805189@qq.com
  * @remark
  */
-public class BaseWebExplorerActivity extends BaseActivity  {
+public class BaseWebExplorerActivity extends BaseActivity {
 
     public static final String EXTRA_URL = "EXTRA_URL";
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
@@ -332,10 +333,10 @@ public class BaseWebExplorerActivity extends BaseActivity  {
     }
 
 
-    protected   BridgeHandler imageHandler = new BridgeHandler() {
+    protected BridgeHandler imageHandler = new BridgeHandler() {
         @Override
         public void handler(String data, CallBackFunction function) {
-            Log.e(TAG, "handler: " );
+            Log.e(TAG, "handler: ");
             JSONObject jsonObject = null;
             ArrayList<String> itemData;
             int position = 0;
@@ -507,7 +508,7 @@ public class BaseWebExplorerActivity extends BaseActivity  {
 
     protected void startPhotoWatchActivity(ArrayList<String> itemData, int position) {
 //        ImagePreviewActivity.startThisActivity(BaseWebExplorerActivity.this, null, itemData, position);
-//        ImagePreviewUtil.show(BaseWebExplorerActivity.this,itemData,position);
+        ImagePreviewUtil.newInstance().show(BaseWebExplorerActivity.this, itemData, position);
     }
 
     @Override

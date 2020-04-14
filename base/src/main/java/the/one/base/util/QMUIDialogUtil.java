@@ -26,9 +26,9 @@ import the.one.base.R;
 /**
  * @author The one
  * @date 2018/5/3 0003
- * @describe QMUI - Dialog
+ * @describe 对 {@link QMUIDialog} 的使用做了一些简单封装
  * @email 625805189@qq.com
- * @remark
+ * @remark 如果调用了 {@link AppMourningThemeUtil},但是不是从此工具了创建的，需要手动调用 notifyTheme 方法
  */
 
 public class QMUIDialogUtil {
@@ -38,6 +38,10 @@ public class QMUIDialogUtil {
      */
     public static final int TYPE_NUMBER_DECIMAL = 8194;
 
+    /**
+     * 由于QMUIDialog不好处理，所以只能这样一个个处理了
+     * @param dialog
+     */
     public static void notifyTheme(QMUIDialog dialog) {
         if (null != dialog)
             AppMourningThemeUtil.notify(dialog.getWindow());

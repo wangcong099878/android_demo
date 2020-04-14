@@ -4,9 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.qmuiteam.qmui.skin.QMUISkinHelper;
 import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
@@ -14,8 +11,11 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopups;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.adapter.ListPopupAdapter;
 import the.one.base.model.PopupItem;
 import the.one.base.widge.WrapContentRecyclerView;
@@ -48,6 +48,14 @@ public class QMUIPopupUtil {
                 .shadow(true)
                 .arrow(true)
                 .animStyle(QMUIPopup.ANIM_GROW_FROM_CENTER);
+    }
+
+    public static QMUIPopup createListPop(Context context, String[] mMenus, OnItemClickListener listener){
+        List<PopupItem> items = new ArrayList<>();
+        for (String menu:mMenus){
+            items.add(new PopupItem(menu));
+        }
+        return createListPop(context,items,listener,200,300);
     }
 
     public static QMUIPopup createListPop(Context context, List<PopupItem> mMenus, OnItemClickListener listener){

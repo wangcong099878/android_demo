@@ -38,7 +38,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR, WEB_VIEW, POPUP_LAYOUT, COLLAPSING_TOP_BAR,
             PULL_EXTEND, STATUS_BAR_HELP, STRING_UTIL, PROGRESS_DIALOG, CAMERA, DATE_PICKER, LETTER_SEARCH,
-            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST,WHITE_BLACK_THEME;
+            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST,WHITE_BLACK_THEME,IMAGE_SNAP;
 
     @Override
     protected boolean isExitFragment() {
@@ -48,11 +48,12 @@ public class SampleFragment extends BaseGroupListFragment {
     @Override
     protected void addGroupListView() {
         mTopLayout.setTitle("使用示例").getPaint().setFakeBoldText(true);
-        PICTURE_SELECTOR = CreateDetailItemView("BasePictureSelectorFragment", "选择图片、视频、音频", false, true);
         WEB_VIEW = CreateDetailItemView("BaseWebExplorerActivity", "网页", true);
+        CAMERA = CreateDetailItemView("BaseCameraPermissionActivity", "相机权限相关的界面可以继承此Activity", false, true);
+        PICTURE_SELECTOR = CreateDetailItemView("BasePictureSelectorFragment", "选择图片、视频、音频", false, true);
         PULL_EXTEND = CreateDetailItemView("BasePullExtendFragment", "下拉菜单", true);
         LETTER_SEARCH = CreateDetailItemView("BaseLetterSearchFragment", "侧边快速选择", true);
-        CAMERA = CreateDetailItemView("BaseCameraPermissionActivity", "相机权限相关的界面可以继承此Activity", false, true);
+        IMAGE_SNAP = CreateDetailItemView("BaseImageSnapFragment", "图片分页显示，可以实现加载更多", false,true);
         ROUND_CHECK_BOX = CreateDetailItemView("TheCheckBox", "普通的CheckBox设置leftPadding无效", false, true);
 
         STATUS_BAR_HELP = CreateDetailItemView("StatusBarHelper", "状态栏工具 QMUI提供", true);
@@ -74,10 +75,14 @@ public class SampleFragment extends BaseGroupListFragment {
 
         TEST = CreateNormalItemView("测试");
 
+        showNewTips(true,IMAGE_SNAP);
+
         addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,
-                SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT);
+                SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT,IMAGE_SNAP);
         addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,WHITE_BLACK_THEME,CRASH);
-//        addToGroup(TEST);
+
+        //addToGroup(TEST);
+
     }
 
     @Override
@@ -118,7 +123,9 @@ public class SampleFragment extends BaseGroupListFragment {
             startFragment(new ThePopupWindowFragment());
         }else if (v == STICK_LAYOUT) {
            startFragment(new StickLayoutFragment());
-        }else{
+        }else if(v == IMAGE_SNAP){
+            startFragment(new MzituDetailFragment());
+        }else if(v == WHITE_BLACK_THEME){
             startFragment(new BlackWhiteThemeFragment());
         }
     }

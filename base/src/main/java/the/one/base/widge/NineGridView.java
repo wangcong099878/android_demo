@@ -68,7 +68,7 @@ public class NineGridView extends NineGridLayout {
     @Override
     protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
 //        ImagePreviewActivity.startThisActivity((Activity) mContext,view,urlList,position);
-       new  ImagePreviewUtil().show(mContext,urlList,position);
+       ImagePreviewUtil.newInstance().show(mContext,urlList,position);
     }
 
 }

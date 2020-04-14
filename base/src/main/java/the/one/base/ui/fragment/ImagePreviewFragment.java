@@ -66,4 +66,14 @@ public class ImagePreviewFragment<T extends ImageSnap> extends BaseImageSnapFrag
     public BasePresenter getPresenter() {
         return null;
     }
+
+    @Override
+    public void onClick(T data) {
+
+    }
+
+    @Override
+    public boolean onLongClick(T data) {
+        return false;
+    }
 }

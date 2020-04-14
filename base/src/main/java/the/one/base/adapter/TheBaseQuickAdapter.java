@@ -6,9 +6,6 @@ import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.qmuiteam.qmui.layout.IQMUILayout;
@@ -17,6 +14,8 @@ import com.qmuiteam.qmui.util.QMUIResHelper;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import the.one.base.R;
 import the.one.base.util.StringUtils;
 
@@ -47,6 +46,8 @@ import the.one.base.util.StringUtils;
  * @remark
  */
 public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBaseViewHolder> implements LoadMoreModule {
+
+    protected final String TAG = this.getClass().getSimpleName();
 
     private int mPriceColor;
     private int mConfigColor;

@@ -35,6 +35,7 @@ dependencies {
     implementation project(':base')
     implementation 'com.moxun:tagcloudlib:1.1.3'
     implementation 'com.wkp:StickLayout:1.0.6'
+    implementation "org.jsoup:jsoup:$jsoupVersion"
 
     annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"

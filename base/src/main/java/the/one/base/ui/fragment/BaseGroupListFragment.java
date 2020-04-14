@@ -348,4 +348,30 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         return CreateCustomView(drawable, title, "", view);
     }
 
+    /**
+     * 显示新提示
+     * @param isDot true RedDot  false NewTip
+     * @param itemViews 需要显示的QMUICommonListItemView
+     */
+    protected void showNewTips(boolean isDot, QMUICommonListItemView... itemViews){
+        showNewTips(QMUICommonListItemView.TIP_POSITION_RIGHT,isDot,itemViews);
+    }
+
+    /**
+     * 显示新提示
+     * @param tipPosition 显示方向
+     * @param isDot true RedDot  false NewTip
+     * @param itemViews 需要显示的QMUICommonListItemView
+     */
+    protected void showNewTips(@QMUICommonListItemView.QMUICommonListItemTipPosition int tipPosition, boolean isDot, QMUICommonListItemView... itemViews){
+        for (QMUICommonListItemView itemView:itemViews){
+            itemView.setTipPosition(tipPosition);
+            if(isDot){
+                itemView.showRedDot(true);
+            }else{
+                itemView.showNewTip(true);
+            }
+        }
+    }
+
 }

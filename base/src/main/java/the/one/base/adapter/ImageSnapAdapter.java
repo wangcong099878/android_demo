@@ -5,15 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.luck.picture.lib.photoview.PhotoView;
 import com.luck.picture.lib.tools.MediaUtils;
@@ -29,7 +28,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import the.one.base.Interface.GlideProgressListener;
 import the.one.base.Interface.ImageSnap;
 import the.one.base.R;
-import the.one.base.util.glide.GlideEngine;
 import the.one.base.util.glide.GlideProgressInterceptor;
 
 public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T> {
@@ -120,6 +118,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                             GlideProgressInterceptor.removeListener(url);
                             boolean eqLongImage = MediaUtils.isLongImg(resource.getWidth(),
                                     resource.getHeight());
+                            Log.e(TAG, "setResource: "+eqLongImage );
                             longImageView.setVisibility(eqLongImage ? View.VISIBLE : View.GONE);
                             imageView.setVisibility(eqLongImage ? View.GONE : View.VISIBLE);
                             if (null != ivPlay)

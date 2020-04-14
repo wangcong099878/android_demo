@@ -28,7 +28,7 @@ package the.one.base.model;
 public class PopupItem {
 
     private String title;
-    private int image;
+    private int image = -1;
 
     public PopupItem(String title) {
         this.title = title;
@@ -53,5 +53,9 @@ public class PopupItem {
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public boolean isHaveIcon(){
+        return image != -1;
     }
 }

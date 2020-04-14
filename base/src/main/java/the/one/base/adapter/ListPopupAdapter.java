@@ -21,7 +21,7 @@ public class ListPopupAdapter extends TheBaseQuickAdapter<PopupItem> {
 
     @Override
     protected void convert(@NotNull TheBaseViewHolder holder, PopupItem data) {
-        if(0 != data.getImage()){
+        if(data.isHaveIcon()){
             holder.getImageView(R.id.icon).setImageResource(data.getImage());
         }
         holder.setText(R.id.text,data.getTitle());
