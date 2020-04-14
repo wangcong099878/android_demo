@@ -53,6 +53,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         return RecyclerView.HORIZONTAL;
     }
 
+
     @Override
     protected boolean isStatusBarLightMode() {
         return false;
@@ -67,7 +68,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected void initView(View rootView) {
         rootView.setBackgroundColor(getColorr(R.color.we_chat_black));
         mStatusLayout.setBackgroundColor(getColorr(R.color.we_chat_black));
-        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
+        mTopLayout.setBackgroundAlpha(0);
         mTopLayout.getTopBar().getTitleView().setTextColor(getColorr(R.color.white));
         mTopLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override

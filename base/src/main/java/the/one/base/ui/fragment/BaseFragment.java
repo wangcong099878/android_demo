@@ -223,7 +223,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected StatusLayout mStatusLayout;
     protected MyTopBarLayout mTopLayout;
     protected QMUITipDialog loadingDialog;
-    protected the.one.base.widge.ProgressDialog progressDialog;
+    protected ProgressDialog progressDialog;
     protected Activity _mActivity;
 
     protected FrameLayout flTopLayout;

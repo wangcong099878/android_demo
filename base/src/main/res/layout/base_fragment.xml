@@ -19,4 +19,5 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         tools:ignore="UnusedAttribute" />
+
 </com.qmuiteam.qmui.widget.QMUIWindowInsetLayout>

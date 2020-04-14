@@ -1,5 +1,6 @@
 package the.one.base.widge;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import the.one.base.util.ImagePreviewUtil;
+import the.one.base.ui.activity.ImagePreviewActivity;
 import the.one.base.util.glide.GlideUtil;
 
 /**
@@ -67,8 +68,7 @@ public class NineGridView extends NineGridLayout {
 
     @Override
     protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
-//        ImagePreviewActivity.startThisActivity((Activity) mContext,view,urlList,position);
-       ImagePreviewUtil.newInstance().show(mContext,urlList,position);
+       ImagePreviewActivity.startThisActivity((Activity) mContext,urlList,position);
     }
 
 }

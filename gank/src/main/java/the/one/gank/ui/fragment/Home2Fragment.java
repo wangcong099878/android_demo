@@ -94,12 +94,12 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     protected void initView(View rootView) {
         mBannerHeight = QMUIDisplayHelper.dp2px(_mActivity, 250);
         mTopLayout.setBackgroundColor(getColorr(R.color.white));
-        mTitleView = mTopLayout.setTitle("");// 这里设置空的时候mTitleView就被设置为GONE了，点进去看 mTopBar.setTitle
+        mTitleView = mTopLayout.getTopBar().getTitleView();
         mTitleView.getPaint().setFakeBoldText(true);
         super.initView(rootView);
         initBanner();
         setMargins(mStatusLayout, 0, 0, 0, 0);
-        mStatusLayout.setFitsSystemWindows(false);
+        mStatusLayout.setFitsSystemWindows(true);
         recycleView.setItemViewCacheSize(50);
     }
 
@@ -172,12 +172,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     private void setTitle(String title) {
         if (null != mTitleView && !mTitleStr.equals(title)) {
             mTitleStr = title;
-            // 由于 mTitleView 已经被设置为GONE状态
-            // 所以这里要用 mTopLayout.setTitle
-            mTopLayout.setTitle(mTitleStr);
-            // 或者下面这样写
-            // mTitleView.setText(mTitleStr);
-            // showView(mTitleView);
+            mTitleView.setText(mTitleStr);
         }
     }
 

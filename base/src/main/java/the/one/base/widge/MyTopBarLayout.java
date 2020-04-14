@@ -43,6 +43,7 @@ package the.one.base.widge;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,14 +110,14 @@ public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultA
                 QMUIResHelper.getAttrDimen(context, R.attr.qmui_topbar_height));
         addView(mTopBar, lp);
 
-//        Drawable bgDrawable;
-//        try {
-//            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
-//            if (null != bgDrawable)
-//                setBackground(bgDrawable);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        Drawable bgDrawable;
+        try {
+            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
+            if (null != bgDrawable)
+                setBackground(bgDrawable);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -104,7 +104,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
             for (GankBean gankBean: datas){
                 images.add(gankBean.getUrl());
             }
-            ImagePreviewActivity.startThisActivity(_mActivity,view,images,position);
+            ImagePreviewActivity.startThisActivity(_mActivity,images,position);
         }
     }
 

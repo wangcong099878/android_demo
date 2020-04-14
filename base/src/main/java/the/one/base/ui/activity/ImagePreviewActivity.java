@@ -1,93 +1,69 @@
 package the.one.base.ui.activity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.view.View;
-import android.widget.TextView;
 
-import com.qmuiteam.qmui.util.QMUIColorHelper;
-import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.FileCallBack;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIResHelper;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.viewpager.widget.ViewPager;
-import cc.shinichi.library.bean.ImageInfo;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import okhttp3.Call;
-import the.one.base.BaseApplication;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import the.one.base.Interface.ImageSnap;
 import the.one.base.R;
-import the.one.base.adapter.ImagePreviewAdapter;
-import the.one.base.ui.presenter.BasePresenter;
+import the.one.base.adapter.ImageSnapAdapter;
 import the.one.base.constant.DataConstant;
-import the.one.base.model.Download;
-import the.one.base.service.DownloadService;
-import the.one.base.util.FileDirectoryUtil;
-import the.one.base.util.ShareUtil;
-import the.one.base.widge.PhotoViewPager;
+import the.one.base.model.ImagePreviewBean;
+import the.one.base.ui.presenter.BasePresenter;
+import the.one.base.util.DownloadSheetDialogUtil;
+import the.one.base.widge.MyTopBarLayout;
 
-/**
- * @author The one
- * @date 2018/11/5 0005
- * @describe 图片查看
- * @email 625805189@qq.com
- * @remark
- */
-public class ImagePreviewActivity extends BaseActivity implements
-        QMUIBottomSheet.BottomGridSheetBuilder.OnSheetItemClickListener, Observer<Boolean>, ImagePreviewAdapter.OnImageListener {
+import static the.one.base.ui.fragment.BaseFragment.setMargins;
+
+public class ImagePreviewActivity extends BaseActivity implements ImageSnapAdapter.OnImageClickListener {
 
     private static long mLastClickTime;
     private static final int MIN_DOUBLE_CLICK_TIME = 1500;
-    protected static final int DOWNLOAD = 1;
-    protected static final int SHARE = 2;
 
-    private View rootView;
-    protected PhotoViewPager photoViewPager;
-    protected TextView textView;
-
-    protected ImagePreviewAdapter mPreviewAdapter;
-    protected List<String> mImageList;
-    protected String mPath;
-    protected int currentPosition;
-    protected int SUM;
-    protected int mTag;
-
-
-    public static void startThisActivity(Activity activity, View image, String iconPath) {
-        ArrayList<String> paths = new ArrayList<>();
-        paths.add(iconPath);
-        startThisActivity(activity, image, paths, 0);
-    }
-
-    public static void startThisActivity(Activity activity, View image, ArrayList<String> list, int position) {
-        startThisActivity(activity, ImagePreviewActivity.class, image, list, position);
-    }
-
-    public static void startThisActivity(Activity activity, Class targetActivity, View image, ArrayList<String> list, int position) {
+    public static void startThisActivity(Activity activity, ArrayList<String> list, int position) {
         if (null == activity || activity.isFinishing() || activity.isDestroyed() || System.currentTimeMillis() - mLastClickTime <= MIN_DOUBLE_CLICK_TIME)
             return;
         mLastClickTime = System.currentTimeMillis();
-        Intent in = new Intent(activity, targetActivity);
+        Intent in = new Intent(activity, ImagePreviewActivity.class);
         in.putStringArrayListExtra(DataConstant.DATA, list);
         in.putExtra(DataConstant.POSITION, position);
-        if (null != image)
-            activity.startActivity(in, ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    activity,
-                    image,
-                    BaseApplication.getInstance().getString(R.string.image))
-                    .toBundle());
-        else
-            activity.startActivity(in);
+//        if (null != image)
+//            activity.startActivity(in, ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                    activity,
+//                    image,
+//                    BaseApplication.getInstance().getString(R.string.image))
+//                    .toBundle());
+//        else
+        activity.startActivity(in);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    protected MyTopBarLayout mTopBarLayout;
+    protected RecyclerView mRecyclerView;
+    protected ImageSnapAdapter mAdapter;
+    protected LinearLayoutManager mLayoutManager;
+    protected PagerSnapHelper mPagerSnapHelper;
+
+    protected List<ImagePreviewBean> mImageList;
+
+    /**
+     * 是否全屏 默认在TopBar下面，如果为全屏则延伸至状态栏
+     *
+     * @return
+     */
+    protected boolean isFullScreen() {
+        return true;
     }
 
     @Override
@@ -96,8 +72,97 @@ public class ImagePreviewActivity extends BaseActivity implements
     }
 
     @Override
-    protected boolean translucentFull() {
-        return true;
+    protected int getContentViewId() {
+        return R.layout.activity_image_preview;
+    }
+
+    @Override
+    protected void initView(View mRootView) {
+        mTopBarLayout = findViewById(R.id.topbar_layout);
+        mRecyclerView = findViewById(R.id.recycle_view);
+        mStatusLayout = findViewById(R.id.status_layout);
+        mStatusLayout.setBackgroundColor(getColorr(R.color.we_chat_black));
+        mTopBarLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
+        mTopBarLayout.getTopBar().getTitleView().setTextColor(getColorr(R.color.white));
+        mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener((v) -> onBackPressed());
+        updateStatusView();
+        initAdapter();
+        initRecyclerView();
+        initData();
+    }
+
+    protected void updateStatusView() {
+        if (isFullScreen()) {
+            setMargins(mStatusLayout, 0, 0, 0, 0);
+            mStatusLayout.setFitsSystemWindows(false);
+        } else {
+            mStatusLayout.setFitsSystemWindows(true);
+            setMargins(mStatusLayout, 0, QMUIResHelper.getAttrDimen(this, R.attr.qmui_topbar_height) + QMUIStatusBarHelper.getStatusbarHeight(this), 0, 0);
+        }
+    }
+
+    protected void initAdapter() {
+        mAdapter = new ImageSnapAdapter();
+        mAdapter.setOnImageClickListener(this);
+        mAdapter.setAnimationEnable(true);
+        mAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
+        mAdapter.setAnimationFirstOnly(false);
+    }
+
+    protected void initRecyclerView() {
+        mLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addOnScrollListener(getScrollListener());
+        mRecyclerView.setAdapter(mAdapter);
+        mPagerSnapHelper = new PagerSnapHelper();
+        mPagerSnapHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    protected void initData() {
+        List<String> images = getIntent().getStringArrayListExtra(DataConstant.DATA);
+        int position = getIntent().getIntExtra(DataConstant.POSITION, 0);
+        mImageList = new ArrayList<>();
+        for (String image : images) {
+            mImageList.add(new ImagePreviewBean(image));
+        }
+        mAdapter.setNewInstance(mImageList);
+        mRecyclerView.scrollToPosition(position);
+        updateSelectIndex(position);
+    }
+
+    protected RecyclerView.OnScrollListener getScrollListener() {
+        return new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                assert linearLayoutManager != null;
+                int position = linearLayoutManager.findFirstVisibleItemPosition();
+                updateSelectIndex(position);
+            }
+        };
+    }
+
+    protected void updateSelectIndex(int position) {
+        mTopBarLayout.setTitle(++position + "/" + mImageList.size());
+    }
+
+    @Override
+    public void onClick(ImageSnap data) {
+
+    }
+
+    @Override
+    public boolean onLongClick(ImageSnap data) {
+        DownloadSheetDialogUtil.show(this,data.getImageUrl());
+        return false;
+    }
+
+
+    @Override
+    public void showLoadingPage() {
+        super.showLoadingPage();
+        mStatusLayout.getLoadingTipsView().setTextColor(getColorr(R.color.white));
     }
 
     @Override
@@ -106,198 +171,8 @@ public class ImagePreviewActivity extends BaseActivity implements
     }
 
     @Override
-    protected int getContentViewId() {
-        return R.layout.activity_photo_watch;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    protected void initView(View mRootView) {
-        rootView = mRootView;
-        photoViewPager = mRootView.findViewById(R.id.photo_view);
-        textView = mRootView.findViewById(R.id.tv_number);
-        Intent intent = getIntent();
-        mImageList = getIntent().getStringArrayListExtra(DataConstant.DATA);
-        SUM = mImageList.size();
-        currentPosition = intent.getIntExtra(DataConstant.POSITION, -1);
-        List<ImageInfo> imageInfos = new ArrayList<>();
-        for (String path : mImageList) {
-            ImageInfo imageInfo = new ImageInfo();
-            imageInfo.setOriginUrl(path);
-            imageInfo.setThumbnailUrl(path);
-            imageInfos.add(imageInfo);
-        }
-        mPreviewAdapter = new ImagePreviewAdapter(this, imageInfos, this);
-        photoViewPager.setAdapter(mPreviewAdapter);
-        photoViewPager.setCurrentItem(currentPosition, false);
-        textView.setText(currentPosition + 1 + "/" + SUM);
-        photoViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                mPath = mImageList.get(position);
-                if (null != textView)
-                    textView.setText(position + 1 + "/" + SUM);
-            }
-        });
-        photoViewPager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        photoViewPager.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                showBottomSheetDialog();
-                return false;
-            }
-        });
-    }
-
-    public void setAlpha(float alpha) {
-        int colorId = QMUIColorHelper.setColorAlpha(getColorr(R.color.we_chat_black), alpha);
-        rootView.setBackgroundColor(colorId);
-        if (alpha >= 1) {
-            showView(textView);
-        } else {
-            goneView(textView);
-        }
-    }
-
-
-    @Override
-    public void onClickListener(String path, int position, View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            finish();
-        }
-    }
-
-    @Override
-    public boolean onLongClickListener(String path, int position, View view) {
-        mPath = path;
-        showBottomSheetDialog();
-        return true;
-    }
-
-    protected void showBottomSheetDialog() {
-        QMUIBottomSheet.BottomGridSheetBuilder builder = new QMUIBottomSheet.BottomGridSheetBuilder(this);
-        addItem(builder);
-        builder.setOnSheetItemClickListener(this).build().show();
-    }
-
-    protected void addItem(QMUIBottomSheet.BottomGridSheetBuilder builder) {
-        builder.addItem(R.drawable.icon_more_operation_save, "下载", DOWNLOAD, QMUIBottomSheet.BottomGridSheetBuilder.FIRST_LINE);
-        builder.addItem(R.drawable.ic_share, "分享", SHARE, QMUIBottomSheet.BottomGridSheetBuilder.FIRST_LINE);
-    }
-
-    @Override
-    public void onClick(QMUIBottomSheet dialog, View itemView) {
-        mTag = (int) itemView.getTag();
-        requestPermission();
-        dialog.dismiss();
-    }
-
-    private void requestPermission() {
-        final RxPermissions permissions = new RxPermissions(this);
-        permissions
-                .request(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.INTERNET)
-                .subscribe(this);
-    }
-
-    private String getDownloadFileName() {
-        String suffix = ".gif";
-        if (mPath.contains(".")) {
-            int position = mPath.lastIndexOf(".");
-            int difference = mPath.length() - position;
-            if (difference > 2 && difference < 5) {
-                suffix = mPath.substring(position);
-            }
-        }
-        StringBuffer sb = new StringBuffer();
-        sb.append("download_")
-                .append(System.currentTimeMillis())
-                .append(suffix);
-        return sb.toString();
-    }
-
-    private void downPhoto() {
-        Download download = new Download(mPath, "Pictures", getDownloadFileName());
-        download.setImage(true);
-        DownloadService.startDown(this, download);
-    }
-
-    public void download() {
-        showLoadingDialog("");
-        OkHttpUtils
-                .get()
-                .url(mPath)
-                .tag(mPath)
-                .build()
-                .execute(new FileCallBack(FileDirectoryUtil.getCachePath(), getDownloadFileName()) {
-
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        showToast("分享失败");
-                        hideLoadingDialog();
-                    }
-
-                    @Override
-                    public void inProgress(float progress, long total, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(File response, int id) {
-                        hideLoadingDialog();
-                        ShareUtil.shareImageFile(ImagePreviewActivity.this, response, "分享图片");
-                    }
-                });
-
-    }
-
-    @Override
-    public void onSubscribe(Disposable d) {
-
-    }
-
-    @Override
-    public void onNext(Boolean aBoolean) {
-        if (aBoolean) {
-            switch (mTag) {
-                case DOWNLOAD:
-                    downPhoto();
-                    break;
-                case SHARE:
-                    download();
-                    break;
-            }
-        } else {
-            showToast("没有权限很难办事啊");
-        }
-    }
-
-    @Override
-    public void onError(Throwable e) {
-
-    }
-
-    @Override
-    public void onComplete() {
-
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPreviewAdapter != null) {
-            mPreviewAdapter.closePage();
-        }
-    }
-
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+     }
 }

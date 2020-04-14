@@ -160,7 +160,7 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
                     for (LocalMedia media:mSelectList){
                         images.add(media.getPath());
                     }
-                    ImagePreviewActivity.startThisActivity(_mActivity,v,images,position);
+                    ImagePreviewActivity.startThisActivity(_mActivity,images,position);
                     break;
             }
         }

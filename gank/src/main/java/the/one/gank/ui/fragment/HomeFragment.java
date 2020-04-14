@@ -1,5 +1,6 @@
 package the.one.gank.ui.fragment;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -61,7 +62,7 @@ import the.one.gank.ui.view.HomeView;
  * @email 625805189@qq.com
  * @remark
  */
-public class HomeFragment extends BaseSectionLayoutFragment implements HomeView , QMUICollapsingTopBarLayout.OnOffsetUpdateListener {
+public class HomeFragment extends BaseSectionLayoutFragment implements HomeView, QMUICollapsingTopBarLayout.OnOffsetUpdateListener {
 
 
     @BindView(R.id.topbar)
@@ -105,7 +106,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
 
     @Override
     protected boolean isStatusBarLightMode() {
-        return isCollapsed && appbarLayout.getVisibility() == View.VISIBLE;
+        return !isCollapsed;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -133,16 +134,18 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         initData();
     }
 
+    private float X = 0.8f;
 
     @Override
     public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
-        if(isOnPause) return;
-        if (offset == 0) {
+        // mBannerViewPager 的轮播会触发这个方法，所以当offset==0的时候不做处理
+        if (isOnPause || offset == 0) return;
+        if (!isCollapsed && expandFraction < X) {
             isCollapsed = true;
-            QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-        } else if (isCollapsed) {
-            isCollapsed = false;
             QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+        } else if (isCollapsed && expandFraction > X) {
+            isCollapsed = false;
+            QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
         }
     }
 
@@ -162,7 +165,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
     public void onWelfareComplete(final List<BannerBean> data) {
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
-                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity,R.attr.config_color))
+                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
                 .setHolderCreator(new HolderCreator<BannerViewHolder>() {
                     @Override
                     public BannerViewHolder createViewHolder() {
@@ -192,6 +195,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView 
         sections.add(parseSection(resultsBean.welfare, NetUrlConstant.WELFARE));
         mAdapter.setData(sections);
         showContentPage();
+        QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
     }
 
     @Override

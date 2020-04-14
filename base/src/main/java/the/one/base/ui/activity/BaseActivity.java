@@ -28,6 +28,7 @@ import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.ProgressDialog;
+import the.one.base.widge.StatusLayout;
 
 
 //  ┏┓　　　┏┓
@@ -88,6 +89,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         return !StatusBarUtil.isTranslucent(this);
     }
 
+    protected StatusLayout mStatusLayout;
     protected QMUITipDialog loadingDialog;
     protected the.one.base.widge.ProgressDialog progressDialog;
     private Unbinder unbinder;
@@ -180,10 +182,14 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showContentPage() {
+        if (null != mStatusLayout)
+            mStatusLayout.showContent();
     }
 
     @Override
     public void showLoadingPage() {
+        if (null != mStatusLayout)
+            mStatusLayout.showLoading();
     }
 
     @Override
@@ -208,6 +214,8 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showEmptyPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
+        if (null != mStatusLayout)
+            mStatusLayout.showEmpty(drawable, title, content, btnString, listener);
     }
 
     @Override
@@ -227,11 +235,13 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
-        showErrorPage(getDrawablee(R.drawable.status_loading_view_network_error), title, content, btnString, listener);
+        showErrorPage(getDrawablee(R.drawable.status_loading_view_loading_fail), title, content, btnString, listener);
     }
 
     @Override
     public void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
+        if (null != mStatusLayout)
+            mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
 
     @Override
