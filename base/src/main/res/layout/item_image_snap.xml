@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/we_chat_black">
 
-
     <com.luck.picture.lib.photoview.PhotoView
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
@@ -15,10 +14,11 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp" />
 
-    <com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView
+    <cc.shinichi.library.view.helper.SubsamplingScaleImageViewDragClose
         android:id="@+id/longImg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
 
 
     <com.qmuiteam.qmui.widget.QMUIProgressBar

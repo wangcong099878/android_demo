@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -23,11 +24,6 @@ import the.one.demo.bean.Mzitu;
 import the.one.demo.ui.presenter.MzituPresenter;
 
 /**
- * BaseImageSnapFragment基本上就是RC的结构，只是让其一个item一页的显示
- * 可以当做一个图片查看器，最重要的是可以加载更多，数据是分页的
- * 包含了图片加载进度显示
- * 这个最开始的需求是一个分类里有很多图片，以前都是外部显示小图，
- * 然后点击后查看大图，这个时候只能显示已经加载的数据，滑动到最后一条数据时也应该继续显示
  * 实体需 implements {@link ImageSnap}
  */
 public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
@@ -63,6 +59,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
     /**
      * 代码写在super()的前面或者后面决定了代码执行顺序，所以有些地方的代码先后顺序一定要注意
+     *
      * @param rootView
      */
     @Override
@@ -72,6 +69,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
         mSettingIcon.setOnClickListener(v -> {
             showSettingPopup();
         });
+        initTestList();
     }
 
     private void showSettingPopup() {
@@ -79,9 +77,9 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             mSettingPopup = QMUIPopupUtil.createListPop(_mActivity, mMenus, new OnItemClickListener() {
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    if(position == 0){
+                    if (position == 0) {
                         showOrientationDialog();
-                    }else if(position == 1){
+                    } else if (position == 1) {
                         showFullScreenDialog();
                     }
                     mSettingPopup.dismiss();
@@ -91,13 +89,13 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
         mSettingPopup.show(mSettingIcon);
     }
 
-    private void showOrientationDialog(){
-       final int selectIndex = getOrientation() == RecyclerView.HORIZONTAL?0:1;
+    private void showOrientationDialog() {
+        final int selectIndex = getOrientation() == RecyclerView.HORIZONTAL ? 0 : 1;
         QMUIDialogUtil.showSingleChoiceDialog(_mActivity, mOrientationItems, selectIndex, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(selectIndex != which){
-                    mCurrentOrientation = which== 0?RecyclerView.HORIZONTAL:RecyclerView.VERTICAL;
+                if (selectIndex != which) {
+                    mCurrentOrientation = which == 0 ? RecyclerView.HORIZONTAL : RecyclerView.VERTICAL;
                     updateOrientation();
                 }
                 dialog.dismiss();
@@ -105,13 +103,13 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
         });
     }
 
-    private void showFullScreenDialog(){
-        final int selectIndex = isFullScreen() ?0:1;
+    private void showFullScreenDialog() {
+        final int selectIndex = isFullScreen() ? 0 : 1;
         QMUIDialogUtil.showSingleChoiceDialog(_mActivity, mFullScreenItems, selectIndex, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(selectIndex != which){
-                    isFullScreen = which== 0;
+                if (selectIndex != which) {
+                    isFullScreen = which == 0;
                     updateStatusView();
                 }
                 dialog.dismiss();
@@ -131,14 +129,26 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
     @Override
     public void onComplete(List<Mzitu> data) {
-        mTotal = adapter.getData().size() + data.size();
-        if(isFirst){
-            Mzitu mzitu = new Mzitu();
-            // 大图
-            mzitu.setUrl("http://img6.16fan.com/attachments/wenzhang/201805/18/152660818127263ge.jpeg");
-            data.set(0,mzitu);
-        }
-        super.onComplete(data);
+        if (isFirst) {
+            mzitus.addAll(data);
+            super.onComplete(mzitus);
+        } else
+            super.onComplete(data);
+        mTotal = adapter.getData().size();
+    }
+
+    private List<Mzitu> mzitus = new ArrayList<>();
+
+    private List<Mzitu> initTestList() {
+        // 测试 大图
+        mzitus.add(new Mzitu("http://img6.16fan.com/attachments/wenzhang/201805/18/152660818127263ge.jpeg"));
+        // 测试 大图
+        mzitus.add(new Mzitu("http://img6.16fan.com/attachments/wenzhang/201805/18/152660818716180ge.jpeg"));
+        // 测试 超宽图
+        mzitus.add(new Mzitu("http://cache.house.sina.com.cn/citylifehouse/citylife/de/26/20090508_7339__.jpg"));
+        // 测试 GIF
+        mzitus.add(new Mzitu("https://gank.io/images/4ff6f5d09ba241ddb6ffd066280b51cf"));
+        return mzitus;
     }
 
     @Override
@@ -154,7 +164,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
     @Override
     public boolean onLongClick(Mzitu data) {
-        DownloadSheetDialogUtil.show(getBaseFragmentActivity(),data.getImageUrl());
+        DownloadSheetDialogUtil.show(getBaseFragmentActivity(), data.getImageUrl());
         return true;
     }
 }

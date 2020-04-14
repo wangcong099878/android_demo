@@ -45,6 +45,10 @@ public class Mzitu implements ImageSnap, Parcelable  {
     public Mzitu() {
     }
 
+    public Mzitu(String url) {
+        this.url = url;
+    }
+
     public Mzitu(String url, String refer) {
         this.url = url;
         this.refer = refer;
