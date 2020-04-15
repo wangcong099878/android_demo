@@ -1,5 +1,6 @@
 package the.one.base.util;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -28,7 +29,7 @@ import the.one.base.R;
  * @date 2018/5/3 0003
  * @describe 对 {@link QMUIDialog} 的使用做了一些简单封装
  * @email 625805189@qq.com
- * @remark 如果调用了 {@link AppMourningThemeUtil},但是不是从此工具了创建的，需要手动调用 notifyTheme 方法
+ * @remark 如需使用 {@link AppMourningThemeUtil},但是不是从此工具了创建的{@link QMUIDialog}或者其他{@link Dialog}，需要手动调用{@link #notifyTheme(Dialog)}
  */
 
 public class QMUIDialogUtil {
@@ -42,7 +43,7 @@ public class QMUIDialogUtil {
      * 由于QMUIDialog不好处理，所以只能这样一个个处理了
      * @param dialog
      */
-    public static void notifyTheme(QMUIDialog dialog) {
+    public static void notifyTheme(Dialog dialog) {
         if (null != dialog)
             AppMourningThemeUtil.notify(dialog.getWindow());
     }

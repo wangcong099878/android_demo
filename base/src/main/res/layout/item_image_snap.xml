@@ -14,12 +14,10 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp" />
 
-    <cc.shinichi.library.view.helper.SubsamplingScaleImageViewDragClose
+    <com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView
         android:id="@+id/longImg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" />
-
+        android:layout_height="match_parent"/>
 
     <com.qmuiteam.qmui.widget.QMUIProgressBar
         android:id="@+id/progressbar"

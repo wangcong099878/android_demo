@@ -170,9 +170,10 @@ public class ImagePreviewActivity extends BaseActivity implements ImageSnapAdapt
         return null;
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+        overridePendingTransition(0, R.anim.fade_out);
      }
 }

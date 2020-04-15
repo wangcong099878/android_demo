@@ -57,7 +57,7 @@ import the.one.gank.ui.view.HomeView;
 /**
  * @author The one
  * @date 2019/3/4 0004
- * @describe TODO
+ * @describe 主页第二种样式
  * @email 625805189@qq.com
  * @remark
  */
@@ -152,7 +152,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
 
                 // 两种写法
                 // 1
-//                mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
+                mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
                 // 2
                 //mTopLayout.setBackgroundAlpha((int) (percent * 255));
 

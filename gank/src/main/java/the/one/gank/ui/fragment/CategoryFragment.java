@@ -4,6 +4,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
+import com.qmuiteam.qmui.util.QMUIColorHelper;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ import the.one.gank.constant.NetUrlConstant;
  */
 public class CategoryFragment extends BaseTitleTabFragment {
 
+    private QMUIQQFaceView mTitle;
+
     @Override
     protected boolean isNeedChangeStatusBarMode() {
         return true;
@@ -50,15 +53,39 @@ public class CategoryFragment extends BaseTitleTabFragment {
         return true;
     }
 
+    /**
+     * @return 是否需要折叠TitleBar
+     */
+    @Override
+    protected boolean isFoldTitleBar() {
+        return true;
+    }
+
+    /**
+     * @return 是否显示Elevation（Z轴的高度）
+     */
+    @Override
+    protected boolean showElevation() {
+        return true;
+    }
+
+    /**
+     * 需要自行处理TitleBar里的内容随着滑动的透明度
+     * @param percent
+     */
+    @Override
+    public void onScrollChanged(float percent) {
+        mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1),percent));
+    }
+
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
         //把继承改为BaseTabOnTitleFragment注释掉下面的代码试试
-        QMUIQQFaceView mTitle =  mTopLayout.setTitle("GankType");
+        mTitle =  mTopLayout.setTitle("GankType");
         mTopLayout.setTitleGravity(Gravity.CENTER);
         mTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
         mTitle.getPaint().setFakeBoldText(true);
-        // 这里不用注释掉,更换继承这里要改成true(是否有分割线)
     }
 
     @Override

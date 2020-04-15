@@ -83,28 +83,35 @@ public class CollapsingTopBarFragment extends BaseCollapsingTopBarFragment<GankB
                 onBackPressed();
             }
         });
-        mCollapsingTopBarLayout.addOnOffsetUpdateListener(new QMUICollapsingTopBarLayout.OnOffsetUpdateListener() {
-            @Override
-            public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
-                if (!isChanged && expandFraction <0.5f) {
-                    isChanged = true;
-                    mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
-                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-                } else if (isChanged && expandFraction > 0.5f) {
-                    isChanged = false;
-                    mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_dark);
-                    QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-                }
-            }
-        });
     }
+
+    private boolean isFirst = true;
 
     @Override
     public void showContentPage() {
         super.showContentPage();
-        mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
-        // 刚进来时白色的背景,是LightMode,显示内容层时，顶部的图片已经显示了，这个时候要改变，之后再根据折叠状态去改变
-        QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+        // 虽然这个方法只会被触发一次，但是为了谨慎还是做一次判断
+        if (isFirst) {
+            isFirst = false;
+            mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
+            // 刚进来时白色的背景,是LightMode,显示内容层时，顶部的图片已经显示了，这个时候要改变，之后再根据折叠状态去改变
+            QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+            mCollapsingTopBarLayout.addOnOffsetUpdateListener(new QMUICollapsingTopBarLayout.OnOffsetUpdateListener() {
+                @Override
+                public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
+                    if(offset == 0) return;
+                    if (!isChanged && expandFraction < 0.5f) {
+                        isChanged = true;
+                        mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
+                        QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+                    } else if (isChanged && expandFraction > 0.5f) {
+                        isChanged = false;
+                        mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_dark);
+                        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+                    }
+                }
+            });
+        }
     }
 
     @Override

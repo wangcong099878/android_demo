@@ -3,6 +3,7 @@ package the.one.mzitu.ui.fragment;
 import android.view.View;
 
 import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
+import com.qmuiteam.qmui.util.QMUIColorHelper;
 
 import java.util.ArrayList;
 
@@ -39,23 +40,43 @@ import the.one.mzitu.constant.MzituConstant;
  */
 public class MzituFragment extends BaseTitleTabFragment {
 
+    private QMUIQQFaceView mTitle;
+
     @Override
     protected boolean isExitFragment() {
         return true;
     }
 
     @Override
-    protected void initView(View rootView) {
-        super.initView(rootView);
-        QMUIQQFaceView tvTitle = mTopLayout.setTitle("妹子图");
-        tvTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
-        tvTitle.getPaint().setFakeBoldText(true);
-    }
-
-    @Override
     protected boolean isStatusBarLightMode() {
         return true;
     }
+
+    /**
+     * @return 需要折叠TitleBar
+     */
+    @Override
+    protected boolean isFoldTitleBar() {
+        return true;
+    }
+
+    /**
+     * 需要自行处理TitleBar里的内容随着滑动的透明度
+     * @param percent
+     */
+    @Override
+    public void onScrollChanged(float percent) {
+        mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1),percent));
+    }
+
+    @Override
+    protected void initView(View rootView) {
+        super.initView(rootView);
+        mTitle = mTopLayout.setTitle("妹子图");
+        mTitle.getPaint().setFakeBoldText(true);
+    }
+
+
 
     @Override
     protected void addTabs() {

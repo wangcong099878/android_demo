@@ -13,6 +13,8 @@
         android:background="?config_bg_color"
         android:fitsSystemWindows="true">
 
+        <!-- layout_scrollFlags  https://www.jianshu.com/p/7caa5f4f49bd-->
+
         <com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout
             android:id="@+id/collapsing_topbar_layout"
             android:layout_width="match_parent"
