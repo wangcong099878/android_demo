@@ -26,16 +26,27 @@ import the.one.base.widge.MyTopBarLayout;
 
 import static the.one.base.ui.fragment.BaseFragment.setMargins;
 
+/**
+ * @author The one
+ * @date 2020-4-15
+ * @describe 图片预览
+ * @email 625805189@qq.com
+ * @remark
+ */
 public class ImagePreviewActivity extends BaseActivity implements ImageSnapAdapter.OnImageClickListener {
 
     private static long mLastClickTime;
     private static final int MIN_DOUBLE_CLICK_TIME = 1500;
 
     public static void startThisActivity(Activity activity, ArrayList<String> list, int position) {
+        startThisActivity(activity, ImagePreviewActivity.class, list, position);
+    }
+
+    public static void startThisActivity(Activity activity, Class targetActivity, ArrayList<String> list, int position) {
         if (null == activity || activity.isFinishing() || activity.isDestroyed() || System.currentTimeMillis() - mLastClickTime <= MIN_DOUBLE_CLICK_TIME)
             return;
         mLastClickTime = System.currentTimeMillis();
-        Intent in = new Intent(activity, ImagePreviewActivity.class);
+        Intent in = new Intent(activity, targetActivity);
         in.putStringArrayListExtra(DataConstant.DATA, list);
         in.putExtra(DataConstant.POSITION, position);
 //        if (null != image)
@@ -46,7 +57,7 @@ public class ImagePreviewActivity extends BaseActivity implements ImageSnapAdapt
 //                    .toBundle());
 //        else
         activity.startActivity(in);
-        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        activity.overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
     }
 
     protected MyTopBarLayout mTopBarLayout;
@@ -154,7 +165,7 @@ public class ImagePreviewActivity extends BaseActivity implements ImageSnapAdapt
 
     @Override
     public boolean onLongClick(ImageSnap data) {
-        DownloadSheetDialogUtil.show(this,data.getImageUrl());
+        DownloadSheetDialogUtil.show(this, data.getImageUrl());
         return false;
     }
 
@@ -170,10 +181,10 @@ public class ImagePreviewActivity extends BaseActivity implements ImageSnapAdapt
         return null;
     }
 
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        overridePendingTransition(0, R.anim.fade_out);
-     }
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_still, R.anim.scale_exit);
+    }
+
 }

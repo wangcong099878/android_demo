@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import the.one.base.ui.activity.ImagePreviewActivity;
+import the.one.base.event.ImagePreviewEvent;
+import the.one.base.ui.activity.ImagePreviewActivity2;
 import the.one.base.util.glide.GlideUtil;
 
 /**
@@ -68,7 +69,7 @@ public class NineGridView extends NineGridLayout {
 
     @Override
     protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
-       ImagePreviewActivity.startThisActivity((Activity) mContext,urlList,position);
+        ImagePreviewActivity2.startThisActivity((Activity) mContext,new ImagePreviewEvent(ImagePreviewActivity2.parse(urlList),position));
     }
 
 }

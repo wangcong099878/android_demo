@@ -156,4 +156,8 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         return true;
     }
 
+    @Override
+    public TransitionConfig onFetchTransitionConfig() {
+        return SCALE_TRANSITION_CONFIG;
+    }
 }

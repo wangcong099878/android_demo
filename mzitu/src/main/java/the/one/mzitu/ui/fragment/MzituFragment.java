@@ -60,6 +60,11 @@ public class MzituFragment extends BaseTitleTabFragment {
         return true;
     }
 
+    @Override
+    protected boolean showElevation() {
+        return true;
+    }
+
     /**
      * 需要自行处理TitleBar里的内容随着滑动的透明度
      * @param percent
@@ -75,8 +80,6 @@ public class MzituFragment extends BaseTitleTabFragment {
         mTitle = mTopLayout.setTitle("妹子图");
         mTitle.getPaint().setFakeBoldText(true);
     }
-
-
 
     @Override
     protected void addTabs() {
