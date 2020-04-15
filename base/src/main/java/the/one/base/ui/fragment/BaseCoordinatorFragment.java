@@ -31,7 +31,7 @@ import the.one.base.R;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseCoordinatorRcFragment<T> extends BaseDataFragment<T> {
+public abstract class BaseCoordinatorFragment<T> extends BaseDataFragment<T> {
 
     protected FrameLayout flCoordinatorLayout;
 

@@ -243,7 +243,6 @@ public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView
             LinearLayout.LayoutParams titleLp = generateTitleViewAndSubTitleViewLp();
             makeSureTitleContainerView().addView(mTitleView, titleLp);
         }
-
         return mTitleView;
     }
 

@@ -91,15 +91,20 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     }
 
     @Override
+    protected boolean isNeedSpace() {
+        return false;
+    }
+
+    @Override
     protected void initView(View rootView) {
         mBannerHeight = QMUIDisplayHelper.dp2px(_mActivity, 250);
-        mTopLayout.setBackgroundColor(getColorr(R.color.white));
+        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
         mTitleView = mTopLayout.getTopBar().getTitleView();
         mTitleView.getPaint().setFakeBoldText(true);
         super.initView(rootView);
         initBanner();
         setMargins(mStatusLayout, 0, 0, 0, 0);
-        mStatusLayout.setFitsSystemWindows(true);
+        mStatusLayout.setFitsSystemWindows(false);
         recycleView.setItemViewCacheSize(50);
     }
 
@@ -147,7 +152,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
 
                 // 两种写法
                 // 1
-                mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
+//                mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
                 // 2
                 //mTopLayout.setBackgroundAlpha((int) (percent * 255));
 

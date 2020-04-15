@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 
-import the.one.base.ui.fragment.BaseCollapsingTopBarRcFragment;
+import the.one.base.ui.fragment.BaseCollapsingTopBarFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.demo.R;
@@ -44,7 +44,7 @@ import the.one.demo.ui.presenter.GankPresenter;
  * @email 625805189@qq.com
  * @remark
  */
-public class CollapsingTopBarFragment extends BaseCollapsingTopBarRcFragment<GankBean> {
+public class CollapsingTopBarFragment extends BaseCollapsingTopBarFragment<GankBean> {
 
     ImageView ivPicture;
     private QMUIAlphaImageButton mBackBtn;
@@ -52,10 +52,6 @@ public class CollapsingTopBarFragment extends BaseCollapsingTopBarRcFragment<Gan
     private GankPresenter presenter;
     private boolean isChanged = false;
 
-    @Override
-    protected boolean isNeedSpace() {
-        return false;
-    }
 
     @Override
     protected Object getCollapsingContentLayout() {
@@ -87,33 +83,28 @@ public class CollapsingTopBarFragment extends BaseCollapsingTopBarRcFragment<Gan
                 onBackPressed();
             }
         });
-
+        mCollapsingTopBarLayout.addOnOffsetUpdateListener(new QMUICollapsingTopBarLayout.OnOffsetUpdateListener() {
+            @Override
+            public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
+                if (!isChanged && expandFraction <0.5f) {
+                    isChanged = true;
+                    mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
+                    QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+                } else if (isChanged && expandFraction > 0.5f) {
+                    isChanged = false;
+                    mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_dark);
+                    QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+                }
+            }
+        });
     }
-
-    private boolean isFirstInitListener = true;
 
     @Override
     public void showContentPage() {
         super.showContentPage();
         mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
+        // 刚进来时白色的背景,是LightMode,显示内容层时，顶部的图片已经显示了，这个时候要改变，之后再根据折叠状态去改变
         QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-        if (isFirstInitListener) {
-            isFirstInitListener = false;
-            mCollapsingTopBarLayout.addOnOffsetUpdateListener(new QMUICollapsingTopBarLayout.OnOffsetUpdateListener() {
-                @Override
-                public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
-                    if (!isChanged && expandFraction <0.5f) {
-                        isChanged = true;
-                        mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_light);
-                        QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-                    } else if (isChanged && expandFraction > 0.5f) {
-                        isChanged = false;
-                        mBackBtn.setImageResource(R.drawable.mz_titlebar_ic_back_dark);
-                        QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-                    }
-                }
-            });
-        }
     }
 
     @Override

@@ -33,7 +33,7 @@ import the.one.base.R;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseCollapsingTopBarRcFragment<T> extends BaseDataFragment<T> {
+public abstract class BaseCollapsingTopBarFragment<T> extends BaseDataFragment<T> {
 
     protected QMUICollapsingTopBarLayout mCollapsingTopBarLayout;
     protected QMUITopBar mTopBar;

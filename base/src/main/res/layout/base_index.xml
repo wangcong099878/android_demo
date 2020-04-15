@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/home_tab_height"
+        android:fitsSystemWindows="true"
         android:overScrollMode="never" />
 
     <the.one.base.widge.tagsegment.TheTabSegment
@@ -17,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_tab_height"
         android:layout_gravity="bottom"
+        android:background="?config_bg_color"
         android:textSize="12sp"
         app:qmui_tab_icon_position="top"
         app:qmui_topDividerColor="?attr/qmui_skin_support_color_separator"
