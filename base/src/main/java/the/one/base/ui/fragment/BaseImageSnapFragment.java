@@ -1,11 +1,11 @@
 package the.one.base.ui.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIViewHelper;
 
 import androidx.annotation.NonNull;
@@ -31,11 +31,13 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected ImageSnapAdapter<T> mImageSnapAdapter;
     protected PagerSnapHelper mPagerSnapHelper;
     protected LinearLayoutManager mPagerLayoutManager;
+    protected QMUIAlphaImageButton mBackBtn;
     protected int mBgColor;
     protected int mTextColor;
 
     /**
      * 当滑动改变后需要对当前的数据进行处理
+     *
      * @param item
      * @param position
      */
@@ -52,6 +54,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     /**
      * 用这个切换白的还是黑色背景
+     *
      * @return
      */
     @Override
@@ -68,26 +71,35 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected void initView(View rootView) {
         super.initView(rootView);
         updateBgColor(isStatusBarLightMode());
-        mTopLayout.setBackgroundColor(mBgColor);
-        mTopLayout.getTopBar().getTitleView().setTextColor(mTextColor);
-        mTopLayout.addLeftImageButton(isStatusBarLightMode()?R.drawable.mz_titlebar_ic_back_dark:R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
     }
 
-    protected void updateBgColor(boolean isWhite){
-        mBgColor = getColorr(isWhite?R.color.qmui_config_color_white:R.color.we_chat_black);
-        mTextColor = getColorr(isWhite?R.color.qmui_config_color_gray_1:R.color.qmui_config_color_white);
+    /*
+     * 根据主题更换颜色
+     */
+    protected void updateBgColor(boolean isWhite) {
+        mBgColor = getColorr(isWhite ? R.color.qmui_config_color_white : R.color.we_chat_black);
+        mTextColor = getColorr(isWhite ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white);
 
         mRootView.setBackgroundColor(mBgColor);
         mStatusLayout.setBackgroundColor(mBgColor);
-        recycleView.setBackgroundColor(getColorr(isWhite?R.color.qmui_config_color_background:R.color.qmui_config_color_black));
+        recycleView.setBackgroundColor(getColorr(isWhite ? R.color.qmui_config_color_background : R.color.qmui_config_color_black));
         mImageSnapAdapter.setWhiteBg(isWhite);
+
+        mTopLayout.setBackgroundColor(mBgColor);
+        mTopLayout.getTopBar().getTitleView().setTextColor(mTextColor);
+        int backRes = isWhite ? R.drawable.mz_titlebar_ic_back_dark : R.drawable.mz_titlebar_ic_back_light;
+        if (null == mBackBtn) {
+            mBackBtn = mTopLayout.addLeftImageButton(backRes, R.id.topbar_left_button);
+            mBackBtn.setOnClickListener(v -> onBackPressed());
+        } else {
+            mBackBtn.setImageDrawable(getDrawablee(backRes));
+        }
+        if (null != mStatusLayout && null != mStatusLayout.getLoadingTipsView()) {
+            mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
+        }
+        onLazyResume();
     }
 
     @Override
@@ -127,7 +139,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
     }
 
-    protected void updateOrientation(){
+    protected void updateOrientation() {
         mPagerLayoutManager.setOrientation(getOrientation());
     }
 
@@ -150,14 +162,14 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     public void onClick(T data) {
         // 点击后隐藏或者显示 TopBarLayout和状态栏
         boolean isVisible = mTopLayout.getVisibility() == View.VISIBLE;
-        mTopLayout.setVisibility(isVisible?View.GONE:View.VISIBLE);
-        if(isVisible){
-            QMUIViewHelper.fadeOut(mTopLayout,500,null,true);
-        }else{
-            QMUIViewHelper.fadeIn(mTopLayout,500,null,true);
+        mTopLayout.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+        if (isVisible) {
+            QMUIViewHelper.fadeOut(mTopLayout, 500, null, true);
+        } else {
+            QMUIViewHelper.fadeIn(mTopLayout, 500, null, true);
         }
         setStatusBarVisible(!isVisible);
-        if(isStatusBarLightMode()){
+        if (isStatusBarLightMode()) {
             // 如果是白色模式，点击后将变成黑色
             updateBgColor(!isVisible);
         }
@@ -184,6 +196,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     /**
      * 更改进出动画效果 QMUIFragment提供
+     *
      * @return
      */
     @Override
@@ -193,14 +206,15 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     /**
      * 调整状态栏的显示
+     *
      * @param show
      */
-    protected void setStatusBarVisible(boolean show){
+    protected void setStatusBarVisible(boolean show) {
         Window window = getBaseFragmentActivity().getWindow();
-        if(null == window) return;
-        if(show){
+        if (null == window) return;
+        if (show) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //显示状态栏
-        }else{
+        } else {
             window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
         }
     }

@@ -160,8 +160,7 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
         initVideoInfo();
 
         mRecycleView.setLayoutManager(new GridLayoutManager(this, 2));
-        SpacesItemDecoration decoration = new SpacesItemDecoration(QMUIDisplayHelper.dp2px(this, 12), 2);
-        decoration.setHeaderNum(mVideoAdapter.getHeaderLayoutCount());
+        SpacesItemDecoration decoration = new SpacesItemDecoration(2,mVideoAdapter.getHeaderLayoutCount(),QMUIDisplayHelper.dp2px(this, 12));
         mRecycleView.addItemDecoration(decoration);
         mRecycleView.setAdapter(mVideoAdapter);
 

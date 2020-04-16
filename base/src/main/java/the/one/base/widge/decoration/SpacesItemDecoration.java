@@ -88,12 +88,15 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
             // 但是只给第一个加上top间距
             outRect.top = position == headerNum?top:0;
             if (column > 1) {
-                // 如果为多列时，给第一行的加上top
-                if(position<column){
-                    outRect.top = top;
-                }
                 // 只要不为一列，只考虑最左和最右项的差别
                 int X = column - columnIndex;
+                // 如果为多列时，给第一行的加上top.
+                // X != column 这个判断
+                // 当遇到SectionAdapter时，有两列，如果第一行是标题占据一整行，
+                // position=1时已经是第二行的内容层了，这个时候就不能加了，案例见aqtour首页布局
+                if(position<column && X != column){
+                    outRect.top = top;
+                }
                 if (X == column) {
                     // 最左边的只需要在右边设置一半的间距
                     outRect.right = right/2;

@@ -30,6 +30,7 @@ public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategor
 
     @Override
     protected void initView(View rootView) {
+        super.initView(rootView);
         mDownload = mTopLayout.addRightImageButton(R.drawable.ic_svg_download, R.id.topbar_right_button1);
         mDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +54,6 @@ public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategor
         });
         mTopLayout.setCenterView(mSearchView);
         goneView(mSearchView, mDownload, mCollection);
-        super.initView(rootView);
     }
 
 

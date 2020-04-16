@@ -30,12 +30,14 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
     private MzituPresenter presenter;
     private int mTotal;
-    private String[] mMenus = new String[]{"方向", "全屏"};
+    private String[] mMenus = new String[]{"Orientation", "Theme"};
     private String[] mOrientationItems = new String[]{"HORIZONTAL", "VERTICAL"};
+    private String[] mThemeItems = new String[]{"White", "Dark"};
     private QMUIAlphaImageButton mSettingIcon;
     private QMUIPopup mSettingPopup;
 
     private int mCurrentOrientation = RecyclerView.HORIZONTAL;
+    private boolean isWhite = true;
 
     /**
      * 也就是 RecyclerView.HORIZONTAL or RecyclerView.VERTICAL
@@ -48,6 +50,16 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     }
 
     /**
+     * 改变一下这个值试试看
+     *
+     * @return
+     */
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return isWhite;
+    }
+
+    /**
      * 代码写在super()的前面或者后面决定了代码执行顺序，所以有些地方的代码先后顺序一定要注意
      *
      * @param rootView
@@ -55,10 +67,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        mSettingIcon = mTopLayout.addRightImageButton(R.drawable.mz_titlebar_ic_more_light, R.id.topbar_right_about_button);
-        mSettingIcon.setOnClickListener(v -> {
-            showOrientationDialog();
-        });
+
         initTestList();
     }
 
@@ -67,7 +76,8 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             mSettingPopup = QMUIPopupUtil.createListPop(_mActivity, mMenus, new OnItemClickListener() {
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    showOrientationDialog();
+                    if (position == 0) showOrientationDialog();
+                    else showThemeDialog();
                     mSettingPopup.dismiss();
                 }
             });
@@ -87,6 +97,33 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
                 dialog.dismiss();
             }
         });
+    }
+
+    private void showThemeDialog() {
+        final int selectIndex = isStatusBarLightMode() ? 0 : 1;
+        QMUIDialogUtil.showSingleChoiceDialog(_mActivity, mThemeItems, selectIndex, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (selectIndex != which) {
+                    isWhite = which == 0;
+                    updateBgColor(isWhite);
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    protected void updateBgColor(boolean isWhite) {
+        super.updateBgColor(isWhite);
+        int mSettingDrawable = isWhite ? R.drawable.mz_titlebar_ic_setting_dark : R.drawable.mz_titlebar_ic_setting_light;
+        if (null == mSettingIcon) {
+            mSettingIcon = mTopLayout.addRightImageButton(mSettingDrawable, R.id.topbar_right_button1);
+            mSettingIcon.setOnClickListener(v -> {
+                showSettingPopup();
+            });
+        } else
+            mSettingIcon.setImageDrawable(getDrawablee(mSettingDrawable));
     }
 
     @Override
@@ -125,13 +162,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
     @Override
     protected void onScrollChanged(Mzitu item, int position) {
-        position++;
-        mTopLayout.setTitle(position + "/" + mTotal);
-    }
-
-    @Override
-    public void onClick(Mzitu data) {
-
+        mTopLayout.setTitle(++position + "/" + mTotal);
     }
 
     @Override
