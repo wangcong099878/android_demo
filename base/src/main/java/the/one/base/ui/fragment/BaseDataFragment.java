@@ -100,7 +100,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      * @return
      */
     protected int setSpacing() {
-        return 14;
+        return 12;
     }
 
     /**
@@ -168,12 +168,27 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         adapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.AlphaIn);
     }
 
+    /**
+     * 初始化RecycleView
+     * @param recycleView
+     * @param type
+     * @param adapter
+     */
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
         if (isNeedSpace())
-            recycleView.addItemDecoration(new SpacesItemDecoration(adapter.getHeaderLayoutCount(), QMUIDisplayHelper.dp2px(_mActivity, setSpacing()), setType() == TYPE_LIST ? 1 : setColumn()));
+            recycleView.addItemDecoration(getSpacesItemDecoration());
         recycleView.setLayoutManager(getLayoutManager(type));
         recycleView.addOnScrollListener(getOnScrollListener());
         recycleView.setAdapter(adapter);
+    }
+
+    /**
+     * 设置间距
+     * @return
+     */
+    protected SpacesItemDecoration getSpacesItemDecoration(){
+        int space = QMUIDisplayHelper.dp2px(_mActivity, setSpacing());
+        return new SpacesItemDecoration(setType() == TYPE_LIST ? 1 : setColumn(),adapter.getHeaderLayoutCount(), space );
     }
 
     protected LayoutManager getLayoutManager(int type) {

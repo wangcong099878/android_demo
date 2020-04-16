@@ -79,7 +79,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
 
     @Override
     protected int setColumn() {
-        return 2;
+        return 3;
     }
 
     @Override

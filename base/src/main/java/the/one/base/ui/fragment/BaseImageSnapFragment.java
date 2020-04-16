@@ -1,10 +1,12 @@
 package the.one.base.ui.fragment;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.util.QMUIViewHelper;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +39,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
      * @param item
      * @param position
      */
-    protected void onScrollChanged(T item, int position) { }
+    protected abstract void onScrollChanged(T item, int position);
 
     /**
      * 滑动方向
@@ -49,7 +51,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     }
 
     /**
-     * 根据这个判断用白色的背景还是黑色的
+     * 用这个切换白的还是黑色背景
      * @return
      */
     @Override
@@ -64,10 +66,8 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     @Override
     protected void initView(View rootView) {
-        mBgColor = getColorr(isStatusBarLightMode()?R.color.qmui_config_color_white:R.color.qmui_config_color_black);
-        mTextColor = getColorr(isStatusBarLightMode()?R.color.qmui_config_color_gray_1:R.color.qmui_config_color_white);
-        rootView.setBackgroundColor(mBgColor);
-        mStatusLayout.setBackgroundColor(mBgColor);
+        super.initView(rootView);
+        updateBgColor(isStatusBarLightMode());
         mTopLayout.setBackgroundColor(mBgColor);
         mTopLayout.getTopBar().getTitleView().setTextColor(mTextColor);
         mTopLayout.addLeftImageButton(isStatusBarLightMode()?R.drawable.mz_titlebar_ic_back_dark:R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
@@ -76,9 +76,18 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
                 onBackPressed();
             }
         });
-        super.initView(rootView);
         setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
+    }
+
+    protected void updateBgColor(boolean isWhite){
+        mBgColor = getColorr(isWhite?R.color.qmui_config_color_white:R.color.we_chat_black);
+        mTextColor = getColorr(isWhite?R.color.qmui_config_color_gray_1:R.color.qmui_config_color_white);
+
+        mRootView.setBackgroundColor(mBgColor);
+        mStatusLayout.setBackgroundColor(mBgColor);
+        recycleView.setBackgroundColor(getColorr(isWhite?R.color.qmui_config_color_background:R.color.qmui_config_color_black));
+        mImageSnapAdapter.setWhiteBg(isWhite);
     }
 
     @Override
@@ -103,7 +112,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         mPagerLayoutManager = new LinearLayoutManager(_mActivity, getOrientation(), false);
         recycleView.setLayoutManager(mPagerLayoutManager);
         mPagerSnapHelper.attachToRecyclerView(recycleView);
-        recycleView.setBackgroundColor(mBgColor);
     }
 
     @Override
@@ -141,14 +149,22 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     @Override
     public void onClick(T data) {
         // 点击后隐藏或者显示 TopBarLayout和状态栏
-        boolean visible = mTopLayout.getVisibility() != View.VISIBLE;
-        mTopLayout.setVisibility(visible?View.VISIBLE:View.GONE);
-        setStatusBarVisible(visible);
+        boolean isVisible = mTopLayout.getVisibility() == View.VISIBLE;
+        mTopLayout.setVisibility(isVisible?View.GONE:View.VISIBLE);
+        if(isVisible){
+            QMUIViewHelper.fadeOut(mTopLayout,500,null,true);
+        }else{
+            QMUIViewHelper.fadeIn(mTopLayout,500,null,true);
+        }
+        setStatusBarVisible(!isVisible);
+        if(isStatusBarLightMode()){
+            // 如果是白色模式，点击后将变成黑色
+            updateBgColor(!isVisible);
+        }
     }
 
     @Override
     public void onVideoClick(T data) {
-
     }
 
     @Override
@@ -158,6 +174,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
     }
 
     @Override

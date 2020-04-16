@@ -42,25 +42,24 @@ public class ImagePreviewFragment extends BaseImageSnapFragment<ImagePreviewBean
         return fragment;
     }
 
+    private int mImageCount;
+
     @Override
     protected void requestServer() {
         Bundle bundle = getArguments();
         if(null == bundle) popBackStack();
-        ImagePreviewEvent previewEvent = bundle.getParcelable(DataConstant.DATA);
-        if(null == previewEvent) popBackStack();
-        onComplete(previewEvent.getPreviewBeans());
+        ImagePreviewEvent mPreviewEvent = bundle.getParcelable(DataConstant.DATA);
+        if(null == mPreviewEvent) popBackStack();
+        onComplete(mPreviewEvent.getPreviewBeans());
+        mImageCount = mPreviewEvent.getPreviewBeans().size();
         onNormal();
-        recycleView.scrollToPosition(previewEvent.getPosition());
+        recycleView.scrollToPosition(mPreviewEvent.getPosition());
+        onScrollChanged(null,mPreviewEvent.getPosition());
     }
 
     @Override
-    public void onClick(ImagePreviewBean data) {
-
-    }
-
-    @Override
-    public boolean onLongClick(ImagePreviewBean data) {
-        return false;
+    public void onScrollChanged(ImagePreviewBean previewBean,int position){
+        mTopLayout.setTitle(++position+"/"+mImageCount);
     }
 
     @Override
