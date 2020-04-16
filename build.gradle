@@ -23,15 +23,6 @@ allprojects {
 
     ext {
 
-        schoolVersion = '4.0.0_beta'
-        schoolCode = 100
-
-        supplierCode = 40
-        supplierVersion = '4.0.0_alpha'
-
-        managermentCode = 30
-        managermentVersion = '2.0.2'
-
         minSdkVersion = 20
         targetSdkVersion = 28
         compileSdkVersion = 28

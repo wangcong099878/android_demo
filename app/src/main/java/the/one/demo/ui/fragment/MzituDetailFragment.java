@@ -32,20 +32,10 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     private int mTotal;
     private String[] mMenus = new String[]{"方向", "全屏"};
     private String[] mOrientationItems = new String[]{"HORIZONTAL", "VERTICAL"};
-    private String[] mFullScreenItems = new String[]{"全屏", "TopBar下面"};
     private QMUIAlphaImageButton mSettingIcon;
     private QMUIPopup mSettingPopup;
 
     private int mCurrentOrientation = RecyclerView.HORIZONTAL;
-    private boolean isFullScreen = true;
-
-    /**
-     * @return true or false 自己改变看看效果有什么不一样
-     */
-    @Override
-    protected boolean isFullScreen() {
-        return isFullScreen;
-    }
 
     /**
      * 也就是 RecyclerView.HORIZONTAL or RecyclerView.VERTICAL
@@ -67,7 +57,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
         super.initView(rootView);
         mSettingIcon = mTopLayout.addRightImageButton(R.drawable.mz_titlebar_ic_more_light, R.id.topbar_right_about_button);
         mSettingIcon.setOnClickListener(v -> {
-            showSettingPopup();
+            showOrientationDialog();
         });
         initTestList();
     }
@@ -77,11 +67,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             mSettingPopup = QMUIPopupUtil.createListPop(_mActivity, mMenus, new OnItemClickListener() {
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                    if (position == 0) {
-                        showOrientationDialog();
-                    } else if (position == 1) {
-                        showFullScreenDialog();
-                    }
+                    showOrientationDialog();
                     mSettingPopup.dismiss();
                 }
             });
@@ -97,20 +83,6 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
                 if (selectIndex != which) {
                     mCurrentOrientation = which == 0 ? RecyclerView.HORIZONTAL : RecyclerView.VERTICAL;
                     updateOrientation();
-                }
-                dialog.dismiss();
-            }
-        });
-    }
-
-    private void showFullScreenDialog() {
-        final int selectIndex = isFullScreen() ? 0 : 1;
-        QMUIDialogUtil.showSingleChoiceDialog(_mActivity, mFullScreenItems, selectIndex, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (selectIndex != which) {
-                    isFullScreen = which == 0;
-                    updateStatusView();
                 }
                 dialog.dismiss();
             }

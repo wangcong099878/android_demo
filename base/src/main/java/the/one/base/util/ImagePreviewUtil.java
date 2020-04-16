@@ -1,4 +1,4 @@
-package the.one.base.ui.activity;
+package the.one.base.util;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -28,26 +28,39 @@ import the.one.base.R;
 import the.one.base.constant.DataConstant;
 import the.one.base.event.ImagePreviewEvent;
 import the.one.base.model.ImagePreviewBean;
-import the.one.base.ui.fragment.BaseFragment;
-import the.one.base.ui.fragment.ImagePreviewFragment;
+import the.one.base.ui.activity.ImagePreviewActivity;
 
 /**
  * @author The one
- * @date 2020/4/15 0015
- * @describe TODO
+ * @date 2020/4/16 0016
+ * @describe 图片预览跳转工具
  * @email 625805189@qq.com
  * @remark
  */
-public class ImagePreviewActivity2 extends BaseFragmentActivity {
+public class ImagePreviewUtil {
 
     private static long mLastClickTime;
     private static final int MIN_DOUBLE_CLICK_TIME = 1500;
 
-    public static void startThisActivity(Activity activity, ImagePreviewEvent previewEvent) {
-        startThisActivity(activity, ImagePreviewActivity2.class, previewEvent);
+    public static void start(Activity activity, String path) {
+        List<ImagePreviewBean> previewBeans = new ArrayList<>();
+        previewBeans.add(new ImagePreviewBean(path));
+        start(activity, ImagePreviewActivity.class, new ImagePreviewEvent(previewBeans));
     }
 
-    public static void startThisActivity(Activity activity, Class targetActivity, ImagePreviewEvent previewEvent) {
+    public static void start(Activity activity, List<String> paths, int position) {
+        List<ImagePreviewBean> previewBeans = new ArrayList<>();
+        for (String path : paths) {
+            previewBeans.add(new ImagePreviewBean(path));
+        }
+        start(activity, ImagePreviewActivity.class, new ImagePreviewEvent(previewBeans, position));
+    }
+
+    public static void start(Activity activity, ImagePreviewEvent previewEvent) {
+        start(activity, ImagePreviewActivity.class, previewEvent);
+    }
+
+    public static void start(Activity activity, Class targetActivity, ImagePreviewEvent previewEvent) {
         if (null == activity || activity.isFinishing() || activity.isDestroyed() || System.currentTimeMillis() - mLastClickTime <= MIN_DOUBLE_CLICK_TIME)
             return;
         mLastClickTime = System.currentTimeMillis();
@@ -57,19 +70,4 @@ public class ImagePreviewActivity2 extends BaseFragmentActivity {
         activity.overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
     }
 
-    @Override
-    protected BaseFragment getFirstFragment() {
-        Intent intent = getIntent();
-        if(null == intent) finish();
-        return ImagePreviewFragment.newInstance(intent.getParcelableExtra(DataConstant.DATA));
-    }
-
-
-    public static List<ImagePreviewBean> parse(List<String> paths){
-        List<ImagePreviewBean> images = new ArrayList<>();
-        for (String path : paths) {
-            images.add(new ImagePreviewBean(path));
-        }
-        return images;
-    }
 }

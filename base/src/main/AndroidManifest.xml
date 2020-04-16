@@ -31,7 +31,6 @@
             android:theme="@style/DialogActivityTheme" />
 
         <activity android:name=".ui.activity.ImagePreviewActivity"/>
-        <activity android:name=".ui.activity.ImagePreviewActivity2"/>
 
         <activity android:name=".ui.activity.CrashActivity" />
 

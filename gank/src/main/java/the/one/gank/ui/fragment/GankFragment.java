@@ -8,11 +8,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import the.one.base.constant.DataConstant;
 import the.one.base.ui.activity.BaseWebExplorerActivity;
-import the.one.base.ui.activity.ImagePreviewActivity;
 import the.one.base.ui.fragment.BaseDataFragment;
 import the.one.base.ui.presenter.BasePresenter;
-import the.one.base.constant.DataConstant;
+import the.one.base.util.ImagePreviewUtil;
 import the.one.gank.bean.GankBean;
 import the.one.gank.constant.NetUrlConstant;
 import the.one.gank.ui.adapter.GankAdapter;
@@ -104,7 +104,7 @@ public class GankFragment extends BaseDataFragment<GankBean> {
             for (GankBean gankBean: datas){
                 images.add(gankBean.getUrl());
             }
-            ImagePreviewActivity.startThisActivity(_mActivity,images,position);
+            ImagePreviewUtil.start(_mActivity,images,position);
         }
     }
 

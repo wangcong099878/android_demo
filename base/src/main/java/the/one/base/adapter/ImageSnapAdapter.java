@@ -60,6 +60,15 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
         PhotoView photoView = helper.getView(R.id.photo_view);
         SubsamplingScaleImageView longImg = helper.getView(R.id.longImg);
         AppCompatImageView ivPlay = helper.getView(R.id.iv_play);
+
+        // 由于RC的复用机制，这里要对所有进行重置
+        progressBar.setVisibility(View.GONE);
+        photoView.destroyDrawingCache();
+        photoView.setImageBitmap(null);
+        longImg.destroyDrawingCache();
+        longImg.recycle();
+        ivPlay.setVisibility(View.GONE);
+
         String refer = item.getRefer();
         Object url;
         if (TextUtils.isEmpty(refer)) {
@@ -82,14 +91,18 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
             }
         } else
             loadImage(url, photoView, longImg, progressBar, 1,ivPlay,playVisible);
-        setListener(item, photoView, longImg);
+        setListener(item, photoView, longImg,ivPlay);
     }
 
     private void setListener(T item, View... views) {
         if (null != onImageClickListener) {
             for (View view : views) {
-                view.setOnClickListener(v -> onImageClickListener.onClick(item));
-                view.setOnLongClickListener(v -> onImageClickListener.onLongClick(item));
+                if(view.getId() == R.id.iv_play){
+                    view.setOnClickListener(v -> onImageClickListener.onVideoClick(item));
+                }else{
+                    view.setOnClickListener(v -> onImageClickListener.onClick(item));
+                    view.setOnLongClickListener(v -> onImageClickListener.onLongClick(item));
+                }
             }
         }
     }
@@ -166,7 +179,8 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
         imageView.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener() {
             @Override
             public void onReady() {
-                progressBar.setVisibility(View.GONE);
+
+                resetProgress(progressBar);
             }
 
             @Override
@@ -227,14 +241,8 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
     private void loadGifImageSpec(final String imagePath, final ImageView imageGif, final SubsamplingScaleImageView imageView, final QMUIProgressBar progressBar) {
 
-        ViewUtil.showViews(progressBar,imageGif);
+        ViewUtil.showViews(imageGif);
         ViewUtil.goneViews(imageView);
-        GlideProgressInterceptor.addListener(imagePath, new GlideProgressListener() {
-            @Override
-            public void onProgress(int progress, boolean success) {
-                progressBar.setProgress(progress);
-            }
-        });
         Glide.with(getContext())
                 .asGif()
                 .load(imagePath)
@@ -244,9 +252,8 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<GifDrawable> target,
                                                 boolean isFirstResource) {
-                        if (progressBar != null) {
-                            progressBar.setVisibility(View.GONE);
-                        }
+
+                        resetProgress(progressBar);
                         imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable));
                         GlideProgressInterceptor.removeListener(imagePath);
                         return false;
@@ -256,7 +263,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                     public boolean onResourceReady(GifDrawable resource, Object model, Target<GifDrawable> target,
                                                    DataSource dataSource, boolean isFirstResource) {
                         if(resource != null){
-                            progressBar.setVisibility(View.GONE);
+                            resetProgress(progressBar);
                             GlideProgressInterceptor.removeListener(imagePath);
                         }
                         return false;
@@ -265,11 +272,17 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                 .into(imageGif);
     }
 
+    private void resetProgress(QMUIProgressBar progressBar){
+        progressBar.setProgress(0);
+        progressBar.setVisibility(View.GONE);
+    }
 
 
     public interface OnImageClickListener<T extends ImageSnap> {
 
         void onClick(T data);
+
+        void onVideoClick(T data);
 
         boolean onLongClick(T data);
     }

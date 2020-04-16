@@ -21,8 +21,6 @@ package the.one.base.ui.fragment;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -32,11 +30,12 @@ import com.luck.picture.lib.listener.OnItemClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.R;
 import the.one.base.adapter.FullyGridLayoutManager;
 import the.one.base.adapter.GridImageAdapter;
-import the.one.base.ui.activity.ImagePreviewActivity;
 import the.one.base.ui.presenter.BasePresenter;
+import the.one.base.util.ImagePreviewUtil;
 import the.one.base.util.SelectPictureUtil;
 
 /**
@@ -160,7 +159,7 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
                     for (LocalMedia media:mSelectList){
                         images.add(media.getPath());
                     }
-                    ImagePreviewActivity.startThisActivity(_mActivity,images,position);
+                    ImagePreviewUtil.start(_mActivity,images,position);
                     break;
             }
         }

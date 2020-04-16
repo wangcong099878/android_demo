@@ -1,10 +1,10 @@
 package the.one.base.ui.fragment;
 
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,20 +29,15 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected ImageSnapAdapter<T> mImageSnapAdapter;
     protected PagerSnapHelper mPagerSnapHelper;
     protected LinearLayoutManager mPagerLayoutManager;
+    protected int mBgColor;
+    protected int mTextColor;
 
     /**
-     * 是否全屏 默认在TopBar下面，如果为全屏则延伸至状态栏
-     *
-     * @return
+     * 当滑动改变后需要对当前的数据进行处理
+     * @param item
+     * @param position
      */
-    protected boolean isFullScreen() {
-        return true;
-    }
-
-
-    protected void onScrollChanged(T item, int position) {
-
-    }
+    protected void onScrollChanged(T item, int position) { }
 
     /**
      * 滑动方向
@@ -53,10 +48,13 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         return RecyclerView.HORIZONTAL;
     }
 
-
+    /**
+     * 根据这个判断用白色的背景还是黑色的
+     * @return
+     */
     @Override
     protected boolean isStatusBarLightMode() {
-        return false;
+        return super.isStatusBarLightMode();
     }
 
     @Override
@@ -66,18 +64,21 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     @Override
     protected void initView(View rootView) {
-        rootView.setBackgroundColor(getColorr(R.color.we_chat_black));
-        mStatusLayout.setBackgroundColor(getColorr(R.color.we_chat_black));
-        mTopLayout.setBackgroundAlpha(0);
-        mTopLayout.getTopBar().getTitleView().setTextColor(getColorr(R.color.white));
-        mTopLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+        mBgColor = getColorr(isStatusBarLightMode()?R.color.qmui_config_color_white:R.color.qmui_config_color_black);
+        mTextColor = getColorr(isStatusBarLightMode()?R.color.qmui_config_color_gray_1:R.color.qmui_config_color_white);
+        rootView.setBackgroundColor(mBgColor);
+        mStatusLayout.setBackgroundColor(mBgColor);
+        mTopLayout.setBackgroundColor(mBgColor);
+        mTopLayout.getTopBar().getTitleView().setTextColor(mTextColor);
+        mTopLayout.addLeftImageButton(isStatusBarLightMode()?R.drawable.mz_titlebar_ic_back_dark:R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
         super.initView(rootView);
-        updateStatusView();
+        setMargins(mStatusLayout, 0, 0, 0, 0);
+        mStatusLayout.setFitsSystemWindows(false);
     }
 
     @Override
@@ -86,16 +87,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         adapter.setAnimationEnable(true);
         adapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
         adapter.setAnimationFirstOnly(false);
-    }
-
-    protected void updateStatusView(){
-        if (isFullScreen()) {
-            setMargins(mStatusLayout, 0, 0, 0, 0);
-            mStatusLayout.setFitsSystemWindows(false);
-        }else{
-            mStatusLayout.setFitsSystemWindows(true);
-            setMargins(mStatusLayout, 0, QMUIResHelper.getAttrDimen(_mActivity,R.attr.qmui_topbar_height)+ QMUIStatusBarHelper.getStatusbarHeight(_mActivity), 0, 0);
-        }
     }
 
     @Override
@@ -107,12 +98,12 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
 
     @Override
     protected void initRecycleView(RecyclerView recycleView, int type, BaseQuickAdapter adapter) {
-        recycleView.setBackgroundColor(getColorr(R.color.we_chat_black));
         super.initRecycleView(recycleView, type, adapter);
         mPagerSnapHelper = new PagerSnapHelper();
         mPagerLayoutManager = new LinearLayoutManager(_mActivity, getOrientation(), false);
         recycleView.setLayoutManager(mPagerLayoutManager);
         mPagerSnapHelper.attachToRecyclerView(recycleView);
+        recycleView.setBackgroundColor(mBgColor);
     }
 
     @Override
@@ -125,7 +116,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     @Override
     public void showLoadingPage() {
         super.showLoadingPage();
-        mStatusLayout.getLoadingTipsView().setTextColor(getColorr(R.color.white));
+        mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
     }
 
     protected void updateOrientation(){
@@ -148,6 +139,24 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     }
 
     @Override
+    public void onClick(T data) {
+        // 点击后隐藏或者显示 TopBarLayout和状态栏
+        boolean visible = mTopLayout.getVisibility() != View.VISIBLE;
+        mTopLayout.setVisibility(visible?View.VISIBLE:View.GONE);
+        setStatusBarVisible(visible);
+    }
+
+    @Override
+    public void onVideoClick(T data) {
+
+    }
+
+    @Override
+    public boolean onLongClick(T data) {
+        return false;
+    }
+
+    @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
     }
 
@@ -156,8 +165,33 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         return true;
     }
 
+    /**
+     * 更改进出动画效果 QMUIFragment提供
+     * @return
+     */
     @Override
     public TransitionConfig onFetchTransitionConfig() {
         return SCALE_TRANSITION_CONFIG;
+    }
+
+    /**
+     * 调整状态栏的显示
+     * @param show
+     */
+    protected void setStatusBarVisible(boolean show){
+        Window window = getBaseFragmentActivity().getWindow();
+        if(null == window) return;
+        if(show){
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //显示状态栏
+        }else{
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 销毁时显示状态栏
+        setStatusBarVisible(true);
     }
 }

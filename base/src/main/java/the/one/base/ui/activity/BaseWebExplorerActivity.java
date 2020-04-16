@@ -56,6 +56,7 @@ import java.util.List;
 
 import the.one.base.R;
 import the.one.base.ui.presenter.BasePresenter;
+import the.one.base.util.ImagePreviewUtil;
 import the.one.base.widge.BridgeWebView;
 import the.one.base.widge.BridgeWebViewClient;
 import the.one.base.widge.MyTopBarLayout;
@@ -506,7 +507,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     protected void startPhotoWatchActivity(ArrayList<String> itemData, int position) {
-        ImagePreviewActivity.startThisActivity(this,itemData,position);
+        ImagePreviewUtil.start(this,itemData,position);
     }
 
     @Override
