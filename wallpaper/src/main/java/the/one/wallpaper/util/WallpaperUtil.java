@@ -1,8 +1,5 @@
 package the.one.wallpaper.util;
 
-import android.app.WallpaperInfo;
-import android.app.WallpaperManager;
-import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
@@ -13,7 +10,6 @@ import java.util.List;
 
 import the.one.base.BaseApplication;
 import the.one.wallpaper.bean.Wallpaper;
-import the.one.wallpaper.constant.WallpaperConstant;
 
 public class WallpaperUtil {
 
@@ -27,9 +23,8 @@ public class WallpaperUtil {
 
     public void getData(final OnCompleteListener listener) {
         DurationUtil durationUtils = new DurationUtil();
-        WallpaperSpUtil sp = WallpaperSpUtil.getInstance();
-        long MAX = sp.getMaxTime();
-        long MIN = sp.getMinTime();
+        long MAX = WallpaperSpUtil.getMaxTime();
+        long MIN = WallpaperSpUtil.getMinTime();
 
         ArrayList vList = new ArrayList<Wallpaper>();
         String[] mediaColumns = new String[]{MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.MIME_TYPE,
@@ -124,39 +119,4 @@ public class WallpaperUtil {
     }
 
 
-    /**
-     * 获取当前运行的壁纸服务
-     * @param context
-     * @return
-     */
-    public static String getCurrentService(Context context){
-        String current  = "";
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);// 得到壁纸管理器
-        WallpaperInfo wallpaperInfo = wallpaperManager.getWallpaperInfo();// 如果系统使用的壁纸是动态壁纸话则返回该动态壁纸的信息,否则会返回null
-        if (wallpaperInfo != null) { // 如果是动态壁纸,则得到该动态壁纸的包名,并与想知道的动态壁纸包名做比较
-            current = wallpaperInfo.getServiceName();
-        }
-       return current;
-    }
-
-
-    /**
-     * 判断是否点击了更换了动态壁纸
-     *
-     * @return ture 关闭应用 false 只是返回到了选择界面
-     */
-    public static boolean isLiveWallpaperChanged(Context context) {
-        return getCurrentService(context).equals(WallpaperSpUtil.getInstance().getCurrentService());
-    }
-
-
-    /**
-     * 检查当前运行的服务是不是此APP的
-     * @param context
-     * @return
-     */
-    public static boolean isCurrentAppWallpaper(Context context){
-        String current = getCurrentService(context);
-        return current.equals(WallpaperConstant.SERCIVE_1) || current.equals(WallpaperConstant.SERCIVE_2);
-    }
 }

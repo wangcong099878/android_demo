@@ -5,17 +5,16 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import the.one.base.constant.DataConstant;
 import the.one.base.ui.fragment.BaseDataFragment;
 import the.one.base.ui.presenter.BasePresenter;
-import the.one.base.constant.DataConstant;
 import the.one.wallpaper.bean.Wallpaper;
 import the.one.wallpaper.constant.WallpaperConstant;
 import the.one.wallpaper.service.DynamicWallpaper1;
 import the.one.wallpaper.service.DynamicWallpaper2;
-import the.one.wallpaper.ui.presenter.WallpaperPresenter;
 import the.one.wallpaper.ui.adapter.WallpaperAdapter;
+import the.one.wallpaper.ui.presenter.WallpaperPresenter;
 import the.one.wallpaper.util.WallpaperSpUtil;
-import the.one.wallpaper.util.WallpaperUtil;
 
 
 //  ┏┓　　　┏┓
@@ -76,14 +75,14 @@ public class WallpaperItemFragment extends BaseDataFragment<Wallpaper> {
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Wallpaper wallpaper = (Wallpaper) adapter.getItem(i);
-        WallpaperSpUtil.getInstance().setWallpaperPath(wallpaper.path);
-        String currentService = WallpaperUtil.getCurrentService(_mActivity);
+        WallpaperSpUtil.setWallpaperPath(wallpaper.path);
+        String currentService = WallpaperSpUtil.getCurrentService(_mActivity);
         if (currentService.equals(WallpaperConstant.SERCIVE_2)) {
-            WallpaperSpUtil.getInstance().setCurrentService(WallpaperConstant.SERCIVE_1);
-            DynamicWallpaper1.setToWallPaper(_mActivity, DynamicWallpaper1.class);
+            WallpaperSpUtil.setCurrentService(WallpaperConstant.SERCIVE_1);
+            DynamicWallpaper1.startWallPaper(_mActivity, DynamicWallpaper1.class);
         } else {
-            WallpaperSpUtil.getInstance().setCurrentService(WallpaperConstant.SERCIVE_2);
-            DynamicWallpaper2.setToWallPaper(_mActivity, DynamicWallpaper2.class);
+            WallpaperSpUtil.setCurrentService(WallpaperConstant.SERCIVE_2);
+            DynamicWallpaper2.startWallPaper(_mActivity, DynamicWallpaper2.class);
         }
     }
 

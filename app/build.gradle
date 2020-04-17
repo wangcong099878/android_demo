@@ -1,50 +1,17 @@
 apply plugin: 'com.android.application'
+apply from: "../core.gradle"
 
 android {
-    compileSdkVersion parent.ext.compileSdkVersion
-    buildToolsVersion = parent.ext.buildVersion
 
     defaultConfig {
         applicationId "the.one.demo"
-        minSdkVersion parent.ext.minSdkVersion
-        targetSdkVersion parent.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    dexOptions {
-        // 支持大工程模式
-        jumboMode = true
-    }
-
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':base')
     implementation 'com.moxun:tagcloudlib:1.1.3'
     implementation 'com.wkp:StickLayout:1.0.6'
-    implementation "org.jsoup:jsoup:$jsoupVersion"
-
-    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-    
-    debugImplementation   'com.squareup.leakcanary:leakcanary-android:1.6.3'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
-    testImplementation    'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}

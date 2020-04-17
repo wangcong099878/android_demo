@@ -18,25 +18,28 @@ import the.one.wallpaper.constant.WallpaperConstant;
 import the.one.wallpaper.util.WallpaperSpUtil;
 
 /**
- * thx for https://github.com/songixan/Wallpaper
+ * thx for https://blog.csdn.net/lmj623565791/article/details/72170299
+ *
+ * 为什么要写两个Wallpaper Service？
+ * 如果是一个，第一次启动了设置了壁纸。如果点击另外一个视频，是无法再次跳转到预览界面，只能是直发送广播更改视频地址，这样的效果不是想要的。
+ * 直到有一次从其他APP里设置了，然后又回到这里点开后又到了预览界面，说明启动不同的服务就可以了。
  */
 public abstract class BaseDynamicWallpaper extends WallpaperService {
 
     public final String TAG = this.getClass().getSimpleName();
 
-    public static void setToWallPaper(Activity context, Class c) {
+    public static void startWallPaper(Activity context, Class c) {
         final Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                 new ComponentName(context, c));
         context.startActivityForResult(intent, WallpaperConstant.REQUEST_LIVE_PAPER);
     }
 
-    public static void setVoice(Context context, boolean isSilence) {
+    public static void sendVoice(Context context, boolean isSilence) {
         Intent intent = new Intent(WallpaperConstant.VIDEO_PARAMS_CONTROL_ACTION);
         intent.putExtra(WallpaperConstant.ACTION_VOICE, isSilence);
         context.sendBroadcast(intent);
     }
-
 
     class VideoEngine extends Engine {
 
@@ -62,13 +65,13 @@ public abstract class BaseDynamicWallpaper extends WallpaperService {
             super.onSurfaceCreated(holder);
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setSurface(holder.getSurface());
+            String path = WallpaperSpUtil.getWallpaperPath();
             try {
                 if (null != mMediaPlayer) {
-                    String mPath = WallpaperSpUtil.getInstance().getWallpaperPath();
-                    if (!TextUtils.isEmpty(mPath)) {
-                        mMediaPlayer.setDataSource(mPath);
+                    if (!TextUtils.isEmpty(path)) {
+                        mMediaPlayer.setDataSource(path);
                         mMediaPlayer.setLooping(true);
-                        setVoice(WallpaperSpUtil.getInstance().getWallpaperVoiceSwitch());
+                        setVoice(WallpaperSpUtil.getWallpaperVoiceSwitch());
                         mMediaPlayer.prepare();
                         mMediaPlayer.start();
                     }

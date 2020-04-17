@@ -1,0 +1,55 @@
+apply from: "../base.gradle"
+
+// 通用配置
+android {
+
+    defaultConfig {
+        multiDexEnabled true
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->  // each 改为 all
+            def fileName = android.defaultConfig.applicationId+"_${variant.versionName}_release.apk"
+            def outFile = output.outputFile
+            if (outFile != null && outFile.name.endsWith('.apk')) {
+                outputFileName = fileName  //  output.outputFile 改为 outputFileName
+            }
+        }
+    }
+
+    signingConfigs {
+        release  {
+            storeFile file("D:\\Theone\\TheBase\\keystore\\theone.jks")
+            storePassword "areyoutheone"
+            keyAlias "areyou"
+            keyPassword "areyoutheone"
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            // Zipalign优化
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation project(':base')
+    implementation "org.jsoup:jsoup:$jsoupVersion"
+    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+}

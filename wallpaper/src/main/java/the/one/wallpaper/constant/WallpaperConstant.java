@@ -42,8 +42,9 @@ public class WallpaperConstant {
     public static final String SERCIVE_2 = "the.one.wallpaper.service.DynamicWallpaper2";
 
 
-    public static final String VIDEO_PARAMS_CONTROL_ACTION = "the.one.demo";
+    public static final String VIDEO_PARAMS_CONTROL_ACTION = "the.one.wallpaper";
     public static final String ACTION_VOICE = "action.voice";
+    public static final String ACTION_VIDEO_PATH = "action.video.path";
     public static final int ACTION_VOICE_SILENCE = 110;
     public static final int ACTION_VOICE_NORMAL = 111;
 

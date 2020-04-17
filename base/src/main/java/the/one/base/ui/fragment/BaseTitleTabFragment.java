@@ -55,6 +55,9 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
         return false;
     }
 
+    /*
+    * 如果需要折叠这个一定得返回false
+     */
     @Override
     protected boolean showTitleBar() {
         return false;
@@ -62,36 +65,38 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.base_fold_title_tab_viewpager_layout;
+        return showTitleBar() ? R.layout.base_title_tab_viewpager_layout : R.layout.base_fold_title_tab_viewpager_layout;
     }
 
     @Override
     protected void initView(View rootView) {
         mViewPager = rootView.findViewById(R.id.view_pager);
         mMagicIndicator = rootView.findViewById(R.id.indicator);
-        mTopLayout = rootView.findViewById(R.id.topbar_layout);
-        mStatusLayout = rootView.findViewById(R.id.status_layout);
-        mAppBarLayout = rootView.findViewById(R.id.appbar_layout);
-        if(isFoldTitleBar()){
-            mTopBarHeight = QMUIResHelper.getAttrDimen(_mActivity, R.attr.qmui_topbar_height);
-            mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                @Override
-                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                    float percent = 1 - Math.abs(verticalOffset) / (mTopBarHeight * 1.0f);
-                    onScrollChanged(percent);
+        if (!showTitleBar()) {
+            mTopLayout = rootView.findViewById(R.id.topbar_layout);
+            mStatusLayout = rootView.findViewById(R.id.status_layout);
+            mAppBarLayout = rootView.findViewById(R.id.appbar_layout);
+            if (isFoldTitleBar()) {
+                mTopBarHeight = QMUIResHelper.getAttrDimen(_mActivity, R.attr.qmui_topbar_height);
+                mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        float percent = 1 - Math.abs(verticalOffset) / (mTopBarHeight * 1.0f);
+                        onScrollChanged(percent);
+                    }
+                });
+            } else {
+                // 这样设置，然后就不会折叠了。
+                AppBarLayout.LayoutParams mParams = (AppBarLayout.LayoutParams) mAppBarLayout.getChildAt(0).getLayoutParams();
+                mParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+            }
+            if (!showElevation()) {
+                // 不显示Elevation
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mAppBarLayout.setStateListAnimator(null);
+                } else {
+                    mAppBarLayout.setTargetElevation(0);
                 }
-            });
-        }else  {
-            // 这样设置，然后就不会折叠了。
-            AppBarLayout.LayoutParams mParams = (AppBarLayout.LayoutParams) mAppBarLayout.getChildAt(0).getLayoutParams();
-            mParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
-        }
-        if(!showElevation()){
-            // 不显示Elevation
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mAppBarLayout.setStateListAnimator(null);
-            }else{
-                mAppBarLayout.setTargetElevation(0);
             }
         }
         super.initView(rootView);
@@ -104,6 +109,7 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
     @Override
     public void showContentPage() {
         super.showContentPage();
-        goneView(mStatusLayout);
+        if (!showTitleBar())
+            goneView(mStatusLayout);
     }
 }

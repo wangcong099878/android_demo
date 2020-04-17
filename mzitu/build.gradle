@@ -1,38 +1,11 @@
 apply plugin: 'com.android.application'
+apply from: "../core.gradle"
 
 android {
-    compileSdkVersion parent.ext.compileSdkVersion
-    buildToolsVersion = parent.ext.buildVersion
 
     defaultConfig {
-        minSdkVersion parent.ext.minSdkVersion
-        targetSdkVersion parent.ext.targetSdkVersion
         applicationId "the.one.mzitu"
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
-    }
-
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':base')
-    implementation "org.jsoup:jsoup:$jsoupVersion"
-    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }

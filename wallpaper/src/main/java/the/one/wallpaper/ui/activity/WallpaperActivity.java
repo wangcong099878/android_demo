@@ -6,7 +6,7 @@ import the.one.base.ui.activity.BaseFragmentActivity;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.wallpaper.constant.WallpaperConstant;
 import the.one.wallpaper.ui.fragment.WallpaperFragment;
-import the.one.wallpaper.util.WallpaperUtil;
+import the.one.wallpaper.util.WallpaperSpUtil;
 
 
 //  ┏┓　　　┏┓
@@ -45,7 +45,7 @@ public class WallpaperActivity extends BaseFragmentActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == WallpaperConstant.REQUEST_LIVE_PAPER) {
-            if (WallpaperUtil.isLiveWallpaperChanged(this)) {
+            if (WallpaperSpUtil.isLiveWallpaperChanged(this)) {
                 goHome();
             }
         }

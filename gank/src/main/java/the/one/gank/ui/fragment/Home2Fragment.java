@@ -8,7 +8,6 @@ import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
 import com.qmuiteam.qmui.util.QMUIColorHelper;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
-import com.youth.banner.listener.OnBannerListener;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.constants.IndicatorGravity;
 
@@ -61,7 +60,7 @@ import the.one.gank.ui.view.HomeView;
  * @email 625805189@qq.com
  * @remark
  */
-public class Home2Fragment extends BaseDataFragment<HomeSection> implements HomeView, OnBannerListener {
+public class Home2Fragment extends BaseDataFragment<HomeSection> implements HomeView {
 
     private BannerViewPager<BannerBean, BannerViewHolder> mBannerViewPager;
     private HomePresenter presenter;
@@ -276,9 +275,4 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         return false;
     }
 
-    @Override
-    public void OnBannerClick(Object data, int position) {
-        BannerBean bannerBean = (BannerBean) data;
-        BaseWebExplorerActivity.newInstance(_mActivity, bannerBean.getTitle(), bannerBean.getUrl());
-    }
 }

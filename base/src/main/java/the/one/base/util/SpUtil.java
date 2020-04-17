@@ -1,6 +1,5 @@
 package the.one.base.util;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.tencent.mmkv.MMKV;
@@ -8,7 +7,7 @@ import com.tencent.mmkv.MMKV;
 /**
  * @author The one
  * @date 2018/5/28 0028
- * @describe SharedPreferences 工具类
+ * @describe MMKV 工具类
  * @email 625805189@qq.com
  * @remark
  */

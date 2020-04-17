@@ -1,0 +1,32 @@
+// 通用配置
+android {
+
+    compileSdkVersion parent.ext.compileSdkVersion
+    buildToolsVersion = parent.ext.buildVersion
+
+    defaultConfig {
+        minSdkVersion parent.ext.minSdkVersion
+        targetSdkVersion parent.ext.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // 支持 Java JDK 8
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force "androidx.appcompat:appcompat:$appcompatVersion"
+            force "androidx.cardview:cardview:1.0.0"
+            force "com.github.bumptech.glide:glide:$glideVersion"
+            force "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        }
+    }
+
+    // 避免 lint 检测出错时停止构建
+    lintOptions {
+        abortOnError false
+    }
+}
