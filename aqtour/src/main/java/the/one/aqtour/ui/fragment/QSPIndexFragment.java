@@ -29,6 +29,24 @@ public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategor
     }
 
     @Override
+    protected boolean isFoldTitleBar() {
+        return true;
+    }
+
+    @Override
+    protected boolean showElevation() {
+        return true;
+    }
+
+    @Override
+    protected void onScrollChanged(float percent) {
+        super.onScrollChanged(percent);
+        mCollection.setAlpha(percent);
+        mSearchView.setAlpha(percent);
+        mDownload.setAlpha(percent);
+    }
+
+    @Override
     protected void initView(View rootView) {
         super.initView(rootView);
         mDownload = mTopLayout.addRightImageButton(R.drawable.ic_svg_download, R.id.topbar_right_button1);

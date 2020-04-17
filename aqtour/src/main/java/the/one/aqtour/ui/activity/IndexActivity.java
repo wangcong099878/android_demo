@@ -52,7 +52,6 @@ public class IndexActivity extends BaseFragmentActivity implements  Observer<Boo
         return new QSPIndexFragment();
     }
 
-
     private void requestPermission() {
         final RxPermissions permissions = new RxPermissions(this);
         permissions

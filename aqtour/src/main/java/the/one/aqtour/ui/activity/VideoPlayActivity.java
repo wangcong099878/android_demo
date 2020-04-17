@@ -30,14 +30,15 @@ import the.one.aqtour.bean.QSPVideoSection;
 import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.m3u8downloader.M3U8Downloader;
 import the.one.aqtour.m3u8downloader.server.EncryptM3U8Server;
+import the.one.aqtour.m3u8downloader.utils.M3U8PathUtil;
 import the.one.aqtour.ui.adapter.QSPSeriesAdapter;
 import the.one.aqtour.ui.adapter.QSPVideoAdapter;
 import the.one.aqtour.ui.presenter.QSPVideoDetailPresenter;
 import the.one.aqtour.ui.view.QSPVideoDetailView;
 import the.one.aqtour.util.LitePalUtil;
 import the.one.aqtour.widge.StandardTheVideoPlayer;
-import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.MyTopBarLayout;
 import the.one.base.widge.StatusLayout;
@@ -117,7 +118,6 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
 
     @Override
     protected void initView(View mRootView) {
-        m3u8Server.execute();
         initTopBar();
         initView();
         initVideoPlayer();
@@ -182,8 +182,7 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
         mIbDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String m3u8Url = "https://m3u8.pps11.com/wodeshipin_water_m3u8/guochanjingxuan/77_20200223063310602/77_20200223063310602.m3u8";
-                mPresenter.downloadVideo(m3u8Url, mVideo.cover, getTitleName(), getSeriesName());
+                mPresenter.downloadVideo(mPlayPath, mVideo.cover, getTitleName(), getSeriesName());
             }
         });
         mCbCollection.setIsCheckDrawable(R.drawable.ic_collection_select);
@@ -247,11 +246,11 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
             mTvType.setText(type);
         }
 
-        mSeriesAdapter.setNewData(mVideo.series);
+        mSeriesAdapter.setNewInstance(mVideo.series);
 
         if (null != mVideo && null != mVideo.series)
             mTotalSeries.setText(mVideo.series.size() + " >");
-        mVideoAdapter.setNewData(mVideo.recommends);
+        mVideoAdapter.setNewInstance(mVideo.recommends);
 
         if (!TextUtils.isEmpty(mVideo.introduce)) {
             showView(mShowIntroduce);
@@ -314,9 +313,9 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
     @Override
     public void onSeriesComplete(String response) {
         mPlayPath = response;
-//        Log.e(TAG, "onResponse: " + mPlayPath);
+        m3u8Server.execute();
         if (isDownload = M3U8Downloader.getInstance().checkM3U8IsExist(mPlayPath)) {
-//                            mPlayPath = M3U8PathUtil.getLocalPath(m3u8Server,mPlayPath);
+             mPlayPath = M3U8PathUtil.getLocalPath(m3u8Server,mPlayPath);
         }
         mIbDownload.setEnabled(!isDownload);
         if (!TextUtils.isEmpty(mPlayPath)) {

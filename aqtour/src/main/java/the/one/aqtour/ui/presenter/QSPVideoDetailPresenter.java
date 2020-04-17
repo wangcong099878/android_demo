@@ -104,8 +104,13 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
         m3U8Task.setState(M3U8TaskState.PENDING);
         m3U8Task.setCreateDate(System.currentTimeMillis());
         if (m3U8Task.save()) {
-            M3U8Downloader.getInstance().download(mPlayPath);
-            getView().showSuccessTips("已添加到下载列表");
+            if(!M3U8Downloader.getInstance().checkM3U8IsExist(mPlayPath)){
+                //如果已经下载过文件还存在，只需要再保存一次数据即可
+                getView().showSuccessTips("下载完成");
+            }else{
+                M3U8Downloader.getInstance().download(mPlayPath);
+                getView().showSuccessTips("已添加到下载列表");
+            }
         }
     }
 

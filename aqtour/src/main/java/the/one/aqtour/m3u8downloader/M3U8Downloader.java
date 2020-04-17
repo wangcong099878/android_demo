@@ -2,6 +2,8 @@ package the.one.aqtour.m3u8downloader;
 
 import android.text.TextUtils;
 
+import org.litepal.LitePal;
+
 import java.io.File;
 import java.util.List;
 
@@ -319,7 +321,6 @@ public class M3U8Downloader {
             if (onM3U8DownloadListener != null) {
                 onM3U8DownloadListener.onDownloadSuccess(currentM3U8Task);
             }
-            M3U8Log.d("m3u8 Downloader onSuccess: "+ m3U8);
             downloadNextTask();
 
         }
@@ -344,7 +345,6 @@ public class M3U8Downloader {
             if (onM3U8DownloadListener != null){
                 onM3U8DownloadListener.onDownloadPrepare(currentM3U8Task);
             }
-            M3U8Log.d("onDownloadPrepare: "+ currentM3U8Task.getUrl());
         }
 
         @Override
@@ -357,7 +357,6 @@ public class M3U8Downloader {
             if (onM3U8DownloadListener != null) {
                 onM3U8DownloadListener.onDownloadError(currentM3U8Task, errorMsg);
             }
-            M3U8Log.e("onError: " + errorMsg.getMessage());
             saveM3U8Data();
             downloadNextTask();
         }
@@ -368,7 +367,11 @@ public class M3U8Downloader {
      * 保存到数据库
      */
     private void saveM3U8Data(){
-        currentM3U8Task.saveOrUpdateAsync("url = ?",currentM3U8Task.getUrl());
+        M3U8Task task = LitePal.where("url = ?",currentM3U8Task.getUrl()).findFirst(M3U8Task.class);
+        task.setProgress(currentM3U8Task.getProgress());
+        task.setSpeed(currentM3U8Task.getSpeed());
+        task.setState(currentM3U8Task.getState());
+        task.saveOrUpdate("url = ?",task.getUrl());
     }
 
 

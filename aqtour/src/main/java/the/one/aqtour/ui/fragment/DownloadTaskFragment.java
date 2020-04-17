@@ -239,4 +239,11 @@ public class DownloadTaskFragment extends BaseDataFragment<M3U8Task> {
         EventBusUtil.removeStickyEvent(event);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        M3U8Downloader.getInstance().setOnM3U8DownloadListener(null);
+    }
+
+
 }
