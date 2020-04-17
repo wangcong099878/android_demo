@@ -82,7 +82,13 @@ allprojects {
 ```
 2.app的build里dependencies下添加
 ```
-implementation 'com.gitee.theoneee:TheBase:[lastversion](https://gitee.com/theoneee/TheBase/releases)`
+implementation 'com.gitee.theoneee:TheBase:lastversion`
+
+```
+
+[lastversion](https://gitee.com/theoneee/TheBase/releases)
+
+```
 
 以下非必须
 annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:2.0.0' //集成了RxHttp，如需使用则添加
