@@ -76,7 +76,7 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
             mTopLayout = rootView.findViewById(R.id.topbar_layout);
             mStatusLayout = rootView.findViewById(R.id.status_layout);
             mAppBarLayout = rootView.findViewById(R.id.appbar_layout);
-
+            goneView(mAppBarLayout);
             if (isFoldTitleBar()) {
                 mTopBarHeight = QMUIResHelper.getAttrDimen(_mActivity, R.attr.qmui_topbar_height);
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -98,8 +98,6 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
                 } else {
                     mAppBarLayout.setTargetElevation(0);
                 }
-            }else{
-                goneView(mAppBarLayout);
             }
         }
         super.initView(rootView);
@@ -112,8 +110,9 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
     @Override
     public void showContentPage() {
         super.showContentPage();
-        if (!showTitleBar())
+        if (!showTitleBar()){
             goneView(mStatusLayout);
-        showView(mAppBarLayout);
+            showView(mAppBarLayout);
+        }
     }
 }
