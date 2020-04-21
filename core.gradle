@@ -50,6 +50,6 @@ dependencies {
     implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation project(':base')
     implementation "org.jsoup:jsoup:$jsoupVersion"
-    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //注解处理器，生成RxHttp类,必须
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //生成RxHttp类
 }

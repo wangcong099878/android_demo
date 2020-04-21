@@ -121,7 +121,7 @@ public class QMUIBottomSheetUtil {
                     }
                 }
                 if (null != listener) {
-                    listener.onClick(position, tag, dialog, itemView);
+                    listener.onSheetItemClick(position, tag, dialog, itemView);
                 }
             }
         });
@@ -129,7 +129,7 @@ public class QMUIBottomSheetUtil {
     }
 
     public interface OnSheetItemClickListener {
-        void onClick(int position, String title, QMUIBottomSheet dialog, View itemView);
+        void onSheetItemClick(int position, String title, QMUIBottomSheet dialog, View itemView);
     }
 
 }

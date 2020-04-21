@@ -6,19 +6,27 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
+import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
+import com.rxjava.rxlife.RxLife;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.ImageSnap;
+import the.one.base.Interface.OnError;
+import the.one.base.model.PopupItem;
 import the.one.base.ui.fragment.BaseImageSnapFragment;
 import the.one.base.ui.presenter.BasePresenter;
-import the.one.base.util.DownloadSheetDialogUtil;
+import the.one.base.util.DownloadUtil;
+import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIPopupUtil;
+import the.one.base.util.ShareUtil;
 import the.one.demo.R;
 import the.one.demo.bean.Mzitu;
 import the.one.demo.ui.presenter.MzituPresenter;
@@ -35,6 +43,9 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     private String[] mThemeItems = new String[]{"White", "Dark"};
     private QMUIAlphaImageButton mSettingIcon;
     private QMUIPopup mSettingPopup;
+
+    private final String TAG_SHARE = "分享";
+    private final String TAG_SHARE_URL = "分享图片地址";
 
     private int mCurrentOrientation = RecyclerView.HORIZONTAL;
     private boolean isWhite = true;
@@ -67,7 +78,6 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-
         initTestList();
     }
 
@@ -92,7 +102,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             public void onClick(DialogInterface dialog, int which) {
                 if (selectIndex != which) {
                     mCurrentOrientation = which == 0 ? RecyclerView.HORIZONTAL : RecyclerView.VERTICAL;
-                    updateOrientation();
+                    mPagerLayoutManager.setOrientation(mCurrentOrientation);
                 }
                 dialog.dismiss();
             }
@@ -122,6 +132,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             mSettingIcon.setOnClickListener(v -> {
                 showSettingPopup();
             });
+            goneView(mSettingIcon);
         } else
             mSettingIcon.setImageDrawable(getDrawablee(mSettingDrawable));
     }
@@ -139,6 +150,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     @Override
     public void onComplete(List<Mzitu> data) {
         if (isFirst) {
+            showView(mSettingIcon);
             mzitus.addAll(data);
             super.onComplete(mzitus);
         } else
@@ -165,9 +177,58 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
         mTopLayout.setTitle(++position + "/" + mTotal);
     }
 
+    /**
+     * 如果需要向BottomSheet里添加内容
+     *
+     * @param sheetItems
+     */
     @Override
-    public boolean onLongClick(Mzitu data) {
-        DownloadSheetDialogUtil.show(getBaseFragmentActivity(), data.getImageUrl());
-        return true;
+    protected void initSheetItems(List<PopupItem> sheetItems) {
+        super.initSheetItems(sheetItems);
+        sheetItems.add(new PopupItem(TAG_SHARE, R.drawable.ic_share));
+        sheetItems.add(new PopupItem(TAG_SHARE_URL, R.drawable.ic_share));
     }
+
+    @Override
+    public void onSheetItemClick(int position, String title, QMUIBottomSheet dialog, View itemView) {
+        // 默认是直接申请权限，如果有些操作不需要，这里直接判断然后进行操作
+        if(title.equals(TAG_SHARE_URL)){
+            ShareUtil.shareText(_mActivity,"分享图片",mData.getImageUrl());
+            dialog.dismiss();
+        }else {
+            super.onSheetItemClick(position, title, dialog, itemView);
+        }
+    }
+
+    @Override
+    protected void onPermissionComplete(ImageSnap data, String tag, int position) {
+        super.onPermissionComplete(data, tag, position);
+        if (tag.equals(TAG_SHARE)) {
+            startShare(data);
+        }
+    }
+
+    @Override
+    public boolean onImageLongClick(ImageSnap data) {
+        return showBottomSheetDialog(data);
+    }
+
+    private void startShare(ImageSnap data) {
+        showLoadingDialog("");
+        String savePath = FileDirectoryUtil.getCachePath() + File.separator + "share_" + System.currentTimeMillis()
+                + DownloadUtil.getFileSuffix(data.getImageUrl(), data.isVideo());
+        RxHttp.get(data.getImageUrl())
+                .asDownload(savePath)
+                .doFinally(()->{
+                    hideLoadingDialog();
+                })
+                .as(RxLife.asOnMain(this))
+                .subscribe(s -> {
+                            ShareUtil.shareImageFile(_mActivity, new File(s), "分享图片");
+                        }
+                        , (OnError) error -> {
+                            showFailTips("分享失败");
+                        });
+    }
+
 }

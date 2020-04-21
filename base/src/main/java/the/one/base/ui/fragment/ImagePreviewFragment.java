@@ -20,6 +20,7 @@ package the.one.base.ui.fragment;
 
 import android.os.Bundle;
 
+import the.one.base.Interface.ImageSnap;
 import the.one.base.constant.DataConstant;
 import the.one.base.event.ImagePreviewEvent;
 import the.one.base.model.ImagePreviewBean;
@@ -60,6 +61,11 @@ public class ImagePreviewFragment extends BaseImageSnapFragment<ImagePreviewBean
     @Override
     public void onScrollChanged(ImagePreviewBean previewBean,int position){
         mTopLayout.setTitle(++position+"/"+mImageCount);
+    }
+
+    @Override
+    public boolean onImageLongClick(ImageSnap data) {
+        return showBottomSheetDialog(data);
     }
 
     @Override

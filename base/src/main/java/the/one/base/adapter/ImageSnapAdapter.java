@@ -75,6 +75,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
         progressBar.setVisibility(View.GONE);
         photoView.destroyDrawingCache();
         photoView.setImageBitmap(null);
+        photoView.setEnabled(true);
         longImg.destroyDrawingCache();
         longImg.recycle();
         ivPlay.setVisibility(View.GONE);
@@ -108,15 +109,14 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                 if (view.getId() == R.id.iv_play) {
                     view.setOnClickListener(v -> onImageClickListener.onVideoClick(item));
                 } else {
-                    view.setOnClickListener(v -> onImageClickListener.onClick(item));
-                    view.setOnLongClickListener(v -> onImageClickListener.onLongClick(item));
+                    view.setOnClickListener(v -> onImageClickListener.onImageClick(item));
+                    view.setOnLongClickListener(v -> onImageClickListener.onImageLongClick(item));
                 }
             }
         }
     }
 
     private void loadImage(Object url, ImageView imageGif, SubsamplingScaleImageView imageView, QMUIProgressBar progressBar, final int count, AppCompatImageView ivPlay, boolean isVideo) {
-        Log.e(TAG, "loadImage: " + url.toString());
         progressBar.setVisibility(View.VISIBLE);
         GlideProgressInterceptor.addListener(url, new GlideProgressListener() {
             @Override
@@ -169,6 +169,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
         ViewUtil.goneViews(progressBar, imageView, ivPlay);
         imageGif.setVisibility(View.VISIBLE);
         imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable));
+        imageGif.setEnabled(false);
     }
 
     private void loadImageSpec(final String imagePath, final ImageView imageGif,
@@ -338,10 +339,10 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
     public interface OnImageClickListener<T extends ImageSnap> {
 
-        void onClick(T data);
+        void onImageClick(T data);
 
         void onVideoClick(T data);
 
-        boolean onLongClick(T data);
+        boolean onImageLongClick(T data);
     }
 }

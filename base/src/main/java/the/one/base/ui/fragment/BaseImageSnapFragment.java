@@ -1,5 +1,6 @@
 package the.one.base.ui.fragment;
 
+import android.Manifest;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -7,15 +8,25 @@ import android.view.WindowManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIViewHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.IPageInfo;
 import the.one.base.Interface.ImageSnap;
 import the.one.base.R;
 import the.one.base.adapter.ImageSnapAdapter;
+import the.one.base.model.PopupItem;
+import the.one.base.util.DownloadUtil;
+import the.one.base.util.QMUIBottomSheetUtil;
 
 /**
  * BaseImageSnapFragment基本上就是RC的结构，只是让其一个item一页的显示
@@ -25,8 +36,8 @@ import the.one.base.adapter.ImageSnapAdapter;
  * 然后点击后查看大图，这个时候只能显示已经加载的数据，滑动到最后一条数据时也应该继续显示
  * 实体需 implements {@link ImageSnap}
  */
-public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDataFragment<T> implements
-        ImageSnapAdapter.OnImageClickListener<T> {
+public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDataFragment<T>
+        implements ImageSnapAdapter.OnImageClickListener, Observer<Boolean>, QMUIBottomSheetUtil.OnSheetItemClickListener {
 
     protected ImageSnapAdapter<T> mImageSnapAdapter;
     protected PagerSnapHelper mPagerSnapHelper;
@@ -34,6 +45,15 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected QMUIAlphaImageButton mBackBtn;
     protected int mBgColor;
     protected int mTextColor;
+
+    protected QMUIBottomSheet mBottomSheet;
+    protected List<PopupItem> mSheetItems = new ArrayList<>();
+
+    protected ImageSnap mData;
+    protected int mSheetClickPosition;
+    protected String mSheetClickTag;
+
+    private final String TAG_DOWNLOAD = "下载";
 
     /**
      * 当滑动改变后需要对当前的数据进行处理
@@ -73,6 +93,14 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         updateBgColor(isStatusBarLightMode());
         setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
+        initSheetItems(mSheetItems);
+    }
+
+    /**
+     * 这里默认给了一个下载功能
+     */
+    protected void initSheetItems(List<PopupItem> sheetItems) {
+        sheetItems.add(new PopupItem(TAG_DOWNLOAD, R.drawable.icon_more_operation_save));
     }
 
     /*
@@ -139,10 +167,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
     }
 
-    protected void updateOrientation() {
-        mPagerLayoutManager.setOrientation(getOrientation());
-    }
-
     protected RecyclerView.OnScrollListener getOnScrollListener() {
         return new RecyclerView.OnScrollListener() {
 
@@ -158,8 +182,12 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         };
     }
 
+    /**
+     * 点击图片
+     * @param data
+     */
     @Override
-    public void onClick(T data) {
+    public void onImageClick(ImageSnap data) {
         // 点击后隐藏或者显示 TopBarLayout和状态栏
         boolean isVisible = mTopLayout.getVisibility() == View.VISIBLE;
         mTopLayout.setVisibility(isVisible ? View.GONE : View.VISIBLE);
@@ -175,23 +203,79 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         }
     }
 
+    /**
+     * 点击播放图标
+     * @param data
+     */
     @Override
-    public void onVideoClick(T data) {
-    }
-
-    @Override
-    public boolean onLongClick(T data) {
-        return false;
-    }
-
-    @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onVideoClick(ImageSnap data) {
 
     }
 
+    /**
+     * 在图片上进行的长按
+     * @param data
+     * @return
+     */
     @Override
-    public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+    public boolean onImageLongClick(ImageSnap data) {
         return true;
+    }
+
+    protected boolean showBottomSheetDialog(ImageSnap data){
+        mData = data;
+        if (null == mBottomSheet) {
+            mBottomSheet = QMUIBottomSheetUtil.showGridBottomSheet(_mActivity, mSheetItems, 4, true, this);
+        }
+        mBottomSheet.show();
+        return true;
+    }
+
+    protected void requestPermission() {
+        new RxPermissions(this)
+                .request(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.INTERNET)
+                .subscribe(this);
+    }
+
+    protected void onPermissionComplete(ImageSnap data,String tag,int position){
+        if(tag.equals(TAG_DOWNLOAD)){
+            // 下载
+            DownloadUtil.startDownload(_mActivity,data);
+        }
+    }
+
+    @Override
+    public void onSheetItemClick(int position, String title, QMUIBottomSheet dialog, View itemView) {
+        mSheetClickPosition = position;
+        mSheetClickTag = title;
+        requestPermission();
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public void onNext(Boolean aBoolean) {
+        if (aBoolean) {
+            onPermissionComplete(mData,mSheetClickTag,mSheetClickPosition);
+        } else {
+            showToast(getStringg(R.string.no_permissioin_tips));
+        }
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 
     /**
@@ -220,9 +304,20 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     }
 
     @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+    }
+
+    @Override
+    public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+        return true;
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         // 销毁时显示状态栏
         setStatusBarVisible(true);
     }
+
 }
