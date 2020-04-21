@@ -51,7 +51,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
     private OnImageClickListener<T> onImageClickListener;
 
-    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+    public void setOnImageClickListener(OnImageClickListener<T> onImageClickListener) {
         this.onImageClickListener = onImageClickListener;
     }
 
@@ -117,6 +117,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
     }
 
     private void loadImage(Object url, ImageView imageGif, SubsamplingScaleImageView imageView, QMUIProgressBar progressBar, final int count, AppCompatImageView ivPlay, boolean isVideo) {
+        Log.e(TAG, "loadImage: " + url.toString());
         progressBar.setVisibility(View.VISIBLE);
         GlideProgressInterceptor.addListener(url, new GlideProgressListener() {
             @Override

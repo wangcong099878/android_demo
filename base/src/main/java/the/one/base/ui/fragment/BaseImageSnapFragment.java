@@ -37,7 +37,7 @@ import the.one.base.util.QMUIBottomSheetUtil;
  * 实体需 implements {@link ImageSnap}
  */
 public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDataFragment<T>
-        implements ImageSnapAdapter.OnImageClickListener, Observer<Boolean>, QMUIBottomSheetUtil.OnSheetItemClickListener {
+        implements ImageSnapAdapter.OnImageClickListener<T>, Observer<Boolean>, QMUIBottomSheetUtil.OnSheetItemClickListener {
 
     protected ImageSnapAdapter<T> mImageSnapAdapter;
     protected PagerSnapHelper mPagerSnapHelper;
@@ -187,7 +187,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
      * @param data
      */
     @Override
-    public void onImageClick(ImageSnap data) {
+    public void onImageClick(T data) {
         // 点击后隐藏或者显示 TopBarLayout和状态栏
         boolean isVisible = mTopLayout.getVisibility() == View.VISIBLE;
         mTopLayout.setVisibility(isVisible ? View.GONE : View.VISIBLE);
@@ -203,32 +203,12 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
         }
     }
 
-    /**
-     * 点击播放图标
-     * @param data
-     */
-    @Override
-    public void onVideoClick(ImageSnap data) {
-
-    }
-
-    /**
-     * 在图片上进行的长按
-     * @param data
-     * @return
-     */
-    @Override
-    public boolean onImageLongClick(ImageSnap data) {
-        return true;
-    }
-
-    protected boolean showBottomSheetDialog(ImageSnap data){
+    protected void showBottomSheetDialog(ImageSnap data){
         mData = data;
         if (null == mBottomSheet) {
             mBottomSheet = QMUIBottomSheetUtil.showGridBottomSheet(_mActivity, mSheetItems, 4, true, this);
         }
         mBottomSheet.show();
-        return true;
     }
 
     protected void requestPermission() {

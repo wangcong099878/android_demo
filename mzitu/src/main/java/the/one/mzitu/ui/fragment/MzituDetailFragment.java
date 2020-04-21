@@ -90,12 +90,13 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     }
 
     @Override
-    public void onClick(Mzitu data) {
+    public void onVideoClick(Mzitu data) {
 
     }
 
     @Override
-    public boolean onLongClick(Mzitu data) {
-        return false;
+    public boolean onImageLongClick(Mzitu data) {
+        showBottomSheetDialog(data);
+        return true;
     }
 }

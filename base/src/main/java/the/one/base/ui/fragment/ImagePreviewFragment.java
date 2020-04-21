@@ -20,7 +20,6 @@ package the.one.base.ui.fragment;
 
 import android.os.Bundle;
 
-import the.one.base.Interface.ImageSnap;
 import the.one.base.constant.DataConstant;
 import the.one.base.event.ImagePreviewEvent;
 import the.one.base.model.ImagePreviewBean;
@@ -48,29 +47,35 @@ public class ImagePreviewFragment extends BaseImageSnapFragment<ImagePreviewBean
     @Override
     protected void requestServer() {
         Bundle bundle = getArguments();
-        if(null == bundle) popBackStack();
+        if (null == bundle) popBackStack();
         ImagePreviewEvent mPreviewEvent = bundle.getParcelable(DataConstant.DATA);
-        if(null == mPreviewEvent) popBackStack();
+        if (null == mPreviewEvent) popBackStack();
         onComplete(mPreviewEvent.getPreviewBeans());
         mImageCount = mPreviewEvent.getPreviewBeans().size();
         onNormal();
         recycleView.scrollToPosition(mPreviewEvent.getPosition());
-        onScrollChanged(null,mPreviewEvent.getPosition());
+        onScrollChanged(null, mPreviewEvent.getPosition());
     }
 
     @Override
-    public void onScrollChanged(ImagePreviewBean previewBean,int position){
-        mTopLayout.setTitle(++position+"/"+mImageCount);
+    public void onScrollChanged(ImagePreviewBean previewBean, int position) {
+        mTopLayout.setTitle(++position + "/" + mImageCount);
     }
 
     @Override
-    public boolean onImageLongClick(ImageSnap data) {
-        return showBottomSheetDialog(data);
+    public boolean onImageLongClick(ImagePreviewBean data) {
+        showBottomSheetDialog(data);
+        return true;
     }
 
     @Override
     public BasePresenter getPresenter() {
         return null;
+    }
+
+    @Override
+    public void onVideoClick(ImagePreviewBean data) {
+
     }
 
 }

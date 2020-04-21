@@ -209,8 +209,14 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     }
 
     @Override
-    public boolean onImageLongClick(ImageSnap data) {
-        return showBottomSheetDialog(data);
+    public void onVideoClick(Mzitu data) {
+
+    }
+
+    @Override
+    public boolean onImageLongClick(Mzitu data) {
+        showBottomSheetDialog(data);
+        return true;
     }
 
     private void startShare(ImageSnap data) {
@@ -230,5 +236,6 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
                             showFailTips("分享失败");
                         });
     }
+
 
 }
