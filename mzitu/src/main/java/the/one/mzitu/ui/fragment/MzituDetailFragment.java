@@ -120,6 +120,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
 
     @Override
     protected void onPermissionComplete(ImageSnap data, String tag, int position) {
+        // 这里不能用默认的下载方式（看父类这个方法），因为要加header,否则无法下载
         downloadFile(data, tag.equals(TAG_SHARE));
     }
 
