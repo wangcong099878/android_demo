@@ -23,13 +23,13 @@ import java.io.File;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import the.one.base.Interface.IApkUpdate;
 import the.one.base.R;
-import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.model.Download;
-import the.one.base.Interface.IApkUpdate;
 import the.one.base.model.UpdateApkBean;
 import the.one.base.service.DownloadService;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.QMUIDialogUtil;

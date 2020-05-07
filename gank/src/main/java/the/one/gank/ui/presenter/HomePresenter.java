@@ -65,11 +65,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public void getBanner() {
         RxHttp.get("https://gank.io/api/v2/banners")
                 .asResponseList(BannerBean.class)
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(RxLife.as(this))
+                .as(RxLife.asOnMain(this))
                 .subscribe(s -> {
                     //请求成功
-                    getView().onWelfareComplete(s.getData());
+                    getView().onBannerComplete(s.getData());
                 }, (OnError) error  -> {
                     //请求失败
                     showFailTips("获取Banner信息失败"+error.getErrorMsg());

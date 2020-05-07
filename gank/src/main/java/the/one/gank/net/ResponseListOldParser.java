@@ -30,7 +30,7 @@ public class ResponseListOldParser<T> extends AbstractParser<List<T>> {
         ResponseOld<List<T>> data = convert(response, type);
         List<T> list = data.getResults(); //获取data字段
         if (data.isError()) {  //code不等于0，说明数据不正确，抛出异常
-            throw new ParseException("请求失败", response);
+            throw new ParseException("请求失败","请求失败", response);
         }
         return list;
     }

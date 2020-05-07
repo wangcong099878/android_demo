@@ -53,7 +53,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected int mSheetClickPosition;
     protected String mSheetClickTag;
 
-    private final String TAG_DOWNLOAD = "下载";
+    protected final String TAG_DOWNLOAD = "下载";
 
     /**
      * 当滑动改变后需要对当前的数据进行处理

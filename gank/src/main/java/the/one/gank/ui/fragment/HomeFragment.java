@@ -162,7 +162,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     }
 
     @Override
-    public void onWelfareComplete(final List<BannerBean> data) {
+    public void onBannerComplete(final List<BannerBean> data) {
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
                 .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))

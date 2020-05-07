@@ -8,6 +8,13 @@ android {
         minSdkVersion parent.ext.minSdkVersion
         targetSdkVersion parent.ext.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [rxhttp_rxjava: 'rxjava2']  //可传入rxjava2、rxjava3
+            }
+        }
+
     }
 
     // 支持 Java JDK 8
@@ -22,6 +29,8 @@ android {
             force "androidx.cardview:cardview:1.0.0"
             force "com.github.bumptech.glide:glide:$glideVersion"
             force "com.squareup.okhttp3:okhttp:$okhttpVersion"
+            force "io.reactivex.rxjava3:rxjava:$rxjavaVersion"
+            force "io.reactivex.rxjava3:rxandroid:$rxandroidVersion"
         }
     }
 

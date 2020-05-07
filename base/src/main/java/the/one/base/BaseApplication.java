@@ -8,10 +8,12 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
+import rxhttp.HttpSender;
 import the.one.base.ui.activity.CrashActivity;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
@@ -44,7 +46,7 @@ import the.one.base.util.crash.CrashUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseApplication extends MultiDexApplication {
+public  class BaseApplication extends MultiDexApplication {
 
     @SuppressLint("StaticFieldLeak")
     protected static Context context;
@@ -53,7 +55,9 @@ public abstract class BaseApplication extends MultiDexApplication {
         return context;
     }
 
-    protected abstract Class getStartActivity();
+    protected  Class getStartActivity(){
+        return null;
+    }
 
     @Override
     public void onCreate() {
@@ -64,7 +68,15 @@ public abstract class BaseApplication extends MultiDexApplication {
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance(this).register();
         SpUtil.init(this);
+        initOkHttpUtils();
         initLogger();
+    }
+
+    /**
+     * OkHttpUtils适配https
+     */
+    protected void initOkHttpUtils(){
+        OkHttpUtils.initClient(HttpSender.newOkClientBuilder().build());
     }
 
     /**
@@ -73,6 +85,7 @@ public abstract class BaseApplication extends MultiDexApplication {
      */
     protected void initCrashConfig(){
         CrashUtil.install(this);
+        if(null == getStartActivity()) return;
         CrashConfig.Builder.create()
                 .backgroundMode(CrashConfig.BACKGROUND_MODE_SHOW_CUSTOM)
                 .enabled(true)

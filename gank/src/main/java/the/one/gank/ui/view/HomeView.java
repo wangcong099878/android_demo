@@ -33,7 +33,7 @@ import the.one.gank.bean.HomeBean;
  */
 public interface HomeView extends BaseView {
 
-    void onWelfareComplete(List<BannerBean> data);
+    void onBannerComplete(List<BannerBean> data);
 
     void onTodayComplete(HomeBean data);
 

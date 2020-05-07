@@ -4,26 +4,26 @@ import the.one.base.model.SamplePageInfoBean;
 
 public class Response<T> {
 
-    private int status;
-    private String msg;
+    private int event;
+    private String message;
     private T data;
     private SamplePageInfoBean pageInfo;
 
 
-    public int getStatus() {
-        return status;
+    public int getEvent() {
+        return event;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setEvent(int event) {
+        this.event = event;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {

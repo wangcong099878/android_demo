@@ -51,5 +51,6 @@ dependencies {
     implementation project(':base')
     implementation "org.jsoup:jsoup:$jsoupVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
-    annotationProcessor "com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion" //生成RxHttp类
+    annotationProcessor "com.ljx.rxhttp:rxhttp-compiler:$rxhttpVersion" //生成RxHttp类
+
 }

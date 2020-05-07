@@ -193,7 +193,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     }
 
     @Override
-    public void onWelfareComplete(final List<BannerBean> data) {
+    public void onBannerComplete(final List<BannerBean> data) {
         mBannerBeanData = data;
         if (null != mBannerViewPager) {
             mBannerViewPager.create(data);

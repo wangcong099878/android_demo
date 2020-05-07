@@ -26,7 +26,7 @@ public class ResponseOldParser<T> extends AbstractParser<T> {
         ResponseOld<T> data = convert(response, type);
         T t = data.getResults(); //获取data字段
         if (data.isError() ) {//code不等于0，说明数据不正确，抛出异常
-            throw new ParseException("请求失败", response);
+            throw new ParseException("","请求失败", response);
         }
         return t;
     }

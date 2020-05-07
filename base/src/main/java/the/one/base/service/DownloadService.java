@@ -14,19 +14,21 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.FileCallBack;
+
 import java.io.File;
 import java.util.UUID;
 
 import androidx.core.app.NotificationCompat;
-import io.reactivex.disposables.Disposable;
-import rxhttp.wrapper.param.RxHttp;
-import the.one.base.Interface.OnError;
+import okhttp3.Call;
 import the.one.base.R;
 import the.one.base.constant.DataConstant;
 import the.one.base.model.Download;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.BroadCastUtil;
 import the.one.base.util.FileDirectoryUtil;
+import the.one.base.util.NetFailUtil;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.ToastUtil;
 
@@ -51,7 +53,6 @@ public class DownloadService extends Service {
     private NotificationManager theNotificationManager;
     private NotificationCompat.Builder mBuilder;
 
-    private Disposable mDisposable;
 
     public DownloadService() {
     }
@@ -76,51 +77,51 @@ public class DownloadService extends Service {
     @SuppressLint("CheckResult")
     private void startDown() {
         String downloadPath = FileDirectoryUtil.getDownloadPath();
-        String destFile = TextUtils.isEmpty(mDownload.getDestFileDir()) ? downloadPath : downloadPath + File.separator + mDownload.getDestFileDir();
-        String path = destFile + File.separator + mDownload.getName();
-        mDisposable = RxHttp.get(mDownload.getUrl())
-                .setAssemblyEnabled(false)
-                .asDownload(path, progress -> {
-                    onDownloadProgress(progress.getProgress());
-                })
-                .subscribe(s -> {
-                    onDownloadSuccess(s);
-                }, (OnError) error -> {
-                    onDownloadError(error.getErrorMsg(),path);
+        final String destFile = TextUtils.isEmpty(mDownload.getDestFileDir()) ? downloadPath : downloadPath+File.separator+mDownload.getDestFileDir();
+        OkHttpUtils
+                .get()
+                .url(mDownload.getUrl())
+                .tag(mDownload.getUrl())
+                .build()
+                .execute(new FileCallBack(destFile, mDownload.getName()) {
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        BroadCastUtil.send(DownloadService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, e.getMessage());
+                        updateNotification("下载失败", false);
+                        ToastUtil.showLongToast(NetFailUtil.getFailString(e));
+                        File file = new File(destFile,mDownload.getName());
+                        if(file.exists()){
+                            file.delete();
+                        }
+                    }
+
+                    @Override
+                    public void inProgress(float progress, long total, int id) {
+                        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
+                        int percent = (int) (progress * 100);
+                        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
+                        if (percent != oldPercent) {
+                            oldPercent = percent;
+                            updateProgress(percent);
+                            Intent intent = new Intent();
+                            intent.setAction(UPDATE_PROGRESS);
+                            intent.putExtra(UPDATE_PROGRESS_PERCENT, percent);
+                            sendBroadcast(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(File response, int id) {
+                        if (mDownload.isUpdateApk()) {
+                            AppInfoManager.installApk(DownloadService.this, response);
+                        } else if (mDownload.isImage()) {
+                            updateLocationFile(response);
+                        }
+                        BroadCastUtil.send(DownloadService.this, DOWNLOAD_OK);
+                        updateNotification("下载完成", true);
+                    }
                 });
-    }
-
-    private void onDownloadProgress(int percent){
-        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
-        if (percent != oldPercent) {
-            oldPercent = percent;
-            updateProgress(percent);
-            Intent intent = new Intent();
-            intent.setAction(UPDATE_PROGRESS);
-            intent.putExtra(UPDATE_PROGRESS_PERCENT, percent);
-            sendBroadcast(intent);
-        }
-    }
-
-    private void onDownloadSuccess(String path){
-        File file = new File(path);
-        if (mDownload.isUpdateApk()) {
-            AppInfoManager.installApk(DownloadService.this, file);
-        } else if (mDownload.isImage()) {
-            updateLocationFile(file);
-        }
-        BroadCastUtil.send(DownloadService.this, DOWNLOAD_OK);
-        updateNotification("下载完成", true);
-    }
-
-    private void onDownloadError(String msg,String path){
-        BroadCastUtil.send(DownloadService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, msg);
-        updateNotification("下载失败", true);
-        ToastUtil.showLongToast(msg);
-        File file = new File(path);
-        if (file.exists()) {
-            file.delete();
-        }
     }
 
     /**
@@ -204,9 +205,7 @@ public class DownloadService extends Service {
 
     @Override
     public void onDestroy() {
-        if(null != mDisposable && !mDisposable.isDisposed()){
-            mDisposable.dispose();
-        }
+        OkHttpUtils.getInstance().cancelTag(mDownload.getUrl());
         super.onDestroy();
     }
 
