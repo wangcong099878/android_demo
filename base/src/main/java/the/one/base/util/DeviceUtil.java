@@ -16,18 +16,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.core.app.ActivityCompat;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * 获取Android手机设备信息的工具类
  */
 
 public class DeviceUtil {
+
+    private static final String TAG = "DeviceUtil";
 
     /**
      * 获取设备宽度（px）
@@ -97,6 +104,25 @@ public class DeviceUtil {
     }
 
     /**
+     * 返回版本名称
+     * 对应build.gradle中的versionCode
+     *
+     * @param context
+     * @return
+     */
+    public static String getVersionName(Context context) {
+        String versionName = null;
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionName = packInfo.versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
+
+    /**
      * 获取设备的唯一标识，deviceId
      *
      * @param context
@@ -105,12 +131,19 @@ public class DeviceUtil {
     @SuppressLint({"HardwareIds", "MissingPermission"})
     public static String getDeviceId(Context context) {
         String IMEI = "";
+        if (isAndroidQ()) {
+             IMEI = CNADIdHelper.getInstance().readCNAdId(context);
+             if(TextUtils.isEmpty(IMEI)){
+                 IMEI = getSNNumber(context);
+             }
+             return IMEI;
+        }
         try {
             final TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                return "请开启权限";
+                return "";
             }
-            if (manager.getDeviceId() == null || manager.getDeviceId().equals("")) {
+            if (TextUtils.isEmpty(manager.getDeviceId())) {
                 if (Build.VERSION.SDK_INT >= 23) {
                     IMEI = manager.getDeviceId(0);
                 }
@@ -137,6 +170,7 @@ public class DeviceUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG, "getIMSINumber: " + IMSI);
         return IMSI;
     }
 
@@ -153,6 +187,7 @@ public class DeviceUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG, "getICCIDNumber: " + ICCID);
         return ICCID;
     }
 
@@ -168,7 +203,31 @@ public class DeviceUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG, "getPhoneNumber: " + phone);
         return phone;
+    }
+
+    @SuppressLint("HardwareIds")
+    public static String getSNNumber(Context context) {
+        String sn = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return sn;
+    }
+
+    public static String getDeviceSN(){
+        String serial = null;
+        try {
+            @SuppressLint("PrivateApi") Class<?> c =Class.forName("android.os.SystemProperties");
+            Method get =c.getMethod("get", String.class);
+            serial = (String)get.invoke(c, "ro.serialno");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return serial;
+    }
+
+    public static String getDeviceSN2(){
+        String serialNumber = android.os.Build.SERIAL;
+        return serialNumber;
     }
 
     /**

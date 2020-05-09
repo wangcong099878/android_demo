@@ -25,25 +25,26 @@ public class GlideProgressInterceptor implements Interceptor {
     public static final Map<String, GlideProgressListener> LISTENER_MAP = new HashMap<>();
 
     public static void addListener(Object url, GlideProgressListener listener) {
-        if(url instanceof GlideUrl){
+        if (url instanceof GlideUrl) {
             GlideUrl glideUrl = (GlideUrl) url;
             addListener(glideUrl.getCacheKey(), listener);
-        }else{
-            addListener((String)url, listener);
+        } else {
+            addListener((String) url, listener);
         }
     }
 
     //入注册下载监听
     public static void addListener(String url, GlideProgressListener listener) {
-        LISTENER_MAP.put(url, listener);
+        if (!LISTENER_MAP.containsKey(url))
+            LISTENER_MAP.put(url, listener);
     }
 
-    public static void removeListener(Object object){
-        if(object instanceof GlideUrl){
+    public static void removeListener(Object object) {
+        if (object instanceof GlideUrl) {
             GlideUrl glideUrl = (GlideUrl) object;
             removeListener(glideUrl.getCacheKey());
-        }else{
-            removeListener((String)object);
+        } else {
+            removeListener((String) object);
         }
     }
 

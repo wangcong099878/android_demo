@@ -109,7 +109,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
      * @return
      */
     protected boolean isNeedSpace() {
-        return setType()!=TYPE_LIST;
+        return setType() != TYPE_LIST;
     }
 
     protected RecyclerView recycleView;
@@ -170,6 +170,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     /**
      * 初始化RecycleView
+     *
      * @param recycleView
      * @param type
      * @param adapter
@@ -184,11 +185,12 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     /**
      * 设置间距
+     *
      * @return
      */
-    protected SpacesItemDecoration getSpacesItemDecoration(){
+    protected SpacesItemDecoration getSpacesItemDecoration() {
         int space = QMUIDisplayHelper.dp2px(_mActivity, setSpacing());
-        return new SpacesItemDecoration(setType() == TYPE_LIST ? 1 : setColumn(),adapter.getHeaderLayoutCount(), space );
+        return new SpacesItemDecoration(setType() == TYPE_LIST ? 1 : setColumn(), adapter.getHeaderLayoutCount(), space);
     }
 
     protected LayoutManager getLayoutManager(int type) {
@@ -213,6 +215,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if(null == _mActivity) return;
                 if (newState == SCROLL_STATE_IDLE) {
                     isGlidePause = false;
                     Glide.with(_mActivity).resumeRequests();
@@ -250,8 +253,8 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     public void refresh() {
         page = 1;
         isFirst = true;
-        showLoadingPage();
         recycleView.scrollToPosition(0);
+        showLoadingPage();
         requestServer();
     }
 
@@ -344,6 +347,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     protected void onHeadFreshComplete(List<T> data) {
         adapter.setNewInstance(data);
+        showContentPage();
         onHeadFreshSuccess();
     }
 
@@ -366,7 +370,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             page++;
             adapter.getLoadMoreModule().loadMoreComplete();
         } else {
-            adapter.getLoadMoreModule().loadMoreEnd(mPageInfo.getPageTotalCount() == 1);
+            adapter.getLoadMoreModule().loadMoreEnd();
         }
     }
 
@@ -391,7 +395,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
 
     @Override
     public void onDoubleClicked(View v) {
-        if (null != recycleView)
+        if (null != recycleView && null != adapter)
             recycleView.smoothScrollToPosition(0);
     }
 

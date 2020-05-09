@@ -23,13 +23,13 @@ import java.io.File;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import the.one.base.Interface.IApkUpdate;
 import the.one.base.R;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.model.Download;
+import the.one.base.Interface.IApkUpdate;
 import the.one.base.model.UpdateApkBean;
 import the.one.base.service.DownloadService;
-import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.QMUIDialogUtil;
@@ -50,6 +50,7 @@ public class UpdateApkActivity extends BaseActivity {
         Intent intent = new Intent(activity, UpdateApkActivity.class);
         intent.putExtra(DataConstant.DATA, updateApkBean);
         activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
     }
 
     private TextView tvMsg;
@@ -268,6 +269,12 @@ public class UpdateApkActivity extends BaseActivity {
         filter.addAction(DownloadService.DOWNLOAD_ERROR_MSG);
         filter.addAction(DownloadService.UPDATE_PROGRESS);
         filter.addAction(DownloadService.UPDATE_PROGRESS_PERCENT);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_still,R.anim.scale_exit);
     }
 
 }

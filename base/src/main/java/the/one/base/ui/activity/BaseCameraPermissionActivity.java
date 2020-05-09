@@ -24,12 +24,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import the.one.base.R;
 
 /**
  * @author The one
@@ -52,10 +53,21 @@ public abstract class BaseCameraPermissionActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean canDragBack() {
+        return false;
+    }
+
+    @Override
+    public boolean isInSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         //设置照相界面不休眠
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
         super.onCreate(savedInstanceState);
         requestPermission();
     }
@@ -121,4 +133,9 @@ public abstract class BaseCameraPermissionActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_still,R.anim.scale_exit);
+    }
 }

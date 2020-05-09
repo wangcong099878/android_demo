@@ -4,7 +4,6 @@ package the.one.base.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.text.TextUtils;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;

@@ -83,7 +83,7 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
         isCheck = getDrawable(R.drawable.qmui_icon_checkbox_checked);
         unCheck = getDrawable(R.drawable.qmui_icon_checkbox_normal);
         setImageDrawable(unCheck);
-        setBackground(QMUIResHelper.getAttrDrawable(context, R.attr.selectableItemBackgroundBorderless));
+        setBackground(QMUIResHelper.getAttrDrawable(context, R.attr.selectableItemBackground));
         setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         setOnClickListener(this);
         if (!TextUtils.isEmpty(getText()))

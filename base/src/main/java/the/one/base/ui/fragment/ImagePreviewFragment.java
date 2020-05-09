@@ -59,13 +59,8 @@ public class ImagePreviewFragment extends BaseImageSnapFragment<ImagePreviewBean
 
     @Override
     public void onScrollChanged(ImagePreviewBean previewBean, int position) {
-        mTopLayout.setTitle(++position + "/" + mImageCount);
-    }
-
-    @Override
-    public boolean onImageLongClick(ImagePreviewBean data) {
-        showBottomSheetDialog(data);
-        return true;
+        if (mImageCount > 1)
+            mTopLayout.setTitle(++position + "/" + mImageCount);
     }
 
     @Override
@@ -78,4 +73,9 @@ public class ImagePreviewFragment extends BaseImageSnapFragment<ImagePreviewBean
 
     }
 
+    @Override
+    public boolean onImageLongClick(ImagePreviewBean data) {
+        showBottomSheetDialog(data);
+        return true;
+    }
 }

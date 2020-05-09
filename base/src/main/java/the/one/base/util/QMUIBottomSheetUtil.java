@@ -45,7 +45,7 @@ public class QMUIBottomSheetUtil {
      * @param listener
      * @return
      */
-    public QMUIBottomSheet showSimpleBottomSheetList(Context context, List<PopupItem> items,
+    public static QMUIBottomSheet showSimpleBottomSheetList(Context context, List<PopupItem> items,
                                                      CharSequence title,
                                                      int markIndex, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
         return showSimpleBottomSheetList(context, items, title, true, markIndex, true, true, listener);
@@ -62,7 +62,7 @@ public class QMUIBottomSheetUtil {
      * @param listener
      * @return
      */
-    public QMUIBottomSheet showSimpleBottomSheetList(Context context, List<PopupItem> items,
+    public static QMUIBottomSheet showSimpleBottomSheetList(Context context, List<PopupItem> items,
                                                      CharSequence title,
                                                      boolean allowDragDismiss,
                                                      int markIndex, boolean gravityCenter,

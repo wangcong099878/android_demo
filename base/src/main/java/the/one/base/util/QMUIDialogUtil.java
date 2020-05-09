@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIKeyboardHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -21,7 +23,6 @@ import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import java.util.List;
 
-import androidx.core.content.ContextCompat;
 import the.one.base.R;
 
 /**
@@ -318,6 +319,8 @@ public class QMUIDialogUtil {
                 .addAction(leftText, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
+                        CharSequence text = builder.getEditText().getText();
+                        listener.getEditText(dialog, text.toString(), index);
                         dialog.dismiss();
                     }
                 })

@@ -16,12 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-import com.qmuiteam.qmui.arch.QMUIFragment;
-import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
-import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
-
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +23,13 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+
+import com.orhanobut.logger.Logger;
+import com.qmuiteam.qmui.arch.QMUIFragment;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import the.one.base.R;

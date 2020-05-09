@@ -39,6 +39,8 @@ import the.one.base.widge.overscroll.OverScrollScrollView;
  */
 public abstract class BaseGroupListFragment extends BaseFragment implements View.OnClickListener {
 
+    protected int NO_DRAWABLE = -1;
+
     protected FrameLayout mParentLayout;
     protected QMUIGroupListView mGroupListView;
     /**
@@ -139,7 +141,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         } else {
             itemView.setAccessoryType(type);
         }
-        if (drawable != -1)
+        if (drawable != NO_DRAWABLE)
             itemView.setImageDrawable(getDrawablee(drawable));
         return itemView;
     }
@@ -162,7 +164,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateNormalItemView(CharSequence title) {
-        return CreateNormalItemView(-1, title);
+        return CreateNormalItemView(NO_DRAWABLE, title);
     }
 
     /**
@@ -189,7 +191,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateDetailItemView(CharSequence title, CharSequence detail, boolean position, boolean needChevron) {
-        return CreateDetailItemView(-1, title, detail, position, needChevron);
+        return CreateDetailItemView(NO_DRAWABLE, title, detail, position, needChevron);
     }
 
     /**
@@ -214,7 +216,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateDetailItemView(CharSequence title, CharSequence detail, boolean needChevron) {
-        return CreateDetailItemView(-1, title, detail, true, needChevron);
+        return CreateDetailItemView(NO_DRAWABLE, title, detail, true, needChevron);
     }
 
     /**
@@ -237,7 +239,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateDetailItemView(CharSequence title, CharSequence detail) {
-        return CreateItemView(-1, title, detail, true, QMUICommonListItemView.ACCESSORY_TYPE_NONE, null);
+        return CreateItemView(NO_DRAWABLE, title, detail, true, QMUICommonListItemView.ACCESSORY_TYPE_NONE, null);
     }
 
     /**
@@ -247,7 +249,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateDetailItemView(CharSequence title) {
-        return CreateItemView(-1, title, "", true, QMUICommonListItemView.ACCESSORY_TYPE_NONE, null);
+        return CreateItemView(NO_DRAWABLE, title, "", true, QMUICommonListItemView.ACCESSORY_TYPE_NONE, null);
     }
 
     /**
@@ -286,7 +288,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateSwitchItemView(CharSequence title, String detail, CompoundButton.OnCheckedChangeListener listener) {
-        return CreateSwitchItemView(-1, title, detail, listener);
+        return CreateSwitchItemView(NO_DRAWABLE, title, detail, listener);
     }
 
     /**
@@ -322,7 +324,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @return
      */
     public QMUICommonListItemView CreateCustomView(CharSequence title, CharSequence detail, View view) {
-        return CreateCustomView(-1, title, detail, view);
+        return CreateCustomView(NO_DRAWABLE, title, detail, view);
     }
 
     /**

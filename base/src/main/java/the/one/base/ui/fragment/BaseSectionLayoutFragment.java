@@ -33,6 +33,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.R;
 import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
+import static android.view.View.OVER_SCROLL_NEVER;
+
 /**
  * @author The one
  * @date 2019/2/15 0015
@@ -128,6 +130,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
 
     protected void initStickyLayout() {
         mLayoutManager = createLayoutManager();
+        mSectionLayout.getRecyclerView().setOverScrollMode(OVER_SCROLL_NEVER);
         mSectionLayout.getRecyclerView().setLayoutManager(mLayoutManager);
     }
 

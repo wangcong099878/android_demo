@@ -56,7 +56,7 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
     }
 
     /*
-    * 如果需要折叠这个一定得返回false
+     * 如果需要折叠这个一定得返回false
      */
     @Override
     protected boolean showTitleBar() {
@@ -76,7 +76,6 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
             mTopLayout = rootView.findViewById(R.id.topbar_layout);
             mStatusLayout = rootView.findViewById(R.id.status_layout);
             mAppBarLayout = rootView.findViewById(R.id.appbar_layout);
-            goneView(mAppBarLayout);
             if (isFoldTitleBar()) {
                 mTopBarHeight = QMUIResHelper.getAttrDimen(_mActivity, R.attr.qmui_topbar_height);
                 mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -88,16 +87,13 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
                 });
             } else {
                 // 这样设置，然后就不会折叠了。
-                AppBarLayout.LayoutParams mParams = (AppBarLayout.LayoutParams) mAppBarLayout.getChildAt(0).getLayoutParams();
-                mParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+                setAppBarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
             }
-            if (!showElevation()) {
-                // 不显示Elevation
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mAppBarLayout.setStateListAnimator(null);
-                } else {
-                    mAppBarLayout.setTargetElevation(0);
-                }
+            // 一开始是不显示阴影的
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mAppBarLayout.setStateListAnimator(null);
+            } else {
+                mAppBarLayout.setTargetElevation(0);
             }
         }
         super.initView(rootView);
@@ -107,12 +103,20 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
 
     }
 
+    protected void setAppBarScrollFlags(int flags) {
+        AppBarLayout.LayoutParams mParams = (AppBarLayout.LayoutParams) mAppBarLayout.getChildAt(0).getLayoutParams();
+        mParams.setScrollFlags(flags);
+    }
+
     @Override
     public void showContentPage() {
         super.showContentPage();
-        if (!showTitleBar()){
+        if (!showTitleBar()) {
             goneView(mStatusLayout);
-            showView(mAppBarLayout);
+            //显示内容层时才判断是否显示阴影
+            if (showElevation()) {
+                mAppBarLayout.setElevation(10f);
+            }
         }
     }
 }

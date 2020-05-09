@@ -3,7 +3,6 @@ package the.one.base.adapter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -117,7 +116,6 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
     }
 
     private void loadImage(Object url, ImageView imageGif, SubsamplingScaleImageView imageView, QMUIProgressBar progressBar, final int count, AppCompatImageView ivPlay, boolean isVideo) {
-        Log.e(TAG, "loadImage: " + url.toString());
         progressBar.setVisibility(View.VISIBLE);
         GlideProgressInterceptor.addListener(url, new GlideProgressListener() {
             @Override
@@ -207,7 +205,6 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
                 @Override
                 public void onImageLoadError(Exception e) {
-                    Log.e(TAG, "onImageLoadError: ");
                     resetProgress(progressBar);
                     imageGif.setVisibility(View.VISIBLE);
                     imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable));
@@ -215,14 +212,10 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
                 @Override
                 public void onTileLoadError(Exception e) {
-                    Log.e(TAG, "onTileLoadError: ");
-
                 }
 
                 @Override
                 public void onPreviewReleased() {
-                    Log.e(TAG, "onPreviewReleased: ");
-
                 }
             });
         }
@@ -258,15 +251,8 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
     }
 
     private void loadGifImageSpec(final String imagePath, final ImageView imageGif, final SubsamplingScaleImageView imageView, final QMUIProgressBar progressBar) {
-        Log.e(TAG, "loadGifImageSpec: " + imagePath);
         ViewUtil.showViews(imageGif, progressBar);
         ViewUtil.goneViews(imageView);
-        GlideProgressInterceptor.addListener(imagePath, new GlideProgressListener() {
-            @Override
-            public void onProgress(int progress, boolean success) {
-                progressBar.setProgress(progress);
-            }
-        });
         Glide.with(getContext())
                 .asGif()
                 .load(imagePath)

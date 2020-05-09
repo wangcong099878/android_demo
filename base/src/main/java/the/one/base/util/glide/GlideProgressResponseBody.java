@@ -32,7 +32,6 @@ public class GlideProgressResponseBody extends ResponseBody {
         listener = GlideProgressInterceptor.LISTENER_MAP.get(url);
     }
 
-
     @Nullable
     @Override
     public MediaType contentType() {

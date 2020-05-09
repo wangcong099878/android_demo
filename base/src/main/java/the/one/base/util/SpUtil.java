@@ -7,7 +7,7 @@ import com.tencent.mmkv.MMKV;
 /**
  * @author The one
  * @date 2018/5/28 0028
- * @describe MMKV 工具类
+ * @describe SharedPreferences 工具类
  * @email 625805189@qq.com
  * @remark
  */

@@ -9,12 +9,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.qmuiteam.qmui.util.QMUIKeyboardHelper;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import the.one.base.R;
@@ -80,6 +80,14 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
         subText.setOnClickListener(this);
         mNumText.setOnClickListener(this);
         mNumText.addTextChangedListener(this);
+        mNumText.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                mNumText.setHint("");
+                QMUIKeyboardHelper.showKeyboard(mNumText,false);
+            }else{
+                setCurrentNum(getNumText());
+            }
+        });
         //默认两位小数
         mNumText.setFilters(new InputFilter[]{new MoneyValueFilter()});
 
@@ -158,6 +166,9 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
     public double getNumText() {
         try {
             String textNum = mNumText.getText().toString().trim();
+            if(TextUtils.isEmpty(textNum)){
+                return 0;
+            }
             return Float.parseFloat(textNum);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -226,7 +237,8 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
                 mNumText.setText(String.valueOf(currentInventory));
             }
         } else {
-            mNumText.setText(String.valueOf(minDefaultNum));
+            mNumText.setText("");
+            mNumText.setHint(String.valueOf(minDefaultNum));
         }
         return this;
     }
@@ -252,7 +264,6 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
                 mNumText.setText(String.valueOf(minDefaultNum));
                 //小于警戒值
                 warningForMinInput();
-                Log.d("NumberPicker", "减少已经到达极限");
             }
         } else if (widgetId == R.id.button_add) {
             if (numText < Math.min(maxValue, currentInventory)) {
@@ -261,12 +272,10 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
                 mNumText.setText(String.valueOf(currentInventory));
                 //库存不足
                 warningForInventory();
-                Log.d("NumberPicker", "增加已经到达极限");
             } else {
                 mNumText.setText(String.valueOf(maxValue));
                 // 超过限制数量
                 warningForMaxInput();
-                Log.d("NumberPicker", "达到已经限制的输入数量");
             }
 
         }
@@ -286,7 +295,6 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
         try {
             mNumText.removeTextChangedListener(this);
             String inputText = editable.toString().trim();
-            Log.e(TAG, "afterTextChanged: " + inputText);
             if (!TextUtils.isEmpty(inputText)) {
                 float inputNum = Float.parseFloat(inputText);
                 if (null != onNumberChangeListener)
@@ -388,7 +396,6 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
 
     public static class MoneyValueFilter extends DigitsKeyListener {
 
-        private static final String TAG = "MoneyValueFilter";
 
         public MoneyValueFilter() {
             super(false, true);

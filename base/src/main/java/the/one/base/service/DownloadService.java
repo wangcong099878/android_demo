@@ -68,7 +68,7 @@ public class DownloadService extends Service {
         if (null != intent && null == mDownload) {
             NOTIFICATION_ID = UUID.randomUUID().hashCode();
             mDownload = intent.getParcelableExtra(DataConstant.DATA);
-            initNotify();
+            initNotification();
             startDown();
         }
         return super.onStartCommand(intent, flags, startId);
@@ -76,8 +76,7 @@ public class DownloadService extends Service {
 
     @SuppressLint("CheckResult")
     private void startDown() {
-        String downloadPath = FileDirectoryUtil.getDownloadPath();
-        final String destFile = TextUtils.isEmpty(mDownload.getDestFileDir()) ? downloadPath : downloadPath+File.separator+mDownload.getDestFileDir();
+        final String destFile = FileDirectoryUtil.getDownloadPath() +(TextUtils.isEmpty(mDownload.getDestFileDir()) ? "" : File.separator+mDownload.getDestFileDir());
         OkHttpUtils
                 .get()
                 .url(mDownload.getUrl())
@@ -98,7 +97,6 @@ public class DownloadService extends Service {
 
                     @Override
                     public void inProgress(float progress, long total, int id) {
-                        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
                         int percent = (int) (progress * 100);
                         // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
                         if (percent != oldPercent) {
@@ -127,7 +125,7 @@ public class DownloadService extends Service {
     /**
      * 初始化通知栏
      */
-    private void initNotify() {
+    private void initNotification() {
         theNotificationManager = NotificationManager.getInstance(this);
         mBuilder = theNotificationManager.createNotification(NOTIFICATION_ID,
                 NotificationManager.LEVEL_DEFAULT_CHANNEL_ID,
@@ -206,6 +204,7 @@ public class DownloadService extends Service {
     @Override
     public void onDestroy() {
         OkHttpUtils.getInstance().cancelTag(mDownload.getUrl());
+        handlerToast = null;
         super.onDestroy();
     }
 
