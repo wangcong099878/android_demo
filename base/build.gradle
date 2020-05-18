@@ -39,7 +39,7 @@ dependencies {
     api "com.ms-square:expandableTextView:$expandableTextViewVersion"
     api "com.orhanobut:logger:$loggerVersion"
     api "top.androidman:superbutton:$superbuttonVersion"
-    implementation "com.github.lzyzsd:jsbridge:$jsbridgeVersion"
+    api "com.github.lzyzsd:jsbridge:$jsbridgeVersion"
 
     api "com.zhy:okhttputils:$okhttpUtilVersion"
     api "com.ljx.rxhttp:rxhttp:$rxhttpVersion"
