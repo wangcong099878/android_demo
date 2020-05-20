@@ -73,7 +73,7 @@ public class AddressSelectorFragment extends BaseDialogFragment implements View.
      */
     private void initData() {
         if(provinces.size()==0) {
-            List<Province> provinces1 = CityUtil.getProvinces(getContext());
+            List<Province> provinces1 = CityUtil.getProvinces();
             if (provinces1.size() > 0 && null != province) {
                 // 将定位到的省份排序到第一位
                 for (Province pro : provinces1) {

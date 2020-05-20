@@ -39,6 +39,11 @@ public class FileDirectoryUtil {
      * 更新包下载地址
      */
     private static  String UPDATE_APK_FILE_NAME = "APK";
+
+    /**
+     * 省区县json
+     */
+    public static String PROVINCE_JSON = "province.json";
     /**
      * 补丁
      */
@@ -112,6 +117,14 @@ public class FileDirectoryUtil {
      */
     public static String getVideoPath(){
         return getPath( VIDEO );
+    }
+
+    /**
+     * 获取省市区的json文件地址
+     * @return
+     */
+    public static String getProvinceJsonPath(){
+        return getCachePath()+File.separator+PROVINCE_JSON;
     }
 
     /**

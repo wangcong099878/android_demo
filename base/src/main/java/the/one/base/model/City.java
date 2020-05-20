@@ -1,42 +1,42 @@
 package the.one.base.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author The one
  * @date 2018/10/30 0030
- * @describe TODO
+ * @describe 区，县
  * @email 625805189@qq.com
  * @remark
  */
 public class City {
 
-        /**
-         * name : 北京市
-         * area : ["东城区","西城区","崇文区","宣武区","朝阳区","丰台区","石景山区","海淀区","门头沟区","房山区","通州区","顺义区","昌平区","大兴区","平谷区","怀柔区","密云县","延庆县"]
-         */
+    private String code;
+    private String name;
+    private List<Area> areaList;
 
-        @SerializedName("name")
-        private String name;
-        @SerializedName("area")
-        private ArrayList<String> area;
+    public String getCode() {
+        return code;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public ArrayList<String> getArea() {
-            return area;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public void setArea(ArrayList<String> area) {
-            this.area = area;
-        }
+    public List<Area> getAreaList() {
+        return areaList;
+    }
+
+    public void setAreaList(List<Area> areaList) {
+        this.areaList = areaList;
+    }
 
 }

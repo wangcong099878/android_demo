@@ -26,11 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import the.one.base.model.City;
 import the.one.base.model.CitySection;
@@ -50,44 +51,45 @@ public class CityUtil {
 
     public static List<CitySection> getCityDatas(Context context) {
         if (null == mCitySections || mCitySections.size() == 0) {
-            List<Province> provinces = getProvinces(context);
+            List<Province> provinces = getProvinces();
             mCitySections = new ArrayList<>();
             // 将数据转换成CitySection
             for (Province pro : provinces) {
                 String province = pro.getName();
-                ArrayList<String> areas = pro.getArea();
+                List<City> areas = pro.getCityList();
                 if (null != areas && areas.size() > 0) {
-                    for (String city : areas) {
+                    for (City city : areas) {
                         // 直辖市  只是 省 区
-                        CitySection citySection = new CitySection(city);
+                        CitySection citySection = new CitySection(city.getName());
                         citySection.province = province;
                         mCitySections.add(citySection);
                     }
                 } else {
                     // 包含省 市 县
                     // 得到市列表
-                    ArrayList<City> cities = pro.getCity();
-                    for (City city : cities) {
-                        String cityName = city.getName();
-                        for (String county : city.getArea()) {
-                            CitySection citySection = new CitySection(county);
-                            citySection.province = province;
-                            citySection.city = cityName;
-                            mCitySections.add(citySection);
-                        }
-                    }
+//                    List<City> cities = pro.get();
+//                    for (City city : cities) {
+//                        String cityName = city.getName();
+//                        for (String county : city.getArea()) {
+//                            CitySection citySection = new CitySection(county);
+//                            citySection.province = province;
+//                            citySection.city = cityName;
+//                            mCitySections.add(citySection);
+//                        }
+//                    }
                 }
             }
         }
         return mCitySections;
     }
 
-    public static List<Province> getProvinces(Context context) {
+    public static List<Province> getProvinces() {
         if (null == mProvinces || mProvinces.size() == 0) {
-
             StringBuilder jsonSB = new StringBuilder();
             try {
-                BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(Objects.requireNonNull(context).getAssets().open("province.json")));
+                File file = new File(FileDirectoryUtil.getProvinceJsonPath());
+                if(!file.exists()) return null;
+                BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
                 String line;
                 while ((line = addressJsonStream.readLine()) != null) {
                     jsonSB.append(line);

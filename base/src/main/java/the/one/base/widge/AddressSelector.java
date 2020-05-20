@@ -13,16 +13,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.qmuiteam.qmui.util.QMUIResHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.Interface.OnAddressSelectorListener;
 import the.one.base.R;
+import the.one.base.model.Area;
 import the.one.base.model.City;
 import the.one.base.model.Province;
 
@@ -45,9 +46,9 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
 
     private OnAddressSelectorListener onAddressSelectorListener;
 
-    private ArrayList<Province> provinces;
-    private ArrayList<City> cities;
-    private ArrayList<String> areas;
+    private List<Province> provinces;
+    private List<City> cities;
+    private List<Area> areas;
 
     private RecyclerView list;
     //tabs的外层layout
@@ -405,10 +406,10 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
                 if (null != cities)
                     select = cities.get(position).getName();
                 else
-                    select = areas.get(position);
+                    select = areas.get(position).getName();
                 holder.tv.setText(select);
             } else if (tabIndex == 2) {
-                select = areas.get(position);
+                select = areas.get(position).getName();
                 holder.tv.setText(select);
             } else {
                 select = "";
@@ -426,14 +427,14 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
                     switch (tabIndex) {
                         case 0:
                             tabs.get(tabIndex).setText(select);
-                            cities = provinces.get(position).getCity();
-                            if (null == cities)
-                                areas = provinces.get(position).getArea();
+                            cities = provinces.get(position).getCityList();
+//                            if (null == cities)
+//                                areas = provinces.get(position).get();
                             break;
                         case 1:
                             tabs.get(tabIndex).setText(select);
                             if (null != cities) {
-                                areas = cities.get(position).getArea();
+                                areas = cities.get(position).getAreaList();
                             } else
                                 onSelect(null);
                             break;

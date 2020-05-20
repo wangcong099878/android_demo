@@ -18,13 +18,10 @@ package the.one.base.ui.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.view.View;
-
 import java.util.List;
 
-import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.model.CitySection;
-import the.one.base.util.CityUtil;
+import the.one.base.ui.presenter.BasePresenter;
 
 /**
  * @author The one
@@ -48,12 +45,12 @@ public class CitySelectFragment extends BaseLetterSearchFragment<CitySection> {
     @Override
     protected void onLazyInit() {
         showLoadingPage();
-        notifyData(CityUtil.getCityDatas(_mActivity), "城市数据为空", "重新加载", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLazyInit();
-            }
-        });
+//        notifyData(CityUtil.getCityDatas(_mActivity), "城市数据为空", "重新加载", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onLazyInit();
+//            }
+//        });
     }
 
     @Override

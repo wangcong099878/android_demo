@@ -54,6 +54,8 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     api "com.tencent:mmkv-static:$mmkvVersion"
+    api "org.jsoup:jsoup:$jsoupVersion"
+    api "org.litepal.android:java:$litepalVersion"  // 数据库
 
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.2@aar'
