@@ -252,13 +252,18 @@ public class BaseWebExplorerActivity extends BaseActivity {
 
     protected void onScrollWebContent(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         // 滑动后添加分割线
-        if (!isSeparatorShow && scrollY > 10) {
-            isSeparatorShow = true;
-            mTopBarLayout.updateBottomSeparatorColor(getColorr(R.color.qmui_config_color_separator));
-        } else if (isSeparatorShow) {
-            isSeparatorShow = false;
-            mTopBarLayout.updateBottomSeparatorColor(getColorr(R.color.qmui_config_color_white));
-        }
+        updateTopBarDivider(scrollY>10);
+    }
+
+    /**
+     * 更新分割线
+     * @param show 是否显示分割线
+     * @remark 为了避免重复绘制，用一个变量控制
+     */
+    private void updateTopBarDivider(boolean show){
+        if(isSeparatorShow == show) return;
+        isSeparatorShow = show;
+        mTopBarLayout.updateBottomDivider(0,0,isSeparatorShow?1:0,getColorr(R.color.qmui_config_color_separator));
     }
 
     private void handleUrl(String url) {

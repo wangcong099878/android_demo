@@ -4,10 +4,15 @@ import android.view.View;
 
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
+import java.util.List;
+
 import androidx.fragment.app.FragmentManager;
+import the.one.base.Interface.IProvinceListener;
 import the.one.base.Interface.OnAddressSelectorListener;
+import the.one.base.model.Province;
 import the.one.base.ui.fragment.AddressSelectorFragment;
 import the.one.base.ui.fragment.BaseGroupListFragment;
+import the.one.base.util.ProvinceUtil;
 import the.one.demo.R;
 
 
@@ -38,21 +43,47 @@ import the.one.demo.R;
  */
 public class LocationSelectFragment extends BaseGroupListFragment {
 
-    private QMUICommonListItemView mLetterSearch,mDialog;
+    private QMUICommonListItemView mLetterSearch, mDialog;
 
     @Override
     protected void addGroupListView() {
         initFragmentBack("地理位置选择");
-        mLetterSearch = CreateDetailItemView("侧边快速查询样式","适用于选择城市",true);
-        mDialog = CreateDetailItemView("Dialog样式","适用于选择地址",true);
-        addToGroup("",getStringg(R.string.location_select_tips),mDialog,mLetterSearch);
+        mLetterSearch = CreateDetailItemView("侧边快速查询样式", "适用于选择城市", true);
+        mDialog = CreateDetailItemView("Dialog样式", "适用于选择地址", true);
+        addToGroup("", getStringg(R.string.location_select_tips), mDialog, mLetterSearch);
+        showLoadingDialog("获取数据中");
+        ProvinceUtil.getProvinceList(new IProvinceListener() {
+            @Override
+            public void onComplete(List<Province> provinces) {
+                _mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideLoadingDialog();
+                        showSuccessTips("获取成功");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError() {
+                _mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideLoadingDialog();
+                        showSuccessTips("获取失败");
+                    }
+                });
+
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        if( v== mLetterSearch){
+        if (v == mLetterSearch) {
             startFragment(new the.one.base.ui.fragment.CitySelectFragment());
-        }else if(v == mDialog){
+        } else if (v == mDialog) {
             showSearchDialogFragment();
         }
     }
