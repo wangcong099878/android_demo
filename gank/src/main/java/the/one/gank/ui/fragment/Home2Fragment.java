@@ -70,9 +70,8 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     private QMUIQQFaceView mTitleView;
     private String mTitleStr = "";
     private boolean isLightMode = true;
-    private boolean isDark;
-    private boolean isLight;
     private boolean isVisible;
+    private int mStatusBarHeight;
 
     @Override
     protected boolean translucentFull() {
@@ -97,6 +96,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     @Override
     protected void initView(View rootView) {
         mBannerHeight = QMUIDisplayHelper.dp2px(_mActivity, 250);
+        mStatusBarHeight =  QMUIStatusBarHelper.getStatusbarHeight(_mActivity)/2;
         mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
         mTitleView = mTopLayout.getTopBar().getTitleView();
         mTitleView.getPaint().setFakeBoldText(true);
@@ -140,11 +140,11 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                 if (y >= height) percent = 1;
                 else
                     percent = y / (height * 1.0f);
-                isLightMode = percent > 0.5;
-                if (isLightMode && isDark) {
-                    setStatusBarLightMode();
-                } else if (!isLightMode && isLight) {
-                    setStatusBarDarkMode();
+                boolean isLight = percent > 0.5;
+                if (!isLightMode && isLight) {
+                    setStatusBarMode(true);
+                } else if (isLightMode && !isLight) {
+                    setStatusBarMode(false);
                 }
                 mTitleView.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1), percent));
                 mTopLayout.updateBottomSeparatorColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_separator), percent));
@@ -158,6 +158,15 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                 updateTitle(offsetLinearLayoutManager);
             }
         };
+    }
+
+    @Override
+    public void onMoveTarget(int offset) {
+        if(offset>mStatusBarHeight&&!isLightMode){
+            setStatusBarMode(true);
+        }else if(offset<mStatusBarHeight&&isLightMode){
+            setStatusBarMode(false);
+        }
     }
 
     private void updateTitle(OffsetLinearLayoutManager linearLayoutManager) {
@@ -215,22 +224,21 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         parseSection(resultsBean.welfare, NetUrlConstant.WELFARE);
         onComplete(sections);
         showContentPage();
-        setStatusBarDarkMode();
-        onNormal();
+        setStatusBarMode(false);
+        adapter.getLoadMoreModule().setEnableLoadMore(false);
     }
 
-    private void setStatusBarDarkMode() {
-        isDark = true;
-        isLight = false;
-        if (isVisible)
-            QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-    }
+    private void setStatusBarMode(boolean isLight) {
+        isLightMode = isLight;
+        // 显示的时候才做更改
+        if (isVisible){
+            if(isLight){
+                QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+            }else{
+                QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
+            }
 
-    private void setStatusBarLightMode() {
-        isDark = false;
-        isLight = true;
-        if (isVisible)
-            QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+        }
     }
 
     private void parseSection(List<GankBean> gankBeans, String head) {
