@@ -18,6 +18,8 @@ package the.one.base.model;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * @author The one
  * @date 2019/8/16 0016
@@ -27,31 +29,43 @@ package the.one.base.model;
  */
 public class CitySection extends LetterSearchSection {
 
-    public String province;
-    public String city = "";
+    public Province province;
+    public City city;
+    public Area area;
 
-    public CitySection(String name) {
-        super(name);
+    public CitySection(@NotNull Province province, City city, Area area) {
+        super(null == area?province.getName():area.getName());
+        this.province = province;
+        this.city = city;
+        this.area = area;
     }
 
-    public String getProvince() {
+    public Province getProvince() {
         return province;
     }
 
-    public void setProvince(String province) {
+    public void setProvince(Province province) {
         this.province = province;
     }
 
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
     }
 
-    public String getFull(){
-        return province + city +name;
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
+    public String getFullLocationName() {
+        return province.getName() + city.getName() + name;
     }
 
 }

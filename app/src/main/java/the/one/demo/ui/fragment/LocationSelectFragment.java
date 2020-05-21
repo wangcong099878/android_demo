@@ -1,18 +1,29 @@
 package the.one.demo.ui.fragment;
 
+import android.Manifest;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.qmuiteam.qmui.widget.QMUIEmptyView;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 
-import androidx.fragment.app.FragmentManager;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.IProvinceListener;
-import the.one.base.Interface.OnAddressSelectorListener;
+import the.one.base.Interface.OnCitySelectListener;
+import the.one.base.model.Area;
+import the.one.base.model.City;
 import the.one.base.model.Province;
-import the.one.base.ui.fragment.AddressSelectorFragment;
 import the.one.base.ui.fragment.BaseGroupListFragment;
+import the.one.base.ui.fragment.BaseCitySelectFragment;
 import the.one.base.util.ProvinceUtil;
+import the.one.base.util.QMUIDialogUtil;
+import the.one.base.widge.TheCitySelectBottomSheetBuilder;
 import the.one.demo.R;
 
 
@@ -41,77 +52,96 @@ import the.one.demo.R;
  * @email 625805189@qq.com
  * @remark
  */
-public class LocationSelectFragment extends BaseGroupListFragment {
+public class LocationSelectFragment extends BaseGroupListFragment implements OnCitySelectListener, Observer<Boolean> {
 
-    private QMUICommonListItemView mLetterSearch, mDialog;
+    private QMUICommonListItemView mLetterSearch, mDialog,mUpdate;
+    private View mClickView;
 
     @Override
     protected void addGroupListView() {
         initFragmentBack("地理位置选择");
-        mLetterSearch = CreateDetailItemView("侧边快速查询样式", "适用于选择城市", true);
         mDialog = CreateDetailItemView("Dialog样式", "适用于选择地址", true);
-        addToGroup("", getStringg(R.string.location_select_tips), mDialog, mLetterSearch);
-        showLoadingDialog("获取数据中");
-        ProvinceUtil.getProvinceList(new IProvinceListener() {
-            @Override
-            public void onComplete(List<Province> provinces) {
-                _mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideLoadingDialog();
-                        showSuccessTips("获取成功");
-                    }
-                });
+        mLetterSearch = CreateDetailItemView("侧边快速查询样式", "适用于选择城市", true);
 
-            }
+        mUpdate = CreateNormalItemView("更新本地JSON数据");
 
-            @Override
-            public void onError() {
-                _mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideLoadingDialog();
-                        showSuccessTips("获取失败");
-                    }
-                });
-
-            }
-        });
+        addToGroup(getStringg(R.string.location_select_tips), getStringg(R.string.location_select_dialog_tips), mDialog);
+        addToGroup(mLetterSearch);
+        addToGroup("",getStringg(R.string.location_select_update),mUpdate);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mLetterSearch) {
-            startFragment(new the.one.base.ui.fragment.CitySelectFragment());
-        } else if (v == mDialog) {
-            showSearchDialogFragment();
-        }
+        mClickView = v;
+        requestPermission();
     }
 
-    private long clickTime = 0;
-    private FragmentManager manager;
-    private AddressSelectorFragment selectorDialog;
+    protected void requestPermission() {
+        new RxPermissions(this)
+                .request(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.INTERNET)
+                .subscribe(this);
+    }
 
-    private void showSearchDialogFragment() {
-        // 防止连续点击
-        if (clickTime != 0 && System.currentTimeMillis() - clickTime < 1000)
-            return;
-        clickTime = System.currentTimeMillis();
-        if (null == manager) {
-            manager = getChildFragmentManager();
-        }
-        if (null == selectorDialog) {
-            selectorDialog = AddressSelectorFragment.newInstance();
-            // 如果要把定位到的省份放在首位
-            selectorDialog.setProvince("贵州省");
-            selectorDialog.setOnAddressSelectorListener(new OnAddressSelectorListener() {
+    @Override
+    public void onCitySelect(Province province, City city, Area area, String address) {
+        mDialog.setDetailText(address);
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public void onNext(Boolean aBoolean) {
+        if(aBoolean){
+            if (mClickView == mLetterSearch) {
+                startFragment(new CitySelectFragment());
+            } else if (mClickView == mDialog) {
+                new TheCitySelectBottomSheetBuilder(_mActivity, this)
+                        .setLBSProvince("贵州省")
+                        .build().show();
+            }else if(mClickView == mUpdate){
+                showLoadingDialog("更新中");
+                ProvinceUtil.getProvinceJsonData(new IProvinceListener() {
+                    @Override
+                    public void onComplete(List<Province> provinces) {
+                        hideLoadingDialog();
+                        showSuccessTips("更新成功");
+                    }
+
+                    @Override
+                    public void onError() {
+                        hideLoadingDialog();
+                        showSuccessTips("更新失败");
+                    }
+                });
+            }
+        }else{
+            QMUIDialogUtil.showNegativeDialog(_mActivity, "提示", "需要用到存储和网络权限,请打开。", "取消", new QMUIDialogAction.ActionListener() {
                 @Override
-                public void onSelect(String address) {
-                    mDialog.setDetailText(address);
-                    selectorDialog.dismiss();
+                public void onClick(QMUIDialog dialog, int index) {
+                    dialog.dismiss();
+                }
+            }, "获取", new QMUIDialogAction.ActionListener() {
+                @Override
+                public void onClick(QMUIDialog dialog, int index) {
+                    dialog.dismiss();
+                    requestPermission();
                 }
             });
         }
-        selectorDialog.show(manager, TAG);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }

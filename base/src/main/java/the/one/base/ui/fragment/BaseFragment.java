@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+import com.qmuiteam.qmui.arch.QMUIFragment;
+import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,13 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-
-import com.orhanobut.logger.Logger;
-import com.qmuiteam.qmui.arch.QMUIFragment;
-import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
-import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
-
+import androidx.viewpager.widget.ViewPager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import the.one.base.R;
@@ -151,6 +151,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         }
         if (!isIndexFragment && mIsFirstLayInit) {
             mIsFirstLayInit = false;
+            Log.e(TAG, "onLazyResume: " );
             onLazyInit();
         }
     }
@@ -159,6 +160,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected void onEnterAnimationEnd(@Nullable Animation animation) {
         super.onEnterAnimationEnd(animation);
         if (isIndexFragment && mIsFirstLayInit) {
+            Log.e(TAG, "onEnterAnimationEnd: " );
             mIsFirstLayInit = false;
             onLazyInit();
         }
@@ -257,20 +259,24 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        isIndexFragment = container instanceof QMUIWindowInsetLayout;
+        isIndexFragment = container instanceof FrameLayout;
+        Log.e(TAG, "onCreateView: "+isIndexFragment );
+        boolean isViewPager =  container instanceof ViewPager;
+        Log.e(TAG, "onCreateView: 1"+ isViewPager);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 
     @Override
     protected View onCreateView() {
+        Log.e(TAG, "onCreateView: 11" );
         View mBody = getView(getContentViewId());
         if (getPresenter() != null)
             getPresenter().attachView(this,this);

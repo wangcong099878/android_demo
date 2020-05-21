@@ -103,6 +103,10 @@ public class StatusLayout extends RelativeLayout {
     }
 
     private void init(AttributeSet attrs) {
+        if(null == mBuilder){
+            new Builder().build();
+        }
+
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.StatusLayout);
@@ -340,11 +344,12 @@ public class StatusLayout extends RelativeLayout {
                 hideEmptyView();
 
                 setErrorView();
-                if (null != mBuilder) {
+                if(null != drawable){
+                    errorStateImageView.setImageDrawable(drawable);
+                } else {
                     boolean isEmpty = state == EMPTY;
                     errorStateImageView.setImageResource(isEmpty?mBuilder.getEmptyDrawable():mBuilder.getFailDrawable());
-                } else
-                    errorStateImageView.setImageDrawable(drawable);
+                }
                 errorStateTitleTextView.setVisibility(VISIBLE);
                 errorStateTitleTextView.setText(errorText);
                 errorStateContentTextView.setText(errorTextContent);
@@ -504,10 +509,10 @@ public class StatusLayout extends RelativeLayout {
     }
 
     public static class Builder {
-        private int failDrawable;
-        private int emptyDrawable;
-        private int networkErrorDrawable;
-        private int noNetworkDrawable;
+        private int failDrawable = R.drawable.status_loading_view_loading_fail;
+        private int emptyDrawable = R.drawable.status_search_result_empty ;
+        private int networkErrorDrawable = R.drawable.status_loading_view_network_error;
+        private int noNetworkDrawable = R.drawable.status_loading_view_no_network;
 
         public int getFailDrawable() {
             return failDrawable;

@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIKeyboardHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -23,6 +21,8 @@ import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import the.one.base.R;
 
 /**
@@ -385,14 +385,12 @@ public class QMUIDialogUtil {
     }
 
     static class QMAutoTestDialogBuilder extends QMUIDialog.AutoResizeDialogBuilder {
-        private Context mContext;
         private EditText mEditText;
         private String mTitle;
         private String mContent;
 
         public QMAutoTestDialogBuilder(Context context, String title, String content) {
             super(context);
-            mContext = context;
             mTitle = title;
             mContent = content;
         }
@@ -402,23 +400,23 @@ public class QMUIDialogUtil {
         }
 
         @Override
-        public View onBuildContent(QMUIDialog dialog) {
-            LinearLayout layout = new LinearLayout(mContext);
+        public View onBuildContent(@NonNull QMUIDialog dialog, @NonNull Context context) {
+            LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            int padding = QMUIDisplayHelper.dp2px(mContext, 20);
+            int padding = QMUIDisplayHelper.dp2px(context, 20);
             layout.setPadding(padding, padding, padding, padding);
-            mEditText = new EditText(mContext);
+            mEditText = new EditText(context);
 //            QMUIViewHelper.setBackgroundKeepingPadding(mEditText, QMUIResHelper.getAttrDrawable(mContext, R.attr.qmui_list_item_bg_with_border_bottom));
             mEditText.setHint(mTitle);
             LinearLayout.LayoutParams editTextLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, QMUIDisplayHelper.dpToPx(50));
-            editTextLP.bottomMargin = QMUIDisplayHelper.dp2px(mContext, 15);
+            editTextLP.bottomMargin = QMUIDisplayHelper.dp2px(context, 15);
             mEditText.setLayoutParams(editTextLP);
             layout.addView(mEditText);
-            TextView content = new TextView(mContext);
-            content.setLineSpacing(QMUIDisplayHelper.dp2px(mContext, 4), 1.0f);
+            TextView content = new TextView(context);
+            content.setLineSpacing(QMUIDisplayHelper.dp2px(context, 4), 1.0f);
             content.setText(mContent);
-            content.setTextColor(ContextCompat.getColor(mContext, R.color.qmui_config_color_gray_1));
+            content.setTextColor(ContextCompat.getColor(context, R.color.qmui_config_color_gray_1));
             content.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             layout.addView(content);
             return layout;

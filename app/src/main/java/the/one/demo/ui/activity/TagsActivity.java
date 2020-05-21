@@ -2,7 +2,7 @@ package the.one.demo.ui.activity;
 
 import the.one.base.ui.activity.BaseFragmentActivity;
 import the.one.base.ui.fragment.BaseFragment;
-import the.one.demo.ui.fragment.SampleFragment;
+import the.one.demo.ui.fragment.TagsFragment;
 
 
 //  ┏┓　　　┏┓
@@ -34,8 +34,7 @@ public class TagsActivity extends BaseFragmentActivity {
 
     @Override
     protected BaseFragment getFirstFragment() {
-//        return new TagsFragment();
-        return new SampleFragment();
+        return new TagsFragment();
     }
 
 }

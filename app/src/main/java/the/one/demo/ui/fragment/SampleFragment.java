@@ -64,7 +64,7 @@ public class SampleFragment extends BaseGroupListFragment {
         PROGRESS_DIALOG = CreateDetailItemView("ProgressDialog","");
         POPUP_LAYOUT = CreateDetailItemView("PopupLayout","");
 
-        CITY_SELECT = CreateDetailItemView("LocationSelect", "地理位置选择 城市/地址", true);
+        CITY_SELECT = CreateDetailItemView("LocationSelect", "地理位置选择 城市/地址", false,true);
 
         CRASH  = CreateDetailItemView("App Crash","当程序崩溃后...",true);
         SEARCH_VIEW = CreateDetailItemView("TheSearchView","带有删除按键的SearchView",true);
@@ -75,7 +75,8 @@ public class SampleFragment extends BaseGroupListFragment {
 
         TEST = CreateNormalItemView("测试");
 
-        showNewTips(true,IMAGE_SNAP);
+        showNewTips(false,IMAGE_SNAP);
+        showNewTips(true,CITY_SELECT);
 
         addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,
                 SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT,IMAGE_SNAP);

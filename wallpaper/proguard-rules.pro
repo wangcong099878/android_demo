@@ -49,7 +49,7 @@
 #指示语：不能用这个指令处理库中的代码，因为有的类和类成员没有设计成public ,而在api中可能变成public
 -allowaccessmodification
 #当有优化和使用-repackageclasses时才适用。
--repackageclasses ''
+#-repackageclasses ''
  # 混淆时记录日志(打印混淆的详细信息)
  # 这句话能够使我们的项目混淆后产生映射文件
  # 包含有类名->混淆后类名的映射关系
@@ -76,6 +76,9 @@
 -keep public class com.android.vending.licensing.ILicensingService
 #表示不混淆上面声明的类，最后这两个类我们基本也用不上，是接入Google原生的一些服务时使用的。
 #----------------------------------------------------
+
+#androidx包使用混淆
+#-keep class androidx.** {*;}
 
 # 保留继承的
 -keep public class * extends android.support.v4.**
@@ -241,6 +244,7 @@
 -keep class **_FragmentFinder { *; }
 -keep class com.qmuiteam.qmui.arch.record.** { *; }
 -keep class android.support.v4.app.* { *; }
+-keep class androidx.fragment.app.* { *; }
 
 #PictureSelector 2.0
 -keep class com.luck.picture.lib.** { *; }
@@ -264,7 +268,7 @@
 
 -keep class the.one.base.model.** { *; }
 -keep class the.one.base.constant.** { *; }
+-keep class the.one.base.Interface.** { *; }
 -keep class the.one.base.event.** { *; }
 #保留一个完整的包
 -keep class the.one.base.** { *; }
-

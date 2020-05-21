@@ -18,23 +18,13 @@ package the.one.base.util;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import the.one.base.model.Province;
 
 /**
  * @author The one
@@ -56,6 +46,10 @@ public class JSONFormatUtils {
 
     public static <T> void jsonWriter(List<T> data, String filePath) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        File file = new File(filePath);
+        if(file.exists()){
+            file.delete();
+        }
         try(FileWriter writer = new FileWriter(filePath)) {
             gson.toJson(data, writer);
         } catch (IOException e) {

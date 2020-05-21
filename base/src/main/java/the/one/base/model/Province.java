@@ -2,6 +2,8 @@ package the.one.base.model;
 
 import java.util.List;
 
+import the.one.base.Interface.ICitySelector;
+
 /**
  * @author The one
  * @date 2018/10/30 0030
@@ -9,7 +11,7 @@ import java.util.List;
  * @email 625805189@qq.com
  * @remark
  */
-public class Province {
+public class Province implements ICitySelector {
 
     private String code;
     private String name;

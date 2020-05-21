@@ -18,6 +18,8 @@ package the.one.base.model;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import the.one.base.Interface.ICitySelector;
+
 /**
  * @author The one
  * @date 2020/5/20 0020
@@ -25,7 +27,7 @@ package the.one.base.model;
  * @email 625805189@qq.com
  * @remark
  */
-public class Area {
+public class Area implements ICitySelector {
 
     private String code;
     private String name;

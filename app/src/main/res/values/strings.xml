@@ -1,10 +1,14 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">The one</string>
 
     <string name="long_fruit_name">这是一个超长的水果名称这是一个超长的水果名称这是一个超长的水果名称</string>
 
-    <string name="location_select_tips">由于城市信息在不断的变化，这里面的数据可能也不太准确。这些都是可以自行去改变，直接在json里去更改。</string>
+    <string name="location_select_dialog_tips">可以设置将定位到的省份排序到第一个</string>
+    <string name="location_select_tips">JSON数据是在民政部官网爬取的，两个方法调用时会判断本地的JSON是否存在，不存在才会去网络获取。</string>
+    <string name="location_select_update" tools:ignore="ExtraTranslation">调用ProvinceUtil.getProvinceJsonData()方法。</string>
 
-    <string name="popup_info_str">若今生迷局深陷，射影含沙。\n便许你来世袖手天下，一幕繁华。 \n你可愿转身落座，掌间朱砂，共我温酒煮茶。
-\n若今生堕落红尘，残花败柳。\n便许你来世一枝独秀，倾心挽留。\n你可愿蓦然相爱，与我煮酒，共伴一生长久。</string>
+    <string name="popup_info_str">年轻时，\n你做了一个决定， \n要将生命献给爱情。
+\n后来，\n我没死。\n年轻替我抵了命。\n\n\n自以为为了爱情可以牺牲生命的人到最后却发现除了逝去的青春什么都没得到。</string>
+
+
 </resources>

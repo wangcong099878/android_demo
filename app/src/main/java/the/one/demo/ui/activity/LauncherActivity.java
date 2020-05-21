@@ -28,7 +28,7 @@ public class LauncherActivity extends SampleLauncherActivity {
 
     @Override
     protected Class getMainActivity() {
-        return TagsActivity.class;
+        return SampleActivity.class;
     }
 
 }

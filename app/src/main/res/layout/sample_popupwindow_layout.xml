@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <the.one.base.widge.overscroll.OverScrollScrollView
@@ -20,16 +20,18 @@
             android:layout_height="match_parent"
             android:text="@string/popup_info_str"
             android:textColor="@color/qmui_config_color_gray_1"
-            android:textSize="15sp"/>
+            android:lineSpacingExtra="10dp"
+            android:textSize="17sp"/>
 
     </the.one.base.widge.overscroll.OverScrollScrollView>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="20dp"
         android:src="@drawable/mz_titlebar_search_layout_ic_delete_dark"/>
 
 

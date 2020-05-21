@@ -51,7 +51,7 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
     }
 
     @Override
-    protected int getContextViewId() {
+    public int getContextViewId() {
         return R.id.main_container;
     }
 

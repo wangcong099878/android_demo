@@ -61,6 +61,7 @@ public class LetterSearchFragment extends BaseLetterSearchFragment<LsMans> {
         mAdapter.addHeaderView(getView(R.layout.custom_letter_search_headr_layout));
         tvTotal = (TextView) getView(R.layout.custom_letter_search_footer_layout);
         mAdapter.addFooterView(tvTotal);
+        showLoadingPage();
     }
 
     @Override

@@ -18,10 +18,6 @@ package the.one.base.ui.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,6 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.R;
 import the.one.base.adapter.LetterSearcherAdapter;
 import the.one.base.model.LetterSearchSection;
@@ -66,9 +65,19 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
     protected abstract void onItemClick(T t);
 
+    /**
+     * 多选时点击确认得到的数据
+     *
+     * @param selects
+     */
     protected abstract void onConfirmSelect(List<T> selects);
 
-    protected boolean isNeedDelete(){
+    /**
+     * 是否需要多选
+     *
+     * @return
+     */
+    protected boolean isNeedMultiChoose() {
         return true;
     }
 
@@ -104,10 +113,12 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         mAdapter.setOnLetterSearchItemClickListener(this);
         mSectionLayout.setAdapter(mAdapter, true);
         sideLetterBar.setOverlay(tvLetterOverlay);
-        mSectionLayout.getRecyclerView().setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mSectionLayout.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mSectionLayout.getRecyclerView().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mSectionLayout.getRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                sideLetterBar.setVisibility(newState==0?View.VISIBLE:View.INVISIBLE);
+                sideLetterBar.setVisibility(newState == 0 ? View.VISIBLE : View.INVISIBLE);
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
@@ -130,19 +141,29 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
                 onConfirmSelect(mAdapter.getSelects());
             }
         });
-
-        goneView(tvLeft, flBottomLayout, sideLetterBar,flTopLayout);
+        goneView(tvLeft, flBottomLayout, sideLetterBar, flTopLayout);
     }
 
     public void notifyData(List<T> datas, String emptyTitle, String btnString, View.OnClickListener listener) {
         if (null == datas || datas.size() == 0) {
             showEmptyPage(emptyTitle, btnString, listener);
         } else {
-            Collections.sort(datas, new NameComparator());
-            mAdapter.setData(parseSectionList(datas));
-            mAdapter.setSelectsMap(mDataMap);
-            showView(sideLetterBar,flTopLayout);
-            showContentPage();
+            // 如果数据比较多，下面这个排序会比较耗时
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Collections.sort(datas, new NameComparator());
+                    _mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.setData(parseSectionList(datas));
+                            mAdapter.setSelectsMap(mDataMap);
+                            showView(sideLetterBar, flTopLayout);
+                            showContentPage();
+                        }
+                    });
+                }
+            }).start();
         }
     }
 
@@ -210,7 +231,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
 
     @Override
-    public void onSearchItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position){
+    public void onSearchItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
         if (mAdapter.isShowCheckBox()) {
             updateSelectSum(position);
         } else {
@@ -219,14 +240,13 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
     }
 
     @Override
-    public boolean onSearchItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position){
-        Log.e(TAG, "onItemLongClick: " );
-        if(isNeedDelete()&&!mAdapter.isShowCheckBox()){
+    public boolean onSearchItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position) {
+        if (isNeedMultiChoose() && !mAdapter.isShowCheckBox()) {
             mAdapter.setShowCheckBox(true);
             initSelectTopBar();
             updateSelectSum(position);
         }
-        return isNeedDelete()&&!mAdapter.isShowCheckBox();
+        return isNeedMultiChoose() && !mAdapter.isShowCheckBox();
     }
 
     private void updateSelectSum(int position) {
@@ -234,7 +254,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         int size = mAdapter.getSelects().size();
         mTopLayout.setTitle("已选择" + size + "项");
         tvRight.setEnabled(size > 0);
-        topRightText.setText(mAdapter.isAllSelect()?"全不选":"全选" );
+        topRightText.setText(mAdapter.isAllSelect() ? "全不选" : "全选");
     }
 
     protected Button topRightText;
@@ -268,7 +288,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         });
     }
 
-    private void exitSelect(){
+    private void exitSelect() {
         mAdapter.setShowCheckBox(false);
         mTopLayout.removeAllLeftViews();
         mTopLayout.removeAllRightViews();
@@ -278,7 +298,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
     @Override
     protected void onBackPressed() {
-        if(mAdapter.isShowCheckBox()){
+        if (mAdapter.isShowCheckBox()) {
             exitSelect();
             return;
         }

@@ -18,6 +18,10 @@ package the.one.base.util;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -34,6 +38,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import the.one.base.Interface.ICitySectionListener;
 import the.one.base.Interface.IProvinceListener;
 import the.one.base.model.Area;
 import the.one.base.model.City;
@@ -43,34 +48,57 @@ import the.one.base.model.Province;
 /**
  * @author The one
  * @date 2020/5/20 0020
- * @describe TODO
+ * @describe 省市县地址数据工具
  * @email 625805189@qq.com
  * @remark
  */
 public class ProvinceUtil {
+
+    private static final String TAG = "ProvinceUtil";
 
     private static List<CitySection> mCitySections;
     private static List<Province> mProvinces;
 
     private static final String GET_PROVINCE_URL = "http://www.mca.gov.cn/article/sj/xzqh/2020/2020/202003061536.html";
 
-    public static void getProvinceList(IProvinceListener listener) {
-            File file = new File(FileDirectoryUtil.getProvinceJsonPath());
-            if(file.exists()){
-                listener.onComplete(getProvincesFromJson());
-                return;
-            }
-            //2020年1月中华人民共和国县以上行政区划代码网页
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Document doc = null;
-                    try {
-                        doc = Jsoup.connect(GET_PROVINCE_URL).maxBodySize(0).get();
-                    } catch (IOException e) {
-                        listener.onError();
-                        e.printStackTrace();
+    /**
+     * 获取数据
+     *
+     * @param listener
+     */
+    public static void getProvinceList( IProvinceListener listener) {
+        if (null != mProvinces && mProvinces.size() > 0) {
+            if (null != listener) listener.onComplete(mProvinces);
+            return;
+        }
+        getProvinceJsonData(listener);
+    }
+
+    /**
+     * 获取JSON数据
+     *
+     * @param listener
+     */
+    public static void getProvinceJsonData( IProvinceListener listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File(FileDirectoryUtil.getProvinceJsonPath());
+                if (file.exists()) {
+                    mProvinces = getProvincesFromJson();
+                    if (null != listener ) {
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onComplete(mProvinces);
+                            }
+                        },500);
                     }
+                    return;
+                }
+                Document doc = null;
+                try {
+                    doc = Jsoup.connect(GET_PROVINCE_URL).maxBodySize(0).get();
                     Elements elements = doc.getElementsByClass("xl7020844");
                     //省和市
                     Elements elementsProAndCity = doc.getElementsByClass("xl7120844");
@@ -89,16 +117,35 @@ public class ProvinceUtil {
                         }
                     }
                     //正常情况 两个 list size 应该 一样
-                    System.out.println("stringName  size= " + stringName.size() + "   stringCode   size= " + stringCode.size());
                     if (stringName.size() != stringCode.size()) {
                         throw new RuntimeException("数据错误");
                     }
-                    List<Province> provinceList = processData(stringName, stringCode);
+                    mProvinces = processData(stringName, stringCode);
+                    parseProvinceSection(mProvinces);
                     String path = FileDirectoryUtil.getProvinceJsonPath();
-                    JSONFormatUtils.jsonWriter(provinceList, path);
-                    listener.onComplete(provinceList);
+                    JSONFormatUtils.jsonWriter(mProvinces, path);
+
+                    if (null != listener) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onComplete(mProvinces);
+                            }
+                        });
+                    }
+                } catch (IOException e) {
+                    if (null != listener) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.onError();
+                            }
+                        });
+                    }
+                    e.printStackTrace();
                 }
-            }).start();
+            }
+        }).start();
     }
 
     /**
@@ -187,7 +234,6 @@ public class ProvinceUtil {
             }
         }
 
-
         //已经处理的数据移除
         List<String> stringNameList = new ArrayList<>(stringName);
         List<String> stringCodeList = new ArrayList<>(stringCode);
@@ -222,32 +268,79 @@ public class ProvinceUtil {
         return provinceList;
     }
 
-    public static List<Province> getProvincesFromJson() {
-        if (null == mProvinces || mProvinces.size() == 0) {
-            StringBuilder jsonSB = new StringBuilder();
-            try {
-                File file = new File(FileDirectoryUtil.getProvinceJsonPath());
-                if(!file.exists()) return null;
-                BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                String line;
-                while ((line = addressJsonStream.readLine()) != null) {
-                    jsonSB.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+    private static List<Province> getProvincesFromJson() {
+        Log.e(TAG, "getProvincesFromJson: "+ Thread.currentThread().getName() );
+        StringBuilder jsonSB = new StringBuilder();
+        try {
+            File file = new File(FileDirectoryUtil.getProvinceJsonPath());
+            if (!file.exists()) return null;
+            BufferedReader addressJsonStream = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String line;
+            while ((line = addressJsonStream.readLine()) != null) {
+                jsonSB.append(line);
             }
-            mProvinces = new ArrayList<>();
-            try {
-                JSONArray jsonArray = null;
-                jsonArray = new JSONArray(jsonSB.toString());
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    mProvinces.add(new Gson().fromJson(jsonArray.get(i).toString(), Province.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mProvinces = new ArrayList<>();
+        try {
+            JSONArray jsonArray = null;
+            jsonArray = new JSONArray(jsonSB.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                mProvinces.add(new Gson().fromJson(jsonArray.get(i).toString(), Province.class));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        parseProvinceSection(mProvinces);
+        return mProvinces;
+    }
+
+    /**
+     * 获取Section格式的数据
+     *
+     * @param listener
+     */
+    public static void getCitySections( ICitySectionListener listener) {
+        if (null != mCitySections && mCitySections.size() > 0) {
+            if (null != listener)
+                listener.onCitySectionComplete(mCitySections);
+            return;
+        }
+        getProvinceList(new IProvinceListener() {
+            @Override
+            public void onComplete(List<Province> provinces) {
+                if (null != listener) {
+                    listener.onCitySectionComplete(mCitySections);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+
+            @Override
+            public void onError() {
+                if (null != listener) listener.onCitySectionError();
+            }
+
+        });
+    }
+
+    private static void parseProvinceSection(List<Province> provinces) {
+        mCitySections = new ArrayList<>();
+        // 将数据转换成CitySection
+        for (Province pro : provinces) {
+            List<City> cities = pro.getCityList();
+            if (cities.size() == 0) {
+                // 对没有城市的信息的省份直接输入省份名称
+                mCitySections.add(new CitySection(pro, null, null));
+                continue;
+            }
+
+            for (City city : cities) {
+                // 直辖市  只是 省 区
+                for (Area area : city.getAreaList()) {
+                    mCitySections.add(new CitySection(pro, city, area));
+                }
             }
         }
-        return mProvinces;
     }
 
 }
