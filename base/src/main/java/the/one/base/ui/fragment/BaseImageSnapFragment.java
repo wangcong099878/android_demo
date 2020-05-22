@@ -27,6 +27,7 @@ import the.one.base.adapter.ImageSnapAdapter;
 import the.one.base.model.PopupItem;
 import the.one.base.util.DownloadUtil;
 import the.one.base.util.QMUIBottomSheetUtil;
+import the.one.base.util.ViewUtil;
 
 /**
  * BaseImageSnapFragment基本上就是RC的结构，只是让其一个item一页的显示
@@ -91,7 +92,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     protected void initView(View rootView) {
         super.initView(rootView);
         updateBgColor(isStatusBarLightMode());
-        setMargins(mStatusLayout, 0, 0, 0, 0);
+        ViewUtil.setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
         initSheetItems(mSheetItems);
     }

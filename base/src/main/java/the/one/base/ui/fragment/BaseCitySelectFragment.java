@@ -22,7 +22,7 @@ import android.view.View;
 
 import java.util.List;
 
-import the.one.base.Interface.ICitySectionListener;
+import the.one.base.Interface.OnCitySectionCompleteListener;
 import the.one.base.model.CitySection;
 import the.one.base.util.ProvinceUtil;
 
@@ -53,7 +53,7 @@ public abstract class BaseCitySelectFragment extends BaseLetterSearchFragment<Ci
 
     @Override
     protected void onLazyInit() {
-        ProvinceUtil.getCitySections(new ICitySectionListener() {
+        ProvinceUtil.getCitySections(new OnCitySectionCompleteListener() {
             @Override
             public void onCitySectionComplete(List<CitySection> provinces) {
                 notifyData(provinces, "城市数据为空", "重新加载", new View.OnClickListener() {

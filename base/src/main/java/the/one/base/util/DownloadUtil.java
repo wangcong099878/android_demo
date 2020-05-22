@@ -43,7 +43,6 @@ public class DownloadUtil {
 
     public static void startDownload(Activity context, ImageSnap data) {
         Download download = new Download(data.getImageUrl(), data.isVideo() ? "Video" : "Picture", getDownloadFileName(data.getImageUrl(), data.isVideo()));
-        Log.e("TAG", "startDownload: " + data.getImageUrl());
         download.setImage(true);
         DownloadService.startDown(context, download);
         ToastUtil.showToast("开始下载");

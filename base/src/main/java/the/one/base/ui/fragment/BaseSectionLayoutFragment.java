@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.R;
+import the.one.base.util.ViewUtil;
 import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
 import static android.view.View.OVER_SCROLL_NEVER;
@@ -108,7 +109,7 @@ public abstract class BaseSectionLayoutFragment<H extends QMUISection.Model<H>, 
         initStickyLayout();
         initData();
         if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
-            setMargins(mStatusLayout, 0, 0, 0, 0);
+            ViewUtil.setMargins(mStatusLayout, 0, 0, 0, 0);
         }
     }
 

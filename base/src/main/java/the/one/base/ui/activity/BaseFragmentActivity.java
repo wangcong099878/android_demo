@@ -50,10 +50,10 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
         return true;
     }
 
-    @Override
-    public int getContextViewId() {
-        return R.id.main_container;
-    }
+//    @Override
+//    public int getContextViewId() {
+//        return R.id.main_container;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
             QMUIStatusBarHelper.setStatusBarLightMode(this);
         else
             QMUIStatusBarHelper.setStatusBarDarkMode(this);
-        if(isTranslucent()&& StatusBarUtil.isTranslucent(this)){
+        if(isTranslucent()&& StatusBarUtil.isWhiteBg(this)){
             QMUIStatusBarHelper.translucent(this, ContextCompat.getColor(this,R.color.qmui_config_color_transparent));
         }
         if (savedInstanceState == null) {

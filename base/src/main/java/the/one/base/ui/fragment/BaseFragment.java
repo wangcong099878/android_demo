@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +29,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import the.one.base.R;
@@ -40,6 +39,7 @@ import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
+import the.one.base.util.ViewUtil;
 import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.MyTopBar;
 import the.one.base.widge.MyTopBarLayout;
@@ -76,7 +76,7 @@ import static android.view.View.NO_ID;
  */
 public abstract class BaseFragment extends QMUIFragment implements BaseView, LifecycleObserver {
 
-    public final String TAG = this.getClass().getSimpleName();
+    protected final String TAG = this.getClass().getSimpleName();
 
     /**
      * @return
@@ -117,12 +117,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
      * @remark 默认根据当前TopBarLayout的背景颜色是否为白色或是否存在渐变色背景进行判断
      */
     protected boolean isStatusBarLightMode() {
-        return !StatusBarUtil.isTranslucent(getBaseFragmentActivity());
+        return StatusBarUtil.isWhiteBg(getBaseFragmentActivity());
     }
 
     /**
-     * BaseFragmentActivity 创建的是一个 QMUIWindowInsetLayout
-     * 所以用这个判断是不是根Fragment
+     * 是否为根Fragment：  getParentFragment() 为空
      */
     protected boolean isIndexFragment = false;
 
@@ -151,7 +150,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         }
         if (!isIndexFragment && mIsFirstLayInit) {
             mIsFirstLayInit = false;
-            Log.e(TAG, "onLazyResume: " );
             onLazyInit();
         }
     }
@@ -160,7 +158,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected void onEnterAnimationEnd(@Nullable Animation animation) {
         super.onEnterAnimationEnd(animation);
         if (isIndexFragment && mIsFirstLayInit) {
-            Log.e(TAG, "onEnterAnimationEnd: " );
             mIsFirstLayInit = false;
             onLazyInit();
         }
@@ -266,17 +263,13 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        isIndexFragment = container instanceof FrameLayout;
-        Log.e(TAG, "onCreateView: "+isIndexFragment );
-        boolean isViewPager =  container instanceof ViewPager;
-        Log.e(TAG, "onCreateView: 1"+ isViewPager);
+        isIndexFragment = null == getParentFragment();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 
     @Override
     protected View onCreateView() {
-        Log.e(TAG, "onCreateView: 11" );
         View mBody = getView(getContentViewId());
         if (getPresenter() != null)
             getPresenter().attachView(this,this);
@@ -304,7 +297,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         initView(mRootView);
 
         if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
-            setMargins(isNeedAround() ? rlParent : mStatusLayout, 0, 0, 0, 0);
+            ViewUtil.setMargins(isNeedAround() ? rlParent : mStatusLayout, 0, 0, 0, 0);
         }
         return mRootView;
     }
@@ -386,10 +379,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             return null;
         }
         return around.findViewById(id);
-    }
-
-    public void startBrotherFragment(BaseFragment fragment) {
-        startFragment(fragment);
     }
 
     @Override
@@ -597,17 +586,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     protected int successType = 1;
 
-
     public void finish() {
         popBackStack();
-    }
-
-    public static void setMargins(View v, int l, int t, int r, int b) {
-        if (null != v && v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            p.setMargins(l, t, r, b);
-            v.requestLayout();
-        }
     }
 
     @Override
@@ -629,8 +609,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     private long exitTime = 0;
 
     @Override
-    protected void onBackPressed() {
-        if (isExitFragment()) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK&&isExitFragment()){
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 //弹出提示，可以有多种方式
                 showToast("再点一次退出");
@@ -638,9 +618,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             } else {
                 _mActivity.finish();
             }
-            return;
+            return true;
         }
-        super.onBackPressed();
+        return super.onKeyDown(keyCode, event);
     }
 
 }

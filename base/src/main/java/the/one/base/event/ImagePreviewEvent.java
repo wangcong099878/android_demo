@@ -37,6 +37,7 @@ public class ImagePreviewEvent implements Parcelable {
     private List<ImagePreviewBean> previewBeans;
     private int position = 0;
     private boolean needDown;
+    private boolean isWhiteTheme;
 
     public ImagePreviewEvent(List<ImagePreviewBean> previewBeans) {
         this.previewBeans = previewBeans;
@@ -77,6 +78,14 @@ public class ImagePreviewEvent implements Parcelable {
         this.needDown = needDown;
     }
 
+    public boolean isWhiteTheme() {
+        return isWhiteTheme;
+    }
+
+    public void setWhiteTheme(boolean whiteTheme) {
+        isWhiteTheme = whiteTheme;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -87,15 +96,17 @@ public class ImagePreviewEvent implements Parcelable {
         dest.writeTypedList(this.previewBeans);
         dest.writeInt(this.position);
         dest.writeByte(this.needDown ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isWhiteTheme ? (byte) 1 : (byte) 0);
     }
 
     protected ImagePreviewEvent(Parcel in) {
         this.previewBeans = in.createTypedArrayList(ImagePreviewBean.CREATOR);
         this.position = in.readInt();
         this.needDown = in.readByte() != 0;
+        this.isWhiteTheme = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<ImagePreviewEvent> CREATOR = new Parcelable.Creator<ImagePreviewEvent>() {
+    public static final Creator<ImagePreviewEvent> CREATOR = new Creator<ImagePreviewEvent>() {
         @Override
         public ImagePreviewEvent createFromParcel(Parcel source) {
             return new ImagePreviewEvent(source);

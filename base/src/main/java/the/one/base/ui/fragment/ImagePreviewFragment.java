@@ -19,6 +19,7 @@ package the.one.base.ui.fragment;
 //      ┗┻┛　┗┻┛
 
 import android.os.Bundle;
+import android.view.View;
 
 import the.one.base.constant.DataConstant;
 import the.one.base.event.ImagePreviewEvent;
@@ -43,13 +44,24 @@ public class ImagePreviewFragment extends BaseImageSnapFragment<ImagePreviewBean
     }
 
     private int mImageCount;
+    private ImagePreviewEvent mPreviewEvent;
+
+    @Override
+    protected boolean isStatusBarLightMode() {
+        return super.isStatusBarLightMode() || mPreviewEvent.isWhiteTheme();
+    }
+
+    @Override
+    protected void initView(View rootView) {
+        Bundle bundle = getArguments();
+        if (null == bundle) popBackStack();
+        mPreviewEvent = bundle.getParcelable(DataConstant.DATA);
+        if (null == mPreviewEvent) popBackStack();
+        super.initView(rootView);
+    }
 
     @Override
     protected void requestServer() {
-        Bundle bundle = getArguments();
-        if (null == bundle) popBackStack();
-        ImagePreviewEvent mPreviewEvent = bundle.getParcelable(DataConstant.DATA);
-        if (null == mPreviewEvent) popBackStack();
         onComplete(mPreviewEvent.getPreviewBeans());
         mImageCount = mPreviewEvent.getPreviewBeans().size();
         onNormal();

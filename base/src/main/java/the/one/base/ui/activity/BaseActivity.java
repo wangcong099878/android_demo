@@ -60,6 +60,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     protected final String TAG = this.getClass().getSimpleName();
 
+    protected StatusLayout mStatusLayout;
+    protected QMUITipDialog loadingDialog;
+    protected the.one.base.widge.ProgressDialog progressDialog;
+    private Unbinder unbinder;
+
     protected abstract int getContentViewId();
 
     protected abstract void initView(View mRootView);
@@ -85,20 +90,19 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         return false;
     }
 
+    /**
+     * 自动根据TopBar的背景颜色判断
+     * @return
+     */
     protected boolean isStatusBarLightMode() {
-        return !StatusBarUtil.isTranslucent(this);
+        return StatusBarUtil.isWhiteBg(this);
     }
 
-    protected StatusLayout mStatusLayout;
-    protected QMUITipDialog loadingDialog;
-    protected the.one.base.widge.ProgressDialog progressDialog;
-    private Unbinder unbinder;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AppMourningThemeUtil.notify(getWindow());
-        setSkinManager(null);
+    /**
+     * 更新状态栏模式
+     * @remark LIGHT 白色背景黑色图标  DARK 深色背景 白色图标
+     */
+    protected void updateStatusBarMode(){
         if (isStatusBarLightMode()) {
             QMUIStatusBarHelper.translucent(this);
             QMUIStatusBarHelper.setStatusBarLightMode(this);
@@ -106,6 +110,14 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
             QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
             QMUIStatusBarHelper.setStatusBarDarkMode(this);
         }
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AppMourningThemeUtil.notify(getWindow());
+        setSkinManager(null);
+        updateStatusBarMode();
         View mRootView = getView(getContentViewId());
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);

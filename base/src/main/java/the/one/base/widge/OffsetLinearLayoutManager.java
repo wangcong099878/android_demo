@@ -1,4 +1,4 @@
-package the.one.base.util;
+package the.one.base.widge;
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -26,13 +26,15 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import the.one.base.util.RecyclerViewUtil;
 
 /**
  * @author The one
  * @date 2020/4/9 0009
- * @describe https://www.jianshu.com/p/b839abe49e1f
+ * @describe 用于计算RecyclerView滑动距离,但是会影响到RecyclerView的ScrollBar的显示
+ *           适用于有头部和尾部的计算，普通的滑动距离用{@link RecyclerViewUtil}来计算
  * @email 625805189@qq.com
- * @remark
+ * @remark https://www.jianshu.com/p/b839abe49e1f
  */
 public class OffsetLinearLayoutManager extends LinearLayoutManager {
 
@@ -52,6 +54,11 @@ public class OffsetLinearLayoutManager extends LinearLayoutManager {
         }
     }
 
+    /**
+     * 调用此方法获取滑动距离
+     * @param state
+     * @return
+     */
     @Override
     public int computeVerticalScrollOffset(RecyclerView.State state) {
         if (getChildCount() == 0) {

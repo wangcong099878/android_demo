@@ -38,8 +38,11 @@ import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
+import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
 import com.qmuiteam.qmui.util.QMUILangHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
 import com.qmuiteam.qmui.widget.webview.QMUIWebView;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewClient;
@@ -138,6 +141,9 @@ public class BaseWebExplorerActivity extends BaseActivity {
             mNeedDecodeUrl = intent.getBooleanExtra(EXTRA_NEED_DECODE, false);
             mIsChangeTitle = intent.getBooleanExtra(EXTRA_CHANGE_TITLE, true);
             mIsWhiteBg = intent.getBooleanExtra(EXTRA_TITLE_COLOR, false);
+            if (mIsWhiteBg) {
+                QMUIStatusBarHelper.setStatusBarLightMode(this);
+            }
             if (url != null && url.length() > 0) {
                 handleUrl(url);
             }
@@ -161,13 +167,20 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     protected void initTopBar() {
-        mTopBarLayout.addLeftBackImageButton().setOnClickListener(new View.OnClickListener() {
+        QMUIAlphaImageButton mBackBtn;
+        QMUIQQFaceView title = mTopBarLayout.setTitle(mTitle);
+        if (mIsWhiteBg) {
+            mTopBarLayout.setBackgroundColor(getColorr(R.color.white));
+            mBackBtn = mTopBarLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button);
+            title.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+        } else
+            mBackBtn = mTopBarLayout.addLeftBackImageButton();
+        mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                doOnBackPressed();
+            public void onClick(View v) {
+                    onBackPressed();
             }
         });
-        mTopBarLayout.setTitle(mTitle);
     }
 
     private void updateTitle(String title) {
@@ -252,18 +265,19 @@ public class BaseWebExplorerActivity extends BaseActivity {
 
     protected void onScrollWebContent(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         // 滑动后添加分割线
-        updateTopBarDivider(scrollY>10);
+        updateTopBarDivider(scrollY > 10);
     }
 
     /**
      * 更新分割线
+     *
      * @param show 是否显示分割线
      * @remark 为了避免重复绘制，用一个变量控制
      */
-    private void updateTopBarDivider(boolean show){
-        if(isSeparatorShow == show) return;
+    private void updateTopBarDivider(boolean show) {
+        if (isSeparatorShow == show) return;
         isSeparatorShow = show;
-        mTopBarLayout.updateBottomDivider(0,0,isSeparatorShow?1:0,getColorr(R.color.qmui_config_color_separator));
+        mTopBarLayout.updateBottomDivider(0, 0, isSeparatorShow ? 1 : 0, getColorr(R.color.qmui_config_color_separator));
     }
 
     private void handleUrl(String url) {
@@ -512,7 +526,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
     }
 
     protected void startPhotoWatchActivity(ArrayList<String> itemData, int position) {
-        ImagePreviewUtil.start(this,itemData,position);
+        ImagePreviewUtil.start(this, itemData, position, true, mIsWhiteBg);
     }
 
     @Override

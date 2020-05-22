@@ -115,6 +115,7 @@ public class DownloadService extends Service {
                             AppInfoManager.installApk(DownloadService.this, response);
                         } else if (mDownload.isImage()) {
                             updateLocationFile(response);
+                            ToastUtil.showToast("已下载: "+response.getAbsolutePath());
                         }
                         BroadCastUtil.send(DownloadService.this, DOWNLOAD_OK);
                         updateNotification("下载完成", true);

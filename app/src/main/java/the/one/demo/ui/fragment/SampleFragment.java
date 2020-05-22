@@ -134,6 +134,6 @@ public class SampleFragment extends BaseGroupListFragment {
     private void startBaseWebExplorerActivity(){
         String title = "每日一笑";
         String url = "http://qt.qq.com/php_cgi/news/php/varcache_mcnarticle.php?id=&doc_type=0&docid=971312304452308411&areaid=18&version=$PROTO_VERSION$";
-        BaseWebExplorerActivity.newInstance(_mActivity, title, url, false);
+        BaseWebExplorerActivity.newInstance(_mActivity, title, url, false,false,false);
     }
 }

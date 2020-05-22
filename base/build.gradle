@@ -21,9 +21,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api "androidx.appcompat:appcompat:$appcompatVersion"
-    api "androidx.cardview:cardview:$cardviewVersion"
-    api "com.google.android.material:material:$materialVersion"
     api "androidx.legacy:legacy-support-v4:1.0.0"
     api "com.qmuiteam:qmui:$qmuiVersion"
     api "com.qmuiteam:arch:$archVersion"
@@ -36,7 +33,6 @@ dependencies {
     api "com.belerweb:pinyin4j:$pinyin4jVersion"
     api "androidx.multidex:multidex:$multidexVersion"
     api "com.github.tbruyelle:rxpermissions:$rxpermissionsVersion"
-    api "com.ms-square:expandableTextView:$expandableTextViewVersion"
     api "com.orhanobut:logger:$loggerVersion"
     api "top.androidman:superbutton:$superbuttonVersion"
     api "com.github.lzyzsd:jsbridge:$jsbridgeVersion"
@@ -55,8 +51,8 @@ dependencies {
 
     api "com.tencent:mmkv-static:$mmkvVersion"
     api "org.jsoup:jsoup:$jsoupVersion"
-    api "org.litepal.android:java:$litepalVersion"  // 数据库
+    api "org.litepal.android:java:$litePalVersion"  // 数据库
 
-    implementation 'com.daimajia.easing:library:2.0@aar'
-    implementation 'com.daimajia.androidanimations:library:2.2@aar'
+    api 'com.daimajia.easing:library:2.0@aar'
+    api 'com.daimajia.androidanimations:library:2.2@aar'
 }

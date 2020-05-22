@@ -10,4 +10,5 @@ public class MzituActivity extends BaseFragmentActivity {
     protected BaseFragment getFirstFragment() {
         return new MzituFragment();
     }
+
 }

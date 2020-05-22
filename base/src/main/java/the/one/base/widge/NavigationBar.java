@@ -41,11 +41,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
@@ -55,11 +50,15 @@ import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import the.one.base.R;
 import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.constant.Anim;
 import the.one.base.model.TabBean;
-import the.one.base.ui.fragment.BaseFragment;
+import the.one.base.util.ViewUtil;
 
 import static android.widget.LinearLayout.VERTICAL;
 
@@ -343,7 +342,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
 
 
         if (hasPadding) {
-            BaseFragment.setMargins(mViewPager,0,0,0, (int) (navigationHeight + lineHeight));
+            ViewUtil.setMargins(mViewPager,0,0,0, (int) (navigationHeight + lineHeight));
         }
 
         RelativeLayout.LayoutParams lineParams = (RelativeLayout.LayoutParams) lineView.getLayoutParams();

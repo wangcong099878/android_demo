@@ -33,6 +33,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import the.one.base.Interface.IPageInfo;
@@ -40,7 +41,6 @@ import the.one.base.Interface.OnTopBarDoubleClickListener;
 import the.one.base.R;
 import the.one.base.ui.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
-import the.one.base.util.OffsetLinearLayoutManager;
 import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
@@ -204,7 +204,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
                 ((StaggeredGridLayoutManager) layoutManager).setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
                 break;
             default:
-                layoutManager = new OffsetLinearLayoutManager(getActivity());
+                layoutManager = new LinearLayoutManager(getActivity());
                 break;
         }
         return layoutManager;

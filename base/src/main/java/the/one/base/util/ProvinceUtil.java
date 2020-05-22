@@ -38,8 +38,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import the.one.base.Interface.ICitySectionListener;
-import the.one.base.Interface.IProvinceListener;
+import the.one.base.Interface.OnCitySectionCompleteListener;
+import the.one.base.Interface.OnProvinceCompleteListener;
 import the.one.base.model.Area;
 import the.one.base.model.City;
 import the.one.base.model.CitySection;
@@ -62,11 +62,11 @@ public class ProvinceUtil {
     private static final String GET_PROVINCE_URL = "http://www.mca.gov.cn/article/sj/xzqh/2020/2020/202003061536.html";
 
     /**
-     * 获取数据
+     * 先从缓存获取数据，没有再读JSON文件，再没有才从网络获取
      *
      * @param listener
      */
-    public static void getProvinceList( IProvinceListener listener) {
+    public static void getProvinceList(OnProvinceCompleteListener listener) {
         if (null != mProvinces && mProvinces.size() > 0) {
             if (null != listener) listener.onComplete(mProvinces);
             return;
@@ -79,20 +79,20 @@ public class ProvinceUtil {
      *
      * @param listener
      */
-    public static void getProvinceJsonData( IProvinceListener listener) {
+    public static void getProvinceJsonData(OnProvinceCompleteListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 File file = new File(FileDirectoryUtil.getProvinceJsonPath());
                 if (file.exists()) {
                     mProvinces = getProvincesFromJson();
-                    if (null != listener ) {
+                    if (null != listener) {
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 listener.onComplete(mProvinces);
                             }
-                        },500);
+                        }, 200);
                     }
                     return;
                 }
@@ -269,7 +269,7 @@ public class ProvinceUtil {
     }
 
     private static List<Province> getProvincesFromJson() {
-        Log.e(TAG, "getProvincesFromJson: "+ Thread.currentThread().getName() );
+        Log.e(TAG, "getProvincesFromJson: " + Thread.currentThread().getName());
         StringBuilder jsonSB = new StringBuilder();
         try {
             File file = new File(FileDirectoryUtil.getProvinceJsonPath());
@@ -301,13 +301,13 @@ public class ProvinceUtil {
      *
      * @param listener
      */
-    public static void getCitySections( ICitySectionListener listener) {
+    public static void getCitySections(OnCitySectionCompleteListener listener) {
         if (null != mCitySections && mCitySections.size() > 0) {
             if (null != listener)
                 listener.onCitySectionComplete(mCitySections);
             return;
         }
-        getProvinceList(new IProvinceListener() {
+        getProvinceList(new OnProvinceCompleteListener() {
             @Override
             public void onComplete(List<Province> provinces) {
                 if (null != listener) {

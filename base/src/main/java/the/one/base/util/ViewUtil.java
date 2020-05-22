@@ -19,6 +19,7 @@ package the.one.base.util;
 //      ┗┻┛　┗┻┛
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * @author The one
@@ -41,11 +42,32 @@ public class ViewUtil {
         setViewsVisible(View.INVISIBLE,views);
     }
 
+    public static void setViewsVisible(boolean visible,View... views){
+        if(visible) showViews(views);
+        else goneViews(views);
+    }
+
     private static void setViewsVisible(int visible,View... views){
         for (View view:views){
             if(null != view && view.getVisibility() != visible){
                 view.setVisibility(visible);
             }
+        }
+    }
+
+    public static boolean isVisible(View view) {
+        return view.getVisibility() == View.VISIBLE;
+    }
+
+    public static boolean isGone(View view) {
+        return view.getVisibility() == View.GONE;
+    }
+
+    public static void setMargins(View v, int l, int t, int r, int b) {
+        if (null != v && v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(l, t, r, b);
+            v.requestLayout();
         }
     }
 

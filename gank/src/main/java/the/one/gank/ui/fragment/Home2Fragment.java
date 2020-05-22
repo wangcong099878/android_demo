@@ -17,12 +17,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.ui.activity.BaseWebExplorerActivity;
 import the.one.base.ui.fragment.BaseDataFragment;
 import the.one.base.ui.presenter.BasePresenter;
-import the.one.base.util.OffsetLinearLayoutManager;
 import the.one.base.util.QMUIStatusBarHelper;
+import the.one.base.util.ViewUtil;
+import the.one.base.widge.OffsetLinearLayoutManager;
 import the.one.gank.R;
 import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.GankBean;
@@ -102,7 +104,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         mTitleView.getPaint().setFakeBoldText(true);
         super.initView(rootView);
         initBanner();
-        setMargins(mStatusLayout, 0, 0, 0, 0);
+        ViewUtil.setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
         recycleView.setItemViewCacheSize(50);
     }
@@ -124,6 +126,11 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                     }
                 });
         adapter.addHeaderView(mBannerViewPager);
+    }
+
+    @Override
+    protected RecyclerView.LayoutManager getLayoutManager(int type) {
+        return new OffsetLinearLayoutManager(_mActivity);
     }
 
     @Override
@@ -155,7 +162,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
                 // 2
                 //mTopLayout.setBackgroundAlpha((int) (percent * 255));
 
-                updateTitle(offsetLinearLayoutManager);
+                updateTitle();
             }
         };
     }
@@ -169,7 +176,8 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         }
     }
 
-    private void updateTitle(OffsetLinearLayoutManager linearLayoutManager) {
+    private void updateTitle() {
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recycleView.getLayoutManager();
         if (null == linearLayoutManager) return;
         int position = linearLayoutManager.findFirstVisibleItemPosition();
         if (position > 0) {

@@ -20,7 +20,7 @@ package the.one.base.Interface;
 
 import java.util.List;
 
-import the.one.base.model.Province;
+import the.one.base.model.CitySection;
 
 /**
  * @author The one
@@ -29,10 +29,10 @@ import the.one.base.model.Province;
  * @email 625805189@qq.com
  * @remark
  */
-public interface IProvinceListener {
+public interface OnCitySectionCompleteListener {
 
-    void onComplete(List<Province> provinces);
+    void onCitySectionComplete(List<CitySection> provinces);
 
-    void onError();
+    void onCitySectionError();
 
 }

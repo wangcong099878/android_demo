@@ -49,11 +49,18 @@ public class ImagePreviewUtil {
     }
 
     public static void start(Activity activity, List<String> paths, int position) {
+        start(activity,paths,position,false,false);
+    }
+
+    public static void start(Activity activity, List<String> paths, int position,boolean needDown,boolean isWhiteTheme) {
         List<ImagePreviewBean> previewBeans = new ArrayList<>();
         for (String path : paths) {
             previewBeans.add(new ImagePreviewBean(path));
         }
-        start(activity, ImagePreviewActivity.class, new ImagePreviewEvent(previewBeans, position));
+        ImagePreviewEvent previewEvent = new ImagePreviewEvent(previewBeans,position);
+        previewEvent.setNeedDown(needDown);
+        previewEvent.setWhiteTheme(isWhiteTheme);
+        start(activity, ImagePreviewActivity.class, previewEvent);
     }
 
     public static void start(Activity activity, ImagePreviewEvent previewEvent) {

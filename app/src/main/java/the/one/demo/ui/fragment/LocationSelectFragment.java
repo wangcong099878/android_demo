@@ -2,9 +2,7 @@ package the.one.demo.ui.fragment;
 
 import android.Manifest;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.qmuiteam.qmui.widget.QMUIEmptyView;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
@@ -14,13 +12,12 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import the.one.base.Interface.IProvinceListener;
+import the.one.base.Interface.OnProvinceCompleteListener;
 import the.one.base.Interface.OnCitySelectListener;
 import the.one.base.model.Area;
 import the.one.base.model.City;
 import the.one.base.model.Province;
 import the.one.base.ui.fragment.BaseGroupListFragment;
-import the.one.base.ui.fragment.BaseCitySelectFragment;
 import the.one.base.util.ProvinceUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.widge.TheCitySelectBottomSheetBuilder;
@@ -59,9 +56,10 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("地理位置选择");
-        mDialog = CreateDetailItemView("Dialog样式", "适用于选择地址", true);
-        mLetterSearch = CreateDetailItemView("侧边快速查询样式", "适用于选择城市", true);
+        initFragmentBack("地址选择");
+
+        mDialog = CreateDetailItemView("Dialog样式", "适用于选择地址",false,true);
+        mLetterSearch = CreateDetailItemView("侧边快速查询样式", "适用于选择城市",false, true);
 
         mUpdate = CreateNormalItemView("更新本地JSON数据");
 
@@ -105,7 +103,7 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
                         .build().show();
             }else if(mClickView == mUpdate){
                 showLoadingDialog("更新中");
-                ProvinceUtil.getProvinceJsonData(new IProvinceListener() {
+                ProvinceUtil.getProvinceJsonData(new OnProvinceCompleteListener() {
                     @Override
                     public void onComplete(List<Province> provinces) {
                         hideLoadingDialog();
@@ -120,7 +118,7 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
                 });
             }
         }else{
-            QMUIDialogUtil.showNegativeDialog(_mActivity, "提示", "需要用到存储和网络权限,请打开。", "取消", new QMUIDialogAction.ActionListener() {
+            QMUIDialogUtil.showNegativeDialog(_mActivity, "提示", "需要用到存储权限,请打开。", "取消", new QMUIDialogAction.ActionListener() {
                 @Override
                 public void onClick(QMUIDialog dialog, int index) {
                     dialog.dismiss();
@@ -137,11 +135,12 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
 
     @Override
     public void onError(Throwable e) {
-
+        showFailTips("获取权限失败");
     }
 
     @Override
     public void onComplete() {
 
     }
+
 }
