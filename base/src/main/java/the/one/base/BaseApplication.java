@@ -10,11 +10,24 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
+
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
+import okhttp3.OkHttpClient;
 import rxhttp.HttpSender;
+import rxhttp.RxHttpPlugins;
+import rxhttp.wrapper.cahce.CacheMode;
+import rxhttp.wrapper.cookie.CookieStore;
+import rxhttp.wrapper.ssl.SSLSocketFactoryImpl;
+import rxhttp.wrapper.ssl.X509TrustManagerImpl;
 import the.one.base.ui.activity.CrashActivity;
+import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
 import the.one.base.util.crash.CrashConfig;
@@ -66,17 +79,36 @@ public  class BaseApplication extends MultiDexApplication {
         initCrashConfig();
         MultiDex.install(this);
         QMUISwipeBackActivityManager.init(this);
-        NotificationManager.getInstance(this).register();
+        NotificationManager.getInstance().register(this);
         SpUtil.init(this);
-        initOkHttpUtils();
+        initHttp();
         initLogger();
     }
 
     /**
      * OkHttpUtils适配https
+     * RxHttp设置缓存路径
      */
-    protected void initOkHttpUtils(){
-        OkHttpUtils.initClient(HttpSender.newOkClientBuilder().build());
+    protected void initHttp(){
+        HttpSender.init(getDefaultOkHttpClient(),BuildConfig.DEBUG);
+        //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
+        File cacheDir = new File(FileDirectoryUtil.getCachePath(), "RxHttpCache");
+        //设置最大缓存为10M，缓存有效时长为一个小时，这里全局不做缓存处理，某些需要缓存的请求单独设置
+        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, CacheMode.ONLY_NETWORK, 60 * 60 * 1000);
+        OkHttpUtils.initClient(getDefaultOkHttpClient());
+    }
+
+    protected OkHttpClient getDefaultOkHttpClient() {
+        X509TrustManager trustAllCert = new X509TrustManagerImpl();
+        SSLSocketFactory sslSocketFactory = new SSLSocketFactoryImpl(trustAllCert);
+        return new OkHttpClient.Builder()
+                .cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"),false))
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
+                .hostnameVerifier((hostname, session) -> true) //忽略host验证
+                .build();
     }
 
     /**

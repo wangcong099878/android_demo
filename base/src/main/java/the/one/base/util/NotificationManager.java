@@ -47,17 +47,17 @@ public class NotificationManager {
     private android.app.NotificationManager NotificationManager;
 
 
-    public static NotificationManager getInstance(Context context){
+    public static NotificationManager getInstance(){
         if(null == theNotificationManager)
             theNotificationManager = new NotificationManager();
-        mContext = context;
         return theNotificationManager;
     }
 
     /**
      * 注册 8.0 通知栏等级，应用开始时调用
      */
-    public void register(){
+    public void register(Context context){
+        mContext = context;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(LEVEL_HIGH_CHANNEL_ID, LEVEL_HIGH_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             createNotificationChannel(LEVEL_DEFAULT_CHANNEL_ID, LEVEL_DEFAULT_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
@@ -70,7 +70,8 @@ public class NotificationManager {
         getNotificationManager().createNotificationChannel(channel);
     }
 
-    public android.app.NotificationManager getNotificationManager(){
+    private android.app.NotificationManager getNotificationManager(){
+        if(null == mContext)  throw new IllegalArgumentException(" context is null,NotificationManager need register in Application");
         if(null == NotificationManager)
             NotificationManager = (android.app.NotificationManager) mContext.getSystemService(
                     NOTIFICATION_SERVICE);
