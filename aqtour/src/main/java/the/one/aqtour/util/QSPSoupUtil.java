@@ -1,6 +1,7 @@
 package the.one.aqtour.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,10 +31,11 @@ public class QSPSoupUtil {
      */
     public static List<QSPCategory> parseCategoryList(String response) {
         Document document = Jsoup.parse(response);
-        Elements elements = document.select("ul.stui-header__menu.type-slide").select("a");
+        Elements elements = document.select("ul.nav.navbar-nav.navbar-left").select("a");
         List<QSPCategory> categories = new ArrayList<>();
         for (Element element : elements) {
             String title = element.html();
+            if(title.contains("更多")) continue;
             String url = element.attr("href");
             categories.add(new QSPCategory(title, url));
         }
@@ -52,26 +54,33 @@ public class QSPSoupUtil {
         Document document = Jsoup.parse(response);
         QSPContent qspContent = new QSPContent();
         List<QSPVideoSection> videoSections = new ArrayList<>();
-        Elements elements = document.select("div.stui-pannel-box");
+        Elements elements = document.select("div.layout-box.clearfix");
+        Log.e(TAG, "parseVideoSections: "+elements.size() );
         for (Element element : elements) {
-            Element head = element.select("h3.title").first();
+            Element head = element.select("div.box-title").select("h3.m-0").first();
             String title = "";
             String titleRes = "";
+            String moreTitle = "";
             String moreUrl = "";
             if (null != head) {
-                Elements contents = element.select("div.stui-vodlist__box");
-                titleRes = head.select("img").attr("src");
-                title = head.select("a").html();
-                moreUrl = head.select("a").attr("href");
-                if (TextUtils.isEmpty(title)) {
-                    title = head.toString();
-                    title = title.substring(0, title.lastIndexOf("</h3>"));
-                    title = title.substring(title.lastIndexOf(">") + 1, title.length());
-                    title = title.trim();
+                title = head.html();
+                if (!TextUtils.isEmpty(title)) {
+                    String start = "</i>";
+                    title = title.substring(title.lastIndexOf(start)+start.length());
+                    Log.e(TAG, "parseVideoSections: "+title );
+                    titleRes = head.select("img").attr("src");
+                    title = head.select("a").html();
                 }
+                Element more = head.select("div.more.pull-right").select("a").first();
+                if(null != more){
+                    moreUrl = more.attr("href");
+                    moreTitle = more.attr("title");
+                }
+                Elements contents = element.select("li.col-md-2.col-sm-3.col-xs-4");
+                Log.e(TAG, "parseVideoSections: contents.size() = "+contents.size() );
                 if (!TextUtils.isEmpty(title)) {
                     if (isIndex && null != contents && contents.size() > 0)
-                        videoSections.add(new QSPVideoSection( title, QSPConstant.BASE_URL + titleRes, moreUrl));
+                        videoSections.add(new QSPVideoSection( title, QSPConstant.BASE_URL + titleRes, moreUrl,moreTitle));
                     parseVideo(contents, videoSections, null);
                 }
             }
@@ -89,12 +98,13 @@ public class QSPSoupUtil {
      */
     private static void parseVideo(Elements contents, List<QSPVideoSection> videoSections, List<QSPVideo> videos) {
         for (Element content : contents) {
-            Element temp = content.selectFirst("a.stui-vodlist__thumb.lazyload");
+            Element temp = content.selectFirst("a.video-pic.loading");
             String name = temp.attr("title");
-            String cover = temp.attr("data-original");
+            String cover = content.attr("data-original");
             String url = temp.attr("href");
-            String actors = content.select("p.text.text-overflow.text-muted.hidden-xs").html();
-            String remark = content.select("span.pic-text.text-right").html();
+            String actors = content.select("div.subtitle.text-muted.text-overflow.hidden-xs").html();
+            String remark = content.select("span.note.text-bg-r").html();
+            Log.e(TAG, "parseVideo: name = "+name +"  cover = "+cover+" url = "+url+"  actors = "+actors +" remark = "+remark );
             QSPVideo video = new QSPVideo(name, actors, url, cover, remark);
             if (null == videoSections) {
                 videos.add(video);

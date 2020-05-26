@@ -88,10 +88,7 @@ public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategor
     @Override
     protected void requestServer() {
         showLoadingPage();
-        if (null == mCategories || mCategories.size() == 0)
-            mPresenter.getCategoryList();
-        else
-            onComplete(mCategories);
+        mPresenter.getCategoryList();
     }
 
     @Override

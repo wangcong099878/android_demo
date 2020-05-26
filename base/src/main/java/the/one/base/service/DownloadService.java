@@ -127,7 +127,7 @@ public class DownloadService extends Service {
      * 初始化通知栏
      */
     private void initNotification() {
-        theNotificationManager = NotificationManager.getInstance(this);
+        theNotificationManager = NotificationManager.getInstance();
         mBuilder = theNotificationManager.createNotification(NOTIFICATION_ID,
                 NotificationManager.LEVEL_DEFAULT_CHANNEL_ID,
                 "开始下载",

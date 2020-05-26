@@ -16,21 +16,21 @@ public class QSPCategoryPresenter extends BasePresenter<QSPCategoryView> {
 
     public void getCategoryList() {
         RxHttp.get(QSPConstant.BASE_URL)
-            .asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .as(RxLife.as(this))
-            .subscribe(s -> {
-                //请求成功
-                getView().onComplete(QSPSoupUtil.parseCategoryList(s));
-            }, (OnError) error -> {
-                //请求失败
-               onFail(error.getErrorMsg(), new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       getCategoryList();
-                   }
-               });
-            });
+                .asString()
+                .observeOn(AndroidSchedulers.mainThread())
+                .as(RxLife.as(this))
+                .subscribe(s -> {
+                    //请求成功
+                    getView().onComplete(QSPSoupUtil.parseCategoryList(s));
+                }, (OnError) error -> {
+                    //请求失败
+                    onFail(error.getErrorMsg(), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getCategoryList();
+                        }
+                    });
+                });
 
     }
 

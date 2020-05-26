@@ -1,6 +1,7 @@
 package the.one.aqtour.ui.activity;
 
 import android.Manifest;
+
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -8,8 +9,12 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import org.litepal.tablemanager.Connector;
 
 import java.io.File;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import rxhttp.wrapper.callback.Function;
+import rxhttp.wrapper.param.Param;
+import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.m3u8downloader.M3U8Downloader;
 import the.one.aqtour.m3u8downloader.M3U8DownloaderConfig;
 import the.one.aqtour.ui.fragment.QSPIndexFragment;
@@ -46,9 +51,19 @@ import the.one.base.util.FileDirectoryUtil;
  */
 public class IndexActivity extends BaseFragmentActivity implements  Observer<Boolean> {
 
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36";
+
     @Override
     protected BaseFragment getFirstFragment() {
         requestPermission();
+        RxHttp.setOnParamAssembly(new Function<Param,Param>() {
+            @Override
+            public Param apply(Param p) throws Exception {
+                //添加公共请求头
+                return p.addHeader("User-Agent", USER_AGENT);
+            }
+
+        });
         return new QSPIndexFragment();
     }
 
