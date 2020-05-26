@@ -35,7 +35,7 @@ public class QSPSoupUtil {
         List<QSPCategory> categories = new ArrayList<>();
         for (Element element : elements) {
             String title = element.html();
-            if(title.contains("更多")) continue;
+            if (title.contains("更多")) continue;
             String url = element.attr("href");
             categories.add(new QSPCategory(title, url));
         }
@@ -55,7 +55,6 @@ public class QSPSoupUtil {
         QSPContent qspContent = new QSPContent();
         List<QSPVideoSection> videoSections = new ArrayList<>();
         Elements elements = document.select("div.layout-box.clearfix");
-        Log.e(TAG, "parseVideoSections: "+elements.size() );
         for (Element element : elements) {
             Element head = element.select("div.box-title").select("h3.m-0").first();
             String title = "";
@@ -66,22 +65,28 @@ public class QSPSoupUtil {
                 title = head.html();
                 if (!TextUtils.isEmpty(title)) {
                     String start = "</i>";
-                    title = title.substring(title.lastIndexOf(start)+start.length());
-                    Log.e(TAG, "parseVideoSections: "+title );
-                    titleRes = head.select("img").attr("src");
-                    title = head.select("a").html();
+                    if (title.contains(start)) {
+                        title = title.substring(title.lastIndexOf(start) + start.length());
+                    }
+//                    titleRes = head.select("img").attr("src");
                 }
                 Element more = head.select("div.more.pull-right").select("a").first();
-                if(null != more){
+                if (null != more) {
                     moreUrl = more.attr("href");
                     moreTitle = more.attr("title");
                 }
                 Elements contents = element.select("li.col-md-2.col-sm-3.col-xs-4");
-                Log.e(TAG, "parseVideoSections: contents.size() = "+contents.size() );
-                if (!TextUtils.isEmpty(title)) {
-                    if (isIndex && null != contents && contents.size() > 0)
-                        videoSections.add(new QSPVideoSection( title, QSPConstant.BASE_URL + titleRes, moreUrl,moreTitle));
-                    parseVideo(contents, videoSections, null);
+                if (contents.size() == 0) {
+                    contents = element.select("li.col-md-3.col-sm-3.col-xs-4");
+                }
+                if (contents.size() == 0) {
+                    contents = element.select("li.swiper-slide");
+                }
+                if (!TextUtils.isEmpty(title) && contents.size() > 0) {
+                    if (!title.contains("星")) {
+                        videoSections.add(new QSPVideoSection(title, titleRes, moreUrl, moreTitle));
+                        parseVideo(contents, videoSections, null);
+                    }
                 }
             }
         }
@@ -98,18 +103,31 @@ public class QSPSoupUtil {
      */
     private static void parseVideo(Elements contents, List<QSPVideoSection> videoSections, List<QSPVideo> videos) {
         for (Element content : contents) {
-            Element temp = content.selectFirst("a.video-pic.loading");
-            String name = temp.attr("title");
-            String cover = content.attr("data-original");
-            String url = temp.attr("href");
-            String actors = content.select("div.subtitle.text-muted.text-overflow.hidden-xs").html();
-            String remark = content.select("span.note.text-bg-r").html();
-            Log.e(TAG, "parseVideo: name = "+name +"  cover = "+cover+" url = "+url+"  actors = "+actors +" remark = "+remark );
-            QSPVideo video = new QSPVideo(name, actors, url, cover, remark);
-            if (null == videoSections) {
-                videos.add(video);
-            } else
-                videoSections.add(new QSPVideoSection(video));
+            try {
+                Element temp = content.selectFirst("a");
+                String name = temp.attr("title");
+                if (TextUtils.isEmpty(name)) {
+                    name = temp.select("span").html();
+                }
+                String cover = temp.attr("data-original");
+                if (TextUtils.isEmpty(cover)) {
+                    cover = temp.toString();
+                    String start = "data-background=\"";
+                    String end = "\"><span";
+                    cover = cover.substring(cover.indexOf(start) + start.length(), cover.indexOf(end));
+                }
+                String url = temp.attr("href");
+                String actors = content.select("div.subtitle.text-muted.text-overflow.hidden-xs").html();
+                String remark = content.select("span.note.text-bg-r").html();
+                QSPVideo video = new QSPVideo(name, actors, url, cover, remark);
+                if (null == videoSections) {
+                    videos.add(video);
+                } else
+                    videoSections.add(new QSPVideoSection(video));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -120,31 +138,41 @@ public class QSPSoupUtil {
      * @param video
      */
     public static void parseVideoDetail(String response, QSPVideo video) {
+        Log.e(TAG, "parseVideoDetail: ");
         Document document = Jsoup.parse(response);
-        Element detail = document.selectFirst("div.stui-content__detail");
-        String score = detail.select("div.star").select("span.branch").html();
-        try {
-            if (!TextUtils.isEmpty(score)) {
-                video.score = Float.parseFloat(score);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Elements keys = detail.select("span.text-muted");
-        Elements values = detail.select("a");
-        video.videoInfos = new ArrayList<>();
-        for (int i = 0; i < keys.size() - 1; i++) {
-            try {
-                String key = keys.get(i).html();
-                String value = values.get(i).html();
-                video.videoInfos.add(new QSPVideoInfo(key, value));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        Elements playList = document.select("div.stui-pannel-box.b.playlist.mb");
+        Element detail = document.selectFirst("div.col-md-9.col-sm-12.col-xs-12").selectFirst("ul.info.clearfix");
+        Log.e(TAG, "parseVideoDetail: " + detail.toString());
+//        String score = detail.select("div.star").select("span.branch").html();
+//        try {
+//            if (!TextUtils.isEmpty(score)) {
+//                video.score = Float.parseFloat(score);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Elements infos = detail.select("li");
+//
+//        for (Element info: infos){
+//            String key = info.select("span").html();
+//            Log.e(TAG, "parseVideoDetail: "+key);
+//            String value = info.html();
+//
+//        }
+//        Elements keys = detail.select("span.text-muted");
+//        Elements values = detail.select("a");
+//        video.videoInfos = new ArrayList<>();
+//        for (int i = 0; i < keys.size() - 1; i++) {
+//            try {
+//                String key = keys.get(i).html();
+//                String value = values.get(i).html();
+//                video.videoInfos.add(new QSPVideoInfo(key, value));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+        Elements playList = document.select("div.playlist").select("ul.clearfix").first().select("a");
         video.series = parseSeriesSections(playList);
-        video.introduce = parseVideoIntroduce(document);
+        video.introduce = document.selectFirst("div.details-content").html();
         video.recommends = new ArrayList<>();
         video.recommends.addAll(parseVideoSections(response, true, 1).videoSections);
     }
@@ -158,13 +186,12 @@ public class QSPSoupUtil {
     private static List<QSPSeries> parseSeriesSections(Elements elements) {
         List<QSPSeries> series = new ArrayList<>();
         for (Element element : elements) {
-            Elements elements1 = element.select("a");
-            for (Element se : elements1) {
-                String name = se.html();
-                String url = se.attr("href");
-                series.add(new QSPSeries(name, url));
+            String name = element.html();
+            if(name.contains("span")){
+                name = name.substring(0,name.indexOf("<span"));
             }
-            break;
+            String url = element.attr("href");
+            series.add(new QSPSeries(name, url));
         }
         return series;
     }
@@ -179,7 +206,7 @@ public class QSPSoupUtil {
      * @return
      */
     private static String parseVideoIntroduce(Document document) {
-        Elements elements = document.selectFirst("div.detail.col-pd").select("p");
+        Elements elements = document.selectFirst("div.details-content").select("p");
         StringBuffer stringBuffer = new StringBuffer();
         for (int i = 0; i < elements.size(); i++) {
             String content = elements.get(i).html();
@@ -214,14 +241,13 @@ public class QSPSoupUtil {
      * @return
      */
     public static String getVideoPlayPath(String response) {
-        String path = "";
         Document document = Jsoup.parse(response);
-        Element element = document.selectFirst("div.stui-player__video.clearfix").selectFirst("script");
-        String urlStr = element.toString();
-        int start = urlStr.indexOf("http");
+        Element element = document.selectFirst("div.embed-responsive.embed-responsive-16by9").selectFirst("script");
+        String path = element.html();
+        int start = path.indexOf("http");
         String endStr = ".m3u8";
-        int end = urlStr.indexOf(".m3u8");
-        path = urlStr.substring(start, end + endStr.length());
+        int end = path.indexOf(".m3u8");
+        path = path.substring(start, end + endStr.length());
         path = path.replaceAll("\\\\", "");
         return path;
     }

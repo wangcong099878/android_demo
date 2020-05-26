@@ -2,6 +2,7 @@ package the.one.aqtour.ui.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.rxjava.rxlife.RxLife;
@@ -36,10 +37,9 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
      */
     public void getVideoDetail(final QSPVideo video) {
         getView().showLoadingPage();
-        RxHttp.get(getUrl(video.url))
+        RxHttp.get(video.url)
             .asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .as(RxLife.as(this))
+            .as(RxLife.asOnMain(this))
             .subscribe(s -> {
                 //请求成功
                 QSPSoupUtil.parseVideoDetail(s, video);
@@ -63,20 +63,19 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
      * @param url
      */
     public void getSeriesPlayPath(String url) {
-
-        RxHttp.get(getUrl(url))
+        Log.e(TAG, "getSeriesPlayPath: "+getUrl(url) );
+        RxHttp.get(url)
             .asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .as(RxLife.as(this))
+            .as(RxLife.asOnMain(this))
             .subscribe(s -> {
                 //请求成功
                 String path = QSPSoupUtil.getVideoPlayPath(s);
                 if (isViewAttached()) {
                     getView().onSeriesComplete(path);
                 }
-            }, throwable -> {
+            }, (OnError) error -> {
                 //请求失败
-                getView().showFailTips(throwable.getMessage());
+                getView().showFailTips(error.getErrorMsg());
                 getView().onSeriesError();
             });
 

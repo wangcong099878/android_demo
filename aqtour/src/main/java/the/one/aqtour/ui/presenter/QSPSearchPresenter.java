@@ -41,8 +41,7 @@ public class QSPSearchPresenter extends BaseVideoPresenter {
     public void getSearchVideoList(String search,int page){
         RxHttp.get(QSPConstant.getSearchUrl(search, page))
             .asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .as(RxLife.as(this))
+            .as(RxLife.asOnMain(this))
             .subscribe(s -> {
                 //请求成功
                 getView().onSuccess(QSPSoupUtil.parseSearchList(s));

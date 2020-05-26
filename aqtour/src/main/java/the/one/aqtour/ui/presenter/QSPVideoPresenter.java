@@ -12,23 +12,18 @@ import the.one.base.Interface.OnError;
 
 public class QSPVideoPresenter extends BaseVideoPresenter {
 
-    private boolean isIndex = false;
-
-    public void getVideoList(final String url, final int page) {
-        isIndex = url.equals("/");
-        String URL = QSPConstant.BASE_URL + url;
+    public void getVideoList(final String url, final int page,boolean isIndex) {
+        String URL =  url;
         if (!isIndex) {
             if (URL.endsWith(CATEGORY_FIX)) {
-                URL = URL.replace(CATEGORY_FIX, page + CATEGORY_FIX);
+                URL = url.replace(CATEGORY_FIX, page + CATEGORY_FIX);
             } else {
-                URL = URL.replace(FIX, "-" + page + FIX);
+                URL = url.replace(FIX, "-" + page + FIX);
             }
         }
-
         RxHttp.get(URL)
             .asString()
-            .observeOn(AndroidSchedulers.mainThread())
-            .as(RxLife.as(this))
+            .as(RxLife.asOnMain(this))
             .subscribe(s -> {
                 //请求成功
                 getView().onSuccess(QSPSoupUtil.parseVideoSections(s, isIndex, page));
@@ -40,7 +35,7 @@ public class QSPVideoPresenter extends BaseVideoPresenter {
                onFail(error.getErrorMsg(), new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                       getVideoList(url,page);
+                       getVideoList(url,page,isIndex);
                    }
                });
             });

@@ -28,8 +28,8 @@ public class QSPVideoAdapter extends BaseSectionQuickAdapter<QSPVideoSection,The
         helper.setText(R.id.tv_title,video.name)
                 .setText(R.id.tv_actors,video.actors)
                 .setText(R.id.tv_des,video.remark);
-        helper.setGone(R.id.tv_des,!TextUtils.isEmpty(video.remark));
-        helper.setGone(R.id.tv_actors,!TextUtils.isEmpty(video.actors));
+        helper.setGone(R.id.tv_des,TextUtils.isEmpty(video.remark));
+        helper.setGone(R.id.tv_actors,TextUtils.isEmpty(video.actors));
         CustomRoundAngleImageView ivCover = helper.getView(R.id.iv_cover);
         GlideUtil.load(getContext(),video.cover,ivCover);
     }

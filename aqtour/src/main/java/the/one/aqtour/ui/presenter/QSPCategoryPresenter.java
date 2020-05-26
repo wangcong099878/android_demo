@@ -15,10 +15,9 @@ import the.one.base.ui.presenter.BasePresenter;
 public class QSPCategoryPresenter extends BasePresenter<QSPCategoryView> {
 
     public void getCategoryList() {
-        RxHttp.get(QSPConstant.BASE_URL)
+        RxHttp.get("")
                 .asString()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(RxLife.as(this))
+                .as(RxLife.asOnMain(this))
                 .subscribe(s -> {
                     //请求成功
                     getView().onComplete(QSPSoupUtil.parseCategoryList(s));

@@ -22,7 +22,7 @@ public class QSPVideoFragment extends BaseVideoFragment {
 
     @Override
     protected void requestServer() {
-        mPresenter.getVideoList(mCategory.url, page);
+        mPresenter.getVideoList(mCategory.url, page,getParentFragment() != null);
     }
 
     @Override
