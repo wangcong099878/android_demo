@@ -8,7 +8,7 @@
         android:id="@+id/webview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?config_bg_color"/>
+        app:qmui_skin_background="?attr/app_skin_background_color_1"/>
 
     <the.one.base.widge.MyTopBarLayout
         android:id="@+id/topbar"
@@ -20,7 +20,7 @@
             android:id="@+id/progressbar"
             android:layout_width="match_parent"
             app:qmui_background_color="@color/qmui_config_color_white"
-            app:qmui_progress_color="?config_color"
+            app:qmui_progress_color="?attr/app_skin_primary_color"
             android:layout_gravity="bottom"
             android:layout_height="2dp" />
     </the.one.base.widge.MyTopBarLayout>

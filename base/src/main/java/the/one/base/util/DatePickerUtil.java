@@ -66,7 +66,7 @@ public class DatePickerUtil {
                 .setCancelTextColor(Color.RED)
                 .setOkTextColor(context.getResources().getColor(R.color.qmui_config_color_blue))
                 .setTitleTextColor(0xFF999999)
-                .setSelectedTextColor(QMUIResHelper.getAttrColor(context, R.attr.config_color))
+                .setSelectedTextColor(QMUIResHelper.getAttrColor(context, R.attr.app_skin_primary_color))
                 .setShowType(DateTimePicker.ShowType.DAY);
         return this;
     }

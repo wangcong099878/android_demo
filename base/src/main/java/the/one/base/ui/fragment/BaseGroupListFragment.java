@@ -65,6 +65,14 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         return false;
     }
 
+    /**
+     * ICON 是否随着tintColor变化
+     * @return
+     */
+    protected boolean isIconWithTintColor(){
+        return true;
+    }
+
     @Override
     protected int getContentViewId() {
         return R.layout.base_group_list;
@@ -143,6 +151,12 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         }
         if (drawable != NO_DRAWABLE)
             itemView.setImageDrawable(getDrawablee(drawable));
+        if(!isIconWithTintColor()){
+            // 去除 icon 的换肤设置
+            QMUICommonListItemView.SkinConfig skinConfig = new QMUICommonListItemView.SkinConfig();
+            skinConfig.iconTintColorRes = 0;
+            itemView.setSkinConfig(skinConfig);
+        }
         return itemView;
     }
 

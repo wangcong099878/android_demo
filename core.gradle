@@ -17,32 +17,32 @@ android {
         }
     }
 
-    signingConfigs {
-        release  {
-            storeFile file("D:\\GitProject\\TheBase\\keystore\\theone.jks")
+//    signingConfigs {
+//        release  {
+//            storeFile file("D:\\GitProject\\TheBase\\keystore\\theone.jks")
 //            storeFile file("D:\\Theone\\TheBase\\keystore\\theone.jks")
-            storePassword "areyoutheone"
-            keyAlias "areyou"
-            keyPassword "areyoutheone"
-        }
-    }
+//            storePassword "areyoutheone"
+//            keyAlias "areyou"
+//            keyPassword "areyoutheone"
+//        }
+//    }
 
-    buildTypes {
-        debug {
-            debuggable true
-            minifyEnabled false
-            signingConfig signingConfigs.release
-        }
-        release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            // 移除无用的resource文件
-            shrinkResources true
-            // Zipalign优化
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+//    buildTypes {
+//        debug {
+//            debuggable true
+//            minifyEnabled false
+//            signingConfig signingConfigs.release
+//        }
+//        release {
+//            signingConfig signingConfigs.release
+//            minifyEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources true
+//            // Zipalign优化
+//            zipAlignEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
 }
 
 

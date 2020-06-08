@@ -1,9 +1,11 @@
 package the.one.demo.ui.fragment;
 
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.span.QMUITouchableSpan;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.ui.fragment.BaseGroupListFragment;
@@ -39,7 +41,7 @@ import the.one.demo.R;
 public class StringUtilFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView ForegroundColorSpan,BackgroundColorSpan,StrikeThroughSpan,
-            UnderlineSpan,BOLD,ITALIC,BOLD_ITALIC;
+            UnderlineSpan,BOLD,ITALIC,BOLD_ITALIC,SKIN;
 
     private TextView tvImageSpan;
 
@@ -71,8 +73,29 @@ public class StringUtilFragment extends BaseGroupListFragment {
         ITALIC = CreateView(StringUtils.Type.ITALIC,"斜体");
         BOLD_ITALIC = CreateView(StringUtils.Type.BOLD_ITALIC,"粗体加斜体");
 
-        addToGroup(ForegroundColorSpan,BackgroundColorSpan,StrikeThroughSpan,
+        SKIN = CreateDetailItemView("","app_skin_string_util_sample_color",false,true);
+        SKIN.setText(getSkinItemContent());
+
+        addToGroup(SKIN,ForegroundColorSpan,BackgroundColorSpan,StrikeThroughSpan,
                 UnderlineSpan,BOLD,ITALIC,BOLD_ITALIC);
+    }
+
+    private SpannableString getSkinItemContent(){
+        String content = "这个颜色随着主题而变化";
+        String target = "颜色";
+        int[] index = StringUtils.parseIndex(content,target);
+        SpannableString sp = StringUtils.RelativeSizeSpannableString(content,target,1.3f);
+        sp.setSpan(new QMUITouchableSpan(SKIN.getTextView(),
+                R.attr.app_skin_string_util_sample_color,
+                R.attr.app_skin_string_util_sample_color,
+                R.attr.app_skin_background_color_1,
+                R.attr.app_skin_background_color_1) {
+            @Override
+            public void onSpanClick(View widget) {
+
+            }
+        }, index[0], index[1], Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        return sp;
     }
 
     private QMUICommonListItemView CreateView(StringUtils.Type type,String title){

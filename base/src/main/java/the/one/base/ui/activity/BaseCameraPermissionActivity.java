@@ -67,7 +67,6 @@ public abstract class BaseCameraPermissionActivity extends BaseActivity {
         //设置照相界面不休眠
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
         super.onCreate(savedInstanceState);
         requestPermission();
     }
@@ -133,9 +132,4 @@ public abstract class BaseCameraPermissionActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_still,R.anim.scale_exit);
-    }
 }

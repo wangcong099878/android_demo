@@ -421,7 +421,7 @@ public class AppInfoManager {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             uri= Uri.fromFile(file);
         } else {
-            // 声明需要的零时权限
+            // 声明需要的临时权限
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             // 第二个参数，即第一步中配置的authorities
             uri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider",

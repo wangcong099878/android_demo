@@ -7,6 +7,7 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import the.one.base.ui.activity.BaseWebExplorerActivity;
 import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.demo.ui.activity.CameraSamplePermissionActivity;
+import the.one.demo.skin.SkinManager;
 
 
 //  ┏┓　　　┏┓
@@ -38,7 +39,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR, WEB_VIEW, POPUP_LAYOUT, COLLAPSING_TOP_BAR,
             PULL_EXTEND, STATUS_BAR_HELP, STRING_UTIL, PROGRESS_DIALOG, CAMERA, DATE_PICKER, LETTER_SEARCH,
-            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST,WHITE_BLACK_THEME,IMAGE_SNAP;
+            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST,WHITE_BLACK_THEME,IMAGE_SNAP,THEME;
 
     @Override
     protected boolean isExitFragment() {
@@ -73,14 +74,16 @@ public class SampleFragment extends BaseGroupListFragment {
 
         WHITE_BLACK_THEME = CreateDetailItemView("AppMourningThemeUtil","让整个App黑白化",false,true);
 
+        THEME = CreateDetailItemView("QMUISkin","",true);
+
         TEST = CreateNormalItemView("测试");
 
-        showNewTips(false,IMAGE_SNAP);
+        showNewTips(false,IMAGE_SNAP,THEME);
         showNewTips(true,CITY_SELECT);
 
         addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,
                 SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,STICK_LAYOUT,IMAGE_SNAP);
-        addToGroup("工具", STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,WHITE_BLACK_THEME,CRASH);
+        addToGroup("工具",THEME, STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,WHITE_BLACK_THEME,CRASH);
 
         //addToGroup(TEST);
 
@@ -128,12 +131,15 @@ public class SampleFragment extends BaseGroupListFragment {
             startFragment(new MzituDetailFragment());
         }else if(v == WHITE_BLACK_THEME){
             startFragment(new BlackWhiteThemeFragment());
+        }else if(v == THEME){
+            SkinManager.showThemeDialog(_mActivity);
         }
     }
 
     private void startBaseWebExplorerActivity(){
         String title = "每日一笑";
         String url = "http://qt.qq.com/php_cgi/news/php/varcache_mcnarticle.php?id=&doc_type=0&docid=971312304452308411&areaid=18&version=$PROTO_VERSION$";
+//        url = "https://lol.qq.com/m/act/a20150319lolapp/exp_3.htm?iVideoId=10399828799771753716";
         BaseWebExplorerActivity.newInstance(_mActivity, title, url, false,false,false);
     }
 }

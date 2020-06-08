@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.qmuiteam.qmui.arch.QMUIFragment;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import androidx.annotation.IdRes;
@@ -36,7 +38,6 @@ import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
-import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.util.ViewUtil;
@@ -117,11 +118,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
      * @remark 默认根据当前TopBarLayout的背景颜色是否为白色或是否存在渐变色背景进行判断
      */
     protected boolean isStatusBarLightMode() {
-        return StatusBarUtil.isWhiteBg(getBaseFragmentActivity());
+        return StatusBarUtil.isWhiteBg(mRootView);
     }
 
     /**
-     * 是否为根Fragment：  getParentFragment() 为空
+     * 是否为根Fragment： getParentFragment() 为空
      */
     protected boolean isIndexFragment = false;
 
@@ -140,17 +141,23 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onLazyResume() {
         if (isNeedChangeStatusBarMode()) {
-            if (isStatusBarLightMode()) {
-                QMUIStatusBarHelper.translucent(getBaseFragmentActivity());
-                QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
-            } else {
-                QMUIStatusBarHelper.translucent(getBaseFragmentActivity(), getColorr(R.color.qmui_config_color_transparent));
-                QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
-            }
+            updateStatusBarMode(isStatusBarLightMode());
         }
         if (!isIndexFragment && mIsFirstLayInit) {
             mIsFirstLayInit = false;
             onLazyInit();
+        }
+    }
+
+    /**
+     * 更新状态栏模式
+     * @param isLight
+     */
+    protected void updateStatusBarMode(boolean isLight) {
+        if (isLight) {
+            QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
+        } else {
+            QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
         }
     }
 
@@ -255,10 +262,30 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         _mActivity = null;
     }
 
+    QMUISkinManager mSkinManager;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // 注入 QMUISkinManager
+        mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mSkinManager != null) {
+            mSkinManager.register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mSkinManager != null) {
+            mSkinManager.unRegister(this);
+        }
     }
 
     @Override
@@ -267,12 +294,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
     @Override
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
         if (getPresenter() != null)
-            getPresenter().attachView(this,this);
+            getPresenter().attachView(this, this);
         if (isRegisterEventBus())
             EventBusUtil.register(this);
         if (showTitleBar()) {
@@ -330,7 +356,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     protected void addTopBarBackBtn() {
-        if (null != mTopLayout){
+        if (null != mTopLayout) {
             addTopBarBackBtn(mTopLayout.getTopBar());
         }
     }
@@ -345,7 +371,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
             });
     }
 
-    protected void addTopBarBackBtn(int drawable){
+    protected void addTopBarBackBtn(int drawable) {
         addTopBarBackBtn(drawable, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -496,7 +522,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     public View getView(int layoutId) {
-        return LayoutInflater.from(getContext()).inflate(layoutId, null,false);
+        return LayoutInflater.from(getContext()).inflate(layoutId, null, false);
     }
 
     public Drawable getDrawablee(int id) {
@@ -610,7 +636,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK&&isExitFragment()){
+        if (keyCode == KeyEvent.KEYCODE_BACK && isExitFragment()) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 //弹出提示，可以有多种方式
                 showToast("再点一次退出");

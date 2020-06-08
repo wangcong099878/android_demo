@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.arch.QMUIActivity;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
@@ -60,6 +61,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     protected final String TAG = this.getClass().getSimpleName();
 
+    protected View mRootView;
     protected StatusLayout mStatusLayout;
     protected QMUITipDialog loadingDialog;
     protected the.one.base.widge.ProgressDialog progressDialog;
@@ -95,7 +97,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
      * @return
      */
     protected boolean isStatusBarLightMode() {
-        return StatusBarUtil.isWhiteBg(this);
+        return StatusBarUtil.isWhiteBg(mRootView);
     }
 
     /**
@@ -114,11 +116,12 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
         super.onCreate(savedInstanceState);
         AppMourningThemeUtil.notify(getWindow());
-        setSkinManager(null);
+        mRootView = getView(getContentViewId());
+        setSkinManager(QMUISkinManager.defaultInstance(this));
         updateStatusBarMode();
-        View mRootView = getView(getContentViewId());
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);
         if (getPresenter() != null) {
@@ -142,6 +145,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     @Override
     public void showLoadingDialog(String msg) {
         loadingDialog = QMUIDialogUtil.LoadingTipsDialog(this, msg);
+        loadingDialog.setCanceledOnTouchOutside(false);
         loadingDialog.show();
     }
 
@@ -263,7 +267,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showFailTips(String msg) {
-        hideLoadingDialog();
         QMUIDialogUtil.FailTipsDialog(this, msg);
     }
 
@@ -359,5 +362,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         super.doOnBackPressed();
     }
 
+//    @Override
+//    public void finish() {
+//        super.finish();
+//        overridePendingTransition(R.anim.slide_still,R.anim.scale_exit);
+//    }
 
 }

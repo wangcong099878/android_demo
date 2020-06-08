@@ -8,6 +8,7 @@ import com.qmuiteam.qmui.widget.tab.QMUITabAdapter;
 import com.qmuiteam.qmui.widget.tab.QMUITabSegment;
 
 public class TheTabSegment extends QMUITabSegment {
+
     public TheTabSegment(Context context) {
         super(context);
     }
@@ -24,4 +25,5 @@ public class TheTabSegment extends QMUITabSegment {
     protected QMUITabAdapter createTabAdapter(ViewGroup tabParentView) {
         return new TheTabAdapter(this, tabParentView);
     }
+
 }

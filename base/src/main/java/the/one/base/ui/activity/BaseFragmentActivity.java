@@ -21,13 +21,11 @@ package the.one.base.ui.activity;
 import android.os.Bundle;
 
 import com.qmuiteam.qmui.arch.QMUIFragmentActivity;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 
-import androidx.core.content.ContextCompat;
 import the.one.base.R;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.base.util.AppMourningThemeUtil;
-import the.one.base.util.StatusBarUtil;
 
 /**
  * @author The one
@@ -42,31 +40,12 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
 
     protected abstract BaseFragment getFirstFragment();
 
-    protected boolean LightMode() {
-        return false;
-    }
-
-    protected boolean isTranslucent(){
-        return true;
-    }
-
-//    @Override
-//    public int getContextViewId() {
-//        return R.id.main_container;
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
+        setSkinManager(QMUISkinManager.defaultInstance(this));
         super.onCreate(savedInstanceState);
         AppMourningThemeUtil.notify(getWindow());
-        setSkinManager(null);
-        if (LightMode())
-            QMUIStatusBarHelper.setStatusBarLightMode(this);
-        else
-            QMUIStatusBarHelper.setStatusBarDarkMode(this);
-        if(isTranslucent()&& StatusBarUtil.isWhiteBg(this)){
-            QMUIStatusBarHelper.translucent(this, ContextCompat.getColor(this,R.color.qmui_config_color_transparent));
-        }
         if (savedInstanceState == null) {
             BaseFragment fragment = getFirstFragment();
             getSupportFragmentManager()

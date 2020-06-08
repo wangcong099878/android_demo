@@ -2,6 +2,7 @@ package the.one.base.widge;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,10 +18,17 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.qmuiteam.qmui.skin.IQMUISkinHandlerView;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.SimpleArrayMap;
 import the.one.base.R;
 
 
-public class ProgressWheel extends View {
+public class ProgressWheel extends View implements IQMUISkinHandlerView {
 	private static final String TAG = ProgressWheel.class.getSimpleName();
 	private final int barLength = 16;
 	private final int barMaxLength = 270;
@@ -252,8 +260,7 @@ public class ProgressWheel extends View {
 				R.styleable.ProgressWheel_matProg_barSpinCycleTime,
 				(int) barSpinCycleTime);
 
-		barColor = a.getColor(R.styleable.ProgressWheel_matProg_barColor,
-				barColor);
+		barColor = QMUISkinHelper.getSkinColor(this,R.attr.qmui_skin_progress_color);
 
 		rimColor = a.getColor(R.styleable.ProgressWheel_matProg_rimColor,
 				rimColor);
@@ -715,6 +722,14 @@ public class ProgressWheel extends View {
 			invalidate();
 		}
 	}
+
+	@Override
+	public void handle(@NonNull QMUISkinManager manager, int skinIndex, @NonNull Resources.Theme theme, @Nullable SimpleArrayMap<String, Integer> attrs) {
+		barColor = QMUISkinHelper.getSkinColor(this,R.attr.app_skin_primary_color);
+		setupPaints();
+		invalidate();
+	}
+
 
 	public interface ProgressCallback {
 		/**

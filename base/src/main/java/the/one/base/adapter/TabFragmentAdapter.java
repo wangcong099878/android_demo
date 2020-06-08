@@ -1,5 +1,6 @@
 package the.one.base.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -21,15 +22,15 @@ public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
     /**
      * 是否销毁
      */
-    private boolean destroyItem = true;
+    private boolean destroyItem;
 
     public TabFragmentAdapter(FragmentManager fm, List<T> fragments) {
-        super(fm);
-        this.fragments = fragments;
+        this(fm,fragments,true);
     }
 
+    @SuppressLint("WrongConstant")
     public TabFragmentAdapter(FragmentManager fm, List<T> fragments, boolean destroy) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragments = fragments;
         this.destroyItem = destroy;
     }

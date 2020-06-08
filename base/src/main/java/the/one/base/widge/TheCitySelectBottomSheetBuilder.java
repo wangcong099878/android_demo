@@ -86,10 +86,14 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
     private int mCurrentIndex = -1;
     private boolean isDividerShow = false;
 
-    public TheCitySelectBottomSheetBuilder(Activity context, OnCitySelectListener listener) {
+    public TheCitySelectBottomSheetBuilder(Activity context) {
         super(context);
-        this.listener = listener;
         mActivity = context;
+    }
+
+    public TheCitySelectBottomSheetBuilder setOnCitySelectListener(OnCitySelectListener listener) {
+        this.listener = listener;
+        return this;
     }
 
     public TheCitySelectBottomSheetBuilder setLBSProvince(String lbsProvince) {
@@ -193,7 +197,7 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
         QMUITab tab = tabBuilder.setText(title)
                 .setTextSize(QMUIDisplayHelper.sp2px(mActivity, 14), QMUIDisplayHelper.sp2px(mActivity, 16))
                 .setNormalColor(ContextCompat.getColor(mActivity, R.color.qmui_config_color_gray_2))
-                .setSelectColor(QMUIResHelper.getAttrColor(mActivity, R.attr.config_color))
+                .setSelectColor(QMUIResHelper.getAttrColor(mActivity, R.attr.app_skin_primary_color))
                 .build(mActivity);
         mTabSegment.addTab(tab);
     }

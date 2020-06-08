@@ -29,6 +29,7 @@ import the.one.base.util.QMUIPopupUtil;
 import the.one.base.util.ShareUtil;
 import the.one.demo.R;
 import the.one.demo.bean.Mzitu;
+import the.one.demo.skin.SkinManager;
 import the.one.demo.ui.presenter.MzituPresenter;
 
 /**
@@ -77,6 +78,8 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
      */
     @Override
     protected void initView(View rootView) {
+        // 由于有主题变化，这里判断下
+        isWhite = SkinManager.getCurrentSkin() != SkinManager.SKIN_DARK;
         super.initView(rootView);
         initTestList();
     }
@@ -126,7 +129,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     @Override
     protected void updateBgColor(boolean isWhite) {
         super.updateBgColor(isWhite);
-        int mSettingDrawable = isWhite ? R.drawable.mz_titlebar_ic_setting_dark : R.drawable.mz_titlebar_ic_setting_light;
+        int mSettingDrawable = isWhite ? R.drawable.mz_titlebar_ic_more_dark : R.drawable.mz_titlebar_ic_more_light;
         if (null == mSettingIcon) {
             mSettingIcon = mTopLayout.addRightImageButton(mSettingDrawable, R.id.topbar_right_button1);
             mSettingIcon.setOnClickListener(v -> {

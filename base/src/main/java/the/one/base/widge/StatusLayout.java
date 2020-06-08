@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.util.ArrayList;
@@ -369,6 +370,7 @@ public class StatusLayout extends RelativeLayout {
             loadingStateRelativeLayout.setTag(TAG_LOADING);
 
             loadingStateProgressBar = view.findViewById(R.id.loading_view);
+            loadingStateProgressBar.setBarColor(QMUISkinHelper.getSkinColor(this,R.attr.app_skin_primary_color));
             loadingTips = view.findViewById(R.id.loading_tips);
             //Set background type_color_selector if not TRANSPARENT
             if (loadingStateBackgroundColor != Color.TRANSPARENT) {

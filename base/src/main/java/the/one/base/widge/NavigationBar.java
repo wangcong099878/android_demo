@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
@@ -85,7 +86,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
     private List<TextView> msgPointList = new ArrayList<>();
 
     //底部Image集合
-    private List<ImageView> imageViewList = new ArrayList<>();
+    private List<SkinImageView> imageViewList = new ArrayList<>();
 
     //底部Text集合
     private List<TextView> textViewList = new ArrayList<>();
@@ -189,7 +190,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
     private int addTextTopMargin = 3;
     //是否和其他tab文字底部对齐
     private boolean addAlignBottom = true;
-    private ImageView addImage;
+    private SkinImageView addImage;
     private View empty_line;
 
 
@@ -342,7 +343,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
 
 
         if (hasPadding) {
-            ViewUtil.setMargins(mViewPager,0,0,0, (int) (navigationHeight + lineHeight));
+            ViewUtil.setMargins(mViewPager, 0, 0, 0, (int) (navigationHeight + lineHeight));
         }
 
         RelativeLayout.LayoutParams lineParams = (RelativeLayout.LayoutParams) lineView.getLayoutParams();
@@ -387,7 +388,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
             itemView.setId(i);
 
             TextView text = itemView.findViewById(R.id.tab_text_tv);
-            ImageView icon = itemView.findViewById(R.id.tab_icon_iv);
+            SkinImageView icon = itemView.findViewById(R.id.tab_icon_iv);
             icon.setScaleType(scaleType);
             ViewGroup.LayoutParams iconParams = (ViewGroup.LayoutParams) icon.getLayoutParams();
             iconParams.width = (int) iconSize;
@@ -494,7 +495,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
                 addLinear.setGravity(Gravity.CENTER);
                 final RelativeLayout.LayoutParams linearParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                addImage = new ImageView(getContext());
+                addImage = new SkinImageView(getContext());
                 LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 imageParams.width = (int) addIconSize;
                 imageParams.height = (int) addIconSize;
@@ -568,7 +569,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
                 AddContainerLayout.addView(addLinear, linearParams);
             } else {
                 int index = i;
-
+//                QMUITabView tabView = new QMUITabView(getContext())
                 View itemView = View.inflate(getContext(), R.layout.navigation_tab_layout, null);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT);
                 params.width = QMUIDisplayHelper.getScreenWidth(getContext()) / tabCount;
@@ -577,7 +578,9 @@ public class NavigationBar extends QMUIWindowInsetLayout {
                 itemView.setId(index);
 
                 TextView text = itemView.findViewById(R.id.tab_text_tv);
-                ImageView icon = itemView.findViewById(R.id.tab_icon_iv);
+                SkinImageView icon = itemView.findViewById(R.id.tab_icon_iv);
+                icon.setSelect(ContextCompat.getDrawable(getContext(),tabBean.getSelectDrawable()));
+                icon.setNormal(ContextCompat.getDrawable(getContext(),tabBean.getNormalDrawable()));
                 icon.setScaleType(scaleType);
                 ViewGroup.LayoutParams iconParams = (ViewGroup.LayoutParams) icon.getLayoutParams();
                 iconParams.width = (int) iconSize;
@@ -675,7 +678,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
         itemView.setId(index);
 
         TextView text = itemView.findViewById(R.id.tab_text_tv);
-        ImageView icon = itemView.findViewById(R.id.tab_icon_iv);
+        SkinImageView icon = itemView.findViewById(R.id.tab_icon_iv);
         icon.setScaleType(scaleType);
         ViewGroup.LayoutParams iconParams = (ViewGroup.LayoutParams) icon.getLayoutParams();
         iconParams.width = (int) iconSize;
@@ -860,7 +863,7 @@ public class NavigationBar extends QMUIWindowInsetLayout {
                 itemView.setId(index);
 
                 TextView text = itemView.findViewById(R.id.tab_text_tv);
-                ImageView icon = itemView.findViewById(R.id.tab_icon_iv);
+                SkinImageView icon = itemView.findViewById(R.id.tab_icon_iv);
                 icon.setScaleType(scaleType);
                 LayoutParams iconParams = (LayoutParams) icon.getLayoutParams();
                 iconParams.width = (int) iconSize;
@@ -998,13 +1001,30 @@ public class NavigationBar extends QMUIWindowInsetLayout {
         if (select && showAnim && anim != null) {
             YoYo.with(anim).duration(300).playOn(tabList.get(index));
         }
-        imageViewList.get(index).setImageDrawable(ContextCompat.getDrawable(getContext(), select ? tabBean.getSelectDrawable() : tabBean.getNormalDrawable()));
-        if (mode == MODE_ADD && addAsFragment) {
-
-        }
-        textViewList.get(index).setTextColor(select ? selectTextColor : normalTextColor);
+        SkinImageView imageView = imageViewList.get(index);
+        imageView.setSelect(select);
+//        imageView.setNormal();
+//        Drawable drawable = ContextCompat.getDrawable(getContext(), select ? tabBean.getSelectDrawable() : tabBean.getNormalDrawable());
+//        if (select) {
+//            Drawable.ConstantState state = drawable.getConstantState();
+//            Drawable drawable1 = DrawableCompat.wrap(state == null ? drawable : state.newDrawable()).mutate();
+//            drawable1.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+//            DrawableCompat.setTint(drawable, getSelectColor());
+//        }
+//        imageView.setImageDrawable(drawable);
+//        if (mode == MODE_ADD && addAsFragment) {
+//
+//        }
+        textViewList.get(index).setTextColor(select ? getSelectColor() : getNormalColor());
     }
 
+    private int getSelectColor() {
+        return QMUISkinHelper.getSkinColor(this, R.attr.qmui_skin_support_tab_selected_color);
+    }
+
+    private int getNormalColor() {
+        return QMUISkinHelper.getSkinColor(this, R.attr.qmui_skin_support_tab_normal_color);
+    }
 
     public void selectTab(int position) {
         getmViewPager().setCurrentItem(position, smoothScroll);

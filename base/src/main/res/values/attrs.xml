@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="config_color" format="color" />
-    <attr name="config_bg_color" format="color"/>
-    <attr name="checked_color" format="color" />
-    <attr name="qmui_topbar_bg_drawable" format="reference"/>
-    <attr name="glide_fail_drawable" format="reference"/>
-
-    <attr name="CrashLayoutStyle" format="reference"/>
-
-
-
-    <!--QMUI-->
-    <attr name="qmui_skin_support_topbar_back_drawable" format="reference"/>// 返回按钮图标
-    <attr name="qmui_skin_support_tab_size" format="dimension"/>// TabSegment字体大小
-
     <declare-styleable name="StatusLayout">
         <attr name="loadingProgressBarWidth" format="dimension" />
         <attr name="loadingProgressBarHeight" format="dimension" />
@@ -105,7 +91,7 @@
     </declare-styleable>
 
     <declare-styleable name="CrashLayout">
-        <attr format="reference" name="crash_drawable"/>
+        <attr format="integer" name="crash_drawable"/>
         <attr format="string" name="crash_title"/>
         <attr format="string" name="crash_restart" />
         <attr format="string" name="crash_report_tip"/>

@@ -48,7 +48,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="2dp"
                 android:text="@string/introduce"
-                android:textColor="?attr/config_color"
+                android:textColor="?attr/app_skin_primary_color"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -118,7 +118,7 @@
             android:layout_width="4dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/dp_10"
-            android:background="?config_color" />
+            android:background="?attr/app_skin_primary_color" />
 
         <TextView
             android:id="@+id/series_type_name"

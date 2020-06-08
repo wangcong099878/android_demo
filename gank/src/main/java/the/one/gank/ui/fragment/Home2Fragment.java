@@ -117,7 +117,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         mBannerViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
-                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
+                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.app_skin_primary_color))
                 .setHolderCreator(() -> new BannerViewHolder())
                 .setOnPageClickListener(position -> {
                     if (null != mBannerBeanData && mBannerBeanData.size() > 0) {

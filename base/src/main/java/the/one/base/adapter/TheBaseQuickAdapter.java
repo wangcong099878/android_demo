@@ -1,16 +1,18 @@
 package the.one.base.adapter;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.qmuiteam.qmui.layout.IQMUILayout;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
+import com.qmuiteam.qmui.span.QMUITouchableSpan;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
-import com.qmuiteam.qmui.util.QMUIResHelper;
 
 import java.util.List;
 
@@ -50,7 +52,7 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
     protected final String TAG = this.getClass().getSimpleName();
 
     private int mPriceColor;
-    private int mConfigColor;
+    private int mPrimaryColor;
     private int mRadius;
     private int mShadow;
 
@@ -77,15 +79,15 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
 
     @Override
     public TheBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        initData(parent.getContext());
+        initData(parent);
         return super.onCreateViewHolder(parent, viewType);
     }
 
-    public void initData(Context context){
-        mPriceColor = ContextCompat.getColor(context, R.color.price_color);
-        mConfigColor = QMUIResHelper.getAttrColor(context, R.attr.config_color);
-        mRadius = QMUIDisplayHelper.dp2px(context, getRadius());
-        mShadow = QMUIDisplayHelper.dp2px(context, getShadow());
+    public void initData(View view){
+        mPriceColor = ContextCompat.getColor(view.getContext(), R.color.price_color);
+        mPrimaryColor = QMUISkinHelper.getSkinColor(view, R.attr.app_skin_primary_color);
+        mRadius = QMUIDisplayHelper.dp2px(view.getContext(), getRadius());
+        mShadow = QMUIDisplayHelper.dp2px(view.getContext(), getShadow());
     }
 
 
@@ -95,6 +97,10 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
                     mShadow,
                     getShadowAlpha());
         }
+    }
+
+    protected int getPrimaryColor(){
+        return mPrimaryColor;
     }
 
     protected int getColor(int colorRes){
@@ -177,7 +183,7 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
      * @return
      */
     protected SpannableString parsePriceConfigColorString(double price, String left, String right, float fontSize) {
-        return parsePriceString(price, left, right, mConfigColor, fontSize);
+        return parsePriceString(price, left, right, mPrimaryColor, fontSize);
     }
 
     /**
@@ -194,4 +200,20 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
         return StringUtils.PriceStyleString(getContext(), price, left, right, color, fontSize);
     }
 
+
+    protected void parseSkinSpannableString(TextView tv,SpannableString sp,String content,String targetString){
+        int start = content.indexOf(targetString);
+        int end = start + targetString.length();
+        sp.setSpan(new QMUITouchableSpan(tv,
+                R.attr.app_skin_background_color_1,
+                R.attr.app_skin_primary_color,
+                R.attr.app_skin_background_color_1,
+                R.attr.app_skin_primary_color ) {
+            @Override
+            public void onSpanClick(View widget) {
+
+            }
+        },start,end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv.setText(sp);
+    }
 }

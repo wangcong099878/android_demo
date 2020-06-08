@@ -1,18 +1,25 @@
 package the.one.base.widge;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
-
+import com.qmuiteam.qmui.skin.IQMUISkinHandlerView;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.collection.SimpleArrayMap;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import the.one.base.R;
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -40,7 +47,7 @@ import the.one.base.R;
  * @remark
  */
 
-public class TheCheckBox extends AppCompatTextView implements View.OnClickListener {
+public class TheCheckBox extends AppCompatTextView implements View.OnClickListener, IQMUISkinHandlerView {
 
     private Drawable isCheck, unCheck, current;
     private OnCheckChangedListener listener;
@@ -80,8 +87,9 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
     }
 
     private void init(Context context) {
-        isCheck = getDrawable(R.drawable.qmui_icon_checkbox_checked);
+        isCheck = getDrawable(R.drawable.qmui_icon_checkbox_checked_red);
         unCheck = getDrawable(R.drawable.qmui_icon_checkbox_normal);
+//        parseCheckDrawable();
         setImageDrawable(unCheck);
         setBackground(QMUIResHelper.getAttrDrawable(context, R.attr.selectableItemBackground));
         setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
@@ -111,7 +119,7 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
         return ContextCompat.getDrawable(getContext(), drawableId);
     }
 
-    public void setTextWithPadding(CharSequence text){
+    public void setTextWithPadding(CharSequence text) {
         setText(text);
         setTextPadding(defaultPadding);
     }
@@ -127,6 +135,23 @@ public class TheCheckBox extends AppCompatTextView implements View.OnClickListen
         if (null != listener) {
             listener.onCheckChanged(isCheck());
         }
+    }
+
+    @Override
+    public void handle(@NonNull QMUISkinManager manager, int skinIndex, @NonNull Resources.Theme theme, @Nullable SimpleArrayMap<String, Integer> attrs) {
+//        parseCheckDrawable();
+//        setCheck(isCheck());
+    }
+
+    private void parseCheckDrawable() {
+        Drawable.ConstantState state = isCheck.getConstantState();
+        isCheck = DrawableCompat.wrap(state == null ? isCheck : state.newDrawable()).mutate();
+        isCheck.setBounds(0, 0, isCheck.getIntrinsicWidth(), isCheck.getIntrinsicHeight());
+        DrawableCompat.setTint(isCheck, getSelectColor());
+    }
+
+    private int getSelectColor() {
+        return QMUISkinHelper.getSkinColor(this, R.attr.app_skin_primary_color);
     }
 
     public interface OnCheckChangedListener {

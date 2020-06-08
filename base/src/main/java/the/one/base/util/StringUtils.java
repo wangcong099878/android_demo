@@ -233,8 +233,7 @@ public class StringUtils {
      */
     public static SpannableString SpannableString(String content, String targetString, int color, float fontSize, Type... types) {
         SpannableString spannableString = new SpannableString(content);
-        int start = content.indexOf(targetString);
-        int end = start + targetString.length();
+        int[] index = parseIndex(content,targetString);
         CharacterStyle characterStyle = new ForegroundColorSpan(color);
         for (Type type : types) {
             switch (type) {
@@ -269,10 +268,18 @@ public class StringUtils {
                     characterStyle = new StyleSpan(Typeface.BOLD_ITALIC);
                     break;
             }
-            spannableString.setSpan(characterStyle, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(characterStyle, index[0],  index[1], Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         }
         return spannableString;
     }
 
+    public static int[] parseIndex(String content, String targetString){
+        int start = content.indexOf(targetString);
+        int end = start + targetString.length();
+        int[] index = new int[2];
+        index[0] = start;
+        index[1] = end;
+        return index;
+    }
 
 }

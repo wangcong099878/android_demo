@@ -58,9 +58,10 @@ public class BaseWebView extends BridgeWebView {
         setLayerType(QMUIDeviceHelper.isHuawei()? View.LAYER_TYPE_NONE:View.LAYER_TYPE_HARDWARE, null);
         WebSettings webSettings = getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setSupportZoom(false);
         webSettings.setBuiltInZoomControls(false);
-        webSettings.setDefaultTextEncodingName("GBK");
+        webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);

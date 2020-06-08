@@ -18,12 +18,11 @@ package the.one.base.util;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.View;
 
-import com.qmuiteam.qmui.util.QMUIResHelper;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
 
 import the.one.base.R;
 
@@ -36,20 +35,20 @@ import the.one.base.R;
  */
 public class StatusBarUtil {
 
-    public static boolean isWhiteBg(Context context){
-        Drawable bgDrawable;
+    private static final String TAG = "TopBarUtil";
+
+    public static boolean isWhiteBg(View view) {
+        if (null == view) return false;
         int bgColor;
         try {
-            TypedArray array = context.obtainStyledAttributes(null, R.styleable.QMUITopBar, R.attr.QMUITopBarStyle, 0);
-            bgColor = QMUIResHelper.getAttrColor(context, R.attr.qmui_skin_support_topbar_bg);
-            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
-            array.recycle();
-        }catch (Exception e){
-            bgDrawable = null;
+            bgColor = QMUISkinHelper.getSkinColor(view, R.attr.qmui_skin_support_topbar_bg);
+        } catch (Exception e) {
+            Log.e(TAG, "isWhiteBg: Exception "+e.getLocalizedMessage() );
             bgColor = Color.WHITE;
         }
-        if(null != bgDrawable) return false;
-        else return  bgColor== Color.WHITE ;
+        Log.e(TAG, "isWhiteBg: "+bgColor );
+        // color < 0  drawable > 0 , 小于一定值的灰色也默认是白色背景
+        return bgColor > -10000000 && bgColor<0;
     }
 
 }

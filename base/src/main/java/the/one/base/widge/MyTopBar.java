@@ -350,7 +350,7 @@ public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView
 
     // ========================= leftView、rightView 相关的方法
 
-    private LinearLayout makeSureTitleContainerView() {
+    public LinearLayout makeSureTitleContainerView() {
         if (mTitleContainerView == null) {
             mTitleContainerView = new LinearLayout(getContext());
             // 垂直，后面要支持水平的话可以加个接口来设置

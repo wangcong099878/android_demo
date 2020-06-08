@@ -20,6 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+
 # 指定代码的压缩级别 0 - 7(指定代码进行迭代优化的次数，在Android里面默认是5，这条指令也只有在可以优化时起作用。)
 -optimizationpasses 5
 # 混淆时不会产生形形色色的类名(混淆时不使用大小写混合类名)
@@ -76,9 +77,6 @@
 -keep public class com.android.vending.licensing.ILicensingService
 #表示不混淆上面声明的类，最后这两个类我们基本也用不上，是接入Google原生的一些服务时使用的。
 #----------------------------------------------------
-
-#androidx包使用混淆
-#-keep class androidx.** {*;}
 
 # 保留继承的
 -keep public class * extends android.support.v4.**
@@ -220,7 +218,6 @@
 
 #LitePal
 -keep class org.litepal.** { *;}
-
 -keep class * extends org.litepal.crud.LitePalSupport{ *;}
 
 # EventBus
@@ -243,7 +240,6 @@
 #QMUI
 -keep class **_FragmentFinder { *; }
 -keep class com.qmuiteam.qmui.arch.record.** { *; }
--keep class android.support.v4.app.* { *; }
 -keep class androidx.fragment.app.* { *; }
 
 #PictureSelector 2.0
@@ -258,8 +254,50 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.*
 
 #rxhttp
--keep class rxhttp.**{*;}
+ #-keep class rxhttp.**{*;}
 
+ #Rxjava RxAndroid
+ -dontwarn rx.*
+ -dontwarn sun.misc.**
+ -keepclassmembers class rx.internal.util.unsafe.*ArrayQuene*Field*{
+ long producerIndex;
+ long consumerIndex;
+ }
+
+ -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode producerNode;
+ rx.internal.util.atomic.LinkedQueueNode consumerNode;
+ }
+ -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode consumerNode;
+ }
+
+ #bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+# tinker混淆规则
+-dontwarn com.tencent.tinker.**
+-keep class com.tencent.tinker.** { *; }
+-keep public class * implements com.tencent.tinker.loader.app.ApplicationLifeCycle {
+    <init>(...);
+    void onBaseContextAttached(android.content.Context);
+}
+-keep public class * extends com.tencent.tinker.loader.TinkerLoader {
+    <init>(...);
+}
+-keep public class * extends android.app.Application {
+     <init>();
+     void attachBaseContext(android.content.Context);
+}
+-keep class com.tencent.tinker.loader.TinkerTestAndroidNClassLoader {
+    <init>(...);
+}
+-keep class com.iflytek.elpmobile.smartlearning.ThisApplication {
+    <init>(...);
+}
+-keep class com.tencent.tinker.loader.** {
+         <init>(...);
+}
 
 #
 #---------------------------------实体类---------------------------------

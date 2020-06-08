@@ -1,21 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="TopBarWhiteTheme">
-        <!--主色调-->
-<!--        <item name="config_color">@color/app_color_theme_6</item>-->
 
-        <!--TopBar主题设置-->
-        <!-- 1. 白色背景-->
-<!--        <item name="QMUITopBarStyle">@style/TopBarWhite</item>-->
-
-        <!-- 2. 非白色的背景-->
-<!--        <item name="QMUITopBarStyle">@style/TopBarStyle</item>-->
-
-        <!-- 3. 渐变色的背景-->
-<!--        <item name="qmui_topbar_bg_drawable">@drawable/main_ripple_bg</item>-->
-
-    </style>
 
 
     <style name="QMUI.Button" parent="@style/ButtonBase.Compat" />

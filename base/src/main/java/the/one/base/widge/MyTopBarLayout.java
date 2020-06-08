@@ -43,7 +43,7 @@ package the.one.base.widge;
 
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,12 +54,14 @@ import android.widget.RelativeLayout;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.layout.QMUIFrameLayout;
 import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
+import com.qmuiteam.qmui.skin.IQMUISkinDispatchInterceptor;
 import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
 import com.qmuiteam.qmui.skin.defaultAttr.IQMUISkinDefaultAttrProvider;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.QMUIWindowInsetLayout;
 
+import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 import the.one.base.Interface.OnTopBarDoubleClickListener;
 import the.one.base.R;
@@ -76,13 +78,19 @@ import the.one.base.R;
  * @date 2016-11-26
  */
 
-public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultAttrProvider, View.OnClickListener {
+public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultAttrProvider, View.OnClickListener, IQMUISkinDispatchInterceptor {
 
     private SimpleArrayMap<String, Integer> mDefaultSkinAttrs = new SimpleArrayMap<>(2);
 
     private MyTopBar mTopBar;
 
     private OnTopBarDoubleClickListener onTopBarDoubleClickListener;
+
+    private boolean isNeedChangedWithTheme = true;
+
+    public void setNeedChangedWithTheme(boolean needChangedWithTheme) {
+        isNeedChangedWithTheme = needChangedWithTheme;
+    }
 
     public void setOnTopBarDoubleClickListener(OnTopBarDoubleClickListener onTopBarDoubleClickListener) {
         this.onTopBarDoubleClickListener = onTopBarDoubleClickListener;
@@ -99,9 +107,11 @@ public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultA
 
     public MyTopBarLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        // 构造一个透明的背景且无分隔线的TopBar，背景与分隔线有QMUITopBarLayout控制
-        mDefaultSkinAttrs.put(QMUISkinValueBuilder.BOTTOM_SEPARATOR, R.attr.qmui_skin_support_topbar_separator_color);
-        mDefaultSkinAttrs.put(QMUISkinValueBuilder.BACKGROUND, R.attr.qmui_skin_support_topbar_bg);
+        if(isNeedChangedWithTheme){
+            // 构造一个透明的背景且无分隔线的TopBar，背景与分隔线有QMUITopBarLayout控制
+            mDefaultSkinAttrs.put(QMUISkinValueBuilder.BOTTOM_SEPARATOR, R.attr.qmui_skin_support_topbar_separator_color);
+            mDefaultSkinAttrs.put(QMUISkinValueBuilder.BACKGROUND, R.attr.qmui_skin_support_topbar_bg);
+        }
         mTopBar = new MyTopBar(context, attrs, defStyleAttr);
         mTopBar.setBackground(null);
         mTopBar.updateBottomDivider(0, 0, 0, 0);
@@ -109,16 +119,6 @@ public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultA
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 QMUIResHelper.getAttrDimen(context, R.attr.qmui_topbar_height));
         addView(mTopBar, lp);
-
-        Drawable bgDrawable;
-        try {
-            bgDrawable = QMUIResHelper.getAttrDrawable(context, R.attr.qmui_topbar_bg_drawable);
-            if (null != bgDrawable)
-                setBackground(bgDrawable);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     public MyTopBar getTopBar() {
@@ -259,5 +259,11 @@ public class MyTopBarLayout extends QMUIFrameLayout implements IQMUISkinDefaultA
     public SimpleArrayMap<String, Integer> getDefaultSkinAttrs() {
         return mDefaultSkinAttrs;
     }
+
+    @Override
+    public boolean intercept(int skinIndex, @NonNull Resources.Theme theme) {
+        return !isNeedChangedWithTheme;
+    }
+
 }
 
