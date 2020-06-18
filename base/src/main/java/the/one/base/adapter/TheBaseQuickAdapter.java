@@ -83,7 +83,7 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
         return super.onCreateViewHolder(parent, viewType);
     }
 
-    public void initData(View view){
+    public void initData(View view) {
         mPriceColor = ContextCompat.getColor(view.getContext(), R.color.price_color);
         mPrimaryColor = QMUISkinHelper.getSkinColor(view, R.attr.app_skin_primary_color);
         mRadius = QMUIDisplayHelper.dp2px(view.getContext(), getRadius());
@@ -91,24 +91,29 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
     }
 
 
-    protected void setRadiusAndShadow(View view) {
-        if (view instanceof IQMUILayout) {
-            ((IQMUILayout) view).setRadiusAndShadow(mRadius,
-                    mShadow,
-                    getShadowAlpha());
-        }
+    protected void setRadiusAndShadow(View... views) {
+        for (View view : views)
+            if (view instanceof IQMUILayout) {
+                ((IQMUILayout) view).setRadiusAndShadow(mRadius,
+                        mShadow,
+                        getShadowAlpha());
+            }
     }
 
-    protected int getPrimaryColor(){
+    protected int getPrimaryColor() {
         return mPrimaryColor;
     }
 
-    protected int getColor(int colorRes){
-        return ContextCompat.getColor(getContext(),colorRes);
+    protected int getPriceColor() {
+        return mPriceColor;
     }
 
-    protected Drawable getDrawable(int drawableRes){
-        return ContextCompat.getDrawable(getContext(),drawableRes);
+    protected int getColor(int colorRes) {
+        return ContextCompat.getColor(getContext(), colorRes);
+    }
+
+    protected Drawable getDrawable(int drawableRes) {
+        return ContextCompat.getDrawable(getContext(), drawableRes);
     }
 
     protected void showView(View... views) {
@@ -201,19 +206,19 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
     }
 
 
-    protected void parseSkinSpannableString(TextView tv,SpannableString sp,String content,String targetString){
+    protected void parseSkinSpannableString(TextView tv, SpannableString sp, String content, String targetString) {
         int start = content.indexOf(targetString);
         int end = start + targetString.length();
         sp.setSpan(new QMUITouchableSpan(tv,
                 R.attr.app_skin_background_color_1,
                 R.attr.app_skin_primary_color,
                 R.attr.app_skin_background_color_1,
-                R.attr.app_skin_primary_color ) {
+                R.attr.app_skin_primary_color) {
             @Override
             public void onSpanClick(View widget) {
 
             }
-        },start,end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }, start, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tv.setText(sp);
     }
 }

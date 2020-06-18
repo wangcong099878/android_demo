@@ -91,7 +91,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        mTopLayout.setNeedChangedWithTheme(false);
         updateBgColor(isStatusBarLightMode());
         ViewUtil.setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
@@ -109,7 +108,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDat
      * 根据主题更换颜色
      */
     protected void updateBgColor(boolean isWhite) {
-        updateStatusBarMode(isWhite);
         mBgColor = getColorr(isWhite ? R.color.qmui_config_color_white : R.color.we_chat_black);
         mTextColor = getColorr(isWhite ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white);
 

@@ -1,5 +1,6 @@
 package the.one.gank.ui.fragment;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,7 +31,6 @@ import the.one.gank.bean.BannerBean;
 import the.one.gank.bean.GankBean;
 import the.one.gank.bean.HomeBean;
 import the.one.gank.bean.HomeSection;
-import the.one.gank.constant.NetUrlConstant;
 import the.one.gank.ui.adapter.BannerViewHolder;
 import the.one.gank.ui.adapter.Home2Adapter;
 import the.one.gank.ui.presenter.HomePresenter;
@@ -98,7 +98,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     @Override
     protected void initView(View rootView) {
         mBannerHeight = QMUIDisplayHelper.dp2px(_mActivity, 250);
-        mStatusBarHeight =  QMUIStatusBarHelper.getStatusbarHeight(_mActivity)/2;
+        mStatusBarHeight = QMUIStatusBarHelper.getStatusbarHeight(_mActivity) / 2;
         mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
         mTitleView = mTopLayout.getTopBar().getTitleView();
         mTitleView.getPaint().setFakeBoldText(true);
@@ -169,9 +169,9 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
 
     @Override
     public void onMoveTarget(int offset) {
-        if(offset>mStatusBarHeight&&!isLightMode){
+        if (offset > mStatusBarHeight && !isLightMode) {
             setStatusBarMode(true);
-        }else if(offset<mStatusBarHeight&&isLightMode){
+        } else if (offset < mStatusBarHeight && isLightMode) {
             setStatusBarMode(false);
         }
     }
@@ -205,6 +205,7 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
     @Override
     protected void requestServer() {
         presenter.getTodayData();
+        presenter.getHot();
         if (null == mBannerBeanData || mBannerBeanData.size() == 0)
             presenter.getBanner();
     }
@@ -218,31 +219,42 @@ public class Home2Fragment extends BaseDataFragment<HomeSection> implements Home
         }
     }
 
-
     @Override
-    public void onTodayComplete(final HomeBean resultsBean) {
+    public void onHotComplete(List<GankBean> data) {
+        Log.e(TAG, "onHotComplete: " + data.size());
         sections = new ArrayList<>();
-        parseSection(resultsBean.Android, NetUrlConstant.ANDROID);
-        parseSection(resultsBean.iOS, NetUrlConstant.IOS);
-        parseSection(resultsBean.App, NetUrlConstant.APP);
-        parseSection(resultsBean.relax, NetUrlConstant.RELAX);
-        parseSection(resultsBean.front, NetUrlConstant.FRONT);
-        parseSection(resultsBean.extension, NetUrlConstant.EXTENSION);
-        parseSection(resultsBean.recommend, NetUrlConstant.RECOMMEND);
-        parseSection(resultsBean.welfare, NetUrlConstant.WELFARE);
+        parseSection(data, "热门文章");
         onComplete(sections);
         showContentPage();
         setStatusBarMode(false);
         adapter.getLoadMoreModule().setEnableLoadMore(false);
     }
 
+
+    @Override
+    public void onTodayComplete(final HomeBean resultsBean) {
+//        sections = new ArrayList<>();
+//        parseSection(resultsBean.Android, NetUrlConstant.ANDROID);
+//        parseSection(resultsBean.iOS, NetUrlConstant.IOS);
+//        parseSection(resultsBean.App, NetUrlConstant.APP);
+//        parseSection(resultsBean.relax, NetUrlConstant.RELAX);
+//        parseSection(resultsBean.front, NetUrlConstant.FRONT);
+//        parseSection(resultsBean.extension, NetUrlConstant.EXTENSION);
+//        parseSection(resultsBean.recommend, NetUrlConstant.RECOMMEND);
+//        parseSection(resultsBean.welfare, NetUrlConstant.WELFARE);
+//        onComplete(sections);
+//        showContentPage();
+//        setStatusBarMode(false);
+//        adapter.getLoadMoreModule().setEnableLoadMore(false);
+    }
+
     private void setStatusBarMode(boolean isLight) {
         isLightMode = isLight;
         // 显示的时候才做更改
-        if (isVisible){
-            if(isLight){
+        if (isVisible) {
+            if (isLight) {
                 QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
-            }else{
+            } else {
                 QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
             }
 

@@ -54,7 +54,6 @@ import the.one.base.model.TabBean;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.IndicatorUtil;
 import the.one.base.widge.SkinPagerTitleView;
-import the.one.base.widge.tagsegment.TheTabSegment;
 
 /**
  * @author The one
@@ -67,7 +66,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     protected ArrayList<BaseFragment> fragments;
     protected ArrayList<TabBean> mTabs;
-    protected TheTabSegment mTabSegment;
+    protected QMUITabSegment mTabSegment;
 
 
     protected MagicIndicator mMagicIndicator;

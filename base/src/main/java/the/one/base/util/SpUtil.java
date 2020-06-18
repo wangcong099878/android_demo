@@ -20,9 +20,9 @@ public class SpUtil {
         if (spUtil == null) {
             spUtil = new SpUtil();
         }
-//        if(null == kv){
+        if(null == kv){
             kv = MMKV.defaultMMKV();
-//        }
+        }
         return spUtil;
     }
 

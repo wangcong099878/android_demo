@@ -98,38 +98,59 @@ public abstract class BaseCameraPermissionActivity extends BaseActivity {
                 int writeResult = grantResults[0];
                 //读写内存权限
                 boolean writeGranted = writeResult == PackageManager.PERMISSION_GRANTED;//读写内存权限
+                StringBuffer sb = new StringBuffer();
                 if (!writeGranted) {
+                    sb.append("读写");
+                    sb.append("、");
                     size++;
                 }
                 //录音权限
                 int recordPermissionResult = grantResults[1];
                 boolean recordPermissionGranted = recordPermissionResult == PackageManager.PERMISSION_GRANTED;
                 if (!recordPermissionGranted) {
+                    sb.append("录音");
+                    sb.append("、");
                     size++;
                 }
                 //相机权限
                 int cameraPermissionResult = grantResults[2];
                 boolean cameraPermissionGranted = cameraPermissionResult == PackageManager.PERMISSION_GRANTED;
                 if (!cameraPermissionGranted) {
+                    sb.append("相机");
+                    sb.append("、");
                     size++;
                 }
                 if (size == 0) {
                     granted = true;
                     onGranted();
                 } else {
+                    String result = sb.toString();
                     new QMUIDialog.MessageDialogBuilder(this)
                             .setTitle("提示")
-                            .setMessage("权限被禁止，请到设置中打开")
+                            .setMessage(result+"权限被禁止，点击重新获取，如点击拒绝，请到设置中打开")
                             .addAction(0, "退出", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     finish();
                                 }
                             })
+                            .addAction("获取权限", new QMUIDialogAction.ActionListener() {
+                                @Override
+                                public void onClick(QMUIDialog dialog, int index) {
+                                    dialog.dismiss();
+                                    requestPermission();
+                                }
+                            })
                             .show();
                 }
             }
         }
+    }
+
+        @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_still,R.anim.scale_exit);
     }
 
 }

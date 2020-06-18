@@ -137,6 +137,15 @@ public class FileUtils {
         return deleteDir(new File(FileDirectoryUtil.getIndexPath()));
     }
 
+    /**
+     * 删除缓存
+     * @return
+     */
+    public static boolean deleteCacheFile(){
+        return deleteDir(new File(FileDirectoryUtil.getCachePath()));
+    }
+
+
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();

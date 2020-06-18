@@ -20,6 +20,7 @@ import com.qmuiteam.qmui.widget.tab.QMUIBasicTabSegment;
 import com.qmuiteam.qmui.widget.tab.QMUITab;
 import com.qmuiteam.qmui.widget.tab.QMUITabBuilder;
 import com.qmuiteam.qmui.widget.tab.QMUITabSegment;
+import com.qmuiteam.qmui.widget.tab.QMUITabView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,7 +146,7 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
                     }
                 }
                 mProvinces.addAll(temp);
-                onTabClick(0);
+                onTabClick(null,0);
                 mStatusLayout.showContent();
             }
 
@@ -203,8 +204,8 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
     }
 
     @Override
-    public void onTabClick(int index) {
-        if (mCurrentIndex == index) return;
+    public boolean onTabClick(QMUITabView view,int index) {
+        if (mCurrentIndex == index) return true;
         mCurrentIndex = index;
         if (index == 0) {
             mSelectProvince = null;
@@ -216,6 +217,7 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
         }
         mTabSegment.reset();
         setNetData(index);
+        return false;
     }
 
 
@@ -230,7 +232,7 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
                 // 只有省份的直接返回
                 onSelect();
             } else {
-                onTabClick(1);
+                onTabClick(null,1);
             }
         } else if (data instanceof City) {
             // 选择了市
@@ -240,7 +242,7 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
                 // 只有市的直接返回
                 onSelect();
             } else {
-                onTabClick(2);
+                onTabClick(null,2);
             }
         } else {
             // 返回数据

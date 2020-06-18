@@ -21,8 +21,10 @@ package the.one.base.ui.fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 
+import com.qmuiteam.qmui.layout.QMUIFrameLayout;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
+import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 import com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView;
 
@@ -41,7 +43,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
 
     protected int NO_DRAWABLE = -1;
 
-    protected FrameLayout mParentLayout;
+    protected QMUIFrameLayout mParentLayout;
     protected QMUIGroupListView mGroupListView;
     /**
      * 有拉弹效果的ScrollView
@@ -53,7 +55,11 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
     protected abstract void addGroupListView();
 
     protected int getScrollViewParentBgColor() {
-        return R.color.qmui_config_color_background;
+        return R.attr.app_skin_background_color_2;
+    }
+
+    protected int getQMUIGroupListViewBgColor() {
+        return R.attr.app_skin_background_color_2;
     }
 
     /**
@@ -88,7 +94,15 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
         mParentLayout = view.findViewById(R.id.parent);
         mGroupListView = view.findViewById(R.id.groupListView);
         mScrollView = view.findViewById(R.id.scrollView);
-        mParentLayout.setBackgroundColor(getColorr(getScrollViewParentBgColor()));
+
+        QMUISkinValueBuilder builder = QMUISkinValueBuilder.acquire();
+        builder.background(getScrollViewParentBgColor());
+        QMUISkinHelper.setSkinValue(mParentLayout,builder);
+
+        QMUISkinValueBuilder builder2 = QMUISkinValueBuilder.acquire();
+        builder2.background(getQMUIGroupListViewBgColor());
+        QMUISkinHelper.setSkinValue(mGroupListView,builder2);
+
         if(isTopLayoutUseChildLayout()||!isNeedAround()){
             // 当isNeedAround()为true时，在BaseFragment里会先把getTopLayout()放到flTopLayout，所以这里要移除掉
             if(null != flTopLayout){
@@ -109,22 +123,23 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param description section 描述
      * @param items
      */
-    protected void addToGroup(String title, String description, QMUICommonListItemView... items) {
+    protected QMUIGroupListView.Section addToGroup(String title, String description, QMUICommonListItemView... items) {
         QMUIGroupListView.Section section = QMUIGroupListView.newSection(_mActivity);
-        if (!TextUtils.isEmpty(title)) section.setTitle(title);
-        if (!TextUtils.isEmpty(description)) section.setDescription(description);
+        if (null != title) section.setTitle(title);
+        if (null != description) section.setDescription(description);
         for (QMUICommonListItemView itemView : items) {
             section.addItemView(itemView, this);
         }
         section.addTo(mGroupListView);
+        return section;
     }
 
-    protected void addToGroup(String title, QMUICommonListItemView... items) {
-        addToGroup(title, "", items);
+    protected QMUIGroupListView.Section addToGroup(String title, QMUICommonListItemView... items) {
+        return addToGroup(title, null, items);
     }
 
-    protected void addToGroup(QMUICommonListItemView... items) {
-        addToGroup("", "", items);
+    protected QMUIGroupListView.Section addToGroup(QMUICommonListItemView... items) {
+       return addToGroup(null, null, items);
     }
 
     /**

@@ -45,7 +45,7 @@ public class GankIndexFragment extends BaseHomeFragment {
     }
 
     @Override
-    protected boolean setViewPagerSwipe() {
+    protected boolean isViewPagerSwipe() {
         return false;
     }
 

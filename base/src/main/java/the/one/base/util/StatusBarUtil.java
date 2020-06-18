@@ -43,7 +43,6 @@ public class StatusBarUtil {
         try {
             bgColor = QMUISkinHelper.getSkinColor(view, R.attr.qmui_skin_support_topbar_bg);
         } catch (Exception e) {
-            Log.e(TAG, "isWhiteBg: Exception "+e.getLocalizedMessage() );
             bgColor = Color.WHITE;
         }
         Log.e(TAG, "isWhiteBg: "+bgColor );

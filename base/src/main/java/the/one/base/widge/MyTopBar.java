@@ -38,6 +38,7 @@ import com.qmuiteam.qmui.R;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.layout.QMUIRelativeLayout;
 import com.qmuiteam.qmui.qqface.QMUIQQFaceView;
+import com.qmuiteam.qmui.skin.IQMUISkinDispatchInterceptor;
 import com.qmuiteam.qmui.skin.IQMUISkinHandlerView;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
@@ -52,6 +53,7 @@ import com.qmuiteam.qmui.widget.QMUICollapsingTopBarLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 
 /**
@@ -62,7 +64,7 @@ import androidx.collection.SimpleArrayMap;
  * <li>set title and subtitle with gravity support.</li>
  * </ul>
  */
-public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView, IQMUISkinDefaultAttrProvider {
+public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView, IQMUISkinDefaultAttrProvider, IQMUISkinDispatchInterceptor {
 
     private static final int DEFAULT_VIEW_ID = -1;
     private int mLeftLastViewId; // 左侧最右 view 的 id
@@ -92,6 +94,15 @@ public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView
     private int mTopBarHeight = -1;
     private Rect mTitleContainerRect;
     private boolean mIsBackgroundSetterDisabled = false;
+    private boolean intercept = false;
+
+    public boolean isIntercept() {
+        return intercept;
+    }
+
+    public void setIntercept(boolean intercept) {
+        this.intercept = intercept;
+    }
 
     private static SimpleArrayMap<String, Integer> sDefaultSkinAttrs;
 
@@ -790,5 +801,10 @@ public class MyTopBar extends QMUIRelativeLayout implements IQMUISkinHandlerView
     @Override
     public SimpleArrayMap<String, Integer> getDefaultSkinAttrs() {
         return sDefaultSkinAttrs;
+    }
+
+    @Override
+    public boolean intercept(int skinIndex, @NonNull Resources.Theme theme) {
+        return intercept;
     }
 }

@@ -182,6 +182,11 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     }
 
     @Override
+    public void onHotComplete(List<GankBean> data) {
+
+    }
+
+    @Override
     public void onTodayComplete(final HomeBean resultsBean) {
         sections = new ArrayList<>();
         sections.add(parseSection(resultsBean.Android, NetUrlConstant.ANDROID));

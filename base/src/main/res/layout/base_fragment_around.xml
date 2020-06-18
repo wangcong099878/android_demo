@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:qmui_skin_background="?attr/app_skin_background_color_1">
+    android:background="@color/qmui_config_color_white"
+    app:qmui_skin_background="?app_skin_background_color_1">
 
     <RelativeLayout
         android:id="@+id/rl_parent"

@@ -97,33 +97,6 @@ public class AppInfoManager {
     }
 
     /**
-     * 根据key获取xml中Meta的值
-     * @param context 上下文
-     * @param key
-     * @return
-     */
-    public static String getMetaData(Context context, String key) {
-        String value = "";
-
-        try {
-            @SuppressLint("WrongConstant") ApplicationInfo e = context.getPackageManager().getApplicationInfo(context.getPackageName(), 128);
-            if(null != e) {
-                Bundle metaData = e.metaData;
-                if(null != metaData) {
-                    value = metaData.getString(key);
-                    if(null == value || value.length() == 0) {
-                        value = "";
-                    }
-                }
-            }
-        } catch (NameNotFoundException var5) {
-            var5.printStackTrace();
-        }
-
-        return value;
-    }
-
-    /**
      * 获取应用图标
      * @param context
      * @param packageName
@@ -650,16 +623,45 @@ public class AppInfoManager {
      *
      * @param context 上下文
      * @param key     key
+     * @param defaultValue 默认值
      * @return value
      */
-    public static String getApplicationMetaData(Context context, String key) {
+    public static String getApplicationMetaDataString(Context context, String key,String defaultValue) {
         try {
-            Bundle metaData = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData;
-            return metaData.get(key).toString();
+            Bundle metaData = getApplicationMetaBundle(context);
+            return metaData.getString(key,defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+    }
+
+    /**
+     * 获取application层级的metadata
+     *
+     * @param context 上下文
+     * @param key     key
+     * @param defaultValue 默认值
+     * @return value
+     */
+    public static int getApplicationMetaDataInt(Context context, String key,int defaultValue) {
+        try {
+            Bundle metaData = getApplicationMetaBundle(context);
+            return metaData.getInt(key,defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+    }
+
+
+    private static Bundle getApplicationMetaBundle(Context context){
+        try {
+            return context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA).metaData;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     /**

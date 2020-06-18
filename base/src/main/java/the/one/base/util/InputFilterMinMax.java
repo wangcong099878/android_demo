@@ -1,8 +1,6 @@
 package the.one.base.util;
-import android.content.Context;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.util.Log;
 
 /**
  * @author The one
@@ -16,19 +14,16 @@ public class InputFilterMinMax implements InputFilter{
     private static final String TAG = "InputFilterMinMax";
 
     private int min, max;
-    private Context context;
     private String tips;
 
 
-    public InputFilterMinMax(Context context, int max, String tips) {
-        this.context = context;
+    public InputFilterMinMax( int max, String tips) {
         this.min = 0;
         this.max = max;
         this.tips = tips;
     }
 
-    public InputFilterMinMax(Context context, int min, int max, String tips) {
-        this.context = context;
+    public InputFilterMinMax( int min, int max, String tips) {
         this.min = min;
         this.max = max;
         this.tips = tips;
@@ -44,7 +39,6 @@ public class InputFilterMinMax implements InputFilter{
         try {
             int input = Integer.parseInt(dest.toString() + source.toString());
             if (isInRange(min, max, input)){
-                Log.e(TAG, "filter:  true" + input);
                 return null;
             }else{
                ToastUtil.showToast(tips);

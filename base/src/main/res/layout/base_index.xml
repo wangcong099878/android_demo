@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         android:overScrollMode="never" />
 
-    <the.one.base.widge.tagsegment.TheTabSegment
+    <com.qmuiteam.qmui.widget.tab.QMUITabSegment
         android:id="@+id/tab_segment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_tab_height"

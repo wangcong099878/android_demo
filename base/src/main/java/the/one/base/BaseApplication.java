@@ -95,7 +95,7 @@ public  class BaseApplication extends MultiDexApplication {
         OkHttpClient client = getDefaultOkHttpClient();
         HttpSender.init(client,BuildConfig.DEBUG);
         //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
-        File cacheDir = new File(FileDirectoryUtil.getCachePath(), "RxHttpCache");
+        File cacheDir = new File(FileDirectoryUtil.getRxHttPCachePath());
         //设置最大缓存为10M，缓存有效时长为一个小时，这里全局不做缓存处理，某些需要缓存的请求单独设置
         RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, CacheMode.ONLY_NETWORK, 60 * 60 * 1000);
         OkHttpUtils.initClient(client);

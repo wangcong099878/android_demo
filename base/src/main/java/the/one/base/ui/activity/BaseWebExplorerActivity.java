@@ -161,7 +161,7 @@ public class BaseWebExplorerActivity extends BaseActivity {
         super.onEnterAnimationComplete();
         if (isFirstInit) {
             isFirstInit = false;
-            // 动画结束后再进行
+            // 将耗时的放在动画结束后再进行
             loadUrl();
         }
     }

@@ -75,6 +75,8 @@ public class NumberPickerView extends LinearLayout implements View.OnClickListen
         QMUIRoundButton addText =  findViewById(R.id.button_add);
         mNumText = (EditText) findViewById(R.id.middle_count);
 
+        subText.setChangeAlphaWhenPress(true);
+        addText.setChangeAlphaWhenPress(true);
         //添加监听事件
         addText.setOnClickListener(this);
         subText.setOnClickListener(this);

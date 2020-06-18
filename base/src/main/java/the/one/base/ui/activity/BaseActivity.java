@@ -116,11 +116,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setSkinManager(QMUISkinManager.defaultInstance(this));
         overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
         super.onCreate(savedInstanceState);
         AppMourningThemeUtil.notify(getWindow());
         mRootView = getView(getContentViewId());
-        setSkinManager(QMUISkinManager.defaultInstance(this));
         updateStatusBarMode();
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);
