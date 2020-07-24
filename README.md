@@ -94,9 +94,9 @@ implementation 'com.gitee.theoneee:TheBase:lastversion`
 annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion' //集成了RxHttp，如需使用则添加
 annotationProcessor 'com.jakewharton:butterknife-compiler:$butterknifeVersion' //butterknife 注解
 
+```
 [version](https://gitee.com/theoneee/TheBase/blob/master/baseConfigs.gradle)
 
-```
 3.manifest里application指定  
 ```android:name="the.one.base.BaseApplication" ```
 
