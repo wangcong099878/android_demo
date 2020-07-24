@@ -91,8 +91,10 @@ implementation 'com.gitee.theoneee:TheBase:lastversion`
 ```
 
 以下非必须
-annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:2.0.0' //集成了RxHttp，如需使用则添加
-annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1' //butterknife 注解
+annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion' //集成了RxHttp，如需使用则添加
+annotationProcessor 'com.jakewharton:butterknife-compiler:$butterknifeVersion' //butterknife 注解
+
+[version](https://gitee.com/theoneee/TheBase/blob/master/baseConfigs.gradle)
 
 ```
 3.manifest里application指定  
