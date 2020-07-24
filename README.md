@@ -91,19 +91,30 @@ implementation 'com.gitee.theoneee:TheBase:lastversion`
 ```
 
 以下非必须
-annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:$rxhttpVersion' //集成了RxHttp，如需使用则添加
+annotationProcessor 'com.ljx.rxhttp:rxhttp-compiler:$rxhttpVersion' //集成了RxHttp，如需使用则添加
 annotationProcessor 'com.jakewharton:butterknife-compiler:$butterknifeVersion' //butterknife 注解
 
 ```
-[version](https://gitee.com/theoneee/TheBase/blob/master/baseConfigs.gradle)
+
+[版本见这里](https://gitee.com/theoneee/TheBase/blob/master/baseConfigs.gradle)
+
 
 3.manifest里application指定  
-```android:name="the.one.base.BaseApplication" ```
+```
+
+android:name="the.one.base.BaseApplication" 
+
+```
 
 或者继承 BaseApplication再指定成自己的
 
 style AppTheme继承BaseTheme
-```<style name="AppTheme" parent="BaseTheme"/>```
+
+```
+
+<style name="AppTheme" parent="BaseTheme"/>
+
+```
 
 #### 以上三个必须要！！！
 
