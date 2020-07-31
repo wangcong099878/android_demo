@@ -20,7 +20,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.ui.activity.BaseWebExplorerActivity;
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.ViewUtil;
@@ -62,7 +62,7 @@ import the.one.gank.ui.view.HomeView;
  * @email 625805189@qq.com
  * @remark
  */
-public class Home2Fragment extends BaseDataFragment<HomeSection> implements HomeView {
+public class Home2Fragment extends BaseListFragment<HomeSection> implements HomeView {
 
     private BannerViewPager<BannerBean, BannerViewHolder> mBannerViewPager;
     private HomePresenter presenter;

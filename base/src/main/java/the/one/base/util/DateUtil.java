@@ -305,4 +305,32 @@ public class DateUtil {
     public String getWay() {
         return mWay;
     }
+
+    /**
+     * 获得两个日期间距多少天
+     *
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public static long getTimeDistance(Date beginDate, Date endDate) {
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(beginDate);
+        fromCalendar.set(Calendar.HOUR_OF_DAY, fromCalendar.getMinimum(Calendar.HOUR_OF_DAY));
+        fromCalendar.set(Calendar.MINUTE, fromCalendar.getMinimum(Calendar.MINUTE));
+        fromCalendar.set(Calendar.SECOND, fromCalendar.getMinimum(Calendar.SECOND));
+        fromCalendar.set(Calendar.MILLISECOND, fromCalendar.getMinimum(Calendar.MILLISECOND));
+
+        Calendar toCalendar = Calendar.getInstance();
+        toCalendar.setTime(endDate);
+        toCalendar.set(Calendar.HOUR_OF_DAY, fromCalendar.getMinimum(Calendar.HOUR_OF_DAY));
+        toCalendar.set(Calendar.MINUTE, fromCalendar.getMinimum(Calendar.MINUTE));
+        toCalendar.set(Calendar.SECOND, fromCalendar.getMinimum(Calendar.SECOND));
+        toCalendar.set(Calendar.MILLISECOND, fromCalendar.getMinimum(Calendar.MILLISECOND));
+
+        long dayDistance = (toCalendar.getTime().getTime() - fromCalendar.getTime().getTime()) / (1000 * 3600 * 24);
+        dayDistance = Math.abs(dayDistance);
+
+        return dayDistance;
+    }
 }

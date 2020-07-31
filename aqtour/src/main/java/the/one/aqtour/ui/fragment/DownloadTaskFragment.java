@@ -20,7 +20,7 @@ import the.one.aqtour.m3u8downloader.bean.M3U8TaskState;
 import the.one.aqtour.ui.activity.DownloadVideoPlayActivity;
 import the.one.aqtour.ui.adapter.DownloadTaskAdapter;
 import the.one.aqtour.util.VideoDownloadUtil;
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.event.SuccessEvent;
@@ -28,7 +28,7 @@ import the.one.base.model.SamplePageInfoBean;
 import the.one.base.util.EventBusUtil;
 
 
-public class DownloadTaskFragment extends BaseDataFragment<M3U8Task> {
+public class DownloadTaskFragment extends BaseListFragment<M3U8Task> {
 
     public static DownloadTaskFragment newInstance( boolean isDownload) {
         DownloadTaskFragment fragment = new DownloadTaskFragment();

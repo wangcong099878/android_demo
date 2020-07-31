@@ -5,7 +5,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.demo.R;
 import the.one.demo.bean.GankBean;
@@ -39,7 +39,7 @@ import the.one.demo.ui.presenter.GankPresenter;
  * @email 625805189@qq.com
  * @remark 内容最好固定
  */
-public class StickLayoutFragment extends BaseDataFragment<GankBean> {
+public class StickLayoutFragment extends BaseListFragment<GankBean> {
 
     private GankPresenter presenter;
 

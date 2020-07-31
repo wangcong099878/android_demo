@@ -37,7 +37,7 @@ import the.one.base.util.ViewUtil;
  * 然后点击后查看大图，这个时候只能显示已经加载的数据，滑动到最后一条数据时也应该继续显示
  * 实体需 implements {@link ImageSnap}
  */
-public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseDataFragment<T>
+public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseListFragment<T>
         implements ImageSnapAdapter.OnImageClickListener<T>, Observer<Boolean>, QMUIBottomSheetUtil.OnSheetItemClickListener {
 
     protected ImageSnapAdapter<T> mImageSnapAdapter;

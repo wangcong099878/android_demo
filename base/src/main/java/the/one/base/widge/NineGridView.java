@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import the.one.base.R;
 import the.one.base.util.ImagePreviewUtil;
 import the.one.base.util.glide.GlideUtil;
 
@@ -54,8 +58,15 @@ public class NineGridView extends NineGridLayout {
                     newW = parentWidth / 2;
                     newH = h * newW / w;
                 }
-                imageView.setImageBitmap(bitmap);
                 setOneImageLayoutParams(imageView, newW, newH);
+                Glide.with(getContext())
+                        .load(url)
+                        .transition(new DrawableTransitionOptions().crossFade())// 渐入渐出效果
+                        .apply(new RequestOptions()
+                                .placeholder(R.drawable.pa_shape)
+                                .override(newW,newH)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .into(imageView);
             }
         });
         return false;

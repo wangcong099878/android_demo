@@ -146,7 +146,37 @@ public interface BaseView {
     void showSuccessTips(String msg);
 
     /**
+     * 显示成功后退出
+     * @param tips
+     */
+    void showSuccessExit(String tips);
+
+    /**
+     * 显示成功后退出
+     * @param tips
+     */
+    void showSuccessExit(String tips,int type);
+
+    /**
      * 显示错误提示
      */
     void showFailTips(String msg);
+
+    /**
+     * 关闭
+     */
+    void finish();
+
+    /**
+     *
+     * @param c 目标Activity
+     */
+    void startActivity(Class c);
+
+    /**
+     *
+     * @param c 目标Activity
+     * @param finishCurrent 是否关闭当前
+     */
+    void startActivity(Class c,boolean finishCurrent);
 }

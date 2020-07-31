@@ -51,11 +51,11 @@ import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 /**
  * @author The one
  * @date 2018/12/28 0028
- * @describe TODO
+ * @describe 列表类型Fragment基类
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseDataFragment<T> extends BaseFragment
+public abstract class BaseListFragment<T> extends BaseFragment
         implements BaseDataView<T>, OnItemClickListener, OnItemLongClickListener,
         QMUIPullRefreshLayout.OnPullListener, OnTopBarDoubleClickListener {
 
@@ -112,6 +112,14 @@ public abstract class BaseDataFragment<T> extends BaseFragment
         return setType() != TYPE_LIST;
     }
 
+    /**
+     * 是否显示已经到最后的View
+     * @return
+     */
+    protected boolean isShowLoadMoreEnd(){
+        return true;
+    }
+
     protected RecyclerView recycleView;
     protected BaseQuickAdapter adapter;
     protected PullRefreshLayout pullLayout;
@@ -122,7 +130,6 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     public int page = 1;
     public boolean isFirst = true;
     public boolean isHeadFresh = false;
-    protected boolean isGlidePause = true;
 
     @Override
     protected int getContentViewId() {
@@ -211,20 +218,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
     }
 
     protected OnScrollListener getOnScrollListener() {
-        return new OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if(null == _mActivity) return;
-                if (newState == SCROLL_STATE_IDLE) {
-                    isGlidePause = false;
-                    Glide.with(_mActivity).resumeRequests();
-                } else if (!isGlidePause) {
-                    isGlidePause = true;
-                    Glide.with(_mActivity).pauseRequests();
-                }
-            }
-        };
+        return null;
     }
 
     @Override
@@ -370,7 +364,7 @@ public abstract class BaseDataFragment<T> extends BaseFragment
             page++;
             adapter.getLoadMoreModule().loadMoreComplete();
         } else {
-            adapter.getLoadMoreModule().loadMoreEnd();
+            adapter.getLoadMoreModule().loadMoreEnd(isShowLoadMoreEnd());
         }
     }
 

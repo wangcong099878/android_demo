@@ -47,7 +47,7 @@ public class SelectPictureFragment extends BasePictureSelectorFragment {
 
     @Override
     public void onAddPicClick() {
-        SelectPictureUtil.getInstance().initSelectPicture(this,mSelectList);
+        SelectPictureUtil.getInstance().initImageSelector(this,getMaxSelectNum(),mSelectList,this);
     }
 
 }

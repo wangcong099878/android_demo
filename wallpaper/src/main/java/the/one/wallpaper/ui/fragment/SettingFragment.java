@@ -45,8 +45,6 @@ public class SettingFragment extends BaseGroupListFragment implements CompoundBu
                 DynamicWallpaper1.sendVoice(_mActivity, b);
             } else if (service.equals(WallpaperConstant.SERCIVE_2)) {
                 DynamicWallpaper2.sendVoice(_mActivity, b);
-            } else {
-                return;
             }
         }
     }

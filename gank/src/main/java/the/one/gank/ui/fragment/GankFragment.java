@@ -10,7 +10,7 @@ import java.util.List;
 
 import the.one.base.constant.DataConstant;
 import the.one.base.ui.activity.BaseWebExplorerActivity;
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.ImagePreviewUtil;
 import the.one.gank.bean.GankBean;
@@ -45,7 +45,7 @@ import the.one.gank.ui.presenter.GankPresenter;
  * @email 625805189@qq.com
  * @remark
  */
-public class GankFragment extends BaseDataFragment<GankBean> {
+public class GankFragment extends BaseListFragment<GankBean> {
 
     public static GankFragment newInstance(String type) {
         GankFragment fragment = new GankFragment();

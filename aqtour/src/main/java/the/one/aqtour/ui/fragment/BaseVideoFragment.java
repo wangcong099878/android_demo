@@ -11,10 +11,10 @@ import the.one.aqtour.bean.QSPVideoSection;
 import the.one.aqtour.ui.activity.VideoPlayActivity;
 import the.one.aqtour.ui.adapter.QSPVideoAdapter;
 import the.one.aqtour.ui.view.QSPVideoView;
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.constant.DataConstant;
 
-public abstract class BaseVideoFragment extends BaseDataFragment<QSPVideoSection> implements QSPVideoView {
+public abstract class BaseVideoFragment extends BaseListFragment<QSPVideoSection> implements QSPVideoView {
 
 
     protected QSPCategory mCategory;

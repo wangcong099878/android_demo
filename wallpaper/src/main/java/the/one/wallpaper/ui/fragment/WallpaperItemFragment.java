@@ -6,7 +6,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import the.one.base.constant.DataConstant;
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.wallpaper.bean.Wallpaper;
 import the.one.wallpaper.constant.WallpaperConstant;
@@ -42,7 +42,7 @@ import the.one.wallpaper.util.WallpaperSpUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class WallpaperItemFragment extends BaseDataFragment<Wallpaper> {
+public class WallpaperItemFragment extends BaseListFragment<Wallpaper> {
 
     public static WallpaperItemFragment newInstance(int type){
         WallpaperItemFragment fragment =  new WallpaperItemFragment();

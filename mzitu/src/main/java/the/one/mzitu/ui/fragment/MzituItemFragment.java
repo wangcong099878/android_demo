@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import the.one.base.ui.fragment.BaseDataFragment;
+import the.one.base.ui.fragment.BaseListFragment;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.mzitu.bean.Mzitu;
@@ -39,7 +39,7 @@ import the.one.mzitu.presenter.MzituPresenter;
  * @email 625805189@qq.com
  * @remark
  */
-public class MzituItemFragment extends BaseDataFragment<Mzitu> {
+public class MzituItemFragment extends BaseListFragment<Mzitu> {
 
     public static MzituItemFragment newInstance(String url){
         MzituItemFragment fragment = new MzituItemFragment();
