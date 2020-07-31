@@ -23,6 +23,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
+import com.qmuiteam.qmui.skin.defaultAttr.QMUISkinSimpleDefaultAttrProvider;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUIViewPager;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
@@ -37,7 +39,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgeAnchor;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgePagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.BadgeRule;
@@ -52,8 +53,7 @@ import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.model.TabBean;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.IndicatorUtil;
-import the.one.base.widge.indicator.ColorFlipPagerTitleView;
-import the.one.base.widge.tagsegment.TheTabSegment;
+import the.one.base.widge.SkinPagerTitleView;
 
 /**
  * @author The one
@@ -66,8 +66,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     protected ArrayList<BaseFragment> fragments;
     protected ArrayList<TabBean> mTabs;
-    protected TheTabSegment mTabSegment;
-    protected QMUITabBuilder mTabBuilder;
+    protected QMUITabSegment mTabSegment;
 
 
     protected MagicIndicator mMagicIndicator;
@@ -86,7 +85,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
      *
      * @return
      */
-    protected boolean tabFromNet() {
+    protected boolean isTabFromNet() {
         return false;
     }
 
@@ -95,7 +94,19 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
      *
      * @return
      */
-    protected boolean setViewPagerSwipe() {
+    protected boolean isViewPagerSwipe() {
+        return true;
+    }
+
+    /**
+     * ViewPager 切换是否有动画
+     * @return
+     */
+    protected boolean isSmoothScroll(){
+        return true;
+    }
+
+    protected boolean skinChangeWithTintColor(){
         return true;
     }
 
@@ -123,7 +134,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         fragments = new ArrayList<>();
         mTabs = new ArrayList<>();
         normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_normal_color);
-        selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_selected_color);
+        selectColor = QMUIResHelper.getAttrColor(_mActivity,R.attr.qmui_skin_support_tab_selected_color);
         //添加双击监听
         if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
             mTopLayout.setOnTopBarDoubleClickListener(this);
@@ -133,7 +144,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     @Override
     protected void onLazyInit() {
         super.onLazyInit();
-        if (!tabFromNet()) {
+        if (!isTabFromNet()) {
             startInit();
         } else {
             requestServer();
@@ -150,7 +161,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments, isDestroyItem());
         mViewPager.setAdapter(pageAdapter);
         mViewPager.addOnPageChangeListener(this);
-        mViewPager.setSwipeable(setViewPagerSwipe());
+        mViewPager.setSwipeable(isViewPagerSwipe());
         initSegment();
         initIndicator();
         showContentPage();
@@ -158,10 +169,10 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     protected void initSegment() {
         if (null != mTabSegment) {
-            mTabBuilder = mTabSegment.tabBuilder();
-            mTabBuilder.skinChangeWithTintColor(false);
+            QMUITabBuilder builder = mTabSegment.tabBuilder();
+            builder.skinChangeWithTintColor(skinChangeWithTintColor());
             for (TabBean tab : mTabs) {
-                mTabSegment.addTab(createQMUITab(tab));
+                mTabSegment.addTab(createQMUITab(builder,tab));
             }
             mTabSegment.addOnTabSelectedListener(this);
             mTabSegment.setupWithViewPager(mViewPager, false);
@@ -182,7 +193,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     @SuppressLint("SetTextI18n")
     public IPagerTitleView getTitleView(Context context, final int index) {
         final BadgePagerTitleView badgePagerTitleView = new BadgePagerTitleView(context);
-        SimplePagerTitleView simplePagerTitleView = new ColorFlipPagerTitleView(context);
+        SkinPagerTitleView simplePagerTitleView = new SkinPagerTitleView(context);
         simplePagerTitleView.setText(mTabs.get(index).getTitle());
         simplePagerTitleView.setTextSize(16);
         simplePagerTitleView.setNormalColor(normalColor);
@@ -195,6 +206,12 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         });
         badgePagerTitleView.setInnerPagerTitleView(simplePagerTitleView);
         QMUIRoundButton badgeButton = new QMUIRoundButton(context, null, R.attr.qmui_tab_sign_count_view);
+        QMUISkinSimpleDefaultAttrProvider skinProvider = new QMUISkinSimpleDefaultAttrProvider();
+        skinProvider.setDefaultSkinAttr(
+                QMUISkinValueBuilder.BACKGROUND, R.attr.qmui_skin_support_tab_sign_count_view_bg_color);
+        skinProvider.setDefaultSkinAttr(
+                QMUISkinValueBuilder.TEXT_COLOR, R.attr.qmui_skin_support_tab_sign_count_view_text_color);
+        badgeButton.setTag(R.id.qmui_skin_default_attr_provider, skinProvider);
         goneView(badgeButton);
         badgePagerTitleView.setBadgeView(badgeButton);
         badgePagerTitleView.setAutoCancelBadge(false);
@@ -202,8 +219,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     }
 
     public IPagerIndicator getIndicator(Context context) {
-        return IndicatorUtil.getLinePagerIndicator(_mActivity, QMUIResHelper.getAttrColor(_mActivity,R.attr.config_color));
-//        return IndicatorUtil.getWrapPagerIndicator(context, ContextCompat.getColor(context, R.color.qmui_config_color_background));
+        return IndicatorUtil.getWrapPagerIndicator(_mActivity, getColorr(R.color.qmui_config_color_background));
     }
 
     protected CommonNavigatorAdapter getNavigatorAdapter() {
@@ -314,19 +330,19 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
      * @param tabBean init得到的
      * @return
      */
-    protected QMUITab createQMUITab(TabBean tabBean) {
+    protected QMUITab createQMUITab(QMUITabBuilder builder,TabBean tabBean) {
         if (tabBean.getNormalDrawable() != -1) {
-            mTabBuilder.setNormalDrawable(getDrawablee(tabBean.getNormalDrawable()));
+            builder.setNormalDrawable(getDrawablee(tabBean.getNormalDrawable()));
         }
         if (tabBean.getSelectDrawable() != -1) {
-            mTabBuilder.setSelectedDrawable(getDrawablee(tabBean.getSelectDrawable()));
+            builder.setSelectedDrawable(getDrawablee(tabBean.getSelectDrawable()));
         }
         if (!TextUtils.isEmpty(tabBean.getTitle())) {
-            mTabBuilder.setText(tabBean.getTitle());
+            builder.setText(tabBean.getTitle());
         }else{
-            mTabBuilder.setText("");
+            builder.setText("");
         }
-        return mTabBuilder.build(_mActivity);
+        return builder.build(_mActivity);
     }
 
     @Override

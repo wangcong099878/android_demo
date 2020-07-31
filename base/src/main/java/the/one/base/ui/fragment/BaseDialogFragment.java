@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,40 @@ import the.one.base.util.QMUIDialogUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public  abstract class BaseDialogFragment extends DialogFragment {
+public abstract class BaseDialogFragment extends DialogFragment {
 
+    /**
+     * 是否使用QMUI的皮肤管理
+     * @return
+     */
+    protected boolean useQMUISkinManager() {
+        return true;
+    }
+
+    private QMUISkinManager mSkinManager;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (useQMUISkinManager())
+            mSkinManager = QMUISkinManager.defaultInstance(getContext());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mSkinManager != null) {
+            mSkinManager.register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mSkinManager != null) {
+            mSkinManager.unRegister(this);
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -45,12 +78,13 @@ public  abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayout(),null);
+        View view = inflater.inflate(getLayout(), null);
         initView(view);
         return view;
     }
 
     protected abstract int getLayout();
+
     protected abstract void initView(View view);
 
     protected String getTextString(TextView textView) {

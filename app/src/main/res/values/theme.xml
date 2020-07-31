@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- StringUtilFragment 示例使用-->
+    <attr name="app_skin_string_util_sample_color" format="color"/>
+
+    <style name="AppTheme" parent="TopBarWhiteTheme">
+
+        <item name="app_skin_string_util_sample_color">@color/qmui_config_color_red</item>
+    </style>
+
+    <style name="app_skin_dark" parent="TopBarDarkTheme" >
+
+        <item name="qmui_skin_support_topbar_bg" tools:ignore="DuplicateDefinition">@color/qmui_config_color_gray_1</item>
+        <item name="qmui_skin_support_common_list_title_color">@color/qmui_config_color_white</item>
+        <item name="qmui_skin_support_common_list_detail_color">@color/qmui_config_color_50_white</item>
+        <item name="qmui_skin_support_common_list_icon_tint_color">@color/qmui_config_color_white</item>
+        <item name="qmui_skin_support_s_list_item_bg_1">@drawable/s_list_item_bg_dark_1</item>
+        <item name="qmui_skin_support_s_list_item_bg_2">@drawable/s_list_item_bg_dark_2</item>
+
+        <item name="qmui_skin_support_empty_view_btn_bg_color">@color/qmui_config_color_gray_6</item>
+        <item name="qmui_skin_support_empty_view_btn_text_color">@color/qmui_config_color_white</item>
+        <item name="app_skin_background_color_1">@color/qmui_config_color_gray_1</item>
+        <item name="app_skin_background_color_2">@color/qmui_config_color_gray_7</item>
+
+        <item name="app_skin_background_color_1" tools:ignore="DuplicateDefinition">@color/qmui_config_color_gray_1</item>
+
+        <item name="app_skin_text_color_1">@color/qmui_config_color_white</item>
+        <item name="app_skin_text_color_2">@color/qmui_config_color_white</item>
+
+        <item name="app_skin_status_layout_loading_text_color">@color/qmui_config_color_white</item>
+        <item name="app_skin_status_layout_btn_background_color">@color/qmui_config_color_gray_7</item>
+        <item name="app_skin_status_layout_btn_text_color">@color/qmui_config_color_white</item>
+
+        <item name="app_skin_string_util_sample_color">@color/app_color_blue</item>
+
+    </style>
+
+    <!-- blue skin -->
+    <style name="app_skin_blue" parent="TopBarDarkTheme" >
+        <item name="qmui_skin_support_topbar_bg">@drawable/main_ripple_bg</item>
+        <item name="app_skin_text_color_1">@color/qmui_config_color_gray_1</item>
+        <item name="app_skin_text_color_2">@color/qmui_config_color_gray_4</item>
+        <item name="app_skin_background_color_1">@color/qmui_config_color_white</item>
+        <item name="app_skin_background_color_2">@color/qmui_config_color_background</item>
+
+        <item name="app_skin_string_util_sample_color">@color/qmui_config_color_blue</item>
+    </style>
+
+</resources>

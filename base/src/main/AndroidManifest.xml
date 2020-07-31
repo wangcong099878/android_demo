@@ -19,8 +19,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
             android:allowBackup="true"
@@ -37,7 +37,8 @@
 
         <activity android:name=".ui.activity.ImagePreviewActivity" />
 
-        <activity android:name=".ui.activity.CrashActivity"
+        <activity android:name=".ui.activity.BaseCrashActivity"
+            android:theme="@style/TranslucentTheme"
             android:launchMode="singleTop"/>
 
         <provider

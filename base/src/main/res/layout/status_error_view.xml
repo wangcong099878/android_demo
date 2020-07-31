@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/errorStateRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -27,21 +27,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="16dp"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/errorStateContentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
             android:layout_marginLeft="56dp"
-            android:layout_marginRight="56dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center"
             android:lineSpacingExtra="5.5dp" />
 
@@ -49,16 +49,19 @@
             android:id="@+id/errorStateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            tools:text="圆角为高度的一半"
-            app:qmui_isRadiusAdjustBounds="true"
-            app:qmui_backgroundColor="@color/gray_color_bg"
-            app:qmui_borderWidth="0dp"
             android:layout_gravity="center_horizontal"
-            android:textColor="#FFFFFF"/>
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:background="@color/qmui_config_color_gray_7"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:textColor="?attr/app_skin_status_layout_btn_text_color"
+            app:qmui_backgroundColor="@color/qmui_config_color_gray_7"
+            app:qmui_borderWidth="0dp"
+            app:qmui_isRadiusAdjustBounds="true"
+            app:qmui_skin_background="?attr/app_skin_status_layout_btn_background_color"
+            app:qmui_skin_text_color="?attr/app_skin_status_layout_btn_text_color"
+            tools:text="刷新试试" />
 
     </LinearLayout>
 

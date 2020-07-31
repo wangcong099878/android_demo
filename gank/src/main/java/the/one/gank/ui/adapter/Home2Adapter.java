@@ -61,7 +61,7 @@ public class Home2Adapter extends BaseSectionQuickAdapter<HomeSection, TheBaseVi
         NineGridView nineImageLayout = holder.getView(R.id.nine_grid);
         GankBean itemSection = homeSection.t;
         String author = "#" + itemSection.getWho()+ "  ";
-        tvContent.setText(StringUtils.SpannableString(author + itemSection.getDesc(), author, QMUIResHelper.getAttrColor(getContext(), R.attr.config_color), StringUtils.Type.ForegroundColorSpan));
+        tvContent.setText(StringUtils.SpannableString(author + itemSection.getDesc(), author, QMUIResHelper.getAttrColor(getContext(), R.attr.app_skin_primary_color), StringUtils.Type.ForegroundColorSpan));
         if (null == itemSection.getImages() || itemSection.getImages().size() < 1) {
             if (itemSection.getUrl().endsWith(".jpg")) {
                 ArrayList<String> strings = new ArrayList<>();

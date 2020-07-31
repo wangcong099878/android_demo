@@ -115,7 +115,9 @@ public abstract class BaseTitleTabFragment extends BaseTabFragment {
             goneView(mStatusLayout);
             //显示内容层时才判断是否显示阴影
             if (showElevation()) {
-                mAppBarLayout.setElevation(10f);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mAppBarLayout.setElevation(10f);
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ public class GankBean {
     private String url;
     @SerializedName("used")
     private boolean used;
-    @SerializedName("who")
+    @SerializedName(value = "who",alternate = "author")
     private String who;
     @SerializedName("images")
     private List<String> images;

@@ -4,6 +4,7 @@ import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.widge.StatusLayout;
 import the.one.demo.ui.activity.LauncherActivity;
+import the.one.demo.skin.SkinManager;
 
 
 //  ┏┓　　　┏┓
@@ -41,6 +42,7 @@ public class App extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        SkinManager.install(this);
 //        initFilePath();
         initStatusDrawable();
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {

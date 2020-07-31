@@ -4,7 +4,7 @@
     <!-- 标签选中时的背景 -->
     <item android:state_selected="true">
         <shape>
-            <solid android:color="?config_color" />
+            <solid android:color="?attr/app_skin_primary_color" />
             <corners android:radius="@dimen/category_btn_radio" />
         </shape>
     </item>

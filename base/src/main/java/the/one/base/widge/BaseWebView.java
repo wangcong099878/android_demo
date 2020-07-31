@@ -25,10 +25,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.WebSettings;
 
-import com.qmuiteam.qmui.util.QMUIDeviceHelper;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 
 import the.one.base.R;
+import the.one.base.util.DeviceUtil;
 import the.one.base.util.FileDirectoryUtil;
 
 /**
@@ -55,12 +55,13 @@ public class BaseWebView extends BridgeWebView {
 
     @SuppressLint("SetJavaScriptEnabled")
     protected void init(Context context) {
-        setLayerType(QMUIDeviceHelper.isHuawei()? View.LAYER_TYPE_NONE:View.LAYER_TYPE_HARDWARE, null);
+        setLayerType(!DeviceUtil.isAndroidM() ? View.LAYER_TYPE_NONE : View.LAYER_TYPE_HARDWARE, null);
         WebSettings webSettings = getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setSupportZoom(false);
         webSettings.setBuiltInZoomControls(false);
-        webSettings.setDefaultTextEncodingName("GBK");
+        webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setUseWideViewPort(true);
         webSettings.setLoadWithOverviewMode(true);
@@ -74,11 +75,7 @@ public class BaseWebView extends BridgeWebView {
     }
 
     public void exec(final String jsCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            evaluateJavascript(jsCode, null);
-        } else {
-            loadUrl(jsCode);
-        }
+        evaluateJavascript(jsCode, null);
     }
 
     @Override

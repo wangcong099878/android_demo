@@ -49,8 +49,8 @@ public class QMUIDialogUtil {
             AppMourningThemeUtil.notify(dialog.getWindow());
     }
 
-    public static void showSimpleDialog(final Context context, final String title, final String content) {
-        showPositiveDialog(context, title, content, "", null, "确认", new QMUIDialogAction.ActionListener() {
+    public static QMUIDialog showSimpleDialog(final Context context, final String title, final String content) {
+      return   showPositiveDialog(context, title, content, "", null, "确认", new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
                 dialog.dismiss();
@@ -67,8 +67,8 @@ public class QMUIDialogUtil {
      * @param rightBtnListener 右Btn监听
      * @return
      */
-    public static void showSimpleDialog(final Context context, final String title, final String content, QMUIDialogAction.ActionListener rightBtnListener) {
-        showPositiveDialog(context, title, content, "取消", new QMUIDialogAction.ActionListener() {
+    public static QMUIDialog showSimpleDialog(final Context context, final String title, final String content, QMUIDialogAction.ActionListener rightBtnListener) {
+      return   showPositiveDialog(context, title, content, "取消", new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
                 dialog.dismiss();
@@ -76,7 +76,7 @@ public class QMUIDialogUtil {
         }, "确定", rightBtnListener);
     }
 
-    public static void showPositiveDialog(final Context context, final String title, final String content, final String btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
+    public static QMUIDialog showPositiveDialog(final Context context, final String title, final String content, final String btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
         QMUIDialog.MessageDialogBuilder builder = new QMUIDialog.MessageDialogBuilder(context);
         if (!TextUtils.isEmpty(title)) {
             builder.setTitle(title);
@@ -90,12 +90,14 @@ public class QMUIDialogUtil {
         if (!TextUtils.isEmpty(btnRightString)) {
             builder.addAction(0, btnRightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightBtnListener);
         }
-        notifyTheme(builder.show());
+        QMUIDialog dialog = builder.show();
+        notifyTheme(dialog);
+        return dialog;
     }
 
 
-    public static void showNegativeDialog(final Context context, final String title, final CharSequence content, final String btnLeftString, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
-        showNegativeDialog(context, title, content, btnLeftString, new QMUIDialogAction.ActionListener() {
+    public static QMUIDialog showNegativeDialog(final Context context, final String title, final CharSequence content, final String btnLeftString, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
+       return showNegativeDialog(context, title, content, btnLeftString, new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
                 dialog.dismiss();
@@ -112,7 +114,7 @@ public class QMUIDialogUtil {
      * @param btnRightString
      * @param rightBtnListener
      */
-    public static void showNegativeDialog(final Context context, final String title, final CharSequence content, final CharSequence btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
+    public static QMUIDialog showNegativeDialog(final Context context, final String title, final CharSequence content, final CharSequence btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
         QMUIDialog dialog = new QMUIDialog.MessageDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(content)
@@ -120,6 +122,7 @@ public class QMUIDialogUtil {
                 .addAction(0, btnRightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightBtnListener)
                 .show();
         notifyTheme(dialog);
+        return dialog;
     }
 
     public static QMUIDialog showMenuDialog(Context context, String title, List<String> list, DialogInterface.OnClickListener listener) {
@@ -319,9 +322,9 @@ public class QMUIDialogUtil {
                 .addAction(leftText, new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
                         CharSequence text = builder.getEditText().getText();
                         listener.getEditText(dialog, text.toString(), index);
-                        dialog.dismiss();
                     }
                 })
                 .addAction(0, rightText, QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
@@ -337,6 +340,26 @@ public class QMUIDialogUtil {
 
     public interface OnEditTextConfirmClickListener {
         void getEditText(QMUIDialog dialog, String content, int index);
+    }
+
+    /**
+     * 消息类型对话框 (很长文案)
+     *
+     * @param context
+     * @param title
+     * @param content
+     * @param confirm
+     * @param listener
+     */
+    public static QMUIDialog showLongMessageDialog(Context context, String title, String content,String cancle,QMUIDialogAction.ActionListener cancelListener, String confirm, QMUIDialogAction.ActionListener listener) {
+        QMUIDialog dialog = new QMUIDialog.MessageDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(content)
+                .addAction(cancle, cancelListener)
+                .addAction(0, confirm, QMUIDialogAction.ACTION_PROP_NEGATIVE, listener)
+                .show();
+        notifyTheme(dialog);
+        return dialog;
     }
 
     /**
@@ -447,6 +470,7 @@ public class QMUIDialogUtil {
     }
 
     public static void FailTipsDialog(Context context, String tips, OnTipsDialogDismissListener listener) {
+        if(null == tips) tips = "错误";
         showTips(new QMUITipDialog.Builder(context)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
                 .setTipWord(tips)

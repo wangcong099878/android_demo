@@ -98,7 +98,8 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
             if (mClickView == mLetterSearch) {
                 startFragment(new CitySelectFragment());
             } else if (mClickView == mDialog) {
-                new TheCitySelectBottomSheetBuilder(_mActivity, this)
+                new TheCitySelectBottomSheetBuilder(_mActivity)
+                        .setOnCitySelectListener(this)
                         .setLBSProvince("贵州省")
                         .build().show();
             }else if(mClickView == mUpdate){

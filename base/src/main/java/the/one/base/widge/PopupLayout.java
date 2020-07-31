@@ -15,14 +15,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.view.NestedScrollingParent;
-
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import java.util.Objects;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.view.NestedScrollingParent;
 import the.one.base.R;
 
 import static android.content.ContentValues.TAG;
@@ -103,6 +102,11 @@ public class PopupLayout extends LinearLayout implements NestedScrollingParent {
                         public void onScrollBottom() {
                             //Log.e("tag", "myScrollView is scroll in bottom.");
                             mIsScrollInTop = false;
+                        }
+
+                        @Override
+                        public void onScroll(int l, int t, int oldl, int oldt) {
+
                         }
                     });
                 }

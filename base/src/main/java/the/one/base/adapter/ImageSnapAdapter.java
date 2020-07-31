@@ -169,7 +169,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                             GlideException e) {
         ViewUtil.goneViews(progressBar, imageView, ivPlay);
         imageGif.setVisibility(View.VISIBLE);
-        imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable));
+        imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.app_skin_glide_fail_drawable));
         imageGif.setEnabled(false);
     }
 
@@ -209,7 +209,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                 public void onImageLoadError(Exception e) {
                     resetProgress(progressBar);
                     imageGif.setVisibility(View.VISIBLE);
-                    imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable));
+                    imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.app_skin_glide_fail_drawable));
                 }
 
                 @Override
@@ -259,7 +259,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
                 .asGif()
                 .load(imagePath)
                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .error(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable)))
+                        .error(QMUIResHelper.getAttrDrawable(getContext(), R.attr.app_skin_glide_fail_drawable)))
                 .listener(new RequestListener<GifDrawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<GifDrawable> target,
@@ -295,7 +295,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
         Glide.with(getContext())
                 .load(imagePath)
                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .error(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable)))
+                        .error(QMUIResHelper.getAttrDrawable(getContext(), R.attr.app_skin_glide_fail_drawable)))
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -317,7 +317,7 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
     }
 
     private void setLoadFailDrawable(ImageView imageView) {
-        imageView.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.glide_fail_drawable));
+        imageView.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.app_skin_glide_fail_drawable));
     }
 
     private void resetProgress(QMUIProgressBar progressBar) {

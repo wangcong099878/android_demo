@@ -21,6 +21,8 @@ package the.one.base.ui.presenter;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -47,7 +49,7 @@ public class BasePresenter<V extends BaseView> implements LifecycleOwner {
     /**
      * 绑定view，一般在初始化中调用该方法
      */
-    public void attachView(V baseView, LifecycleOwner lifecycleOwner) {
+    public void attachView(@NotNull V baseView, @NotNull LifecycleOwner lifecycleOwner) {
         this.baseView = baseView;
         this.lifecycleOwner = lifecycleOwner;
     }

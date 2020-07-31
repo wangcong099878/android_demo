@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?config_bg_color">
+    app:qmui_skin_background="?attr/app_skin_background_color_1">
 
     <com.qmuiteam.qmui.widget.QMUIAppBarLayout
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="?config_bg_color"
+        app:qmui_skin_background="?attr/app_skin_background_color_1"
         android:fitsSystemWindows="true">
 
         <!-- layout_scrollFlags  https://www.jianshu.com/p/7caa5f4f49bd-->

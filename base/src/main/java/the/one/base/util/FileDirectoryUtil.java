@@ -44,6 +44,7 @@ public class FileDirectoryUtil {
      * 省区县json
      */
     public static String PROVINCE_JSON = "province.json";
+
     /**
      * 补丁
      */
@@ -53,6 +54,11 @@ public class FileDirectoryUtil {
      * 补丁名称
      */
     public static String PATCH_NAME = "patch";
+
+    /**
+     * RxHttp缓存文件夹名称
+     */
+    private static final String RXHTTP_CACHE_FILE_NAME = "RxHttpCache";
 
     private static Builder mBuilder;
 
@@ -133,6 +139,12 @@ public class FileDirectoryUtil {
      */
     public static String getCachePath(){
         return getPath( CACHE );
+    }
+
+
+    public static String getRxHttPCachePath(){
+        return getCachePath() + File.separator+ RXHTTP_CACHE_FILE_NAME;
+
     }
 
     private static String getPath(String path){

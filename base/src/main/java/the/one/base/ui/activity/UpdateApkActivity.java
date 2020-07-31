@@ -2,7 +2,6 @@ package the.one.base.ui.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,13 +22,13 @@ import java.io.File;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import the.one.base.Interface.IApkUpdate;
 import the.one.base.R;
-import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.constant.DataConstant;
 import the.one.base.model.Download;
-import the.one.base.Interface.IApkUpdate;
 import the.one.base.model.UpdateApkBean;
 import the.one.base.service.DownloadService;
+import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.QMUIDialogUtil;
@@ -44,13 +43,12 @@ import the.one.base.widge.ProgressButton;
  */
 public class UpdateApkActivity extends BaseActivity {
 
-    public static void startDown(Activity activity, IApkUpdate update) {
+    public static void startDown(Context activity, IApkUpdate update) {
         if (null == activity || null == update) return;
         UpdateApkBean updateApkBean = new UpdateApkBean(update);
         Intent intent = new Intent(activity, UpdateApkActivity.class);
         intent.putExtra(DataConstant.DATA, updateApkBean);
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
     }
 
     private TextView tvMsg;
@@ -76,6 +74,7 @@ public class UpdateApkActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void initView(View mRootView) {
+        overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
         initFilter();
         downloadInfo = getIntent().getParcelableExtra(DataConstant.DATA);
         tvMsg = findViewById(R.id.tv_content);

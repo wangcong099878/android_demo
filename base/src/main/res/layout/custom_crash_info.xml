@@ -23,9 +23,7 @@
 
         <TextView
                 android:id="@+id/textMessage"
-                style="@style/crash_text_style"
-                android:textColor="@color/qmui_config_color_gray_3"
-                android:textSize="17sp" />
+                style="@style/crash_text_style" />
 
     </ScrollView>
 

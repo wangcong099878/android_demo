@@ -1,10 +1,11 @@
 package the.one.base.widge;
 
 import android.content.Context;
-import androidx.core.view.NestedScrollingChild;
-import androidx.core.view.NestedScrollingChildHelper;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
+
+import androidx.core.view.NestedScrollingChild;
+import androidx.core.view.NestedScrollingChildHelper;
 
 /**
  * Created by Horrarndoo on 2017/6/30.
@@ -98,6 +99,9 @@ public class MyScrollView extends ScrollView implements NestedScrollingChild {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        if (mOnScrollLimitListener != null) {
+            mOnScrollLimitListener.onScroll(l,t,oldl,oldt);
+        }
         if (getScrollY() == 0) {//滑动到顶部
             isScrollToTop = true;
             isScrollToBottom = false;
@@ -152,5 +156,7 @@ public class MyScrollView extends ScrollView implements NestedScrollingChild {
          * 滑动到底部
          */
         void onScrollBottom();
+
+        void onScroll(int l, int t, int oldl, int oldt);
     }
 }

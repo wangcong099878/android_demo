@@ -401,4 +401,10 @@ public class DeviceUtil {
     public static boolean isAndroidQ() {
         return android.os.Build.VERSION.SDK_INT >= 29;
     }
+
+
+    public static boolean isAndroidM() {
+        return android.os.Build.VERSION.SDK_INT >= 23;
+    }
+
 }

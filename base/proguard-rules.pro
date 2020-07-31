@@ -1,24 +1,3 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
 
 # 指定代码的压缩级别 0 - 7(指定代码进行迭代优化的次数，在Android里面默认是5，这条指令也只有在可以优化时起作用。)
 -optimizationpasses 5
@@ -49,7 +28,7 @@
 #指示语：不能用这个指令处理库中的代码，因为有的类和类成员没有设计成public ,而在api中可能变成public
 -allowaccessmodification
 #当有优化和使用-repackageclasses时才适用。
--repackageclasses ''
+#-repackageclasses ''
  # 混淆时记录日志(打印混淆的详细信息)
  # 这句话能够使我们的项目混淆后产生映射文件
  # 包含有类名->混淆后类名的映射关系
@@ -217,7 +196,6 @@
 
 #LitePal
 -keep class org.litepal.** { *;}
-
 -keep class * extends org.litepal.crud.LitePalSupport{ *;}
 
 # EventBus
@@ -240,7 +218,7 @@
 #QMUI
 -keep class **_FragmentFinder { *; }
 -keep class com.qmuiteam.qmui.arch.record.** { *; }
--keep class android.support.v4.app.* { *; }
+-keep class androidx.fragment.app.* { *; }
 
 #PictureSelector 2.0
 -keep class com.luck.picture.lib.** { *; }
@@ -254,17 +232,47 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.*
 
 #rxhttp
--keep class rxhttp.**{*;}
+ #-keep class rxhttp.**{*;}
 
+ #Rxjava RxAndroid
+ -dontwarn rx.*
+ -dontwarn sun.misc.**
+ -keepclassmembers class rx.internal.util.unsafe.*ArrayQuene*Field*{
+ long producerIndex;
+ long consumerIndex;
+ }
 
-#
-#---------------------------------实体类---------------------------------
-#--------(实体Model不能混淆，否则找不到对应的属性获取不到值)-----
-#
+ -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode producerNode;
+ rx.internal.util.atomic.LinkedQueueNode consumerNode;
+ }
+ -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode consumerNode;
+ }
 
--keep class the.one.base.model.** { *; }
--keep class the.one.base.constant.** { *; }
--keep class the.one.base.event.** { *; }
-#保留一个完整的包
--keep class the.one.base.** { *; }
-
+ #bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+# tinker混淆规则
+-dontwarn com.tencent.tinker.**
+-keep class com.tencent.tinker.** { *; }
+-keep public class * implements com.tencent.tinker.loader.app.ApplicationLifeCycle {
+    <init>(...);
+    void onBaseContextAttached(android.content.Context);
+}
+-keep public class * extends com.tencent.tinker.loader.TinkerLoader {
+    <init>(...);
+}
+-keep public class * extends android.app.Application {
+     <init>();
+     void attachBaseContext(android.content.Context);
+}
+-keep class com.tencent.tinker.loader.TinkerTestAndroidNClassLoader {
+    <init>(...);
+}
+-keep class com.iflytek.elpmobile.smartlearning.ThisApplication {
+    <init>(...);
+}
+-keep class com.tencent.tinker.loader.** {
+         <init>(...);
+}

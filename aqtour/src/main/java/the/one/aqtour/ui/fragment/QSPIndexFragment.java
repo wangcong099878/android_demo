@@ -76,7 +76,7 @@ public class QSPIndexFragment extends BaseTitleTabFragment implements QSPCategor
 
 
     @Override
-    protected boolean tabFromNet() {
+    protected boolean isTabFromNet() {
         return true;
     }
 

@@ -3,6 +3,8 @@ package the.one.demo.ui.activity;
 import android.Manifest;
 import android.os.Bundle;
 
+import com.qmuiteam.qmui.skin.QMUISkinManager;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.Observer;
@@ -10,6 +12,7 @@ import io.reactivex.disposables.Disposable;
 import the.one.base.ui.activity.BaseFragmentActivity;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.demo.ui.fragment.SampleFragment;
+import the.one.demo.skin.SkinManager;
 
 
 //  ┏┓　　　┏┓
@@ -37,7 +40,32 @@ import the.one.demo.ui.fragment.SampleFragment;
  * @email 625805189@qq.com
  * @remark
  */
-public class SampleActivity extends BaseFragmentActivity implements  Observer<Boolean> {
+public class SampleActivity extends BaseFragmentActivity implements  Observer<Boolean>,QMUISkinManager.OnSkinChangeListener {
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(getSkinManager() != null){
+            getSkinManager().addSkinChangeListener(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(getSkinManager() != null){
+            getSkinManager().removeSkinChangeListener(this);
+        }
+    }
+
+    @Override
+    public void onSkinChange(QMUISkinManager skinManager, int oldSkin, int newSkin) {
+        if (newSkin == SkinManager.SKIN_WHITE) {
+            QMUIStatusBarHelper.setStatusBarLightMode(SampleActivity.this);
+        } else {
+            QMUIStatusBarHelper.setStatusBarDarkMode(SampleActivity.this);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

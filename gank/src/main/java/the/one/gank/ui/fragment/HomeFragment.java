@@ -1,6 +1,5 @@
 package the.one.gank.ui.fragment;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -165,7 +164,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     public void onBannerComplete(final List<BannerBean> data) {
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
-                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.config_color))
+                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.app_skin_primary_color))
                 .setHolderCreator(new HolderCreator<BannerViewHolder>() {
                     @Override
                     public BannerViewHolder createViewHolder() {
@@ -180,6 +179,11 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
                     }
                 })
                 .create(data);
+    }
+
+    @Override
+    public void onHotComplete(List<GankBean> data) {
+
     }
 
     @Override

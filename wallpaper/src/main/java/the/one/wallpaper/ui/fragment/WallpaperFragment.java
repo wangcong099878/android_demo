@@ -25,7 +25,7 @@ public class WallpaperFragment extends BaseTabOnTitleFragment implements Observe
     }
 
     @Override
-    protected boolean tabFromNet() {
+    protected boolean isTabFromNet() {
         return true;
     }
 

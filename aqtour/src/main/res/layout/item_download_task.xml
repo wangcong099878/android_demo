@@ -39,7 +39,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="20dp"
             app:qmui_background_color="@color/qmui_config_color_gray_9"
-            app:qmui_progress_color="?config_color"
+            app:qmui_progress_color="?attr/app_skin_primary_color"
             app:qmui_max_value="100"
             android:layout_height="4dp"/>
 

@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="TopBarWhiteTheme">
-        <item name="config_color">@color/app_color_theme_6</item>
+        <item name="app_skin_primary_color">@color/app_color_theme_6</item>
     </style>
 
 </resources>

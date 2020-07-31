@@ -31,10 +31,12 @@
         </activity>
 
         <activity android:name=".ui.activity.TagsActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"/>
 
         <activity android:name=".ui.activity.SampleActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|uiMode"/>
 
         <activity android:name=".ui.activity.BingoActivity"/>
 

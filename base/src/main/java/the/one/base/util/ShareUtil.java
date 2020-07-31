@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import java.io.File;
@@ -51,13 +52,11 @@ public class ShareUtil {
     public static final String PACKAGE_WECHAT = "com.tencent.mm";
     public static final String PACKAGE_MOBILE_QQ = "com.tencent.mobileqq";
     public static final String PACKAGE_QZONE = "com.qzone";
-    public static final String PACKAGE_SINA = "com.sina.weibo";
+    public static final String PACKAGE_SINA_WEIBO = "com.sina.weibo";
     /**
      * 微信7.0版本号，兼容处理微信7.0版本分享到朋友圈不支持多图片的问题
      */
     private static final int VERSION_CODE_FOR_WEI_XIN_VER7 = 1380;
-
-
 
     //分享文字
     public static void shareText(Context context, String shareText) {
@@ -70,11 +69,9 @@ public class ShareUtil {
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
         shareIntent.setType("text/plain");
-
         //设置分享列表的标题，并且每次都显示分享列表
         context.startActivity(Intent.createChooser(shareIntent, title));
     }
-
 
     public static void shareImageFile(Context context, File file, String title) {
         if (file != null) {
@@ -100,8 +97,14 @@ public class ShareUtil {
         }
     }
 
+
     // 判断是否安装指定app
     public static boolean isInstallApp(Context context, String app_package) {
+        return isInstallApp(context,app_package,"");
+    }
+
+    // 判断是否安装指定app
+    public static boolean isInstallApp(Context context, String app_package,String name) {
         final PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> pInfo = packageManager.getInstalledPackages(0);
         if (pInfo != null) {
@@ -112,7 +115,34 @@ public class ShareUtil {
                 }
             }
         }
+        if(!TextUtils.isEmpty(name)){
+            ToastUtil.showToast("您需要安装"+name+"客户端");
+        }
         return false;
+    }
+
+    /**
+     * 给QQ用户发送信息
+     * @param context
+     * @param qq qq号码
+     */
+    public static void shareTextToQQPerson(Context context,String qq){
+        shareTextToQQPerson(context,qq,"wpa");
+    }
+
+
+    /**
+     * 给QQ用户发送信息
+     *
+     * @param context
+     * @param qq qq号码
+     * @param chat_type  wpa 普通QQ  crm 营销QQ
+     * @remark qq号码必须开通QQ推广，否则不能创建临时会话 @url http://shang.qq.com/v3/index.html (开通方式，点击推广工具-> 登录 -> 立即免费开通)
+     */
+    public static void shareTextToQQPerson(Context context,String qq,String chat_type){
+        if(isInstallQQ(context)){
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mqqwpa://im/chat?chat_type="+chat_type+"&uin="+qq+"&version=1")));
+        }
     }
 
     /**
@@ -121,7 +151,7 @@ public class ShareUtil {
      * @param bitmap 文件路径
      */
     public static void shareImageToQQ(Context mContext, String bitmap) {
-        if (isInstallApp(mContext, PACKAGE_MOBILE_QQ)) {
+        if (isInstallQQ(mContext)) {
             try {
                 //                Uri uriToImage = Uri.parse(MediaStore.Images.Media.insertImage(
                 //                        mContext.getContentResolver(), bitmap, null, null));
@@ -140,8 +170,6 @@ public class ShareUtil {
             } catch (Exception e) {
                 QMUIDialogUtil.FailTipsDialog(mContext, "分享图片到QQ失败");
             }
-        } else {
-            Toast.makeText(mContext, "您需要安装QQ客户端", Toast.LENGTH_LONG).show();
         }
         /*
         之前有同学说在分享QQ和微信的时候，发现只要QQ或微信在打开的情况下，再调用分享只是打开了QQ和微信，却没有调用选择分享联系人的情况
@@ -157,7 +185,7 @@ public class ShareUtil {
      * @param picFile 文件路径
      */
     public static void shareWechatFriend(Context mContext, String picFile) {
-        if (isInstallApp(mContext, PACKAGE_WECHAT)) {
+        if (isInstallWeChat(mContext)) {
             Intent intent = new Intent();
             ComponentName cop = new ComponentName(PACKAGE_WECHAT, "com.tencent.mm.ui.tools.ShareImgUI");
             intent.setComponent(cop);
@@ -188,9 +216,6 @@ public class ShareUtil {
                     QMUIDialogUtil.FailTipsDialog(mContext, "分享图片到微信失败");
                 }
             }
-
-        } else {
-            Toast.makeText(mContext, "您需要安装微信客户端", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -200,7 +225,7 @@ public class ShareUtil {
      * 一定不能保存在/data/data/****这个内置目录中，否则将获取不到图片报“获取不到图片资源，.....”导致分享失败。
      */
     public static void shareWechatMoment(Context context, String picFile) {
-        if (isInstallApp(context, PACKAGE_WECHAT)) {
+        if (isInstallWeChat(context)) {
             Intent intent = new Intent();
             //分享精确到微信的页面，朋友圈页面，或者选择好友分享页面
             ComponentName comp = new ComponentName(PACKAGE_WECHAT, "com.tencent.mm.ui.tools.ShareToTimeLineUI");
@@ -230,8 +255,6 @@ public class ShareUtil {
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
             }
             context.startActivity(intent);
-        } else {
-            Toast.makeText(context, "您需要安装微信客户端", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -241,8 +264,7 @@ public class ShareUtil {
      * @param photoPath 文件路径
      */
     public static void shareToSinaFriends(Context context, String photoPath) {
-        if (!isInstallApp(context, PACKAGE_SINA)) {
-            Toast.makeText(context, "新浪微博没有安装！", Toast.LENGTH_SHORT).show();
+        if (!isInstallWeibo(context)) {
             return;
         }
         File file = new File(photoPath);
@@ -266,7 +288,7 @@ public class ShareUtil {
                 break;
             }
         }
-        intent.setClassName(PACKAGE_SINA, resolveInfo.activityInfo.name);// 这里在使用resolveInfo的时候需要做判空处理防止crash
+        intent.setClassName(PACKAGE_SINA_WEIBO, resolveInfo.activityInfo.name);// 这里在使用resolveInfo的时候需要做判空处理防止crash
         intent.putExtra(Intent.EXTRA_TEXT, "Test Text String !!");
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         context.startActivity(intent);
@@ -279,6 +301,8 @@ public class ShareUtil {
      * @param bmp 分享的图片的Bitmap对象
      */
     public void shareImageToWechat(Bitmap bmp, Context mContext) {
+        if(!isInstallWeChat(mContext))
+            return;
         File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsoluteFile();
         String fileName = "share";
         File appDir = new File(file, fileName);
@@ -335,6 +359,33 @@ public class ShareUtil {
             intent.putExtra(Intent.EXTRA_STREAM, uri);
         }
         mContext.startActivity(intent);
+    }
+
+    /**
+     * 是否安装QQ
+     * @param context
+     * @return
+     */
+    public static boolean isInstallQQ(Context context){
+        return  isInstallApp(context, PACKAGE_MOBILE_QQ,"QQ");
+    }
+
+    /**
+     * 是否安装微信
+     * @param context
+     * @return
+     */
+    public static boolean isInstallWeChat(Context context){
+        return  isInstallApp(context, PACKAGE_WECHAT,"微信");
+    }
+
+    /**
+     * 是否安装微博
+     * @param context
+     * @return
+     */
+    public static boolean isInstallWeibo(Context context){
+        return  isInstallApp(context, PACKAGE_SINA_WEIBO,"微博");
     }
 
     /**

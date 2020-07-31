@@ -76,7 +76,7 @@ public class CollapsingTopBarFragment extends BaseCollapsingTopBarFragment<GankB
         super.initView(rootView);
         mCollapsingTopBarLayout.setTitle("时光机");
         mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_1));
-        mBackBtn = mTopBar.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark, R.id.topbar_left_button);
+        mBackBtn = mTopBar.addLeftImageButton(R.drawable.mz_titlebar_ic_back_dark,false, R.id.topbar_left_button);
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -25,7 +25,7 @@
         android:layout_gravity="center"
         android:visibility="gone"
         app:qmui_background_color="@color/qmui_config_color_background"
-        app:qmui_progress_color="?config_color"
+        app:qmui_progress_color="?attr/app_skin_primary_color"
         app:qmui_stroke_width="3dp"
         app:qmui_type="type_circle" />
 

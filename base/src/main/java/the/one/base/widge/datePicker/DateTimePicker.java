@@ -14,13 +14,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.IntRange;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 import the.one.base.R;
 
 /**
@@ -73,7 +72,7 @@ public class DateTimePicker {
     private static final int MAX_HOUR = 23;
     private static final int MIN_MINUTE = 0;
     private static final int MIN_HOUR = 0;
-    private static  int MAX_MONTH = 12;
+    private static int MAX_MONTH = 12;
 
     private ArrayList<String> years, months, days, hours, minutes;
     private int startYear, startMonth, startDay, startHour, startMinute, endYear, endMonth, endDay, endHour, endMinute;
@@ -81,7 +80,6 @@ public class DateTimePicker {
     private ShowType curShowType;//显示级别
     private boolean keepLastSelected;//是否保留上一次的选择
 
-    private boolean isEnd;
 
     public DateTimePicker(Context context, ResultHandler resultHandler, Date startDate, Date endDate) {
         this(context, resultHandler, startDate, endDate, null);
@@ -94,10 +92,9 @@ public class DateTimePicker {
         endCalendar = Calendar.getInstance();
         startCalendar.setTime(startDate);
         endCalendar.setTime(endDate);
-        isEnd = endCalendar.getTime().getTime() > new Date().getTime();
         initDialog(context);
         initView();
-        updateView(builder,context);
+        updateView(builder, context);
     }
 
     private void initDialog(Context context) {
@@ -149,7 +146,7 @@ public class DateTimePicker {
         });
     }
 
-    private void updateView(Builder builder,Context context) {
+    private void updateView(Builder builder, Context context) {
         if (builder == null)
             builder = new Builder(context);
 
@@ -239,7 +236,7 @@ public class DateTimePicker {
      * 将“0-9”转换为“00-09”
      */
     private String formatTimeUnit(int unit) {
-        return unit < 10 ? "0" + String.valueOf(unit) : String.valueOf(unit);
+        return unit < 10 ? "0" + unit : String.valueOf(unit);
     }
 
     private void initArrayList() {
@@ -337,8 +334,7 @@ public class DateTimePicker {
             @Override
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.YEAR, Integer.parseInt(text));
-                if (isEnd)
-                    monthChange();
+                monthChange();
             }
         });
 
@@ -347,8 +343,7 @@ public class DateTimePicker {
             public void onSelect(String text) {
                 selectedCalender.set(Calendar.DAY_OF_MONTH, 1);
                 selectedCalender.set(Calendar.MONTH, Integer.parseInt(text) - 1);
-                if (isEnd)
-                    dayChange();
+                dayChange();
             }
         });
 
@@ -429,11 +424,10 @@ public class DateTimePicker {
         //显示年、月
         if (curShowType.value < ShowType.DAY.value)
             return;
-
         days.clear();
-        int selectedYear = selectedCalender.get(Calendar.YEAR);
-        int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
-        int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
+        int selectedYear = getCalendarYear(selectedCalender);
+        int selectedMonth = getCalendarMonth(selectedCalender);
+        int selectedDay = getCalendarDay(selectedCalender);
         int newSelectedDay;
         int newSelectedDayIndex = 0;
         if (selectedYear == startYear && selectedMonth == startMonth) {
@@ -483,9 +477,9 @@ public class DateTimePicker {
             return;
 
         hours.clear();
-        int selectedYear = selectedCalender.get(Calendar.YEAR);
-        int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
-        int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
+        int selectedYear = getCalendarYear(selectedCalender);
+        int selectedMonth = getCalendarMonth(selectedCalender);
+        int selectedDay = getCalendarDay(selectedCalender);
         int selectedHour = selectedCalender.get(Calendar.HOUR_OF_DAY);
         int newSelectedHour;
         int newSelectedHourIndex = 0;
@@ -804,6 +798,18 @@ public class DateTimePicker {
         }
 
         executeScroll();
+    }
+
+    private int getCalendarYear(Calendar calendar) {
+        return calendar.get(Calendar.YEAR);
+    }
+
+    private int getCalendarMonth(Calendar calendar) {
+        return calendar.get(Calendar.MONTH) + 1;
+    }
+
+    private int getCalendarDay(Calendar calendar) {
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     public static class Builder {

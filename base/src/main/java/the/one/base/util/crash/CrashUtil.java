@@ -47,7 +47,7 @@ import java.util.zip.ZipFile;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
-import the.one.base.ui.activity.CrashActivity;
+import the.one.base.ui.activity.BaseCrashActivity;
 
 
 // https://github.com/Ereza/CustomActivityOnCrash
@@ -56,14 +56,14 @@ public final class CrashUtil {
     private final static String TAG = "CustomActivityOnCrash";
 
     //Extras passed to the error activity
-    private static final String EXTRA_CONFIG = "cat.ereza.customactivityoncrash.EXTRA_CONFIG";
-    private static final String EXTRA_STACK_TRACE = "cat.ereza.customactivityoncrash.EXTRA_STACK_TRACE";
-    private static final String EXTRA_ACTIVITY_LOG = "cat.ereza.customactivityoncrash.EXTRA_ACTIVITY_LOG";
+    private static final String EXTRA_CONFIG = "the.one.base.util.crash.EXTRA_CONFIG";
+    private static final String EXTRA_STACK_TRACE = "the.one.base.util.crash.EXTRA_STACK_TRACE";
+    private static final String EXTRA_ACTIVITY_LOG = "the.one.base.util.crash.EXTRA_ACTIVITY_LOG";
 
     //General constants
-    private static final String INTENT_ACTION_ERROR_ACTIVITY = "cat.ereza.customactivityoncrash.ERROR";
-    private static final String INTENT_ACTION_RESTART_ACTIVITY = "cat.ereza.customactivityoncrash.RESTART";
-    private static final String CAOC_HANDLER_PACKAGE_NAME = "cat.ereza.customactivityoncrash";
+    private static final String INTENT_ACTION_ERROR_ACTIVITY = "the.one.base.util.crash.ERROR";
+    private static final String INTENT_ACTION_RESTART_ACTIVITY = "the.one.base.util.crash.RESTART";
+    private static final String CAOC_HANDLER_PACKAGE_NAME = "the.one.base.util.crash";
     private static final String DEFAULT_HANDLER_PACKAGE_NAME = "com.android.internal.os";
     private static final int TIME_TO_CONSIDER_FOREGROUND_MS = 500;
     private static final int MAX_STACK_TRACE_SIZE = 131071; //128 KB - 1
@@ -354,7 +354,7 @@ public final class CrashUtil {
      * @param intent   The Intent. Must not be null.
      * @param config   The config object as obtained by calling getConfigFromIntent.
      */
-    public static void restartApplicationWithIntent(@NonNull Activity activity, @NonNull Intent intent, @NonNull CrashConfig config) {
+    public static void restartApplicationWithIntent(@NonNull Activity activity, @NonNull Intent intent, CrashConfig config) {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         if (intent.getComponent() != null) {
             //If the class name has been set, we force it to simulate a Launcher launch.
@@ -365,7 +365,7 @@ public final class CrashUtil {
             intent.setAction(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
         }
-        if (config.getEventListener() != null) {
+        if (null != config &&config.getEventListener() != null) {
             config.getEventListener().onRestartAppFromErrorActivity();
         }
         activity.finish();
@@ -633,7 +633,7 @@ public final class CrashUtil {
 
         //Else, get the default error activity
         if (resolvedActivityClass == null) {
-            resolvedActivityClass = CrashActivity.class;
+            resolvedActivityClass = BaseCrashActivity.class;
         }
 
         return resolvedActivityClass;

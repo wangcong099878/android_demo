@@ -59,7 +59,7 @@ public class HomeAdapter extends BaseQMUISectionAdapter<HomeHeadSection, HomeIte
         NineGridView nineImageLayout = holder.itemView.findViewById(R.id.nine_grid);
         HomeItemSection itemSection = section.getItemAt(itemIndex);
         String author = "#" + itemSection.remark + "  ";
-        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, QMUIResHelper.getAttrColor(mContext,R.attr.config_color),StringUtils.Type.ForegroundColorSpan));
+        tvContent.setText(StringUtils.SpannableString(author + itemSection.content, author, QMUIResHelper.getAttrColor(mContext,R.attr.app_skin_primary_color),StringUtils.Type.ForegroundColorSpan));
         if (null == itemSection.images || itemSection.images.size() < 1) {
             if(itemSection.url.endsWith(".jpg")){
                 ArrayList<String> strings = new ArrayList<>();

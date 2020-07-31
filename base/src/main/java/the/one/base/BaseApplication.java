@@ -17,7 +17,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import androidx.annotation.Nullable;
-import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 import okhttp3.OkHttpClient;
 import rxhttp.HttpSender;
@@ -26,7 +25,7 @@ import rxhttp.wrapper.cahce.CacheMode;
 import rxhttp.wrapper.cookie.CookieStore;
 import rxhttp.wrapper.ssl.SSLSocketFactoryImpl;
 import rxhttp.wrapper.ssl.X509TrustManagerImpl;
-import the.one.base.ui.activity.CrashActivity;
+import the.one.base.ui.activity.BaseCrashActivity;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.SpUtil;
@@ -68,6 +67,10 @@ public  class BaseApplication extends MultiDexApplication {
         return context;
     }
 
+    public static void setContext(Context c) {
+         context = c;
+    }
+
     protected  Class getStartActivity(){
         return null;
     }
@@ -77,7 +80,6 @@ public  class BaseApplication extends MultiDexApplication {
         super.onCreate();
         context = this;
         initCrashConfig();
-        MultiDex.install(this);
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance().register(this);
         SpUtil.init(this);
@@ -90,12 +92,13 @@ public  class BaseApplication extends MultiDexApplication {
      * RxHttp设置缓存路径
      */
     protected void initHttp(){
-        HttpSender.init(getDefaultOkHttpClient(),BuildConfig.DEBUG);
+        OkHttpClient client = getDefaultOkHttpClient();
+        HttpSender.init(client,BuildConfig.DEBUG);
         //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
-        File cacheDir = new File(FileDirectoryUtil.getCachePath(), "RxHttpCache");
+        File cacheDir = new File(FileDirectoryUtil.getRxHttPCachePath());
         //设置最大缓存为10M，缓存有效时长为一个小时，这里全局不做缓存处理，某些需要缓存的请求单独设置
         RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, CacheMode.ONLY_NETWORK, 60 * 60 * 1000);
-        OkHttpUtils.initClient(getDefaultOkHttpClient());
+        OkHttpUtils.initClient(client);
     }
 
     protected OkHttpClient getDefaultOkHttpClient() {
@@ -126,7 +129,7 @@ public  class BaseApplication extends MultiDexApplication {
                 // 重启的 Activity
                 .restartActivity(getStartActivity())
                 // 错误的 Activity
-                .errorActivity(CrashActivity.class)
+                .errorActivity(BaseCrashActivity.class)
                 // 设置监听器
 //                .eventListener(new YourCustomEventListener())
                 .apply();

@@ -18,10 +18,10 @@
             android:id="@+id/my_progress"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:textColor="?config_color"
+            app:qmui_skin_text_color="?attr/app_skin_primary_color"
             android:textSize="13sp"
             app:qmui_background_color="#ecf0f1"
-            app:qmui_progress_color="?config_color"
+            app:qmui_progress_color="?attr/app_skin_primary_color"
             app:qmui_stroke_width="7dp"
             app:qmui_type="type_circle"/>
 

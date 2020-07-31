@@ -23,13 +23,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/iv_crash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
-                tools:ignore="VectorDrawableCompat"
-                tools:srcCompat="@drawable/ic_crash" />
+                app:qmui_skin_tint_color="?attr/app_skin_primary_color"
+                tools:ignore="MissingPrefix,VectorDrawableCompat" />
 
             <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
                 android:id="@+id/report_error"
@@ -41,7 +41,7 @@
                 android:paddingTop="10dp"
                 android:textColor="@color/qmui_config_color_white"
                 android:textSize="14sp"
-                app:qmui_backgroundColor="?attr/config_color"
+                app:qmui_backgroundColor="?attr/app_skin_primary_color"
                 app:qmui_borderWidth="0dp"
                 app:qmui_isRadiusAdjustBounds="true"
                 tools:text="@string/crash_report_tip" />
@@ -55,11 +55,13 @@
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
                 android:paddingTop="10dp"
-                android:textColor="@color/qmui_config_color_white"
                 android:textSize="13sp"
-                app:qmui_backgroundColor="@color/qmui_config_color_gray_5"
+                android:textColor="?attr/app_skin_status_layout_btn_text_color"
+                app:qmui_backgroundColor="?attr/app_skin_status_layout_btn_background_color"
                 app:qmui_borderWidth="0dp"
                 app:qmui_isRadiusAdjustBounds="true"
+                app:qmui_skin_background="?attr/app_skin_status_layout_btn_background_color"
+                app:qmui_skin_text_color="?attr/app_skin_status_layout_btn_text_color"
                 tools:text="@string/restart" />
 
         </LinearLayout>

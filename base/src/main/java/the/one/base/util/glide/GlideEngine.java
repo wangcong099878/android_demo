@@ -246,7 +246,7 @@ public class GlideEngine implements ImageEngine {
                         if (progressBar != null) {
                             progressBar.setVisibility(View.GONE);
                         }
-                        imageView.setImageDrawable(QMUIResHelper.getAttrDrawable(context, R.attr.glide_fail_drawable));
+                        imageView.setImageDrawable(QMUIResHelper.getAttrDrawable(context, R.attr.app_skin_glide_fail_drawable));
                         GlideProgressInterceptor.removeListener(url);
                     }
 
