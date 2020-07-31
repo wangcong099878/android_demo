@@ -386,6 +386,8 @@ public class BaseWebExplorerActivity extends BaseActivity {
         }
     };
 
+
+
 //    protected BridgeHandler getBridgeHandler(){
 //        return new BridgeHandler() {
 //            @Override

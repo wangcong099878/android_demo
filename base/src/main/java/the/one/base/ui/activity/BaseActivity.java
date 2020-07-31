@@ -3,7 +3,9 @@ package the.one.base.ui.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
@@ -27,9 +30,12 @@ import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
+import the.one.base.util.ViewUtil;
 import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
+
+import static android.view.View.NO_ID;
 
 
 //  ┏┓　　　┏┓
@@ -131,10 +137,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
             EventBusUtil.register(this);
         }
         initView(mRootView);
-    }
-
-    public View getView(int layoutId) {
-        return getLayoutInflater().inflate(layoutId, null);
     }
 
     @Override
@@ -260,79 +262,46 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
             mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
 
-    @Override
-    public void showSuccessTips(String msg) {
-        QMUIDialogUtil.SuccessTipsDialog(this, msg);
-    }
 
     @Override
-    public void showFailTips(String msg) {
-        QMUIDialogUtil.FailTipsDialog(this, msg);
-    }
-
-
-    public Drawable getDrawablee(int id) {
-        return ContextCompat.getDrawable(this, id);
-    }
-
-    public String getStringg(int id) {
-        return getResources().getString(id);
-    }
-
-    public int getColorr(int id) {
-        return ContextCompat.getColor(this, id);
-    }
-
-    public String getEditTextString(EditText editText) {
-        String str = editText.getText().toString();
-        return str;
-    }
-
-    public String getTextViewString(TextView textView) {
-        String str = textView.getText().toString();
-        return str;
-    }
-
-    public void goneView(View... views) {
-        for (View view : views) {
-            if (null != view && view.getVisibility() != View.GONE)
-                view.setVisibility(View.GONE);
-        }
-    }
-
-    public void showView(View... views) {
-        for (View view : views) {
-            if (view.getVisibility() != View.VISIBLE)
-                view.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void startActivityFinishCurrent(Class c) {
-        startActivity(new Intent(this, c));
-        finish();
-    }
-
     public void startActivity(Class c) {
+        startActivity(c, false);
+    }
+
+    @Override
+    public void startActivity(Class c, boolean finish) {
         startActivity(new Intent(this, c));
+        if (finish) finish();
     }
 
-    public boolean isNotNullAndEmpty(String content, String tips) {
-        if (null != content && !content.isEmpty())
-            return true;
-        else {
-            if (null != tips)
-                showFailTips(tips + "不能为空");
-            return false;
-        }
+
+
+    @Override
+    public void showSuccessExit(String tips) {
+        showSuccessExit(tips,-1);
     }
 
-    protected void loadImage(String url, ImageView imageView) {
-        GlideUtil.load(this, url, imageView);
+    @Override
+    public void showSuccessExit(String tips,int type) {
+        QMUIDialogUtil.SuccessTipsDialog(this, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
+            @Override
+            public void onDismiss() {
+                EventBusUtil.sendSuccessEvent(type);
+                finish();
+            }
+        });
     }
 
-    public void showLog(String str) {
-        Log.e(TAG, str);
+    @Override
+    public void showSuccessTips(String tips) {
+        QMUIDialogUtil.SuccessTipsDialog(this, tips);
     }
+
+    @Override
+    public void showFailTips(String tips) {
+        QMUIDialogUtil.FailTipsDialog(this, tips);
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -361,11 +330,101 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         }
         super.doOnBackPressed();
     }
+    /***   Util  ***/
 
-//    @Override
-//    public void finish() {
-//        super.finish();
-//        overridePendingTransition(R.anim.slide_still,R.anim.scale_exit);
-//    }
+    /**
+     * 获取View
+     * @param layoutId 布局id
+     * @return
+     */
+    protected View getView(int layoutId) {
+        return LayoutInflater.from(this).inflate(layoutId, null, false);
+    }
+
+    /**
+     * 获取Drawable
+     * @param id drawable id
+     * @return
+     */
+    protected Drawable getDrawablee(int id) {
+        return ContextCompat.getDrawable(this, id);
+    }
+
+    /**
+     * 获取String
+     * @param id string id
+     * @return
+     */
+    protected String getStringg(int id) {
+        return getResources().getString(id);
+    }
+
+    /**
+     * 获取Color
+     * @param id color id
+     * @return
+     */
+    protected int getColorr(int id) {
+        return ContextCompat.getColor(this, id);
+    }
+
+    /**
+     * 获取EditText String
+     * @param editText
+     * @return
+     */
+    protected String getEditTextString(EditText editText) {
+        return editText.getText().toString();
+    }
+
+    /**
+     * 获取TextView String
+     * @param textView
+     * @return
+     */
+    protected String getTextViewString(TextView textView) {
+        return textView.getText().toString();
+    }
+
+    /**
+     * 设置View为 {@link View.GONE}状态
+     * @param views
+     */
+    protected void goneView(View... views) {
+        ViewUtil.goneViews(views);
+    }
+
+    /**
+     * 设置View为 {@link View.VISIBLE}状态
+     * @param views
+     */
+    protected void showView(View... views) {
+        ViewUtil.showViews(views);
+    }
+
+    /**
+     * 判断内容是否为空并作出提示
+     * @param content 需要判断的内容
+     * @param tips 提示语句
+     * @return true 为空  false 不为空
+     */
+    protected boolean isContentEmpty(String content, String tips) {
+        if (TextUtils.isEmpty(content))
+            return true;
+        else {
+            if (null != tips)
+                showFailTips(tips + "不能为空");
+            return false;
+        }
+    }
+
+    /**
+     * 显示图片
+     * @param url
+     * @param imageView
+     */
+    protected void loadImage(String url, ImageView imageView) {
+        GlideUtil.load(this, url, imageView);
+    }
 
 }
