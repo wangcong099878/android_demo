@@ -28,6 +28,7 @@ import rxhttp.wrapper.ssl.X509TrustManagerImpl;
 import the.one.base.ui.activity.BaseCrashActivity;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.NotificationManager;
+import the.one.base.util.SkinSpUtil;
 import the.one.base.util.SpUtil;
 import the.one.base.util.crash.CrashConfig;
 import the.one.base.util.crash.CrashUtil;
@@ -75,6 +76,14 @@ public  class BaseApplication extends MultiDexApplication {
         return null;
     }
 
+    /**
+     * 是否需要QMUI换肤功能
+     * @return
+     */
+    protected boolean isOpenQMUISkinManger(){
+        return false;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -83,6 +92,7 @@ public  class BaseApplication extends MultiDexApplication {
         QMUISwipeBackActivityManager.init(this);
         NotificationManager.getInstance().register(this);
         SpUtil.init(this);
+        SkinSpUtil.setQMUISkinManager(isOpenQMUISkinManger());
         initHttp();
         initLogger();
     }

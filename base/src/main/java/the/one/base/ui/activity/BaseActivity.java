@@ -28,6 +28,7 @@ import the.one.base.util.AppMourningThemeUtil;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
+import the.one.base.util.SkinSpUtil;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.util.ViewUtil;
@@ -100,6 +101,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 自动根据TopBar的背景颜色判断
+     *
      * @return
      */
     protected boolean isStatusBarLightMode() {
@@ -108,9 +110,10 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 更新状态栏模式
+     *
      * @remark LIGHT 白色背景黑色图标  DARK 深色背景 白色图标
      */
-    protected void updateStatusBarMode(){
+    protected void updateStatusBarMode() {
         if (isStatusBarLightMode()) {
             QMUIStatusBarHelper.translucent(this);
             QMUIStatusBarHelper.setStatusBarLightMode(this);
@@ -122,7 +125,8 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setSkinManager(QMUISkinManager.defaultInstance(this));
+        if (SkinSpUtil.isQMUISkinManger())
+            setSkinManager(QMUISkinManager.defaultInstance(this));
         overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
         super.onCreate(savedInstanceState);
         AppMourningThemeUtil.notify(getWindow());
@@ -187,7 +191,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void hideProgressDialog() {
-        if (null != progressDialog && progressDialog.isShowing()){
+        if (null != progressDialog && progressDialog.isShowing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }
@@ -275,14 +279,13 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
 
-
     @Override
     public void showSuccessExit(String tips) {
-        showSuccessExit(tips,-1);
+        showSuccessExit(tips, -1);
     }
 
     @Override
-    public void showSuccessExit(String tips,int type) {
+    public void showSuccessExit(String tips, int type) {
         QMUIDialogUtil.SuccessTipsDialog(this, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
             @Override
             public void onDismiss() {
@@ -334,6 +337,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 获取View
+     *
      * @param layoutId 布局id
      * @return
      */
@@ -343,6 +347,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 获取Drawable
+     *
      * @param id drawable id
      * @return
      */
@@ -352,6 +357,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 获取String
+     *
      * @param id string id
      * @return
      */
@@ -361,6 +367,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 获取Color
+     *
      * @param id color id
      * @return
      */
@@ -370,6 +377,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 获取EditText String
+     *
      * @param editText
      * @return
      */
@@ -379,6 +387,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 获取TextView String
+     *
      * @param textView
      * @return
      */
@@ -388,6 +397,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 设置View为 {@link View.GONE}状态
+     *
      * @param views
      */
     protected void goneView(View... views) {
@@ -396,6 +406,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 设置View为 {@link View.VISIBLE}状态
+     *
      * @param views
      */
     protected void showView(View... views) {
@@ -404,8 +415,9 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 判断内容是否为空并作出提示
+     *
      * @param content 需要判断的内容
-     * @param tips 提示语句
+     * @param tips    提示语句
      * @return true 为空  false 不为空
      */
     protected boolean isContentEmpty(String content, String tips) {
@@ -420,6 +432,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     /**
      * 显示图片
+     *
      * @param url
      * @param imageView
      */

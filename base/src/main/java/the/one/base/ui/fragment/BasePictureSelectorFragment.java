@@ -119,6 +119,7 @@ public class BasePictureSelectorFragment<T extends LocalMedia> extends BaseFragm
 
     @Override
     public void onResult(List<T> result) {
+        mSelectList = result;
         mImageAdapter2.setList((List<LocalMedia>) result);
     }
 

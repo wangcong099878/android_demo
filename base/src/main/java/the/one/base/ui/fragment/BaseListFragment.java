@@ -114,10 +114,11 @@ public abstract class BaseListFragment<T> extends BaseFragment
 
     /**
      * 是否显示已经到最后的View
+     *
      * @return
      */
-    protected boolean isShowLoadMoreEnd(){
-        return true;
+    protected boolean isShowLoadMoreEnd() {
+        return false;
     }
 
     protected RecyclerView recycleView;
@@ -186,7 +187,8 @@ public abstract class BaseListFragment<T> extends BaseFragment
         if (isNeedSpace())
             recycleView.addItemDecoration(getSpacesItemDecoration());
         recycleView.setLayoutManager(getLayoutManager(type));
-        recycleView.addOnScrollListener(getOnScrollListener());
+        if (null != getOnScrollListener())
+            recycleView.addOnScrollListener(getOnScrollListener());
         recycleView.setAdapter(adapter);
     }
 

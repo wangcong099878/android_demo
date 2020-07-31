@@ -38,6 +38,7 @@ import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
+import the.one.base.util.SkinSpUtil;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.util.ViewUtil;
@@ -270,7 +271,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 注入 QMUISkinManager
-        mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
+        if (SkinSpUtil.isQMUISkinManger())
+            mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
