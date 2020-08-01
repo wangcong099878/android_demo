@@ -343,7 +343,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     *
      * @param parent
      * @param layout
      */
@@ -361,8 +360,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     * @deprecated use {@link #setTitleWithBackBtn}
      * @param title
+     * @deprecated use {@link #setTitleWithBackBtn}
      */
     protected void initFragmentBack(String title) {
         if (null != mTopLayout) {
@@ -373,6 +372,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置标题并带上返回按钮
+     *
      * @param title
      */
     protected void setTitleWithBackBtn(String title) {
@@ -406,6 +406,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 添加返回按钮
+     *
      * @param drawable 返回键图标
      */
     protected void addTopBarBackBtn(int drawable) {
@@ -418,7 +419,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     *  添加返回按钮
+     * 添加返回按钮
+     *
      * @param drawable 返回键图标
      * @param listener 返回键监听
      */
@@ -552,14 +554,13 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
 
-
     @Override
     public void showSuccessExit(String tips) {
-        showSuccessExit(tips,NO_SET);
+        showSuccessExit(tips, NO_SET);
     }
 
     @Override
-    public void showSuccessExit(String tips,int type) {
+    public void showSuccessExit(String tips, int type) {
         QMUIDialogUtil.SuccessTipsDialog(_mActivity, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
             @Override
             public void onDismiss() {
@@ -619,6 +620,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过TopView查找View {@link #getTopLayout()}
+     *
      * @param id
      * @param <T>
      * @return
@@ -629,6 +631,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过LeftView查找View {@link #getLeftLayout()}
+     *
      * @param id
      * @param <T>
      * @return
@@ -639,6 +642,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过RightView查找View {@link #getRightLayout()}
+     *
      * @param id
      * @param <T>
      * @return
@@ -649,6 +653,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过BottomView查找View {@link #getBottomLayout()}
+     *
      * @param id
      * @param <T>
      * @return
@@ -658,7 +663,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     *
      * @param around {@link #getTopLayout()} {@link #getBottomLayout()} {@link #getLeftLayout()} {@link #getRightLayout()}
      * @param id
      * @param <T>
@@ -673,6 +677,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取View
+     *
      * @param layoutId 布局id
      * @return
      */
@@ -682,6 +687,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取Drawable
+     *
      * @param id drawable id
      * @return
      */
@@ -691,6 +697,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取String
+     *
      * @param id string id
      * @return
      */
@@ -700,6 +707,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取Color
+     *
      * @param id color id
      * @return
      */
@@ -709,6 +717,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取EditText String
+     *
      * @param editText
      * @return
      */
@@ -718,6 +727,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取TextView String
+     *
      * @param textView
      * @return
      */
@@ -727,6 +737,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置View为 {@link View.GONE}状态
+     *
      * @param views
      */
     protected void goneView(View... views) {
@@ -735,6 +746,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置View为 {@link View.VISIBLE}状态
+     *
      * @param views
      */
     protected void showView(View... views) {
@@ -743,22 +755,23 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 判断内容是否为空并作出提示
+     *
      * @param content 需要判断的内容
-     * @param tips 提示语句
+     * @param tips    提示语句
      * @return true 为空  false 不为空
      */
-    protected boolean isContentEmpty(String content, String tips) {
-        if (TextUtils.isEmpty(content))
-            return true;
-        else {
-            if (null != tips)
+    protected boolean isContentNotEmpty(String content, String tips) {
+        if (TextUtils.isEmpty(content)) {
+            if (!TextUtils.isEmpty(tips))
                 showFailTips(tips + "不能为空");
             return false;
         }
+        return true;
     }
 
     /**
      * 显示图片
+     *
      * @param url
      * @param imageView
      */

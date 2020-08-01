@@ -18,7 +18,6 @@ package the.one.base.ui.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.content.Intent;
 import android.view.View;
 
 import com.luck.picture.lib.PictureSelector;
@@ -46,10 +45,10 @@ import the.one.base.util.SelectPictureUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class BasePictureSelectorFragment<T extends LocalMedia> extends BaseFragment implements GridImageAdapter.onAddPicClickListener, OnItemClickListener, OnResultCallbackListener<T> {
+public class BasePictureSelectorFragment extends BaseFragment implements GridImageAdapter.onAddPicClickListener, OnItemClickListener, OnResultCallbackListener<LocalMedia> {
 
     protected RecyclerView mRecyclerView;
-    protected List<T> mSelectList = new ArrayList<>();
+    protected List<LocalMedia> mSelectList = new ArrayList<>();
 
     protected GridImageAdapter mImageAdapter2;
 
@@ -77,7 +76,7 @@ public class BasePictureSelectorFragment<T extends LocalMedia> extends BaseFragm
         initLayoutManager();
         mImageAdapter2 = new GridImageAdapter(_mActivity,this);
         mImageAdapter2.setSelectMax(getMaxSelectNum());
-        mImageAdapter2.setList((List<LocalMedia>) mSelectList);
+        mImageAdapter2.setList(mSelectList);
         mRecyclerView.setAdapter(mImageAdapter2);
         mImageAdapter2.setOnItemClickListener(this);
     }
@@ -88,7 +87,7 @@ public class BasePictureSelectorFragment<T extends LocalMedia> extends BaseFragm
 
     @Override
     public void onAddPicClick() {
-
+        SelectPictureUtil.getInstance().initImageSelector(this,getMaxSelectNum(),mSelectList,this);
     }
 
     @Override
@@ -118,9 +117,9 @@ public class BasePictureSelectorFragment<T extends LocalMedia> extends BaseFragm
     }
 
     @Override
-    public void onResult(List<T> result) {
+    public void onResult(List<LocalMedia> result) {
         mSelectList = result;
-        mImageAdapter2.setList((List<LocalMedia>) result);
+        mImageAdapter2.setList(result);
     }
 
     @Override
