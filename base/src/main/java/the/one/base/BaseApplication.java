@@ -55,7 +55,7 @@ import the.one.base.util.crash.CrashUtil;
 /**
  * @author The one
  * @date 2019/1/7 0007
- * @describe Application积累
+ * @describe Application基类
  * @email 625805189@qq.com
  * @remark 需要继承此类或者manifest指向此类
  */
