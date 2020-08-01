@@ -55,11 +55,11 @@ import the.one.base.util.crash.CrashUtil;
 /**
  * @author The one
  * @date 2019/1/7 0007
- * @describe TODO
+ * @describe Application积累
  * @email 625805189@qq.com
- * @remark
+ * @remark 需要继承此类或者manifest指向此类
  */
-public  class BaseApplication extends MultiDexApplication {
+public class BaseApplication extends MultiDexApplication {
 
     @SuppressLint("StaticFieldLeak")
     protected static Context context;
@@ -69,19 +69,59 @@ public  class BaseApplication extends MultiDexApplication {
     }
 
     public static void setContext(Context c) {
-         context = c;
+        context = c;
     }
 
-    protected  Class getStartActivity(){
+    /**
+     * 异常捕获重启时的Activity
+     * @return  启动Activity
+     */
+    protected Class getStartActivity() {
         return null;
     }
 
     /**
+     * 异常捕获时显示的Activity
+     * @return  异常显示Activity
+     */
+    protected Class getCrashActivity() {
+        return BaseCrashActivity.class;
+    }
+
+    /**
      * 是否需要QMUI换肤功能
+     *
      * @return
      */
-    protected boolean isOpenQMUISkinManger(){
+    protected boolean isOpenQMUISkinManger() {
         return false;
+    }
+
+    /**
+     * 是否为Debug模式
+     *
+     * @return True 会开启日志
+     */
+    protected boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
+
+    /**
+     * RxHttp缓存模式
+     *
+     * @return 默认仅网络
+     */
+    protected CacheMode getRxHttpCacheMode() {
+        return CacheMode.ONLY_NETWORK;
+    }
+
+    /**
+     * RxHttp缓存时长
+     *
+     * @return 默认24小时
+     */
+    protected long getRxHttpCacheValidTime() {
+        return 24 * 60 * 60 * 1000;
     }
 
     @Override
@@ -101,21 +141,24 @@ public  class BaseApplication extends MultiDexApplication {
      * OkHttpUtils适配https
      * RxHttp设置缓存路径
      */
-    protected void initHttp(){
+    protected void initHttp() {
         OkHttpClient client = getDefaultOkHttpClient();
-        HttpSender.init(client,BuildConfig.DEBUG);
+        HttpSender.init(client, isDebug());
         //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
         File cacheDir = new File(FileDirectoryUtil.getRxHttPCachePath());
         //设置最大缓存为10M，缓存有效时长为一个小时，这里全局不做缓存处理，某些需要缓存的请求单独设置
-        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, CacheMode.ONLY_NETWORK, 60 * 60 * 1000);
+        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, getRxHttpCacheMode(), getRxHttpCacheValidTime());
         OkHttpUtils.initClient(client);
     }
 
+    /**
+     * 获取默认的OkHttpClient
+     */
     protected OkHttpClient getDefaultOkHttpClient() {
         X509TrustManager trustAllCert = new X509TrustManagerImpl();
         SSLSocketFactory sslSocketFactory = new SSLSocketFactoryImpl(trustAllCert);
         return new OkHttpClient.Builder()
-                .cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"),false))
+                .cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"), false))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
@@ -128,9 +171,9 @@ public  class BaseApplication extends MultiDexApplication {
      * @TODO 初始化异常捕捉配置
      * @remark https://github.com/Ereza/CustomActivityOnCrash
      */
-    protected void initCrashConfig(){
+    protected void initCrashConfig() {
         CrashUtil.install(this);
-        if(null == getStartActivity()) return;
+        if (null == getStartActivity()) return;
         CrashConfig.Builder.create()
                 .backgroundMode(CrashConfig.BACKGROUND_MODE_SHOW_CUSTOM)
                 .enabled(true)
@@ -139,12 +182,15 @@ public  class BaseApplication extends MultiDexApplication {
                 // 重启的 Activity
                 .restartActivity(getStartActivity())
                 // 错误的 Activity
-                .errorActivity(BaseCrashActivity.class)
+                .errorActivity(getCrashActivity())
                 // 设置监听器
-//                .eventListener(new YourCustomEventListener())
+                // .eventListener(new YourCustomEventListener())
                 .apply();
     }
 
+    /**
+     * 初始化日志打印工具
+     */
     protected void initLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(true)      //（可选）是否显示线程信息。 默认值为true
