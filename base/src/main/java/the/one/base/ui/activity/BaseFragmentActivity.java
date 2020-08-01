@@ -26,6 +26,7 @@ import com.qmuiteam.qmui.skin.QMUISkinManager;
 import the.one.base.R;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.base.util.AppMourningThemeUtil;
+import the.one.base.util.SkinSpUtil;
 
 /**
  * @author The one
@@ -43,7 +44,8 @@ public abstract class BaseFragmentActivity extends QMUIFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.scale_enter, R.anim.slide_still);
-        setSkinManager(QMUISkinManager.defaultInstance(this));
+        if (SkinSpUtil.isQMUISkinManger())
+            setSkinManager(QMUISkinManager.defaultInstance(this));
         super.onCreate(savedInstanceState);
         AppMourningThemeUtil.notify(getWindow());
         if (savedInstanceState == null) {
