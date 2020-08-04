@@ -20,10 +20,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**
- * @author cginechen
- * @date 2016-12-08
- */
 
 public abstract class SampleLauncherActivity extends Activity {
 

@@ -5,6 +5,7 @@ import com.rxjava.rxlife.RxLife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import rxhttp.wrapper.param.RxHttp;
+import the.one.base.Interface.OnError;
 import the.one.base.ui.presenter.BaseDataPresenter;
 import the.one.mzitu.bean.Mzitu;
 import the.one.mzitu.constant.MzituConstant;
@@ -67,9 +68,9 @@ public class MzituPresenter extends BaseDataPresenter<Mzitu> {
                 .asString()
                 .observeOn(AndroidSchedulers.mainThread())
                 .as(RxLife.as(this))
-                .subscribe(onNext, throwable -> {
+                .subscribe(onNext, (OnError) error -> {
                     //请求失败
-                    onFail(throwable.getMessage());
+                    onFail(error.getErrorMsg());
                 });
     }
 

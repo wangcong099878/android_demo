@@ -5,6 +5,7 @@ import android.view.View;
 import com.rxjava.rxlife.RxLife;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import rxhttp.wrapper.cahce.CacheMode;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.OnError;
 import the.one.base.ui.presenter.BasePresenter;
@@ -43,7 +44,6 @@ import the.one.gank.ui.view.HomeView;
  */
 public class HomePresenter extends BasePresenter<HomeView> {
 
-
     public void getTodayData() {
         RxHttp.get(NetUrlConstant.TODAY)
                 .asResponseOld(HomeBean.class)
@@ -64,6 +64,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
                 });
     }
 
+    /**
+     * 获取首页轮播图  GANK V2 接口
+     */
     public void getBanner() {
         RxHttp.get(NetUrlConstantV2.BANNER)
                 .setDomainTov2UrlIfAbsent()
@@ -80,10 +83,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     /**
-     * 获取热门
+     * 获取本周热门 GANK V2 接口
+     * @param hot_type 可接受参数 views（浏览数） | likes（点赞数） | comments（评论数）
+     * @param category category 可接受参数 Article | GanHuo | Girl
+     * @return
      */
-    public void getHot() {
-        RxHttp.get(NetUrlConstantV2.HOT)
+    public void getWeekHot(boolean isFirst,String hot_type, String category ) {
+        RxHttp.get(NetUrlConstantV2.getHotUrl(hot_type,category))
+                .setCacheMode(isFirst? CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK:CacheMode.NETWORK_SUCCESS_WRITE_CACHE)
                 .setDomainTov2UrlIfAbsent()
                 .asResponseList(GankBean.class)
                 .as(RxLife.asOnMain(this))
@@ -92,7 +99,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
                     getView().onHotComplete(s.getData());
                 }, (OnError) error  -> {
                     //请求失败
-                    showFailTips("获取热门失败"+error.getErrorMsg());
+                    getView().onError(error.getErrorMsg());
                 });
 
     }

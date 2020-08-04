@@ -63,7 +63,6 @@ import the.one.gank.ui.view.HomeView;
  */
 public class HomeFragment extends BaseSectionLayoutFragment implements HomeView, QMUICollapsingTopBarLayout.OnOffsetUpdateListener {
 
-
     @BindView(R.id.topbar)
     QMUITopBar mTopBar;
     @BindView(R.id.iv_head)
@@ -79,8 +78,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     private HomePresenter presenter;
     private List<QMUISection<HomeHeadSection, HomeItemSection>> sections;
 
-    private boolean isCollapsed = false;
-    private boolean isOnPause = false;
+    private boolean isLightMode = false;
+    private boolean isOnResume = false;
 
     @Override
     protected boolean showTitleBar() {
@@ -91,7 +90,6 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     protected int getContentViewId() {
         return R.layout.fragment_home;
     }
-
 
     @Override
     protected boolean translucentFull() {
@@ -105,15 +103,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
 
     @Override
     protected boolean isStatusBarLightMode() {
-        return !isCollapsed;
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onLazyResume() {
-        isOnPause = false;
-        super.onLazyResume();
-        if (mBannerViewPager != null)
-            mBannerViewPager.startLoop();
+        return isLightMode;
     }
 
     @Override
@@ -138,13 +128,12 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     @Override
     public void onOffsetChanged(QMUICollapsingTopBarLayout layout, int offset, float expandFraction) {
         // mBannerViewPager 的轮播会触发这个方法，所以当offset==0的时候不做处理
-        if (isOnPause || offset == 0) return;
-        if (!isCollapsed && expandFraction < X) {
-            isCollapsed = true;
-            QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
-        } else if (isCollapsed && expandFraction > X) {
-            isCollapsed = false;
-            QMUIStatusBarHelper.setStatusBarLightMode(_mActivity);
+        if (!isOnResume || offset == 0) return;
+        boolean isLight =expandFraction > X;
+        if (!isLightMode && isLight) {
+            setStatusBarMode(true);
+        } else if (isLightMode && !isLight) {
+            setStatusBarMode(false);
         }
     }
 
@@ -202,6 +191,39 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
         QMUIStatusBarHelper.setStatusBarDarkMode(_mActivity);
     }
 
+    /**
+     * 更改状态栏模式
+     * 由于只有折叠和展开时才会调用，所以在这里对轮播也进行处理下
+     * @param isLight
+     * @remark 显示的时候才做更改
+     */
+    private void setStatusBarMode(boolean isLight) {
+        isLightMode = isLight;
+        if (isOnResume) {
+            setBannerStatue(isLight);
+            updateStatusBarMode(isLight);
+        }
+    }
+
+    /**
+     * 设置轮播状态
+     * @param start
+     */
+    private void setBannerStatue(boolean start){
+        if (mBannerViewPager != null) {
+            if(start){
+                mBannerViewPager.stopLoop();
+            }else{
+                mBannerViewPager.startLoop();
+            }
+        }
+    }
+
+    @Override
+    public void onError(String msg) {
+
+    }
+
     @Override
     public void showContentPage() {
         showView(appbarLayout);
@@ -239,15 +261,19 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
         return presenter = new HomePresenter();
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onLazyResume() {
+        isOnResume = true;
+        super.onLazyResume();
+        setBannerStatue(true);
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     @Override
     public void onPause() {
-        isOnPause = true;
+        isOnResume = false;
         super.onPause();
-        if (mBannerViewPager != null) {
-            mBannerViewPager.stopLoop();
-        }
+        setBannerStatue(false);
     }
 
 }

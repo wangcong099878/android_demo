@@ -63,13 +63,13 @@ public class Home2Adapter extends BaseSectionQuickAdapter<HomeSection, TheBaseVi
         String author = "#" + itemSection.getWho()+ "  ";
         tvContent.setText(StringUtils.SpannableString(author + itemSection.getDesc(), author, QMUIResHelper.getAttrColor(getContext(), R.attr.app_skin_primary_color), StringUtils.Type.ForegroundColorSpan));
         if (null == itemSection.getImages() || itemSection.getImages().size() < 1) {
-            if (itemSection.getUrl().endsWith(".jpg")) {
+//            if (itemSection.getUrl().endsWith(".jpg")) {
                 ArrayList<String> strings = new ArrayList<>();
                 strings.add(itemSection.getUrl());
                 nineImageLayout.setUrlList(strings);
-            } else {
-                nineImageLayout.setUrlList(null);
-            }
+//            } else {
+//                nineImageLayout.setUrlList(null);
+//            }
         } else
             nineImageLayout.setUrlList(itemSection.getImages());
     }

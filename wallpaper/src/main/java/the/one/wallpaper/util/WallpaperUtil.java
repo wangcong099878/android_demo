@@ -1,5 +1,10 @@
 package the.one.wallpaper.util;
 
+import android.app.Activity;
+import android.app.WallpaperManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
@@ -10,6 +15,7 @@ import java.util.List;
 
 import the.one.base.BaseApplication;
 import the.one.wallpaper.bean.Wallpaper;
+import the.one.wallpaper.constant.WallpaperConstant;
 
 public class WallpaperUtil {
 
@@ -19,6 +25,19 @@ public class WallpaperUtil {
         if (null == videoUtil)
             videoUtil = new WallpaperUtil();
         return videoUtil;
+    }
+
+    public static void startWallPaper(Activity context, Class c) {
+        final Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                new ComponentName(context, c));
+        context.startActivityForResult(intent, WallpaperConstant.REQUEST_LIVE_PAPER);
+    }
+
+    public static void sendVoice(Context context, boolean isSilence) {
+        Intent intent = new Intent(WallpaperConstant.VIDEO_PARAMS_CONTROL_ACTION);
+        intent.putExtra(WallpaperConstant.ACTION_VOICE, isSilence);
+        context.sendBroadcast(intent);
     }
 
     public void getData(final OnCompleteListener listener) {

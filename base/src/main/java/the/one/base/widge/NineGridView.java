@@ -28,7 +28,13 @@ import the.one.base.util.glide.GlideUtil;
  */
 public class NineGridView extends NineGridLayout {
 
-    protected static final int MAX_W_H_RATIO = 3;
+    private static final String TAG = "NineGridView";
+
+    protected final int MAX_W_H_RATIO = 3;
+
+    protected int getMaxHeight() {
+        return 650;
+    }
 
     public NineGridView(Context context) {
         super(context);
@@ -57,6 +63,9 @@ public class NineGridView extends NineGridLayout {
                 } else {//newH:h = newW :w
                     newW = parentWidth / 2;
                     newH = h * newW / w;
+                    if (newH > getMaxHeight()) {
+                        newH = getMaxHeight();
+                    }
                 }
                 setOneImageLayoutParams(imageView, newW, newH);
                 Glide.with(getContext())
@@ -64,7 +73,7 @@ public class NineGridView extends NineGridLayout {
                         .transition(new DrawableTransitionOptions().crossFade())// 渐入渐出效果
                         .apply(new RequestOptions()
                                 .placeholder(R.drawable.pa_shape)
-                                .override(newW,newH)
+                                .override(newW, newH)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL))
                         .into(imageView);
             }
@@ -74,12 +83,12 @@ public class NineGridView extends NineGridLayout {
 
     @Override
     protected void displayImage(RatioImageView imageView, String url) {
-        GlideUtil.load(mContext,url,imageView);
+        GlideUtil.load(mContext, url, imageView);
     }
 
     @Override
     protected void onClickImage(int position, View view, String url, ArrayList<String> urlList) {
-        ImagePreviewUtil.start((Activity) mContext,urlList,position);
+        ImagePreviewUtil.start((Activity) mContext, urlList, position);
     }
 
 }

@@ -15,6 +15,7 @@ import the.one.wallpaper.service.DynamicWallpaper2;
 import the.one.wallpaper.ui.adapter.WallpaperAdapter;
 import the.one.wallpaper.ui.presenter.WallpaperPresenter;
 import the.one.wallpaper.util.WallpaperSpUtil;
+import the.one.wallpaper.util.WallpaperUtil;
 
 
 //  ┏┓　　　┏┓
@@ -79,10 +80,10 @@ public class WallpaperItemFragment extends BaseListFragment<Wallpaper> {
         String currentService = WallpaperSpUtil.getCurrentService(_mActivity);
         if (currentService.equals(WallpaperConstant.SERCIVE_2)) {
             WallpaperSpUtil.setCurrentService(WallpaperConstant.SERCIVE_1);
-            DynamicWallpaper1.startWallPaper(_mActivity, DynamicWallpaper1.class);
+            WallpaperUtil.startWallPaper(_mActivity, DynamicWallpaper1.class);
         } else {
             WallpaperSpUtil.setCurrentService(WallpaperConstant.SERCIVE_2);
-            DynamicWallpaper2.startWallPaper(_mActivity, DynamicWallpaper2.class);
+            WallpaperUtil.startWallPaper(_mActivity, DynamicWallpaper2.class);
         }
     }
 

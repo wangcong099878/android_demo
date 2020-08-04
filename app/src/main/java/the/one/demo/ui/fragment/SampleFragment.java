@@ -31,7 +31,7 @@ import the.one.demo.skin.SkinManager;
 /**
  * @author The one
  * @date 2019/4/24 0024
- * @describe 包含的一些内容使用示例
+ * @describe 一些使用示例
  * @email 625805189@qq.com
  * @remark
  */

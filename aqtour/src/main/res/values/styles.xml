@@ -1,8 +1,11 @@
 <resources>
 
+    <attr name="video_play_topbar_bg" format="color"/>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="TopBarWhiteTheme">
         <item name="app_skin_primary_color">@color/app_color_theme_6</item>
+        <item name="video_play_topbar_bg">@color/picture_color_transparent</item>
     </style>
 
 </resources>

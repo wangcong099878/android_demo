@@ -88,4 +88,8 @@ public class PhoneUtil {
         return false;
     }
 
+    public static String hidePhoneNumber(String number) {
+        return number.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+    }
+
 }

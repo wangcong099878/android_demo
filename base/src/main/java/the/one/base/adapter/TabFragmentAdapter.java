@@ -35,6 +35,10 @@ public class TabFragmentAdapter<T> extends FragmentPagerAdapter {
         this.destroyItem = destroy;
     }
 
+    public void setFragments(List<T> fragments) {
+        this.fragments = fragments;
+    }
+
     @Override
     public Fragment getItem(int position) {
         return (Fragment) fragments.get(position);

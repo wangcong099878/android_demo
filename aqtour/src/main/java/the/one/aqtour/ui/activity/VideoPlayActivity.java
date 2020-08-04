@@ -14,6 +14,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
+import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -138,7 +140,10 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
 
     private void initTopBar() {
         mTopLayout.setBackgroundAlpha(0);
-        mTopLayout.addLeftImageButton(R.drawable.mz_titlebar_ic_back_light, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
+        QMUISkinValueBuilder builder = QMUISkinValueBuilder.acquire();
+        builder.background(R.attr.video_play_topbar_bg);
+        QMUISkinHelper.setSkinValue(mTopLayout,builder);
+        mTopLayout.getTopBar().addLeftImageButton(R.drawable.mz_titlebar_ic_back_light,false, R.id.topbar_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();

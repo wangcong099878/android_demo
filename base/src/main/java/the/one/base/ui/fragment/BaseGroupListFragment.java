@@ -290,8 +290,9 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(int drawable, CharSequence title, CharSequence detail, CompoundButton.OnCheckedChangeListener listener) {
+    public QMUICommonListItemView CreateSwitchItemView(int drawable, CharSequence title, CharSequence detail,boolean isCheck, CompoundButton.OnCheckedChangeListener listener) {
         QMUICommonListItemView itemView = CreateItemView(drawable, title, detail, false, QMUICommonListItemView.ACCESSORY_TYPE_SWITCH, null);
+        itemView.getSwitch().setChecked(isCheck);
         itemView.getSwitch().setOnCheckedChangeListener(listener);
         return itemView;
     }
@@ -304,8 +305,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(int drawable, CharSequence title, CompoundButton.OnCheckedChangeListener listener) {
-        return CreateSwitchItemView(drawable, title, "", listener);
+    public QMUICommonListItemView CreateSwitchItemView(int drawable, CharSequence title,boolean isCheck, CompoundButton.OnCheckedChangeListener listener) {
+        return CreateSwitchItemView(drawable, title, "",isCheck, listener);
     }
 
     /**
@@ -316,8 +317,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(CharSequence title, String detail, CompoundButton.OnCheckedChangeListener listener) {
-        return CreateSwitchItemView(NO_DRAWABLE, title, detail, listener);
+    public QMUICommonListItemView CreateSwitchItemView(CharSequence title, String detail,boolean isCheck, CompoundButton.OnCheckedChangeListener listener) {
+        return CreateSwitchItemView(NO_DRAWABLE, title, detail,isCheck, listener);
     }
 
     /**
@@ -327,8 +328,8 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
      * @param listener 监听
      * @return
      */
-    public QMUICommonListItemView CreateSwitchItemView(CharSequence title, CompoundButton.OnCheckedChangeListener listener) {
-        return CreateSwitchItemView(title, "", listener);
+    public QMUICommonListItemView CreateSwitchItemView(CharSequence title,boolean isCheck, CompoundButton.OnCheckedChangeListener listener) {
+        return CreateSwitchItemView(title, "",isCheck, listener);
     }
 
     /**

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
+    android:background="?attr/app_skin_background_color_1"
     app:qmui_skin_background="?attr/app_skin_background_color_1">
 
     <com.qmuiteam.qmui.widget.QMUIViewPager
@@ -20,6 +21,7 @@
         android:layout_height="@dimen/home_tab_height"
         android:layout_gravity="bottom"
         app:qmui_skin_background="?attr/app_skin_background_color_1"
+        android:background="?attr/app_skin_background_color_1"
         android:textSize="12sp"
         app:qmui_tab_icon_position="top"
         app:qmui_topDividerColor="?attr/qmui_skin_support_color_separator"

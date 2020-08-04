@@ -8,6 +8,8 @@ import the.one.base.ui.activity.BaseWebExplorerActivity;
 import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.gank.R;
 import the.one.gank.constant.NetUrlConstant;
+import the.one.gank.ui.activity.GankActivity;
+import the.one.gank.util.APIVersionUtil;
 
 
 //  ┏┓　　　┏┓
@@ -37,7 +39,9 @@ import the.one.gank.constant.NetUrlConstant;
  */
 public class MyFragment extends BaseGroupListFragment implements View.OnClickListener {
 
-    QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample;
+    QMUICommonListItemView Gank, Copy, QMUI, Adapter, NineGrid, Publish,Sample, API_VERSION;
+
+    private boolean isV2;
 
     @Override
     protected boolean isNeedChangeStatusBarMode() {
@@ -80,12 +84,15 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
         Sample = CreateNormalItemView("使用示例");
         Publish = CreateNormalItemView("发布");
 
+        isV2 = APIVersionUtil.isV2();
+        API_VERSION = CreateNormalItemView("使用"+(isV2?"V1":"V2")+"版本");
+
         findViewByTopView(R.id.iv_icon).setOnClickListener(this);
 
         addToGroup("感谢", Gank, Copy);
         addToGroup("第三方", QMUI, Adapter, NineGrid);
+        addToGroup(API_VERSION);
 
-//        addToGroup( Gank, Copy, QMUI, Adapter, NineGrid);
     }
 
     @Override
@@ -106,6 +113,10 @@ public class MyFragment extends BaseGroupListFragment implements View.OnClickLis
                 url = "https://github.com/HMY314/NineGridLayout";
             } else if (view == Publish) {
                 startFragment(new PublishFragment());
+                return;
+            }else if(view == API_VERSION){
+                APIVersionUtil.setVersion(!isV2);
+                startActivity(GankActivity.class,true);
                 return;
             }
             BaseWebExplorerActivity.newInstance(_mActivity,title, url);

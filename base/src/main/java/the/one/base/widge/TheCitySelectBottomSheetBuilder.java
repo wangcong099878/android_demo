@@ -37,6 +37,7 @@ import the.one.base.adapter.CitySelectAdapter;
 import the.one.base.model.Area;
 import the.one.base.model.City;
 import the.one.base.model.Province;
+import the.one.base.util.AppMourningThemeUtil;
 import the.one.base.util.ProvinceUtil;
 import the.one.base.util.RecyclerViewUtil;
 
@@ -100,6 +101,13 @@ public class TheCitySelectBottomSheetBuilder extends QMUIBottomSheetBaseBuilder<
     public TheCitySelectBottomSheetBuilder setLBSProvince(String lbsProvince) {
         this.mLBSProvince = lbsProvince;
         return this;
+    }
+
+    @Override
+    public QMUIBottomSheet build(int style) {
+        QMUIBottomSheet dialog = super.build(style);
+        AppMourningThemeUtil.notify(dialog.getWindow());
+        return dialog;
     }
 
     @Nullable

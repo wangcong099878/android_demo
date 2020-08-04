@@ -131,7 +131,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
         super.updateBgColor(isWhite);
         int mSettingDrawable = isWhite ? R.drawable.mz_titlebar_ic_more_dark : R.drawable.mz_titlebar_ic_more_light;
         if (null == mSettingIcon) {
-            mSettingIcon = mTopLayout.addRightImageButton(mSettingDrawable, R.id.topbar_right_button1);
+            mSettingIcon = mTopLayout.getTopBar().addRightImageButton(mSettingDrawable, false,R.id.topbar_right_button1);
             mSettingIcon.setOnClickListener(v -> {
                 showSettingPopup();
             });

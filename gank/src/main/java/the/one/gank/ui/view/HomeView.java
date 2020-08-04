@@ -38,4 +38,6 @@ public interface HomeView extends BaseView {
     void onHotComplete(List<GankBean> data);
     void onTodayComplete(HomeBean data);
 
+    void onError(String msg);
+
 }

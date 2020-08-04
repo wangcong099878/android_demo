@@ -17,7 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import the.one.base.R;
+import the.one.base.util.AppMourningThemeUtil;
 import the.one.base.util.QMUIDialogUtil;
+import the.one.base.util.SkinSpUtil;
 
 /**
  * @author The one
@@ -28,20 +30,12 @@ import the.one.base.util.QMUIDialogUtil;
  */
 public abstract class BaseDialogFragment extends DialogFragment {
 
-    /**
-     * 是否使用QMUI的皮肤管理
-     * @return
-     */
-    protected boolean useQMUISkinManager() {
-        return true;
-    }
-
     private QMUISkinManager mSkinManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (useQMUISkinManager())
+        if (SkinSpUtil.isQMUISkinManger())
             mSkinManager = QMUISkinManager.defaultInstance(getContext());
     }
 
@@ -66,6 +60,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         Window window = getDialog().getWindow();
         assert window != null;
+        AppMourningThemeUtil.notify(window);
         window.getAttributes().windowAnimations = R.style.PopAnimStyle;
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         // 获取屏幕高度，动态设置，解决状态栏变黑问题

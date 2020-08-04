@@ -22,9 +22,38 @@ public class NetUrlConstantV2 {
     public static final String BANNER = "banners";
 
     /**
-     * 热门
+     *
+     * @param hot_type 可接受参数 views（浏览数） | likes（点赞数） | comments（评论数）
+     * @param category category 可接受参数 Article | GanHuo | Girl
+     * @return
      */
-    public static final String HOT = "hot/views/category/Article/count/"+COUNT;
+    public static  String getHotUrl(String hot_type,String category){
+       return  "hot/"+hot_type+"/category/"+category+"/count/"+COUNT;
+    }
+
+
+    public static String getCategory(String category){
+        return  "categories/"+category;
+    }
+
+    public static String getCategoryData(String category,String type,int page){
+       return  "data/category/"+category+"/type/"+type+"/page/"+page+"/count/"+COUNT;
+    }
+
+
+    /**
+     * 热门类型
+     */
+    public static final String HOT_TYPE_VIEWS = "views";
+    public static final String HOT_TYPE_LIKES = "likes";
+    public static final String HOT_TYPE_COMMENTS = "comments";
+
+    /**
+     * 热门分类
+     */
+    public static final String CATEGORY_ARTICLE = "Article";
+    public static final String CATEGORY_GANHUO = "GanHuo";
+    public static final String CATEGORY_GIRL = "Girl";
 
 
 }

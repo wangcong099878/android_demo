@@ -74,7 +74,8 @@ public class BaseApplication extends MultiDexApplication {
 
     /**
      * 异常捕获重启时的Activity
-     * @return  启动Activity
+     *
+     * @return 启动Activity
      */
     protected Class getStartActivity() {
         return null;
@@ -82,7 +83,8 @@ public class BaseApplication extends MultiDexApplication {
 
     /**
      * 异常捕获时显示的Activity
-     * @return  异常显示Activity
+     *
+     * @return 异常显示Activity
      */
     protected Class getCrashActivity() {
         return BaseCrashActivity.class;
@@ -124,6 +126,13 @@ public class BaseApplication extends MultiDexApplication {
         return 24 * 60 * 60 * 1000;
     }
 
+    /**
+     * RxHttp是否需要Cookie
+     */
+    protected boolean isRxHttpCookie() {
+        return false;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -142,7 +151,7 @@ public class BaseApplication extends MultiDexApplication {
      * RxHttp设置缓存路径
      */
     protected void initHttp() {
-        OkHttpClient client = getDefaultOkHttpClient();
+        OkHttpClient client = getDefaultOkHttpClientBuilder().build();
         HttpSender.init(client, isDebug());
         //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
         File cacheDir = new File(FileDirectoryUtil.getRxHttPCachePath());
@@ -154,17 +163,19 @@ public class BaseApplication extends MultiDexApplication {
     /**
      * 获取默认的OkHttpClient
      */
-    protected OkHttpClient getDefaultOkHttpClient() {
+    protected OkHttpClient.Builder getDefaultOkHttpClientBuilder() {
         X509TrustManager trustAllCert = new X509TrustManagerImpl();
         SSLSocketFactory sslSocketFactory = new SSLSocketFactoryImpl(trustAllCert);
-        return new OkHttpClient.Builder()
-                .cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"), false))
-                .connectTimeout(10, TimeUnit.SECONDS)
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (isRxHttpCookie()) {
+            builder.cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"), false));
+        }
+        builder.connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
-                .hostnameVerifier((hostname, session) -> true) //忽略host验证
-                .build();
+                .hostnameVerifier((hostname, session) -> true); //忽略host验证;
+        return builder;
     }
 
     /**

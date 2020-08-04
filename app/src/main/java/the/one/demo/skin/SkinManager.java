@@ -18,7 +18,6 @@ package the.one.demo.skin;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
-import android.util.Log;
 
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 
@@ -54,7 +53,6 @@ public class SkinManager {
 
     public static void changeSkin(int index) {
         index++;
-        Log.e(TAG, "changeSkin: "+index );
         QMUISkinManager.defaultInstance(App.getInstance()).changeSkin(index);
         SpUtil.getInstance().putInt(SKIN_INDEX,index);
     }

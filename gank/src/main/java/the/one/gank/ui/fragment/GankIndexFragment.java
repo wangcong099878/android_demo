@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.base.ui.fragment.BaseHomeFragment;
 import the.one.gank.R;
+import the.one.gank.util.APIVersionUtil;
 
 
 //  ┏┓　　　┏┓
@@ -58,8 +59,13 @@ public class GankIndexFragment extends BaseHomeFragment {
 
     @Override
     protected void addFragment(ArrayList<BaseFragment> fragments) {
-        fragments.add(new Home2Fragment());
-        fragments.add(new CategoryFragment());
+        if (APIVersionUtil.isV2()) {
+            fragments.add(HomeV2Fragment.newInstance(true));
+            fragments.add(new CategoryV2Fragment());
+        } else {
+            fragments.add(new HomeFragment());
+            fragments.add(new CategoryFragment());
+        }
         fragments.add(new MyFragment());
     }
 
