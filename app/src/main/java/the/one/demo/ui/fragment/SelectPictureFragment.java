@@ -41,7 +41,7 @@ public class SelectPictureFragment extends BasePictureSelectorFragment {
 
     @Override
     protected void initView(View rootView) {
-        initFragmentBack("选择图片");
+        setTitleWithBackBtn("选择图片");
         super.initView(rootView);
     }
 

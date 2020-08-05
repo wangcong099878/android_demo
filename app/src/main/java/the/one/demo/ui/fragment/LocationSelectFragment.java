@@ -56,7 +56,7 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("地址选择");
+        setTitleWithBackBtn("地址选择");
 
         mDialog = CreateDetailItemView("Dialog样式", "适用于选择地址",false,true);
         mLetterSearch = CreateDetailItemView("侧边快速查询样式", "适用于选择城市",false, true);

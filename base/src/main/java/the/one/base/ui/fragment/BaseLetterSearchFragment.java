@@ -98,7 +98,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
     @Override
     protected void initView(View rootView) {
-        initFragmentBack(getTitleString());
+        setTitleWithBackBtn(getTitleString());
         mSectionLayout = rootView.findViewById(R.id.section_layout);
         mSectionLayout.getRecyclerView().setLayoutManager(new LinearLayoutManager(getContext()) {
             @Override
@@ -293,7 +293,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         mTopLayout.removeAllLeftViews();
         mTopLayout.removeAllRightViews();
         goneView(flBottomLayout);
-        initFragmentBack(getTitleString());
+        setTitleWithBackBtn(getTitleString());
     }
 
     @Override

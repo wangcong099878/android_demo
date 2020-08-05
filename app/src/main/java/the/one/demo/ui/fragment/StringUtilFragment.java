@@ -54,7 +54,7 @@ public class StringUtilFragment extends BaseGroupListFragment {
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("StringUtil");
+        setTitleWithBackBtn("StringUtil");
 
         tvSuperscript = findViewByTopView(R.id.tv_superscript);
         tvSubscript = findViewByTopView(R.id.tv_subscript);

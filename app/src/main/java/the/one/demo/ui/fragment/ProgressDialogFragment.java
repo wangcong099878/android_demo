@@ -40,7 +40,7 @@ public class ProgressDialogFragment extends BaseGroupListFragment {
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("ProgressDialogFragment");
+        setTitleWithBackBtn("ProgressDialogFragment");
         mProgressDialog  = CreateNormalItemView("显示进度弹窗");
         addToGroup(mProgressDialog);
     }

@@ -28,7 +28,7 @@ public class CollectionVideoFragment extends BaseVideoFragment {
     @Override
     protected void initView(View rootView) {
         assert getArguments() != null;
-        initFragmentBack("我的收藏");
+        setTitleWithBackBtn("我的收藏");
         super.initView(rootView);
     }
 

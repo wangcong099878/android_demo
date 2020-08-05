@@ -81,7 +81,7 @@ public class PublishFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void initView(View rootView) {
-        initFragmentBack("发布");
+        setTitleWithBackBtn("发布");
         mTopLayout.addRightTextButton("提交", R.id.topbar_right_text).setOnClickListener(this);
         tvType.setText(NetUrlConstant.title[0]);
         btnType.setOnClickListener(this);

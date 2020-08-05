@@ -47,7 +47,7 @@ public class DatePickerFragment extends BaseGroupListFragment
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("DatePickerFragment");
+        setTitleWithBackBtn("DatePickerFragment");
 
         mDefault = CreateDetailItemView("默认选择", "从以前到今天", true);
         mCustomDate = CreateDetailItemView("自定义起始日期", "限制一个月", true);

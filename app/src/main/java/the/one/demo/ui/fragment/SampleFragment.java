@@ -6,8 +6,8 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.ui.activity.BaseWebExplorerActivity;
 import the.one.base.ui.fragment.BaseGroupListFragment;
-import the.one.demo.ui.activity.CameraSamplePermissionActivity;
 import the.one.demo.skin.SkinManager;
+import the.one.demo.ui.activity.CameraSamplePermissionActivity;
 
 
 //  ┏┓　　　┏┓
@@ -39,7 +39,7 @@ public class SampleFragment extends BaseGroupListFragment {
 
     private QMUICommonListItemView PICTURE_SELECTOR, WEB_VIEW, POPUP_LAYOUT, COLLAPSING_TOP_BAR,
             PULL_EXTEND, STATUS_BAR_HELP, STRING_UTIL, PROGRESS_DIALOG, CAMERA, DATE_PICKER, LETTER_SEARCH,
-            ROUND_CHECK_BOX, CITY_SELECT, CRASH,SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT,TEST,WHITE_BLACK_THEME,IMAGE_SNAP,THEME;
+            ROUND_CHECK_BOX, CITY_SELECT, CRASH, SEARCH_VIEW, POPUP_WINDOW, STICK_LAYOUT, TEST, WHITE_BLACK_THEME, IMAGE_SNAP, THEME;
 
     @Override
     protected boolean isExitFragment() {
@@ -54,38 +54,38 @@ public class SampleFragment extends BaseGroupListFragment {
         PICTURE_SELECTOR = CreateDetailItemView("BasePictureSelectorFragment", "选择图片、视频、音频", false, true);
         PULL_EXTEND = CreateDetailItemView("BasePullExtendFragment", "下拉菜单", true);
         LETTER_SEARCH = CreateDetailItemView("BaseLetterSearchFragment", "侧边快速选择", true);
-        IMAGE_SNAP = CreateDetailItemView("BaseImageSnapFragment", "图片分页显示，可以实现加载更多", false,true);
+        IMAGE_SNAP = CreateDetailItemView("BaseImageSnapFragment", "图片分页显示，可以实现加载更多", false, true);
         ROUND_CHECK_BOX = CreateDetailItemView("TheCheckBox", "普通的CheckBox设置leftPadding无效", false, true);
 
         STATUS_BAR_HELP = CreateDetailItemView("StatusBarHelper", "状态栏工具 QMUI提供", true);
         STRING_UTIL = CreateDetailItemView("StringUtils", "String的工具类", true);
         DATE_PICKER = CreateDetailItemView("DatePickerUtil", "日期选择的工具类", true);
 
-        COLLAPSING_TOP_BAR =  CreateDetailItemView("BaseCollapsingTopBarFragment","顶部折叠样式",false, true);
-        PROGRESS_DIALOG = CreateDetailItemView("ProgressDialog","");
-        POPUP_LAYOUT = CreateDetailItemView("PopupLayout","");
+        COLLAPSING_TOP_BAR = CreateDetailItemView("BaseCollapsingTopBarFragment", "顶部折叠样式", false, true);
+        PROGRESS_DIALOG = CreateDetailItemView("ProgressDialog", "");
+        POPUP_LAYOUT = CreateDetailItemView("PopupLayout", "");
 
-        CITY_SELECT = CreateDetailItemView("LocationSelect", "地理位置选择 城市/地址", false,true);
+        CITY_SELECT = CreateDetailItemView("LocationSelect", "地理位置选择 城市/地址", false, true);
 
-        CRASH  = CreateDetailItemView("App Crash","当程序崩溃后...",true);
-        SEARCH_VIEW = CreateDetailItemView("TheSearchView","带有删除按键的SearchView",true);
-        POPUP_WINDOW = CreateDetailItemView("ThePopupWindow","带有进出动画的PopupWindow",false,true);
-        STICK_LAYOUT = CreateDetailItemView("StickLayout","让其任意一个直接子控件滑动时停留在顶部",false,true);
+        CRASH = CreateDetailItemView("App Crash", "当程序崩溃后...", true);
+        SEARCH_VIEW = CreateDetailItemView("TheSearchView", "带有删除按键的SearchView", true);
+        POPUP_WINDOW = CreateDetailItemView("ThePopupWindow", "带有进出动画的PopupWindow", false, true);
+        STICK_LAYOUT = CreateDetailItemView("StickLayout", "让其任意一个直接子控件滑动时停留在顶部", false, true);
 
-        WHITE_BLACK_THEME = CreateDetailItemView("AppMourningThemeUtil","让整个App黑白化",false,true);
+        WHITE_BLACK_THEME = CreateDetailItemView("AppMourningThemeUtil", "让整个App黑白化", false, true);
 
-        THEME = CreateDetailItemView("QMUISkin","",true);
+        THEME = CreateDetailItemView("QMUISkin", "", true);
 
         TEST = CreateNormalItemView("测试");
 
-        showNewTips(false,IMAGE_SNAP,THEME);
-        showNewTips(true,CITY_SELECT);
+        showNewTips(false, IMAGE_SNAP, THEME);
+        showNewTips(true, CITY_SELECT);
 
         addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,
-                SEARCH_VIEW, POPUP_WINDOW,COLLAPSING_TOP_BAR,IMAGE_SNAP);
-        addToGroup("工具",THEME, STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT,WHITE_BLACK_THEME,CRASH);
+                SEARCH_VIEW, POPUP_WINDOW, COLLAPSING_TOP_BAR, IMAGE_SNAP);
+        addToGroup("工具", THEME, STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT, WHITE_BLACK_THEME, CRASH);
 
-        //addToGroup(TEST);
+        addToGroup(TEST);
 
     }
 
@@ -117,29 +117,30 @@ public class SampleFragment extends BaseGroupListFragment {
             startFragment(new TheCheckBoxFragment());
         } else if (v == CITY_SELECT) {
             startFragment(new LocationSelectFragment());
-        }else if(v == CRASH){
+        } else if (v == CRASH) {
             startFragment(new CrashTestFragment());
-        }else if(v == SEARCH_VIEW){
+        } else if (v == SEARCH_VIEW) {
             startFragment(new SearchViewFragment());
-        } else if (v == TEST) {
-            startFragment(new TestFragment());
-        }else if (v == POPUP_WINDOW) {
+        } else if (v == POPUP_WINDOW) {
             startFragment(new ThePopupWindowFragment());
-        }else if (v == STICK_LAYOUT) {
-           startFragment(new StickLayoutFragment());
-        }else if(v == IMAGE_SNAP){
+        } else if (v == STICK_LAYOUT) {
+            startFragment(new StickLayoutFragment());
+        } else if (v == IMAGE_SNAP) {
             startFragment(new MzituDetailFragment());
-        }else if(v == WHITE_BLACK_THEME){
+        } else if (v == WHITE_BLACK_THEME) {
             startFragment(new BlackWhiteThemeFragment());
-        }else if(v == THEME){
+        } else if (v == THEME) {
             SkinManager.showThemeDialog(_mActivity);
+        }else if (v == TEST) {
+            startFragment(new TestFragment());
         }
     }
 
-    private void startBaseWebExplorerActivity(){
+
+    private void startBaseWebExplorerActivity() {
         String title = "每日一笑";
         String url = "http://qt.qq.com/php_cgi/news/php/varcache_mcnarticle.php?id=&doc_type=0&docid=971312304452308411&areaid=18&version=$PROTO_VERSION$";
 //        url = "https://lol.qq.com/m/act/a20150319lolapp/exp_3.htm?iVideoId=10399828799771753716";
-        BaseWebExplorerActivity.newInstance(_mActivity, title, url, false,false,false);
+        BaseWebExplorerActivity.newInstance(_mActivity, title, url, false, false, false);
     }
 }

@@ -62,7 +62,7 @@ public class PullLayoutFragment extends BasePullExtendFragment {
 
     @Override
     protected void initView(View rootView) {
-        initFragmentBack("PullExtendLayout");
+        setTitleWithBackBtn("PullExtendLayout");
         adapter = new PullExtendAdapter();
         super.initView(rootView);
 

@@ -53,7 +53,7 @@ public class TheCheckBoxFragment extends BaseFragment implements TheCheckBox.OnC
 
     @Override
     protected void initView(View rootView) {
-        initFragmentBack("TheCheckBoxFragment");
+        setTitleWithBackBtn("TheCheckBoxFragment");
 //        mCheckBox.setIsCheckDrawable();
 //        mCheckBox.setUnCheckDrawable();
         mTheCheckBox.setOnCheckChangedListener(this);

@@ -40,7 +40,7 @@ public class StatusBarHelperFragment extends BaseGroupListFragment {
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("StatusBarHelper");
+        setTitleWithBackBtn("StatusBarHelper");
 
         mLightMode = CreateNormalItemView("设置状态栏黑色字体与图标");
         mDarkMode = CreateNormalItemView("设置状态栏白色字体与图标");

@@ -33,7 +33,7 @@ public abstract class BaseVideoFragment extends BaseListFragment<QSPVideoSection
             if (!isIndexFragment)
                 goneView(mTopLayout);
             else if (null != mCategory) {
-                initFragmentBack(mCategory.title);
+                setTitleWithBackBtn(mCategory.title);
             }
         }
         mAdapter = new QSPVideoAdapter();

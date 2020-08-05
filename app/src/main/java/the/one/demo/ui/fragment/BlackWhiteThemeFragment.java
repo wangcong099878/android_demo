@@ -44,8 +44,8 @@ public class BlackWhiteThemeFragment extends BaseGroupListFragment {
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("AppMourningThemeUtil");
-        NOTIFY_THEME = CreateSwitchItemView("黑白化主题","哀悼...", new CompoundButton.OnCheckedChangeListener() {
+        setTitleWithBackBtn("AppMourningThemeUtil");
+        NOTIFY_THEME = CreateSwitchItemView("黑白化主题","哀悼...",AppMourningThemeUtil.isMourningTheme(), new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked != AppMourningThemeUtil.isMourningTheme()){
@@ -53,7 +53,6 @@ public class BlackWhiteThemeFragment extends BaseGroupListFragment {
                 }
             }
         });
-        NOTIFY_THEME.getSwitch().setChecked(AppMourningThemeUtil.isMourningTheme());
         addToGroup(NOTIFY_THEME);
     }
 

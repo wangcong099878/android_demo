@@ -41,7 +41,7 @@ public class ThePopupWindowFragment extends BaseGroupListFragment {
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("ThePopupWindow");
+        setTitleWithBackBtn("ThePopupWindow");
 
         TOP_BOTTOM = CreateNormalItemView("从上到下");
         BOTTOM_TOP = CreateNormalItemView("从下到上");

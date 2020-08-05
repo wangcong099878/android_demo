@@ -57,7 +57,7 @@ public class StickLayoutFragment extends BaseListFragment<GankBean> {
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
-        initFragmentBack("StickLayout");
+        setTitleWithBackBtn("StickLayout");
 //        recycleView.setNestedScrollingEnabled(false);
         //对LayoutManager进行重新设置
         recycleView.setLayoutManager(new LinearLayoutManager(_mActivity) {

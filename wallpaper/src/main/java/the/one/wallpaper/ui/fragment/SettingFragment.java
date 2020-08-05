@@ -7,9 +7,8 @@ import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
 
 import the.one.base.ui.fragment.BaseGroupListFragment;
 import the.one.wallpaper.constant.WallpaperConstant;
-import the.one.wallpaper.service.DynamicWallpaper1;
-import the.one.wallpaper.service.DynamicWallpaper2;
 import the.one.wallpaper.util.WallpaperSpUtil;
+import the.one.wallpaper.util.WallpaperUtil;
 
 public class SettingFragment extends BaseGroupListFragment implements CompoundButton.OnCheckedChangeListener {
 
@@ -17,14 +16,12 @@ public class SettingFragment extends BaseGroupListFragment implements CompoundBu
 
     @Override
     protected void addGroupListView() {
-        initFragmentBack("设置");
+        setTitleWithBackBtn("设置");
         VOLUME = CreateDetailItemView("声音大小", "");
 
-        VOICE_SWITCH = CreateSwitchItemView("视频声音", this);
+        VOICE_SWITCH = CreateSwitchItemView("视频声音",WallpaperSpUtil.getWallpaperVoiceSwitch(), this);
 
-        boolean volume = WallpaperSpUtil.getWallpaperVoiceSwitch();
-        VOICE_SWITCH.getSwitch().setChecked(volume);
-        VOLUME.setEnabled(volume);
+        VOLUME.setEnabled(false);
 
         addToGroup("", VOICE_SWITCH, VOLUME);
     }
@@ -42,9 +39,9 @@ public class SettingFragment extends BaseGroupListFragment implements CompoundBu
         if(WallpaperSpUtil.isCurrentAppWallpaper(_mActivity)){
             String service = WallpaperSpUtil.getCurrentService();
             if (service.equals(WallpaperConstant.SERCIVE_1)) {
-                DynamicWallpaper1.sendVoice(_mActivity, b);
+                WallpaperUtil.sendVoice(_mActivity, b);
             } else if (service.equals(WallpaperConstant.SERCIVE_2)) {
-                DynamicWallpaper2.sendVoice(_mActivity, b);
+                WallpaperUtil.sendVoice(_mActivity, b);
             }
         }
     }
