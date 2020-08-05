@@ -165,7 +165,7 @@ public abstract class BaseGroupListFragment extends BaseFragment implements View
             itemView.setAccessoryType(type);
         }
         if (drawable != NO_DRAWABLE)
-            itemView.setImageDrawable(getDrawablee(drawable));
+            itemView.setImageDrawable(getDrawable(drawable));
         if(!isIconWithTintColor()){
             // 去除 icon 的换肤设置
             QMUICommonListItemView.SkinConfig skinConfig = new QMUICommonListItemView.SkinConfig();

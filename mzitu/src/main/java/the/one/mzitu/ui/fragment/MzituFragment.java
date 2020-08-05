@@ -71,7 +71,7 @@ public class MzituFragment extends BaseTitleTabFragment {
      */
     @Override
     public void onScrollChanged(float percent) {
-        mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1),percent));
+        mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColor(R.color.qmui_config_color_gray_1),percent));
     }
 
     @Override

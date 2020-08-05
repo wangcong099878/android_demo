@@ -63,7 +63,7 @@ public class StringUtilFragment extends BaseGroupListFragment {
         tvSubscript.setText(getSpannableString(StringUtils.Type.SubscriptSpan,"下标"));
 
         tvImageSpan = findViewByTopView(R.id.tv_name);
-        tvImageSpan.setText(StringUtils.ImageSpanString(getStringg(R.string.long_fruit_name),getDrawablee(R.drawable.ic_food_status_up)));
+        tvImageSpan.setText(StringUtils.ImageSpanString(getString(R.string.long_fruit_name), getDrawable(R.drawable.ic_food_status_up)));
 
         ForegroundColorSpan = CreateView(StringUtils.Type.ForegroundColorSpan,"前景色");
         BackgroundColorSpan = CreateView(StringUtils.Type.BackgroundColorSpan,"背景色");
@@ -108,7 +108,7 @@ public class StringUtilFragment extends BaseGroupListFragment {
             title = "①";
             content = content+title;
         }
-        return StringUtils.SpannableString(content,title,getColorr(R.color.qmui_config_color_blue),type);
+        return StringUtils.SpannableString(content,title, getColor(R.color.qmui_config_color_blue),type);
     }
 
     @Override

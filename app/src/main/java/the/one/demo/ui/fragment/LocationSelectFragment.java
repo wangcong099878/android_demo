@@ -63,9 +63,9 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
 
         mUpdate = CreateNormalItemView("更新本地JSON数据");
 
-        addToGroup(getStringg(R.string.location_select_tips), getStringg(R.string.location_select_dialog_tips), mDialog);
+        addToGroup(getString(R.string.location_select_tips), getString(R.string.location_select_dialog_tips), mDialog);
         addToGroup(mLetterSearch);
-        addToGroup("",getStringg(R.string.location_select_update),mUpdate);
+        addToGroup("",getString(R.string.location_select_update),mUpdate);
     }
 
     @Override

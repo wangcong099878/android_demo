@@ -1,10 +1,10 @@
 package the.one.base.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.arch.QMUIActivity;
+import com.qmuiteam.qmui.arch.SwipeBackLayout;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
@@ -35,8 +35,6 @@ import the.one.base.util.ViewUtil;
 import the.one.base.util.glide.GlideUtil;
 import the.one.base.widge.ProgressDialog;
 import the.one.base.widge.StatusLayout;
-
-import static android.view.View.NO_ID;
 
 
 //  ┏┓　　　┏┓
@@ -108,21 +106,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         return StatusBarUtil.isWhiteBg(mRootView);
     }
 
-    /**
-     * 更新状态栏模式
-     *
-     * @remark LIGHT 白色背景黑色图标  DARK 深色背景 白色图标
-     */
-    protected void updateStatusBarMode() {
-        if (isStatusBarLightMode()) {
-            QMUIStatusBarHelper.translucent(this);
-            QMUIStatusBarHelper.setStatusBarLightMode(this);
-        } else {
-            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
-            QMUIStatusBarHelper.setStatusBarDarkMode(this);
-        }
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (SkinSpUtil.isQMUISkinManger())
@@ -144,8 +127,11 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    protected int backViewInitOffset() {
-        return QMUIDisplayHelper.dp2px(this, 150);
+    protected int backViewInitOffset(Context context, int dragDirection, int moveEdge) {
+        if (moveEdge == SwipeBackLayout.EDGE_TOP || moveEdge == SwipeBackLayout.EDGE_BOTTOM) {
+            return 0;
+        }
+        return QMUIDisplayHelper.dp2px(context, 200);
     }
 
     @Override
@@ -336,6 +322,21 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     /***   Util  ***/
 
     /**
+     * 更新状态栏模式
+     *
+     * @remark LIGHT 白色背景黑色图标  DARK 深色背景 白色图标
+     */
+    protected void updateStatusBarMode() {
+        if (isStatusBarLightMode()) {
+            QMUIStatusBarHelper.translucent(this);
+            QMUIStatusBarHelper.setStatusBarLightMode(this);
+        } else {
+            QMUIStatusBarHelper.translucent(this, getColorr(R.color.qmui_config_color_transparent));
+            QMUIStatusBarHelper.setStatusBarDarkMode(this);
+        }
+    }
+
+    /**
      * 获取View
      *
      * @param layoutId 布局id
@@ -353,16 +354,6 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
      */
     protected Drawable getDrawablee(int id) {
         return ContextCompat.getDrawable(this, id);
-    }
-
-    /**
-     * 获取String
-     *
-     * @param id string id
-     * @return
-     */
-    protected String getStringg(int id) {
-        return getResources().getString(id);
     }
 
     /**

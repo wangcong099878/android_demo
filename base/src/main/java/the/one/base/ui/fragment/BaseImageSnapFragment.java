@@ -108,12 +108,12 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
      * 根据主题更换颜色
      */
     protected void updateBgColor(boolean isWhite) {
-        mBgColor = getColorr(isWhite ? R.color.qmui_config_color_white : R.color.we_chat_black);
-        mTextColor = getColorr(isWhite ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white);
+        mBgColor = getColor(isWhite ? R.color.qmui_config_color_white : R.color.we_chat_black);
+        mTextColor = getColor(isWhite ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white);
 
         mRootView.setBackgroundColor(mBgColor);
         mStatusLayout.setBackgroundColor(mBgColor);
-        recycleView.setBackgroundColor(getColorr(isWhite ? R.color.qmui_config_color_background : R.color.qmui_config_color_black));
+        recycleView.setBackgroundColor(getColor(isWhite ? R.color.qmui_config_color_background : R.color.qmui_config_color_black));
         mImageSnapAdapter.setWhiteBg(isWhite);
 
         mTopLayout.setBackgroundColor(mBgColor);
@@ -123,7 +123,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
             mBackBtn = mTopLayout.addLeftImageButton(backRes, R.id.topbar_left_button);
             mBackBtn.setOnClickListener(v -> onBackPressed());
         } else {
-            mBackBtn.setImageDrawable(getDrawablee(backRes));
+            mBackBtn.setImageDrawable(getDrawable(backRes));
         }
         if (null != mStatusLayout && null != mStatusLayout.getLoadingTipsView()) {
             mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
@@ -245,7 +245,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
         if (aBoolean) {
             onPermissionComplete(mData,mSheetClickTag,mSheetClickPosition);
         } else {
-            showToast(getStringg(R.string.no_permissioin_tips));
+            showToast(getString(R.string.no_permissioin_tips));
         }
     }
 

@@ -137,7 +137,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             });
             goneView(mSettingIcon);
         } else
-            mSettingIcon.setImageDrawable(getDrawablee(mSettingDrawable));
+            mSettingIcon.setImageDrawable(getDrawable(mSettingDrawable));
     }
 
     @Override

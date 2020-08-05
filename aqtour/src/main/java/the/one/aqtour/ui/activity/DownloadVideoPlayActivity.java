@@ -48,7 +48,7 @@ public class DownloadVideoPlayActivity extends GSYBaseDetailActivity<StandardThe
 
     @Override
     protected void initView(View mRootView) {
-        mRootView.setBackgroundColor(getColorr(R.color.black));
+        mRootView.setBackgroundColor(getColor(R.color.black));
         mTask = getIntent().getParcelableExtra(DataConstant.DATA);
         m3u8Server.execute();
         mPlayPath = M3U8PathUtil.getLocalPath(m3u8Server,mTask.getUrl());

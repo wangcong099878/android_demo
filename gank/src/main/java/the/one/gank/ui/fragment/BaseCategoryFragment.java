@@ -71,7 +71,7 @@ public abstract class BaseCategoryFragment extends BaseTitleTabFragment {
      */
     @Override
     public void onScrollChanged(float percent) {
-        mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1),percent));
+        mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColor(R.color.qmui_config_color_gray_1),percent));
     }
 
     @Override
@@ -80,7 +80,7 @@ public abstract class BaseCategoryFragment extends BaseTitleTabFragment {
         //把继承改为BaseTabOnTitleFragment注释掉下面的代码试试
         mTitle =  mTopLayout.setTitle("GankType");
         mTopLayout.setTitleGravity(Gravity.CENTER);
-        mTitle.setTextColor(getColorr(R.color.qmui_config_color_gray_1));
+        mTitle.setTextColor(getColor(R.color.qmui_config_color_gray_1));
         mTitle.getPaint().setFakeBoldText(true);
     }
 

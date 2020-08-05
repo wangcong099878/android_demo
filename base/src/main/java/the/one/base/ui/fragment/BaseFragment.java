@@ -38,7 +38,6 @@ import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
-import the.one.base.util.SkinSpUtil;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.util.ViewUtil;
@@ -127,6 +126,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
      */
     protected boolean isIndexFragment = false;
 
+    protected boolean mIsFirstLayInit = true;
+
     /**
      * 懒加载分两种情况
      * 1.在动画结束后开始进行加载
@@ -135,40 +136,31 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
      * 这里自动根据 {@link #isIndexFragment} 判断是以哪种情况进行懒加载
      */
     protected void onLazyInit() {
+
     }
 
-    protected boolean mIsFirstLayInit = true;
+    private void checkLazyInit(){
+        if(mIsFirstLayInit){
+            mIsFirstLayInit = false;
+            onLazyInit();
+        }
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void onLazyResume() {
         if (isNeedChangeStatusBarMode()) {
             updateStatusBarMode(isStatusBarLightMode());
         }
-        if (!isIndexFragment && mIsFirstLayInit) {
-            mIsFirstLayInit = false;
-            onLazyInit();
-        }
-    }
-
-    /**
-     * 更新状态栏模式
-     *
-     * @param isLight
-     */
-    protected void updateStatusBarMode(boolean isLight) {
-        if (isLight) {
-            QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
-        } else {
-            QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
+        if (!isIndexFragment) {
+            checkLazyInit();
         }
     }
 
     @Override
     protected void onEnterAnimationEnd(@Nullable Animation animation) {
         super.onEnterAnimationEnd(animation);
-        if (isIndexFragment && mIsFirstLayInit) {
-            mIsFirstLayInit = false;
-            onLazyInit();
+        if (isIndexFragment) {
+            checkLazyInit();
         }
     }
 
@@ -266,13 +258,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         _mActivity = null;
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 注入 QMUISkinManager
-        if (SkinSpUtil.isQMUISkinManger())
-            mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
+        mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
@@ -343,6 +333,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
+     *
      * @param parent
      * @param layout
      */
@@ -360,8 +351,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     * @param title
      * @deprecated use {@link #setTitleWithBackBtn}
+     * @param title
      */
     protected void initFragmentBack(String title) {
         if (null != mTopLayout) {
@@ -372,7 +363,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置标题并带上返回按钮
-     *
      * @param title
      */
     protected void setTitleWithBackBtn(String title) {
@@ -406,7 +396,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 添加返回按钮
-     *
      * @param drawable 返回键图标
      */
     protected void addTopBarBackBtn(int drawable) {
@@ -419,8 +408,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     * 添加返回按钮
-     *
+     *  添加返回按钮
      * @param drawable 返回键图标
      * @param listener 返回键监听
      */
@@ -507,7 +495,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public void showEmptyPage(String title, String content, String btnString, View.OnClickListener listener) {
-        showEmptyPage(getDrawablee(R.drawable.status_search_result_empty), title, content, btnString, listener);
+        showEmptyPage(getDrawable(R.drawable.status_search_result_empty), title, content, btnString, listener);
     }
 
     @Override
@@ -533,7 +521,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
-        showErrorPage(getDrawablee(R.drawable.status_loading_view_loading_fail), title, content, btnString, listener);
+        showErrorPage(getDrawable(R.drawable.status_loading_view_loading_fail), title, content, btnString, listener);
     }
 
     @Override
@@ -554,13 +542,14 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
 
+
     @Override
     public void showSuccessExit(String tips) {
-        showSuccessExit(tips, NO_SET);
+        showSuccessExit(tips,NO_SET);
     }
 
     @Override
-    public void showSuccessExit(String tips, int type) {
+    public void showSuccessExit(String tips,int type) {
         QMUIDialogUtil.SuccessTipsDialog(_mActivity, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
             @Override
             public void onDismiss() {
@@ -618,9 +607,22 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /***   Util  ***/
 
+
+    /**
+     * 更新状态栏模式
+     *
+     * @param isLight
+     */
+    protected void updateStatusBarMode(boolean isLight) {
+        if (isLight) {
+            QMUIStatusBarHelper.setStatusBarLightMode(getBaseFragmentActivity());
+        } else {
+            QMUIStatusBarHelper.setStatusBarDarkMode(getBaseFragmentActivity());
+        }
+    }
+
     /**
      * 通过TopView查找View {@link #getTopLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -631,7 +633,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过LeftView查找View {@link #getLeftLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -642,7 +643,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过RightView查找View {@link #getRightLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -653,7 +653,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过BottomView查找View {@link #getBottomLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -663,6 +662,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
+     *
      * @param around {@link #getTopLayout()} {@link #getBottomLayout()} {@link #getLeftLayout()} {@link #getRightLayout()}
      * @param id
      * @param <T>
@@ -677,7 +677,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取View
-     *
      * @param layoutId 布局id
      * @return
      */
@@ -687,37 +686,24 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取Drawable
-     *
      * @param id drawable id
      * @return
      */
-    protected Drawable getDrawablee(int id) {
+    protected Drawable getDrawable(int id) {
         return ContextCompat.getDrawable(_mActivity, id);
     }
 
     /**
-     * 获取String
-     *
-     * @param id string id
-     * @return
-     */
-    protected String getStringg(int id) {
-        return getResources().getString(id);
-    }
-
-    /**
      * 获取Color
-     *
      * @param id color id
      * @return
      */
-    protected int getColorr(int id) {
+    protected int getColor(int id) {
         return ContextCompat.getColor(_mActivity, id);
     }
 
     /**
      * 获取EditText String
-     *
      * @param editText
      * @return
      */
@@ -727,7 +713,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取TextView String
-     *
      * @param textView
      * @return
      */
@@ -737,7 +722,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置View为 {@link View.GONE}状态
-     *
      * @param views
      */
     protected void goneView(View... views) {
@@ -746,7 +730,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置View为 {@link View.VISIBLE}状态
-     *
      * @param views
      */
     protected void showView(View... views) {
@@ -771,7 +754,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 显示图片
-     *
      * @param url
      * @param imageView
      */

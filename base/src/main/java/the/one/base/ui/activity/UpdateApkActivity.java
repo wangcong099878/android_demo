@@ -174,12 +174,12 @@ public class UpdateApkActivity extends BaseActivity {
                         } else {
                             //权限未被给予
                             // 显示无权限弹窗
-                            QMUIDialogUtil.showPositiveDialog(UpdateApkActivity.this, getStringg(R.string.permission_to_store), "", getStringg(R.string.cancel), new QMUIDialogAction.ActionListener() {
+                            QMUIDialogUtil.showPositiveDialog(UpdateApkActivity.this, getString(R.string.permission_to_store), "", getString(R.string.cancel), new QMUIDialogAction.ActionListener() {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     dialog.dismiss();
                                 }
-                            }, getStringg(R.string.go_to), new QMUIDialogAction.ActionListener() {
+                            }, getString(R.string.go_to), new QMUIDialogAction.ActionListener() {
                                 @Override
                                 public void onClick(QMUIDialog dialog, int index) {
                                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

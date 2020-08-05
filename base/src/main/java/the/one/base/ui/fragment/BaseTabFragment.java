@@ -220,7 +220,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     }
 
     public IPagerIndicator getIndicator(Context context) {
-        return IndicatorUtil.getWrapPagerIndicator(_mActivity, getColorr(R.color.qmui_config_color_background));
+        return IndicatorUtil.getWrapPagerIndicator(_mActivity, getColor(R.color.qmui_config_color_background));
     }
 
     protected CommonNavigatorAdapter getNavigatorAdapter() {
@@ -336,10 +336,10 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
      */
     protected QMUITab createQMUITab(QMUITabBuilder builder, TabBean tabBean) {
         if (tabBean.getNormalDrawable() != -1) {
-            builder.setNormalDrawable(getDrawablee(tabBean.getNormalDrawable()));
+            builder.setNormalDrawable(getDrawable(tabBean.getNormalDrawable()));
         }
         if (tabBean.getSelectDrawable() != -1) {
-            builder.setSelectedDrawable(getDrawablee(tabBean.getSelectDrawable()));
+            builder.setSelectedDrawable(getDrawable(tabBean.getSelectDrawable()));
         }
         if (!TextUtils.isEmpty(tabBean.getTitle())) {
             builder.setText(tabBean.getTitle());

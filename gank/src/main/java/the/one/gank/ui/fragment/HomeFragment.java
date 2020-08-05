@@ -115,8 +115,8 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     protected void initView(View rootView) {
         mStatusLayout = rootView.findViewById(R.id.status_layout);
         mSectionLayout = rootView.findViewById(the.one.base.R.id.section_layout);
-        mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColorr(R.color.qmui_config_color_gray_2));
-        mCollapsingTopBarLayout.setExpandedTitleColor(getColorr(R.color.qmui_config_color_transparent));
+        mCollapsingTopBarLayout.setCollapsedTitleTextColor(getColor(R.color.qmui_config_color_gray_2));
+        mCollapsingTopBarLayout.setExpandedTitleColor(getColor(R.color.qmui_config_color_transparent));
         mCollapsingTopBarLayout.setTitle("今日最新干货");
         mCollapsingTopBarLayout.addOnOffsetUpdateListener(this);
         initStickyLayout();
@@ -153,7 +153,7 @@ public class HomeFragment extends BaseSectionLayoutFragment implements HomeView,
     public void onBannerComplete(final List<BannerBean> data) {
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
-                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.app_skin_primary_color))
+                .setIndicatorSliderColor(getColor(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.app_skin_primary_color))
                 .setHolderCreator(new HolderCreator<BannerViewHolder>() {
                     @Override
                     public BannerViewHolder createViewHolder() {

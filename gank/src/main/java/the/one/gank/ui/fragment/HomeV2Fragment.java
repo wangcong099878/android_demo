@@ -123,7 +123,7 @@ public class HomeV2Fragment extends BaseListFragment<HomeSection> implements Hom
         isV2 = getArguments().getBoolean(DataConstant.TYPE);
         mBannerHeight = QMUIDisplayHelper.dp2px(_mActivity, 250);
         mStatusBarHeight = QMUIStatusBarHelper.getStatusbarHeight(_mActivity) / 2;
-        mTopLayout.setBackgroundColor(getColorr(R.color.qmui_config_color_transparent));
+        mTopLayout.setBackgroundColor(getColor(R.color.qmui_config_color_transparent));
         mTitleView = mTopLayout.getTopBar().getTitleView();
         mTitleView.getPaint().setFakeBoldText(true);
         super.initView(rootView);
@@ -141,7 +141,7 @@ public class HomeV2Fragment extends BaseListFragment<HomeSection> implements Hom
         mBannerViewPager.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mBannerHeight));
         mBannerViewPager
                 .setIndicatorGravity(IndicatorGravity.END)
-                .setIndicatorSliderColor(getColorr(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.app_skin_primary_color))
+                .setIndicatorSliderColor(getColor(R.color.white), QMUIResHelper.getAttrColor(_mActivity, R.attr.app_skin_primary_color))
                 .setHolderCreator(() -> new BannerViewHolder())
                 .setOnPageClickListener(position -> {
                     if (null != mBannerBeanData && mBannerBeanData.size() > 0) {
@@ -222,12 +222,12 @@ public class HomeV2Fragment extends BaseListFragment<HomeSection> implements Hom
                     setStatusBarMode(false);
                 }
 //                setBannerStatus(percent == 1);
-                mTitleView.setTextColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_gray_1), percent));
-                mTopLayout.updateBottomSeparatorColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_separator), percent));
+                mTitleView.setTextColor(QMUIColorHelper.setColorAlpha(getColor(R.color.qmui_config_color_gray_1), percent));
+                mTopLayout.updateBottomSeparatorColor(QMUIColorHelper.setColorAlpha(getColor(R.color.qmui_config_color_separator), percent));
 
                 // 两种写法
                 // 1
-                mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColorr(R.color.qmui_config_color_white), percent));
+                mTopLayout.setBackgroundColor(QMUIColorHelper.setColorAlpha(getColor(R.color.qmui_config_color_white), percent));
                 // 2
                 //mTopLayout.setBackgroundAlpha((int) (percent * 255));
 
