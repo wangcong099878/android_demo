@@ -40,6 +40,11 @@ public class App extends BaseApplication {
     }
 
     @Override
+    protected boolean isOpenQMUISkinManger() {
+        return true;
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         SkinManager.install(this);

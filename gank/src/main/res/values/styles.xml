@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="TopBarWhiteTheme">
         <!-- Customize your theme here. -->
 
+        <item name="qmui_skin_support_topbar_bg">@color/white</item>
     </style>
 
     <style name="publish_style">

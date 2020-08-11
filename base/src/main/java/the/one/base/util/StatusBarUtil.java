@@ -19,7 +19,6 @@ package the.one.base.util;
 //      ┗┻┛　┗┻┛
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 
 import com.qmuiteam.qmui.skin.QMUISkinHelper;
@@ -29,7 +28,7 @@ import the.one.base.R;
 /**
  * @author The one
  * @date 2019/8/13 0013
- * @describe 获取全局设置的TopBar的背景
+ * @describe 获取全局设置的TopBar的背景是不是白色背景，然后设置默认的状态栏模式
  * @email 625805189@qq.com
  * @remark
  */
@@ -44,7 +43,7 @@ public class StatusBarUtil {
         } catch (Exception e) {
             bgColor = Color.WHITE;
         }
-        return bgColor > -10000000 && bgColor<0;
+        return bgColor == -1;
     }
 
 }
