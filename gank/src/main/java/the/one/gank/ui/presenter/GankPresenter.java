@@ -15,7 +15,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.OnError;
 import the.one.base.ui.presenter.BaseDataPresenter;
@@ -56,8 +55,7 @@ public class GankPresenter extends BaseDataPresenter<GankBean> {
         Log.e(TAG, "getData: "+url );
         RxHttp.get(url)
                 .asResponseListOld(GankBean.class)
-                .observeOn(AndroidSchedulers.mainThread()) //指定在主线程回调
-                .as(RxLife.as(this))
+                .as(RxLife.asOnMain(this))
                 .subscribe(s -> {
                     //请求成功
                     if (!type.equals(NetUrlConstant.WELFARE)) {

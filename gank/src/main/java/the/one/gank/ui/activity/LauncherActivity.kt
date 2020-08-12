@@ -1,4 +1,7 @@
-package the.one.base.util;
+package the.one.gank.ui.activity
+
+import the.one.base.ui.activity.SampleLauncherActivity
+
 
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
@@ -17,32 +20,17 @@ package the.one.base.util;
 //    ┗┓┓┏━┳┓┏┛
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
-
-import android.graphics.Color;
-import android.view.View;
-
-import com.qmuiteam.qmui.skin.QMUISkinHelper;
-
-import the.one.base.R;
-
 /**
  * @author The one
- * @date 2019/8/13 0013
- * @describe 获取全局设置的TopBar的背景是不是白色背景，然后设置默认的状态栏模式
+ * @date 2020/8/12 0012
+ * @describe TODO
  * @email 625805189@qq.com
  * @remark
  */
-public class StatusBarUtil {
+class LauncherActivity : SampleLauncherActivity() {
 
-    public static boolean isWhiteBg(View view) {
-        if (null == view) return false;
-        int bgColor;
-        try {
-            bgColor = QMUISkinHelper.getSkinColor(view, R.attr.qmui_skin_support_topbar_bg);
-        } catch (Exception e) {
-            bgColor = Color.WHITE;
-        }
-        return bgColor == -1;
+    override fun getMainActivity(): Class<*> {
+        return GankActivity::class.java
     }
 
 }

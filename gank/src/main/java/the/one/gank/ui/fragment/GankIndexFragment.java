@@ -60,7 +60,7 @@ public class GankIndexFragment extends BaseHomeFragment {
     @Override
     protected void addFragment(ArrayList<BaseFragment> fragments) {
         if (APIVersionUtil.isV2()) {
-            fragments.add(HomeV2Fragment.newInstance(true));
+            fragments.add(new HomeV2FragmentK());
             fragments.add(new CategoryV2Fragment());
         } else {
             fragments.add(new HomeFragment());

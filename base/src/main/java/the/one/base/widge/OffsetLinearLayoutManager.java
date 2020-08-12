@@ -24,6 +24,7 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import the.one.base.util.RecyclerViewUtil;
@@ -60,7 +61,7 @@ public class OffsetLinearLayoutManager extends LinearLayoutManager {
      * @return
      */
     @Override
-    public int computeVerticalScrollOffset(RecyclerView.State state) {
+    public int computeVerticalScrollOffset(@Nullable RecyclerView.State state) {
         if (getChildCount() == 0) {
             return 0;
         }

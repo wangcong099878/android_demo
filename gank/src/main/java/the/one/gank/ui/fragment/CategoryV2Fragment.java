@@ -9,7 +9,6 @@ import java.util.List;
 
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.OnError;
-import the.one.base.adapter.TabFragmentAdapter;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.gank.bean.CategoryBean;
 import the.one.gank.constant.NetUrlConstantV2;
@@ -74,17 +73,6 @@ public class CategoryV2Fragment extends BaseCategoryFragment {
     }
 
     @Override
-    protected void initTabAndPager() {
-        pageAdapter = new TabFragmentAdapter<>(getChildFragmentManager(), fragments, isDestroyItem());
-        mViewPager.setAdapter(pageAdapter);
-        mViewPager.addOnPageChangeListener(this);
-        mViewPager.setSwipeable(isViewPagerSwipe());
-        initSegment();
-        initIndicator();
-        showContentPage();
-    }
-
-    @Override
     protected void addTabs() {
 
     }
@@ -93,10 +81,10 @@ public class CategoryV2Fragment extends BaseCategoryFragment {
     protected void addFragment(ArrayList<BaseFragment> fragments) {
         for (CategoryBean category: mCategories){
             addTab(category.getTitle());
-            fragments.add(BaseGankFragment.newInstance(GankV2Fragment.class,category.getType(), mCategory));
+            fragments.add(BaseGankFragment.newInstance(GankV2FragmentK.class,category.getType(), mCategory));
         }
         // 直接把妹子分类加进去
         addTab(NetUrlConstantV2.CATEGORY_GIRL);
-        fragments.add(BaseGankFragment.newInstance(GankV2Fragment.class,NetUrlConstantV2.CATEGORY_GIRL,NetUrlConstantV2.CATEGORY_GIRL));
+        fragments.add(BaseGankFragment.newInstance(GankV2FragmentK.class,NetUrlConstantV2.CATEGORY_GIRL,NetUrlConstantV2.CATEGORY_GIRL));
     }
 }

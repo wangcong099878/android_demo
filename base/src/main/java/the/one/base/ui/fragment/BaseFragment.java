@@ -265,6 +265,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         // 注入 QMUISkinManager
         if (SkinSpUtil.isQMUISkinManger())
             mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
+        if (getPresenter() != null)
+            getPresenter().attachView(this, this);
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
@@ -293,8 +295,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     protected View onCreateView() {
         View mBody = getView(getContentViewId());
-        if (getPresenter() != null)
-            getPresenter().attachView(this, this);
         if (isRegisterEventBus())
             EventBusUtil.register(this);
         if (showTitleBar()) {
@@ -580,7 +580,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (getPresenter() != null) getPresenter().detachView();
         if (isRegisterEventBus()) {
             EventBusUtil.unregister(this);
         }

@@ -4,17 +4,19 @@
     package="the.one.gank">
 
     <application
-        android:name=".App"
+        android:name=".GankApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:networkSecurityConfig, android:theme"
         android:theme="@style/AppTheme"
-        tools:ignore="UnusedAttribute">
-        <activity android:name=".ui.activity.LauncherActivity"
+        tools:ignore="UnusedAttribute"
+        tools:replace="android:networkSecurityConfig, android:theme">
+
+        <activity
+            android:name="the.one.gank.ui.activity.LauncherActivity"
             android:theme="@style/StartAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.GankActivity">
 
-        </activity>
+        <activity android:name=".ui.activity.GankActivity"/>
+
     </application>
 
 </manifest>

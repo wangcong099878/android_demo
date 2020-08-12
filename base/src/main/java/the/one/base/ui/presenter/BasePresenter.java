@@ -25,8 +25,8 @@ import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
-
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.ExceptionHelper;
 import the.one.base.util.NetFailUtil;
@@ -39,7 +39,7 @@ import the.one.base.util.NetFailUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class BasePresenter<V extends BaseView> implements LifecycleOwner {
+public class BasePresenter<V extends BaseView> implements LifecycleEventObserver,LifecycleOwner {
 
     protected final String TAG = this.getClass().getSimpleName();
 
@@ -52,6 +52,7 @@ public class BasePresenter<V extends BaseView> implements LifecycleOwner {
     public void attachView(@NotNull V baseView, @NotNull LifecycleOwner lifecycleOwner) {
         this.baseView = baseView;
         this.lifecycleOwner = lifecycleOwner;
+        lifecycleOwner.getLifecycle().addObserver(this);
     }
 
     /**
@@ -139,6 +140,14 @@ public class BasePresenter<V extends BaseView> implements LifecycleOwner {
     @Override
     public Lifecycle getLifecycle() {
         return lifecycleOwner.getLifecycle();
+    }
+
+    @Override
+    public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
+        if(event == Lifecycle.Event.ON_DESTROY){
+            source.getLifecycle().removeObserver(this);
+            detachView();
+        }
     }
 
 }

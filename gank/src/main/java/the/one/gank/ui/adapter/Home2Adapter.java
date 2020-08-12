@@ -63,42 +63,11 @@ public class Home2Adapter extends BaseSectionQuickAdapter<HomeSection, TheBaseVi
         String author = "#" + itemSection.getWho()+ "  ";
         tvContent.setText(StringUtils.SpannableString(author + itemSection.getDesc(), author, QMUIResHelper.getAttrColor(getContext(), R.attr.app_skin_primary_color), StringUtils.Type.ForegroundColorSpan));
         if (null == itemSection.getImages() || itemSection.getImages().size() < 1) {
-//            if (itemSection.getUrl().endsWith(".jpg")) {
                 ArrayList<String> strings = new ArrayList<>();
                 strings.add(itemSection.getUrl());
                 nineImageLayout.setUrlList(strings);
-//            } else {
-//                nineImageLayout.setUrlList(null);
-//            }
         } else
             nineImageLayout.setUrlList(itemSection.getImages());
     }
-
-//    @Override
-//    public void onViewDetachedFromWindow(@NonNull TheBaseViewHolder holder) {
-//        super.onViewDetachedFromWindow(holder);
-//        /**
-//         * 下面的代码需要根据你的实际情况调整哦！
-//         */
-//        //定位你的header位置
-//        if (holder.getAdapterPosition()==0) {
-//            if (getHeaderLayoutCount() > 0) {
-//                //这里是获取你banner放的位置，这个根据你自己实际位置来获取，我这里header只有一个所以这么获取
-//                Banner banner = (Banner) getHeaderLayout().getChildAt(0);
-//                banner.stop();
-//            }
-//        }
-//    }
-//    //当banner可见时继续
-//    @Override
-//    public void onViewAttachedToWindow(TheBaseViewHolder holder) {
-//        super.onViewAttachedToWindow(holder);
-//        if (holder.getAdapterPosition()==0) {
-//            if (getHeaderLayoutCount() > 0) {
-//                Banner banner = (Banner) getHeaderLayout().getChildAt(0);
-//                banner.start();
-//            }
-//        }
-//    }
 
 }

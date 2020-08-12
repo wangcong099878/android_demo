@@ -351,6 +351,4 @@ public class HomeV2Fragment extends BaseListFragment<HomeSection> implements Hom
         return false;
     }
 
-
-
 }
