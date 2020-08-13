@@ -1,7 +1,5 @@
 package the.one.gank.net;
 
-import the.one.base.model.SamplePageInfoBean;
-
 public class ResponseOld<T> {
 
     private boolean error;

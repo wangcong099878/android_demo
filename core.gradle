@@ -53,7 +53,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation project(':base')
-    implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0'
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.ljx.rxhttp:rxhttp-compiler:$rxhttpVersion" //生成RxHttp类
 

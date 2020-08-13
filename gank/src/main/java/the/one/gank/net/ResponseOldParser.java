@@ -4,17 +4,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import rxhttp.wrapper.annotation.Parser;
 import rxhttp.wrapper.entity.ParameterizedTypeImpl;
 import rxhttp.wrapper.exception.ParseException;
 import rxhttp.wrapper.parse.AbstractParser;
 
-@Parser(name = "ResponseOld")
+@Parser(name = "ResponseOld",wrappers = {List.class})
 public class ResponseOldParser<T> extends AbstractParser<T> {
-
-    public ResponseOldParser() {
-    }
 
     public ResponseOldParser(@NotNull Type type) {
         super(type);

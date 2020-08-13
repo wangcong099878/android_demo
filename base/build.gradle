@@ -39,6 +39,7 @@ dependencies {
 
     api "com.zhy:okhttputils:$okhttpUtilVersion"
     api "com.ljx.rxhttp:rxhttp:$rxhttpVersion"
+    api "com.ljx.rxlife:rxlife-coroutine:$rxlifeCoroutine"
     api "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
     api "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
     api "com.ljx.rxlife2:rxlife-rxjava:$rxlifeVersion"  //页面销毁，关闭请求，非必须
