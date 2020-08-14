@@ -18,7 +18,7 @@ import rxhttp.wrapper.utils.GsonUtil;
 @Parser(name = "Response",wrappers = {List.class})
 public class ResponseParser<T> extends AbstractParser<Response<T>> {
 
-    public ResponseParser() {
+    protected ResponseParser() {
     }
 
     public ResponseParser(@NotNull Type type) {

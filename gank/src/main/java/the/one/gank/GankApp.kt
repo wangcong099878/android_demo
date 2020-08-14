@@ -1,5 +1,6 @@
 package the.one.gank
 
+import android.app.Activity
 import rxhttp.wrapper.cahce.CacheMode
 import the.one.base.BaseApplication
 import the.one.gank.net.ResponseBuilder
@@ -32,7 +33,7 @@ import the.one.gank.ui.activity.LauncherActivity
  */
 class GankApp : BaseApplication() {
 
-    override fun getStartActivity(): Class<*> {
+    override fun getStartActivity(): Class<out Activity> {
         return LauncherActivity::class.java
     }
 

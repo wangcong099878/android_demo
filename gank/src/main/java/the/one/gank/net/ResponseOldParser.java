@@ -14,6 +14,8 @@ import rxhttp.wrapper.parse.AbstractParser;
 @Parser(name = "ResponseOld",wrappers = {List.class})
 public class ResponseOldParser<T> extends AbstractParser<T> {
 
+    protected ResponseOldParser(){}
+
     public ResponseOldParser(@NotNull Type type) {
         super(type);
     }

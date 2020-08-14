@@ -1,6 +1,7 @@
 package the.one.base;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -77,7 +78,7 @@ public class BaseApplication extends MultiDexApplication {
      *
      * @return 启动Activity
      */
-    protected Class getStartActivity() {
+    protected Class<? extends Activity> getStartActivity() {
         return null;
     }
 
@@ -86,7 +87,7 @@ public class BaseApplication extends MultiDexApplication {
      *
      * @return 异常显示Activity
      */
-    protected Class getCrashActivity() {
+    protected Class<? extends Activity> getCrashActivity() {
         return BaseCrashActivity.class;
     }
 
@@ -124,6 +125,30 @@ public class BaseApplication extends MultiDexApplication {
      */
     protected long getRxHttpCacheValidTime() {
         return 24 * 60 * 60 * 1000;
+    }
+
+    /**
+     * 链接超时时间
+     * @return
+     */
+    protected int getConnectTimeout(){
+        return 10;
+    }
+
+    /**
+     * 读取超时时间
+     * @return
+     */
+    protected int getReadTimeout(){
+        return 10;
+    }
+
+    /**
+     * 写入超时时间
+     * @return
+     */
+    protected int getWriteTimeout(){
+        return 10;
     }
 
     /**
@@ -170,9 +195,9 @@ public class BaseApplication extends MultiDexApplication {
         if (isRxHttpCookie()) {
             builder.cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"), false));
         }
-        builder.connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
+        builder.connectTimeout(getConnectTimeout(), TimeUnit.SECONDS)
+                .readTimeout(getReadTimeout(), TimeUnit.SECONDS)
+                .writeTimeout(getWriteTimeout(), TimeUnit.SECONDS)
                 .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
                 .hostnameVerifier((hostname, session) -> true); //忽略host验证;
         return builder;

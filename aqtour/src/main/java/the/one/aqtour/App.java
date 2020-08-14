@@ -1,19 +1,14 @@
 package the.one.aqtour;
 
+import android.app.Activity;
+
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.litepal.LitePal;
 
-import java.io.File;
-
-import rxhttp.HttpSender;
-import rxhttp.RxHttpPlugins;
 import rxhttp.wrapper.cahce.CacheMode;
 import the.one.aqtour.ui.activity.Launcher;
 import the.one.base.BaseApplication;
-import the.one.base.BuildConfig;
-import the.one.base.util.FileDirectoryUtil;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 
 
@@ -45,7 +40,7 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 public class App extends BaseApplication {
 
     @Override
-    protected Class getStartActivity() {
+    protected Class<? extends Activity> getStartActivity() {
         return Launcher.class;
     }
 

@@ -1,5 +1,7 @@
 package the.one.demo;
 
+import android.app.Activity;
+
 import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.widge.StatusLayout;
@@ -35,7 +37,7 @@ import the.one.demo.skin.SkinManager;
 public class App extends BaseApplication {
 
     @Override
-    protected Class getStartActivity() {
+    protected Class<? extends Activity> getStartActivity() {
         return LauncherActivity.class;
     }
 

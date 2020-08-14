@@ -15,6 +15,7 @@ ext {
     rxhttpVersion = '2.3.4'
     rxlifeCoroutine = '2.0.0'
     rxlifeVersion = '2.0.0'
+    rxJava = 'rxjava2'
 
     //util
     glideVersion = '4.10.0'
