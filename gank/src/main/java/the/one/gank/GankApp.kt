@@ -1,8 +1,12 @@
 package the.one.gank
 
 import android.app.Activity
+import okhttp3.OkHttpClient
+import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
+import rxhttp.wrapper.param.RxHttp
 import the.one.base.BaseApplication
+import the.one.base.util.RxHttpManager
 import the.one.gank.net.ResponseBuilder
 import the.one.gank.ui.activity.LauncherActivity
 
@@ -41,8 +45,8 @@ class GankApp : BaseApplication() {
         return true
     }
 
-    override fun getRxHttpCacheMode(): CacheMode {
-        return CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK
+    override fun getHttpBuilder(): RxHttpManager.HttpBuilder {
+        return super.getHttpBuilder().setCacheMode(CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK)
     }
 
     override fun onCreate() {
@@ -53,4 +57,10 @@ class GankApp : BaseApplication() {
                 .setMsgStr("msg")
                 .setDataStr("data").successCode = 100
     }
+
+    override fun initHttp(builder: RxHttpManager.HttpBuilder?) {
+        RxHttp.init(RxHttpManager.getHttpClient(builder),isDebug)
+        RxHttpManager.initCacheMode(builder)
+    }
+
 }

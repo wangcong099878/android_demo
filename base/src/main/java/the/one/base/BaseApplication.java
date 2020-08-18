@@ -9,26 +9,20 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
-
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDexApplication;
 import okhttp3.OkHttpClient;
-import rxhttp.HttpSender;
-import rxhttp.RxHttpPlugins;
 import rxhttp.wrapper.cahce.CacheMode;
 import rxhttp.wrapper.cookie.CookieStore;
-import rxhttp.wrapper.ssl.SSLSocketFactoryImpl;
-import rxhttp.wrapper.ssl.X509TrustManagerImpl;
+import rxhttp.wrapper.ssl.HttpsUtils;
 import the.one.base.ui.activity.BaseCrashActivity;
 import the.one.base.util.FileDirectoryUtil;
 import the.one.base.util.NotificationManager;
+import the.one.base.util.RxHttpManager;
 import the.one.base.util.SkinSpUtil;
 import the.one.base.util.SpUtil;
 import the.one.base.util.crash.CrashConfig;
@@ -105,6 +99,7 @@ public class BaseApplication extends MultiDexApplication {
      *
      * @return True 会开启日志
      */
+    @Deprecated
     protected boolean isDebug() {
         return BuildConfig.DEBUG;
     }
@@ -114,6 +109,7 @@ public class BaseApplication extends MultiDexApplication {
      *
      * @return 默认仅网络
      */
+    @Deprecated
     protected CacheMode getRxHttpCacheMode() {
         return CacheMode.ONLY_NETWORK;
     }
@@ -123,14 +119,25 @@ public class BaseApplication extends MultiDexApplication {
      *
      * @return 默认24小时
      */
+    @Deprecated
     protected long getRxHttpCacheValidTime() {
         return 24 * 60 * 60 * 1000;
+    }
+
+    /**
+     * 获取RxHttp缓存文件夹
+     * @return
+     */
+    @Deprecated
+    protected File getRxHttpCacheFile(){
+        return new File(FileDirectoryUtil.getRxHttPCachePath());
     }
 
     /**
      * 链接超时时间
      * @return
      */
+    @Deprecated
     protected int getConnectTimeout(){
         return 10;
     }
@@ -139,6 +146,7 @@ public class BaseApplication extends MultiDexApplication {
      * 读取超时时间
      * @return
      */
+    @Deprecated
     protected int getReadTimeout(){
         return 10;
     }
@@ -147,15 +155,27 @@ public class BaseApplication extends MultiDexApplication {
      * 写入超时时间
      * @return
      */
+    @Deprecated
     protected int getWriteTimeout(){
         return 10;
     }
 
     /**
      * RxHttp是否需要Cookie
+     *
      */
+    @Deprecated
     protected boolean isRxHttpCookie() {
         return false;
+    }
+
+    /**
+     * 获取HttpClient的配置Builder
+     *
+     * @return
+     */
+    protected RxHttpManager.HttpBuilder getHttpBuilder(){
+        return new RxHttpManager.HttpBuilder();
     }
 
     @Override
@@ -167,30 +187,25 @@ public class BaseApplication extends MultiDexApplication {
         NotificationManager.getInstance().register(this);
         SpUtil.init(this);
         SkinSpUtil.setQMUISkinManager(isOpenQMUISkinManger());
-        initHttp();
+        initHttp(getHttpBuilder());
         initLogger();
     }
 
     /**
-     * OkHttpUtils适配https
-     * RxHttp设置缓存路径
+     * v 2.0.9 起，需自行对RxHttp初始化
+     * 如果有用到下载服务、自动更新、必须对此方法初始化
+     * 把下面两个复制过去即可
      */
-    protected void initHttp() {
-        OkHttpClient client = getDefaultOkHttpClientBuilder().build();
-        HttpSender.init(client, isDebug());
-        //设置缓存目录为：Android/data/{app包名目录}/cache/RxHttpCache
-        File cacheDir = new File(FileDirectoryUtil.getRxHttPCachePath());
-        //设置最大缓存为10M，缓存有效时长为一个小时，这里全局不做缓存处理，某些需要缓存的请求单独设置
-        RxHttpPlugins.setCache(cacheDir, 10 * 1024 * 1024, getRxHttpCacheMode(), getRxHttpCacheValidTime());
-        OkHttpUtils.initClient(client);
+    protected void initHttp(RxHttpManager.HttpBuilder builder) {
+        // RxHttp.init(RxHttpManager.getHttpClient(builder))
+        // RxHttpManager.initCacheMode(builder);
     }
 
     /**
      * 获取默认的OkHttpClient
      */
+    @Deprecated
     protected OkHttpClient.Builder getDefaultOkHttpClientBuilder() {
-        X509TrustManager trustAllCert = new X509TrustManagerImpl();
-        SSLSocketFactory sslSocketFactory = new SSLSocketFactoryImpl(trustAllCert);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (isRxHttpCookie()) {
             builder.cookieJar(new CookieStore(new File(FileDirectoryUtil.getCachePath(), "RxHttpCookie"), false));
@@ -198,7 +213,7 @@ public class BaseApplication extends MultiDexApplication {
         builder.connectTimeout(getConnectTimeout(), TimeUnit.SECONDS)
                 .readTimeout(getReadTimeout(), TimeUnit.SECONDS)
                 .writeTimeout(getWriteTimeout(), TimeUnit.SECONDS)
-                .sslSocketFactory(sslSocketFactory, trustAllCert) //添加信任证书
+                .sslSocketFactory(HttpsUtils.getSslSocketFactory().sSLSocketFactory, HttpsUtils.getSslSocketFactory().trustManager) //添加信任证书
                 .hostnameVerifier((hostname, session) -> true); //忽略host验证;
         return builder;
     }

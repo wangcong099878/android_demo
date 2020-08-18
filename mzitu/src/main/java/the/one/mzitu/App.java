@@ -3,7 +3,9 @@ package the.one.mzitu;
 import android.app.Activity;
 
 import rxhttp.wrapper.cahce.CacheMode;
+import rxhttp.wrapper.param.RxHttp;
 import the.one.base.BaseApplication;
+import the.one.base.util.RxHttpManager;
 import the.one.mzitu.ui.activity.LauncherActivity;
 
 public class App extends BaseApplication {
@@ -14,8 +16,14 @@ public class App extends BaseApplication {
     }
 
     @Override
-    protected CacheMode getRxHttpCacheMode() {
-        return CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK;
+    protected void initHttp(RxHttpManager.HttpBuilder builder) {
+        RxHttp.init(RxHttpManager.getHttpClient(builder));
+        RxHttpManager.initCacheMode(builder);
+    }
+
+    @Override
+    protected RxHttpManager.HttpBuilder getHttpBuilder() {
+        return super.getHttpBuilder().setCacheMode(CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK);
     }
 
 }

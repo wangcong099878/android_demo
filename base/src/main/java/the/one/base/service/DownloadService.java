@@ -6,13 +6,11 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.text.TextUtils;
-import android.webkit.MimeTypeMap;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
@@ -22,13 +20,13 @@ import java.util.UUID;
 
 import androidx.core.app.NotificationCompat;
 import okhttp3.Call;
+import the.one.base.BaseApplication;
 import the.one.base.R;
 import the.one.base.constant.DataConstant;
 import the.one.base.model.Download;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.BroadCastUtil;
 import the.one.base.util.FileDirectoryUtil;
-import the.one.base.util.NetFailUtil;
 import the.one.base.util.NotificationManager;
 import the.one.base.util.ToastUtil;
 
@@ -53,7 +51,6 @@ public class DownloadService extends Service {
     private NotificationManager theNotificationManager;
     private NotificationCompat.Builder mBuilder;
 
-
     public DownloadService() {
     }
 
@@ -76,52 +73,64 @@ public class DownloadService extends Service {
 
     @SuppressLint("CheckResult")
     private void startDown() {
-        final String destFile = FileDirectoryUtil.getDownloadPath() +(TextUtils.isEmpty(mDownload.getDestFileDir()) ? "" : File.separator+mDownload.getDestFileDir());
+        final String destFilePath = FileDirectoryUtil.getDownloadPath() +(TextUtils.isEmpty(mDownload.getDestFileDir()) ? "" : File.separator+mDownload.getDestFileDir());
         OkHttpUtils
                 .get()
                 .url(mDownload.getUrl())
                 .tag(mDownload.getUrl())
                 .build()
-                .execute(new FileCallBack(destFile, mDownload.getName()) {
+                .execute(new FileCallBack(destFilePath, mDownload.getName()) {
 
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        BroadCastUtil.send(DownloadService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, e.getMessage());
-                        updateNotification("下载失败", false);
-                        ToastUtil.showLongToast(NetFailUtil.getFailString(e));
-                        File file = new File(destFile,mDownload.getName());
-                        if(file.exists()){
-                            file.delete();
-                        }
+                        DownloadService.this.onError(destFilePath,e.getLocalizedMessage());
                     }
 
                     @Override
                     public void inProgress(float progress, long total, int id) {
-                        int percent = (int) (progress * 100);
-                        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
-                        if (percent != oldPercent) {
-                            oldPercent = percent;
-                            updateProgress(percent);
-                            Intent intent = new Intent();
-                            intent.setAction(UPDATE_PROGRESS);
-                            intent.putExtra(UPDATE_PROGRESS_PERCENT, percent);
-                            sendBroadcast(intent);
-                        }
+                        DownloadService.this.inProgress((int) (progress*100));
                     }
 
                     @Override
                     public void onResponse(File response, int id) {
-                        if (mDownload.isUpdateApk()) {
-                            AppInfoManager.installApk(DownloadService.this, response);
-                        } else if (mDownload.isImage()) {
-                            updateLocationFile(response);
-                            ToastUtil.showToast("已下载: "+response.getAbsolutePath());
-                        }
-                        BroadCastUtil.send(DownloadService.this, DOWNLOAD_OK);
-                        updateNotification("下载完成", true);
+                        DownloadService.this.onResponse(response);
                     }
                 });
     }
+
+    private void inProgress(int percent){
+        // 如果进度与之前进度相等，则不更新，如果更新太频繁，否则会造成界面卡顿
+        if (percent != oldPercent) {
+            oldPercent = percent;
+            updateProgress(percent);
+            Intent intent = new Intent();
+            intent.setAction(UPDATE_PROGRESS);
+            intent.putExtra(UPDATE_PROGRESS_PERCENT, percent);
+            sendBroadcast(intent);
+        }
+    }
+
+    public void onError(String path,String error) {
+        BroadCastUtil.send(DownloadService.this, DOWNLOAD_ERROR, DOWNLOAD_ERROR_MSG, error);
+        updateNotification("下载失败", false);
+        showToast("下载失败 "+error);
+        File file = new File(path,mDownload.getName());
+        if(file.exists()){
+            file.delete();
+        }
+    }
+
+    public void onResponse(File response) {
+        if (mDownload.isUpdateApk()) {
+            AppInfoManager.installApk(DownloadService.this, response);
+        } else if (mDownload.isImage()) {
+            updateLocationFile(response);
+            showToast("保存到 "+response.getAbsolutePath());
+        }
+        BroadCastUtil.send(DownloadService.this, DOWNLOAD_OK);
+        updateNotification("下载完成", true);
+    }
+
 
     /**
      * 初始化通知栏
@@ -175,22 +184,22 @@ public class DownloadService extends Service {
      * 通知系统刷新文件
      */
     private void updateLocationFile(File file) {
-        MimeTypeMap mtm = MimeTypeMap.getSingleton();
-        MediaScannerConnection.scanFile(getApplicationContext(),
-                new String[]{file.toString()},
-                new String[]{mtm.getMimeTypeFromExtension(file.toString().substring(file.toString().lastIndexOf(".") + 1))},
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    @Override
-                    public void onScanCompleted(final String path, final Uri uri) {
-                        Message message = new Message();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(DataConstant.DATA2, path);
-                        message.setData(bundle);
-                        handlerToast.sendMessage(message);
-                    }
-                });
+        try {
+            MediaScannerConnection.scanFile(BaseApplication.getInstance(), new String[]{file.getAbsolutePath()}, null,
+                    (path, uri) -> {
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    private void showToast(String msg){
+        Message message = new Message();
+        Bundle bundle = new Bundle();
+        bundle.putString(DataConstant.DATA2, msg);
+        message.setData(bundle);
+        handlerToast.sendMessage(message);
+    }
 
     @SuppressLint("HandlerLeak")
     private Handler handlerToast = new Handler() {
@@ -198,7 +207,7 @@ public class DownloadService extends Service {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle bundle = msg.getData();
-            ToastUtil.showLongToast("保存到 " + bundle.getString(DataConstant.DATA2));
+            ToastUtil.showLongToast(bundle.getString(DataConstant.DATA2));
         }
     };
 

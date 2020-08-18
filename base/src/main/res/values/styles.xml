@@ -29,10 +29,11 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="StartAppTheme" parent="TranslucentTheme">
+    <style name="StartAppTheme" parent="BaseTheme">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="TranslucentTheme" parent="BaseTheme">
