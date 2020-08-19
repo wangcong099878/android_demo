@@ -12,7 +12,7 @@ ext {
     okhttpUtilVersion = '2.6.2'
 
     // rxHttp
-    rxhttpVersion = '2.3.4'
+    rxhttpVersion = '2.3.5'
     rxlifeCoroutine = '2.0.0'
     rxlifeVersion = '2.0.0'
     rxJava = 'rxjava2'
