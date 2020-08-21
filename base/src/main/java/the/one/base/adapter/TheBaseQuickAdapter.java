@@ -76,7 +76,6 @@ public abstract class TheBaseQuickAdapter<T> extends BaseQuickAdapter<T, TheBase
         super(layoutResId);
     }
 
-
     @Override
     public TheBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         initData(parent);

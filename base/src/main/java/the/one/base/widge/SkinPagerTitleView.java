@@ -47,18 +47,28 @@ public class SkinPagerTitleView extends SimplePagerTitleView implements IQMUISki
 
     public SkinPagerTitleView(Context context) {
         super(context);
+        mSelectedColor = getSelectColor();
+        mNormalColor = getNormalColor();
+    }
+
+    public int getSelectColor(){
+        return QMUISkinHelper.getSkinColor(this, R.attr.qmui_skin_support_tab_selected_color);
+    }
+
+    public int getNormalColor(){
+        return QMUISkinHelper.getSkinColor(this, R.attr.qmui_skin_support_tab_normal_color);
     }
 
     @Override
     public void onSelected(int index, int totalCount) {
         isSelect = true;
-//        updateTextColor();
+        updateTextColor();
     }
 
     @Override
     public void onDeselected(int index, int totalCount) {
         isSelect = false;
-//        updateTextColor();
+        updateTextColor();
     }
 
     private void updateTextColor(){
@@ -67,8 +77,8 @@ public class SkinPagerTitleView extends SimplePagerTitleView implements IQMUISki
 
     @Override
     public void handle(@NonNull QMUISkinManager manager, int skinIndex, @NonNull Resources.Theme theme, @Nullable SimpleArrayMap<String, Integer> attrs) {
-        mSelectedColor = QMUISkinHelper.getSkinColor(this, R.attr.qmui_skin_support_tab_selected_color);
-        mNormalColor = QMUISkinHelper.getSkinColor(this, R.attr.qmui_skin_support_tab_normal_color);
+        mSelectedColor = getSelectColor();
+        mNormalColor = getNormalColor();
         updateTextColor();
     }
 

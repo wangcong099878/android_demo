@@ -29,7 +29,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="16dp"
-            android:textSize="15sp"
+            android:textSize="?attr/app_skin_status_layout_title_size"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -40,6 +40,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="56dp"
             android:layout_marginTop="10dp"
+            android:textSize="?attr/app_skin_status_layout_content_size"
             android:layout_marginRight="56dp"
             android:layout_marginBottom="16dp"
             android:gravity="center"
@@ -58,6 +59,7 @@
             android:textColor="?attr/app_skin_status_layout_btn_text_color"
             app:qmui_backgroundColor="@color/qmui_config_color_gray_7"
             app:qmui_borderWidth="0dp"
+            android:textSize="?attr/app_skin_status_layout_btn_text_size"
             app:qmui_isRadiusAdjustBounds="true"
             app:qmui_skin_background="?attr/app_skin_status_layout_btn_background_color"
             app:qmui_skin_text_color="?attr/app_skin_status_layout_btn_text_color"

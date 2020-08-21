@@ -16,6 +16,10 @@
     <attr name="app_skin_status_layout_loading_text_color" format="color"/>
     <attr name="app_skin_status_layout_btn_background_color" format="color|reference"/>
     <attr name="app_skin_status_layout_btn_text_color" format="color|reference"/>
+    <attr name="app_skin_status_layout_btn_text_size" format="dimension|reference"/>
+    <attr name="app_skin_status_layout_title_size" format="dimension|reference"/>
+    <attr name="app_skin_status_layout_content_size" format="dimension|reference"/>
+    <attr name="app_skin_status_layout_loading_tips_size" format="dimension|reference"/>
 
     <attr name="app_skin_btn_gray_background_color" format="color"/>
     <attr name="app_skin_btn_tips_background_color" format="color"/>
@@ -23,6 +27,17 @@
     <!--数量选择器按钮背景-->
     <attr name="app_skin_number_picker_btn_background_color" format="color"/>
     <attr name="app_skin_number_picker_btn_text_color" format="color"/>
+
+    <!--TAB指示器字体大小-->
+    <attr name="app_skin_tab_indicator_text_size" format="reference|dimension"/>
+
+    <!-- 自定义加载更多 -->
+    <attr name="app_skin_loadmore_text_color" format="color"/>
+    <attr name="app_skin_loadmore_complete_text" format="string"/>
+    <attr name="app_skin_loadmore_fail_text" format="string"/>
+    <attr name="app_skin_loadmore_end_text" format="string"/>
+    <attr name="app_skin_loadmore_loading_text" format="string"/>
+    <attr name="app_skin_loadmore_text_size" format="dimension"/>
 
     <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
     <attr name="app_skin_checked_color" format="color" />
@@ -34,6 +49,7 @@
     <!--QMUI-->
     <attr name="qmui_skin_support_topbar_back_drawable" format="reference"/>// 返回按钮图标
     <attr name="qmui_skin_support_tab_size" format="dimension"/>// TabSegment字体大小
+    <attr name="qmui_skin_segment_tab_height_size" format="reference|dimension"/> // QMUISegment高度
 
     <!-- 基础的相同的配置 -->
     <style name="BaseTheme" parent="QMUI.Compat.NoActionBar">
@@ -53,9 +69,17 @@
         <item name="app_skin_status_layout_loading_text_color">@color/qmui_config_color_gray_2</item>
         <item name="app_skin_status_layout_btn_background_color">@color/qmui_config_color_gray_7</item>
         <item name="app_skin_status_layout_btn_text_color">@color/qmui_config_color_white</item>
+        <item name="app_skin_status_layout_btn_text_size">15sp</item>
+        <item name="app_skin_status_layout_title_size">15sp</item>
+        <item name="app_skin_status_layout_content_size">14sp</item>
+        <item name="app_skin_status_layout_loading_tips_size">14sp</item>
 
         <item name="app_skin_btn_gray_background_color">@color/qmui_config_color_gray_6</item>
         <item name="app_skin_btn_tips_background_color">@color/qmui_config_color_red</item>
+
+        <item name="app_skin_number_picker_btn_background_color">@color/qmui_config_color_background</item>
+        <item name="app_skin_number_picker_btn_text_color">@color/qmui_config_color_gray_2</item>
+
 
         <!--QMUI-->
         <item name="qmui_topbar_height">50dp</item>
@@ -73,16 +97,24 @@
 
         <item name="qmui_skin_support_tab_normal_color">@color/qmui_config_color_gray_2</item>
         <item name="qmui_skin_support_tab_selected_color">?attr/app_skin_primary_color</item>
+        <item name="app_skin_tab_indicator_text_size">15sp</item>
 
         <item name="qmui_skin_support_empty_view_btn_bg_color">?attr/app_skin_primary_color</item>
         <item name="qmui_skin_support_empty_view_btn_text_color">@color/qmui_config_color_white</item>
 
-        <item name="app_skin_number_picker_btn_background_color">@color/qmui_config_color_background</item>
-        <item name="app_skin_number_picker_btn_text_color">@color/qmui_config_color_gray_2</item>
+
+        <item name="qmui_skin_segment_tab_height_size">@dimen/home_tab_height</item>
 
         <item name="QMUITopBarStyle">@style/BaseTopBarStyle</item>
         <item name="QMUITabSegmentStyle">@style/BaseSegmentStyle</item>
 
+        <!--  LoadMore  -->
+        <item name="app_skin_loadmore_loading_text">@string/loadmore_loading</item>
+        <item name="app_skin_loadmore_complete_text">@string/loadmore_compelete</item>
+        <item name="app_skin_loadmore_end_text">@string/loadmore_end</item>
+        <item name="app_skin_loadmore_fail_text">@string/loadmore_fail</item>
+        <item name="app_skin_loadmore_text_size">14sp</item>
+        <item name="app_skin_loadmore_text_color">@color/qmui_config_color_gray_2</item>
 
     </style>
 
@@ -91,7 +123,7 @@
         <item name="qmui_skin_support_topbar_bg">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_gray_1</item>
         <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_gray_2</item>
-        <item name="qmui_skin_support_topbar_text_btn_color_state_list">@color/qmui_config_color_gray_2</item>
+        <item name="qmui_skin_support_topbar_text_btn_color_state_list">?attr/app_skin_primary_color</item>
         <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_gray_1</item>
         <item name="qmui_skin_support_topbar_separator_color">@color/qmui_config_color_transparent</item>
         <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_dark</item>
@@ -101,7 +133,6 @@
         <!--QMUI-->
         <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_white</item>
-        <item name="qmui_skin_support_topbar_text_btn_color_state_list">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_separator_color">@color/qmui_config_color_transparent</item>
         <item name="qmui_skin_support_topbar_back_drawable">@drawable/mz_titlebar_ic_back_light</item>

@@ -11,14 +11,14 @@
         android:id="@+id/qmui_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/home_tab_height"
+        android:layout_marginBottom="?attr/qmui_skin_segment_tab_height_size"
         android:fitsSystemWindows="true"
         android:overScrollMode="never" />
 
     <com.qmuiteam.qmui.widget.tab.QMUITabSegment
         android:id="@+id/tab_segment"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_tab_height"
+        android:layout_height="?attr/qmui_skin_segment_tab_height_size"
         android:layout_gravity="bottom"
         app:qmui_skin_background="?attr/app_skin_background_color_1"
         android:background="?attr/app_skin_background_color_1"

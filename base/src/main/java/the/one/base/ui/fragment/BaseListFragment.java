@@ -20,7 +20,6 @@ package the.one.base.ui.fragment;
 
 import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
@@ -31,7 +30,6 @@ import com.qmuiteam.qmui.widget.pullRefreshLayout.QMUIPullRefreshLayout;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,12 +39,12 @@ import the.one.base.Interface.OnTopBarDoubleClickListener;
 import the.one.base.R;
 import the.one.base.ui.view.BaseDataView;
 import the.one.base.util.NetworkFailUtil;
+import the.one.base.widge.TheLoadMoreView;
 import the.one.base.widge.decoration.SpacesItemDecoration;
 import the.one.base.widge.pullrefresh.PullRefreshLayout;
 
 import static androidx.recyclerview.widget.RecyclerView.LayoutManager;
 import static androidx.recyclerview.widget.RecyclerView.OnScrollListener;
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 /**
  * @author The one
@@ -163,6 +161,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
     protected void initAdapter() {
         adapter.setOnItemClickListener(this);
         adapter.setOnItemLongClickListener(this);
+        adapter.getLoadMoreModule().setLoadMoreView(new TheLoadMoreView());
         adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {

@@ -21,6 +21,7 @@ package the.one.base.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.qmuiteam.qmui.skin.QMUISkinValueBuilder;
@@ -62,7 +63,7 @@ import the.one.base.widge.SkinPagerTitleView;
  * @email 625805189@qq.com
  * @remark
  */
-public abstract class BaseTabFragment extends BaseFragment implements QMUITabSegment.OnTabSelectedListener, OnTopBarDoubleClickListener, ViewPager.OnPageChangeListener {
+public abstract class BaseTabFragment extends BaseFragment implements QMUITabSegment.OnTabSelectedListener, OnTopBarDoubleClickListener,ViewPager.OnPageChangeListener {
 
     protected ArrayList<BaseFragment> fragments;
     protected ArrayList<TabBean> mTabs;
@@ -100,14 +101,13 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     /**
      * ViewPager 切换是否有动画
-     *
      * @return
      */
-    protected boolean isSmoothScroll() {
+    protected boolean isSmoothScroll(){
         return true;
     }
 
-    protected boolean skinChangeWithTintColor() {
+    protected boolean skinChangeWithTintColor(){
         return true;
     }
 
@@ -132,8 +132,9 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     @Override
     protected void initView(View rootView) {
-        normalColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_normal_color);
-        selectColor = QMUIResHelper.getAttrColor(_mActivity, R.attr.qmui_skin_support_tab_selected_color);
+        fragments = new ArrayList<>();
+        mTabs = new ArrayList<>();
+
         //添加双击监听
         if (null != mTopLayout && mTopLayout.getVisibility() == View.VISIBLE) {
             mTopLayout.setOnTopBarDoubleClickListener(this);
@@ -151,8 +152,6 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
     }
 
     protected void startInit() {
-        fragments = new ArrayList<>();
-        mTabs = new ArrayList<>();
         addTabs();
         addFragment(fragments);
         initTabAndPager();
@@ -173,7 +172,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
             QMUITabBuilder builder = mTabSegment.tabBuilder();
             builder.skinChangeWithTintColor(skinChangeWithTintColor());
             for (TabBean tab : mTabs) {
-                mTabSegment.addTab(createQMUITab(builder, tab));
+                mTabSegment.addTab(createQMUITab(builder,tab));
             }
             mTabSegment.addOnTabSelectedListener(this);
             mTabSegment.setupWithViewPager(mViewPager, false);
@@ -196,9 +195,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         final BadgePagerTitleView badgePagerTitleView = new BadgePagerTitleView(context);
         SkinPagerTitleView simplePagerTitleView = new SkinPagerTitleView(context);
         simplePagerTitleView.setText(mTabs.get(index).getTitle());
-        simplePagerTitleView.setTextSize(16);
-        simplePagerTitleView.setNormalColor(normalColor);
-        simplePagerTitleView.setSelectedColor(selectColor);
+        simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX,QMUIResHelper.getAttrDimen(_mActivity,R.attr.app_skin_tab_indicator_text_size));
         simplePagerTitleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,8 +307,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     /**
      * 添加只有文字的Tab
-     *
-     * @param title 标题
+     * @param title  标题
      */
     protected void addTab(String title) {
         mTabs.add(new TabBean(title));
@@ -319,10 +315,9 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     /**
      * 添加有图标和文字的Tab
-     *
      * @param normal 未选中时的图标
      * @param select 选中时的图标
-     * @param title  标题
+     * @param title 标题
      */
     protected void addTab(int normal, int select, String title) {
         mTabs.add(new TabBean(title, normal, select));
@@ -330,11 +325,10 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
 
     /**
      * 创建QMUITab
-     *
      * @param tabBean init得到的
      * @return
      */
-    protected QMUITab createQMUITab(QMUITabBuilder builder, TabBean tabBean) {
+    protected QMUITab createQMUITab(QMUITabBuilder builder,TabBean tabBean) {
         if (tabBean.getNormalDrawable() != -1) {
             builder.setNormalDrawable(getDrawable(tabBean.getNormalDrawable()));
         }
@@ -343,7 +337,7 @@ public abstract class BaseTabFragment extends BaseFragment implements QMUITabSeg
         }
         if (!TextUtils.isEmpty(tabBean.getTitle())) {
             builder.setText(tabBean.getTitle());
-        } else {
+        }else{
             builder.setText("");
         }
         return builder.build(_mActivity);

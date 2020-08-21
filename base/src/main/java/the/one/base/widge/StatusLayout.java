@@ -387,42 +387,6 @@ public class StatusLayout extends RelativeLayout {
         }
     }
 
-
-    private void setEmptyView() {
-        if (emptyStateRelativeLayout == null) {
-            view = inflater.inflate(R.layout.status_empty_view, null);
-            emptyStateRelativeLayout = (RelativeLayout) view.findViewById(R.id.emptyStateRelativeLayout);
-            emptyStateRelativeLayout.setTag(TAG_EMPTY);
-
-            emptyStateImageView = (ImageView) view.findViewById(R.id.emptyStateImageView);
-            emptyStateTitleTextView = (TextView) view.findViewById(R.id.emptyStateTitleTextView);
-            emptyStateContentTextView = (TextView) view.findViewById(R.id.emptyStateContentTextView);
-
-            //Set empty state image width and height
-            emptyStateImageView.getLayoutParams().width = emptyStateImageWidth;
-            emptyStateImageView.getLayoutParams().height = emptyStateImageHeight;
-            emptyStateImageView.requestLayout();
-
-            emptyStateTitleTextView.setTextSize(emptyStateTitleTextSize);
-            emptyStateContentTextView.setTextSize(emptyStateContentTextSize);
-            emptyStateTitleTextView.setTextColor(emptyStateTitleTextColor);
-            emptyStateContentTextView.setTextColor(emptyStateContentTextColor);
-
-            //Set background type_color_selector if not TRANSPARENT
-            if (emptyStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundColor(emptyStateBackgroundColor);
-            }
-
-            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.addRule(CENTER_IN_PARENT);
-
-            addView(emptyStateRelativeLayout, layoutParams);
-        } else {
-            emptyStateRelativeLayout.setVisibility(VISIBLE);
-        }
-    }
-
     private void setErrorView() {
         if (errorStateRelativeLayout == null) {
             view = inflater.inflate(R.layout.status_error_view, null);
@@ -439,8 +403,6 @@ public class StatusLayout extends RelativeLayout {
             errorStateImageView.getLayoutParams().height = errorStateImageHeight;
             errorStateImageView.requestLayout();
 
-            errorStateTitleTextView.setTextSize(errorStateTitleTextSize);
-            errorStateContentTextView.setTextSize(errorStateContentTextSize);
             errorStateTitleTextView.setTextColor(errorStateTitleTextColor);
             errorStateContentTextView.setTextColor(errorStateContentTextColor);
             errorStateButton.setTextColor(errorStateButtonTextColor);

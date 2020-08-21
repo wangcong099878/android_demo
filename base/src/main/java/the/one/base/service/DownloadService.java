@@ -187,6 +187,7 @@ public class DownloadService extends Service {
         try {
             MediaScannerConnection.scanFile(BaseApplication.getInstance(), new String[]{file.getAbsolutePath()}, null,
                     (path, uri) -> {
+
                     });
         } catch (Exception e) {
             e.printStackTrace();

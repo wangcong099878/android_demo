@@ -160,6 +160,7 @@
 # ----------------------------- 第三方 -----------------------------
 #
 
+#Gson
 -dontwarn com.google.gson.**
 -keep class com.google.gson.**{*;}
 -keep interface com.google.gson.**{*;}
@@ -217,8 +218,25 @@
 
 #QMUI
 -keep class **_FragmentFinder { *; }
--keep class com.qmuiteam.qmui.arch.record.** { *; }
 -keep class androidx.fragment.app.* { *; }
+
+-keep class com.qmuiteam.qmui.arch.record.RecordIdClassMap { *; }
+-keep class com.qmuiteam.qmui.arch.record.RecordIdClassMapImpl { *; }
+
+-keep class com.qmuiteam.qmui.arch.scheme.SchemeMap {*;}
+-keep class com.qmuiteam.qmui.arch.scheme.SchemeMapImpl {*;}
+
+
+#CymChad:BaseRecyclerViewAdapterHelper
+-keep class com.chad.library.adapter.** {
+*;
+}
+-keep public class * extends com.chad.library.adapter.base.BaseQuickAdapter
+-keep public class * extends com.chad.library.adapter.base.BaseViewHolder
+-keepclassmembers  class **$** extends com.chad.library.adapter.base.BaseViewHolder {
+     <init>(...);
+}
+
 
 #PictureSelector 2.0
 -keep class com.luck.picture.lib.** { *; }
@@ -253,26 +271,16 @@
  #bugly
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
-# tinker混淆规则
--dontwarn com.tencent.tinker.**
--keep class com.tencent.tinker.** { *; }
--keep public class * implements com.tencent.tinker.loader.app.ApplicationLifeCycle {
-    <init>(...);
-    void onBaseContextAttached(android.content.Context);
-}
--keep public class * extends com.tencent.tinker.loader.TinkerLoader {
-    <init>(...);
-}
--keep public class * extends android.app.Application {
-     <init>();
-     void attachBaseContext(android.content.Context);
-}
--keep class com.tencent.tinker.loader.TinkerTestAndroidNClassLoader {
-    <init>(...);
-}
--keep class com.iflytek.elpmobile.smartlearning.ThisApplication {
-    <init>(...);
-}
--keep class com.tencent.tinker.loader.** {
-         <init>(...);
-}
+
+#
+#---------------------------------实体类---------------------------------
+#--------(实体Model不能混淆，否则找不到对应的属性获取不到值)-----
+#
+
+
+-keep class the.one.base.model.** { *; }
+-keep class the.one.base.constant.** { *; }
+-keep class the.one.base.event.** { *; }
+
+#保留一个完整的包
+#-keep class the.one.base.** { *; }
