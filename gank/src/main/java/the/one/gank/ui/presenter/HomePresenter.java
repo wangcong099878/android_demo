@@ -47,8 +47,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public void getTodayData() {
         RxHttp.get(NetUrlConstant.TODAY)
                 .asResponseOld(HomeBean.class)
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(RxLife.as(this))
+                .as(RxLife.asOnMain(this))
                 .subscribe(s -> {
                     //请求成功
                     getView().onTodayComplete(s);

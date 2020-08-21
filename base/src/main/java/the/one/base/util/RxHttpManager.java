@@ -53,7 +53,7 @@ public class RxHttpManager {
 
     public static void initCacheMode(HttpBuilder builder){
         File file = new File(builder.getCacheFilePath(), builder.getCacheFileName());
-        RxHttpPlugins.setCache(file, builder.getCacheMaxSize(), builder.getCacheMode());
+        RxHttpPlugins.setCache(file, builder.getCacheMaxSize(), builder.getCacheMode(),builder.getCacheValidTime());
     }
 
     public static class HttpBuilder {
@@ -65,6 +65,7 @@ public class RxHttpManager {
         private String cacheFilePath = FileDirectoryUtil.getCachePath();
         private long cacheMaxSize = 1000 * 100;
         private CacheMode cacheMode = CacheMode.ONLY_NETWORK;
+        private long cacheValidTime = -1;
 
         private int outTime = 10;
         private int readTime = 10;
@@ -122,6 +123,15 @@ public class RxHttpManager {
 
         public HttpBuilder setCacheMode(CacheMode cacheMode) {
             this.cacheMode = cacheMode;
+            return this;
+        }
+
+        public long getCacheValidTime() {
+            return cacheValidTime;
+        }
+
+        public HttpBuilder setCacheValidTime(long cacheValidTime) {
+            this.cacheValidTime = cacheValidTime;
             return this;
         }
 

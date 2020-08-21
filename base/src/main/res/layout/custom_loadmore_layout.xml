@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="?attr/app_skin_loadmore_loading_text"
+            android:textColor="?attr/app_skin_loadmore_text_color"
             app:qmui_skin_text_color="?attr/app_skin_loadmore_text_color"
             android:textSize="?attr/app_skin_loadmore_text_size"
             tools:ignore="MissingPrefix" />
@@ -50,6 +51,7 @@
             android:layout_gravity="center"
             android:text="?attr/app_skin_loadmore_complete_text"
             android:textSize="?attr/app_skin_loadmore_text_size"
+            android:textColor="?attr/app_skin_loadmore_text_color"
             app:qmui_skin_text_color="?attr/app_skin_loadmore_text_color"
             tools:ignore="MissingPrefix" />
     </FrameLayout>
@@ -66,6 +68,7 @@
             android:layout_gravity="center"
             android:text="?attr/app_skin_loadmore_fail_text"
             android:textSize="?attr/app_skin_loadmore_text_size"
+            android:textColor="?attr/app_skin_loadmore_text_color"
             app:qmui_skin_text_color="?attr/app_skin_loadmore_text_color"
             tools:ignore="MissingPrefix" />
 
@@ -83,9 +86,9 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="2px"
+            android:layout_height="1px"
             android:layout_weight="1"
-            android:background="?attr/qmui_skin_support_color_separator" />
+            android:background="?attr/app_skin_loadmore_separator_color" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,14 +97,15 @@
             android:layout_marginEnd="15dp"
             android:text="?attr/app_skin_loadmore_end_text"
             android:textSize="?attr/app_skin_loadmore_text_size"
+            android:textColor="?attr/app_skin_loadmore_text_color"
             app:qmui_skin_text_color="?attr/app_skin_loadmore_text_color"
             tools:ignore="MissingPrefix" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="2px"
+            android:layout_height="1px"
             android:layout_weight="1"
-            android:background="?attr/qmui_skin_support_color_separator" />
+            android:background="?attr/app_skin_loadmore_separator_color" />
 
     </LinearLayout>
 </FrameLayout>

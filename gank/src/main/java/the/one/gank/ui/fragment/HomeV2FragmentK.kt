@@ -1,5 +1,6 @@
 package the.one.gank.ui.fragment
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
@@ -187,6 +188,7 @@ class HomeV2FragmentK : BaseListFragment<HomeSection>(), HomeViewK {
      * @param start
      */
     private fun setBannerStatus(start: Boolean) {
+        if(isLightMode) return
         if (start) {
             mBannerViewPager.stopLoop()
         } else {
@@ -227,11 +229,11 @@ class HomeV2FragmentK : BaseListFragment<HomeSection>(), HomeViewK {
         mBannerBeanData = data
         mBannerViewPager.create(data)
         mBannerViewPager.startLoop()
-        setStatusBarMode(false)
     }
 
     override fun onHotComplete(data: List<HomeSection>?) {
         onComplete(data, SamplePageInfoBean(3, page))
+        setStatusBarMode(false)
     }
 
     override fun onError(msg: String?) {
