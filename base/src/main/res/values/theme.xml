@@ -2,7 +2,7 @@
 <resources>
 
     <!-- 主色调 -->
-    <attr name="app_skin_primary_color" format="color"/>
+    <attr name="app_skin_primary_color" format="reference|color"/>
     <!-- 主背景颜色 -->
     <attr name="app_skin_background_color_1" format="color|reference" />
     <!-- 次背景颜色 -->
@@ -13,7 +13,7 @@
     <attr name="app_skin_text_color_2" format="color|reference"/>
 
     <!-- StatusLayout -->
-    <attr name="app_skin_status_layout_loading_text_color" format="color"/>
+    <attr name="app_skin_status_layout_loading_text_color" format="reference|color"/>
     <attr name="app_skin_status_layout_btn_background_color" format="color|reference"/>
     <attr name="app_skin_status_layout_btn_text_color" format="color|reference"/>
     <attr name="app_skin_status_layout_btn_text_size" format="dimension|reference"/>
@@ -21,27 +21,27 @@
     <attr name="app_skin_status_layout_content_size" format="dimension|reference"/>
     <attr name="app_skin_status_layout_loading_tips_size" format="dimension|reference"/>
 
-    <attr name="app_skin_btn_gray_background_color" format="color"/>
-    <attr name="app_skin_btn_tips_background_color" format="color"/>
+    <attr name="app_skin_btn_gray_background_color" format="reference|color"/>
+    <attr name="app_skin_btn_tips_background_color" format="reference|color"/>
 
     <!--数量选择器按钮背景-->
-    <attr name="app_skin_number_picker_btn_background_color" format="color"/>
-    <attr name="app_skin_number_picker_btn_text_color" format="color"/>
+    <attr name="app_skin_number_picker_btn_background_color" format="reference|color"/>
+    <attr name="app_skin_number_picker_btn_text_color" format="reference|color"/>
 
     <!--TAB指示器字体大小-->
     <attr name="app_skin_tab_indicator_text_size" format="reference|dimension"/>
 
     <!-- 自定义加载更多 -->
-    <attr name="app_skin_loadmore_text_color" format="color"/>
-    <attr name="app_skin_loadmore_complete_text" format="string"/>
-    <attr name="app_skin_loadmore_fail_text" format="string"/>
-    <attr name="app_skin_loadmore_end_text" format="string"/>
-    <attr name="app_skin_loadmore_loading_text" format="string"/>
-    <attr name="app_skin_loadmore_text_size" format="dimension"/>
-    <attr name="app_skin_loadmore_separator_color" format="color"/>
+    <attr name="app_skin_loadmore_text_color" format="reference|color"/>
+    <attr name="app_skin_loadmore_complete_text" format="reference|string"/>
+    <attr name="app_skin_loadmore_fail_text" format="reference|string"/>
+    <attr name="app_skin_loadmore_end_text" format="reference|string"/>
+    <attr name="app_skin_loadmore_loading_text" format="reference|string"/>
+    <attr name="app_skin_loadmore_text_size" format="reference|dimension"/>
+    <attr name="app_skin_loadmore_separator_color" format="reference|color"/>
 
     <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
-    <attr name="app_skin_checked_color" format="color" />
+    <attr name="app_skin_checked_color" format="reference|color" />
     <!--Glide加载错误图片-->
     <attr name="app_skin_glide_fail_drawable" format="reference"/>
     <!--崩溃界面样式-->
@@ -49,7 +49,7 @@
 
     <!--QMUI-->
     <attr name="qmui_skin_support_topbar_back_drawable" format="reference"/>// 返回按钮图标
-    <attr name="qmui_skin_support_tab_size" format="dimension"/>// TabSegment字体大小
+    <attr name="qmui_skin_support_tab_size" format="reference|dimension"/>// TabSegment字体大小
     <attr name="qmui_skin_segment_tab_height_size" format="reference|dimension"/> // QMUISegment高度
 
     <!-- 基础的相同的配置 -->

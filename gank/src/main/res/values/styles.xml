@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="TopBarWhiteTheme">
         <!-- Customize your theme here. -->
-
         <item name="qmui_skin_support_topbar_bg">@color/white</item>
+        <item name="app_skin_loadmore_end_text">这是底线了</item>
     </style>
 
     <style name="publish_style">
