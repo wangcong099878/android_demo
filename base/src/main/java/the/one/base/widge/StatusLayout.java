@@ -30,14 +30,14 @@ import the.one.base.R;
  */
 public class StatusLayout extends RelativeLayout {
 
-    private static final String TAG_LOADING = "ProgressLayout.TAG_LOADING";
-    private static final String TAG_EMPTY = "ProgressLayout.TAG_EMPTY";
-    private static final String TAG_ERROR = "ProgressLayout.TAG_ERROR";
+    private static final String TAG_LOADING = "StatusLayout.TAG_LOADING";
+    private static final String TAG_EMPTY = "StatusLayout.TAG_EMPTY";
+    private static final String TAG_ERROR = "StatusLayout.TAG_ERROR";
 
-    final String CONTENT = "type_content";
-    final String LOADING = "type_loading";
-    final String EMPTY = "type_empty";
-    final String ERROR = "type_error";
+    final String CONTENT = "StatusLayout_type_content";
+    final String LOADING = "StatusLayout_type_loading";
+    final String EMPTY = "StatusLayout_type_empty";
+    final String ERROR = "StatusLayout_type_error";
 
     LayoutInflater inflater;
     View view;
