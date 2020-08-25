@@ -20,7 +20,6 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -418,7 +417,7 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
 
     public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
         if (null != mStatusLayout)
-            mStatusLayout.showError(ContextCompat.getDrawable(this, the.one.base.R.drawable.status_loading_view_loading_fail), title, content, btnString, listener);
+            mStatusLayout.showError(null, title, content, btnString, listener);
     }
 
     @Override

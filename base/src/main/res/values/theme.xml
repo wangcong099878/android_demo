@@ -20,6 +20,10 @@
     <attr name="app_skin_status_layout_title_size" format="dimension|reference"/>
     <attr name="app_skin_status_layout_content_size" format="dimension|reference"/>
     <attr name="app_skin_status_layout_loading_tips_size" format="dimension|reference"/>
+    <attr name="app_skin_status_layout_error_drawable" format="reference"/>
+    <attr name="app_skin_status_layout_empty_drawable" format="reference"/>
+    <attr name="app_skin_status_layout_net_error_drawable" format="reference"/>
+    <attr name="app_skin_status_layout_no_net_drawable" format="reference"/>
 
     <attr name="app_skin_btn_gray_background_color" format="reference|color"/>
     <attr name="app_skin_btn_tips_background_color" format="reference|color"/>
@@ -74,6 +78,10 @@
         <item name="app_skin_status_layout_title_size">15sp</item>
         <item name="app_skin_status_layout_content_size">14sp</item>
         <item name="app_skin_status_layout_loading_tips_size">14sp</item>
+        <item name="app_skin_status_layout_error_drawable">@drawable/status_loading_view_loading_fail</item>
+        <item name="app_skin_status_layout_empty_drawable">@drawable/status_search_result_empty</item>
+        <item name="app_skin_status_layout_net_error_drawable">@drawable/status_loading_view_network_error</item>
+        <item name="app_skin_status_layout_no_net_drawable">@drawable/status_loading_view_no_network</item>
 
         <item name="app_skin_btn_gray_background_color">@color/qmui_config_color_gray_6</item>
         <item name="app_skin_btn_tips_background_color">@color/qmui_config_color_red</item>

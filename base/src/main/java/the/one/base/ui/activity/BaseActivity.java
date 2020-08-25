@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.qmuiteam.qmui.arch.QMUIActivity;
 import com.qmuiteam.qmui.arch.SwipeBackLayout;
+import com.qmuiteam.qmui.skin.QMUISkinHelper;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -25,6 +26,7 @@ import the.one.base.R;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.AppMourningThemeUtil;
+import the.one.base.util.DeviceUtil;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
 import the.one.base.util.QMUIStatusBarHelper;
@@ -217,7 +219,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showEmptyPage(String title, String content, String btnString, View.OnClickListener listener) {
-        showEmptyPage(getDrawablee(R.drawable.status_search_result_empty), title, content, btnString, listener);
+        showEmptyPage(null, title, content, btnString, listener);
     }
 
     @Override
@@ -243,7 +245,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
     @Override
     public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
-        showErrorPage(getDrawablee(R.drawable.status_loading_view_loading_fail), title, content, btnString, listener);
+        showErrorPage(DeviceUtil.isNetworkConnected(this)?null: QMUISkinHelper.getSkinDrawable(mRootView,R.attr.app_skin_status_layout_net_error_drawable), title, content, btnString, listener);
     }
 
     @Override

@@ -237,7 +237,7 @@ class HomeV2FragmentK : BaseListFragment<HomeSection>(), HomeViewK {
     }
 
     override fun onError(msg: String?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun translucentFull(): Boolean = true

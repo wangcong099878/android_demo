@@ -50,10 +50,6 @@ public class StatusLayout extends RelativeLayout {
     ProgressWheel loadingStateProgressBar;
     AppCompatTextView loadingTips;
 
-    RelativeLayout emptyStateRelativeLayout;
-    ImageView emptyStateImageView;
-    TextView emptyStateTitleTextView;
-    TextView emptyStateContentTextView;
 
     RelativeLayout errorStateRelativeLayout;
     ImageView errorStateImageView;
@@ -82,12 +78,14 @@ public class StatusLayout extends RelativeLayout {
     int errorStateButtonTextColor;
     int errorStateBackgroundColor;
 
+    Drawable errorDrawableRes;
+    Drawable emptyDrawableRes;
+
     public static final int defaultTextColor = R.color.qmui_config_color_gray_6;
     public static final int defaultTextSize = 15;
 
     private String state = CONTENT;
 
-    public static Builder mBuilder;
 
     public StatusLayout(Context context) {
         super(context);
@@ -104,9 +102,9 @@ public class StatusLayout extends RelativeLayout {
     }
 
     private void init(AttributeSet attrs) {
-        if(null == mBuilder){
-            new Builder().build();
-        }
+
+        errorDrawableRes = QMUISkinHelper.getSkinDrawable(this,R.attr.app_skin_status_layout_error_drawable);
+        emptyDrawableRes = QMUISkinHelper.getSkinDrawable(this,R.attr.app_skin_status_layout_empty_drawable);
 
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -327,29 +325,22 @@ public class StatusLayout extends RelativeLayout {
             case CONTENT:
                 //Hide all state views to display content
                 hideLoadingView();
-                hideEmptyView();
                 hideErrorView();
-
                 setContentVisibility(true, skipIds);
                 break;
             case LOADING:
-                hideEmptyView();
                 hideErrorView();
-
                 setLoadingView();
                 setContentVisibility(false, skipIds);
                 break;
             case EMPTY:
             case ERROR:
                 hideLoadingView();
-                hideEmptyView();
-
                 setErrorView();
                 if(null != drawable){
                     errorStateImageView.setImageDrawable(drawable);
                 } else {
-                    boolean isEmpty = state == EMPTY;
-                    errorStateImageView.setImageResource(isEmpty?mBuilder.getEmptyDrawable():mBuilder.getFailDrawable());
+                    errorStateImageView.setImageDrawable(state.equals(EMPTY)?emptyDrawableRes:errorDrawableRes);
                 }
                 errorStateTitleTextView.setVisibility(VISIBLE);
                 errorStateTitleTextView.setText(errorText);
@@ -440,16 +431,6 @@ public class StatusLayout extends RelativeLayout {
         }
     }
 
-    private void hideEmptyView() {
-        if (emptyStateRelativeLayout != null) {
-            emptyStateRelativeLayout.setVisibility(GONE);
-            //Restore the background type_color_selector if not TRANSPARENT
-            if (emptyStateBackgroundColor != Color.TRANSPARENT) {
-                this.setBackgroundDrawable(currentBackground);
-            }
-        }
-    }
-
     private void hideErrorView() {
         if (errorStateRelativeLayout != null) {
             errorStateRelativeLayout.setVisibility(GONE);
@@ -472,50 +453,4 @@ public class StatusLayout extends RelativeLayout {
         return loadingTips;
     }
 
-    public static class Builder {
-        private int failDrawable = R.drawable.status_loading_view_loading_fail;
-        private int emptyDrawable = R.drawable.status_search_result_empty ;
-        private int networkErrorDrawable = R.drawable.status_loading_view_network_error;
-        private int noNetworkDrawable = R.drawable.status_loading_view_no_network;
-
-        public int getFailDrawable() {
-            return failDrawable;
-        }
-
-        public Builder setFailDrawable(int failDrawable) {
-            this.failDrawable = failDrawable;
-            return this;
-        }
-
-        public int getEmptyDrawable() {
-            return emptyDrawable;
-        }
-
-        public Builder setEmptyDrawable(int emptyDrawable) {
-            this.emptyDrawable = emptyDrawable;
-            return this;
-        }
-
-        public int getNetworkErrorDrawable() {
-            return networkErrorDrawable;
-        }
-
-        public Builder setNetworkErrorDrawable(int networkErrorDrawable) {
-            this.networkErrorDrawable = networkErrorDrawable;
-            return this;
-        }
-
-        public int getNoNetworkDrawable() {
-            return noNetworkDrawable;
-        }
-
-        public Builder setNoNetworkDrawable(int noNetworkDrawable) {
-            this.noNetworkDrawable = noNetworkDrawable;
-            return this;
-        }
-
-        public void build() {
-            mBuilder = this;
-        }
-    }
 }

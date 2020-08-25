@@ -4,9 +4,8 @@ import android.app.Activity;
 
 import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
-import the.one.base.widge.StatusLayout;
-import the.one.demo.ui.activity.LauncherActivity;
 import the.one.demo.skin.SkinManager;
+import the.one.demo.ui.activity.LauncherActivity;
 
 
 //  ┏┓　　　┏┓
@@ -51,7 +50,6 @@ public class App extends BaseApplication {
         super.onCreate();
         SkinManager.install(this);
 //        initFilePath();
-        initStatusDrawable();
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
@@ -71,12 +69,12 @@ public class App extends BaseApplication {
     /**
      * 自定义StatusLayout资源
      */
-    private void initStatusDrawable(){
-        new StatusLayout.Builder()
-                .setEmptyDrawable(R.drawable.icon_search_result_null)
-                .setFailDrawable(R.drawable.loading_view_loading_fail)
-                .setNetworkErrorDrawable(R.drawable.loading_view_network_error)
-                .build();
-    }
+//    private void initStatusDrawable(){
+//        new StatusLayout.Builder()
+//                .setEmptyDrawable(R.drawable.icon_search_result_null)
+//                .setFailDrawable(R.drawable.loading_view_loading_fail)
+//                .setNetworkErrorDrawable(R.drawable.loading_view_network_error)
+//                .build();
+//    }
 
 }

@@ -29,7 +29,7 @@ import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.ExceptionHelper;
-import the.one.base.util.NetFailUtil;
+import the.one.base.util.NetworkFailUtil;
 
 
 /**
@@ -79,7 +79,7 @@ public class BasePresenter<V extends BaseView> implements LifecycleEventObserver
     }
 
     protected void onFail(Exception e) {
-        onFail(NetFailUtil.getFailString(e),null);
+        onFail(NetworkFailUtil.getFailString(e),null);
     }
 
     protected void onFail(Throwable t) {
