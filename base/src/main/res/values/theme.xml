@@ -43,6 +43,7 @@
     <attr name="app_skin_loadmore_loading_text" format="reference|string"/>
     <attr name="app_skin_loadmore_text_size" format="reference|dimension"/>
     <attr name="app_skin_loadmore_separator_color" format="reference|color"/>
+    <attr name="app_skin_loadmore_separator_margin" format="dimension|reference"/>
 
     <!--TheCheckBox选中的颜色 - 默认和主色调一样-->
     <attr name="app_skin_checked_color" format="reference|color" />
@@ -125,6 +126,7 @@
         <item name="app_skin_loadmore_text_size">14sp</item>
         <item name="app_skin_loadmore_text_color">@color/qmui_config_color_gray_3</item>
         <item name="app_skin_loadmore_separator_color">@color/qmui_config_color_separator</item>
+        <item name="app_skin_loadmore_separator_margin">20dp</item>
 
     </style>
 

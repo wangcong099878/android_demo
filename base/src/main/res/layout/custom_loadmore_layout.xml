@@ -79,8 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="?attr/app_skin_loadmore_separator_margin"
+        android:layout_marginEnd="?attr/app_skin_loadmore_separator_margin"
         android:orientation="horizontal"
         android:visibility="gone">
 
@@ -93,8 +93,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="?attr/app_skin_loadmore_separator_margin"
+            android:layout_marginEnd="?attr/app_skin_loadmore_separator_margin"
             android:text="?attr/app_skin_loadmore_end_text"
             android:textSize="?attr/app_skin_loadmore_text_size"
             android:textColor="?attr/app_skin_loadmore_text_color"
