@@ -15,14 +15,13 @@ ext {
     okhttpUtilVersion = '2.6.2'
 
     // rxHttp
-    rxhttpVersion = '2.4.0'
+    rxhttpVersion = '2.4.2'
     rxlifeCoroutine = '2.0.0'
     rxlifeVersion = '2.0.0'
     rxJava = 'rxjava2'
 
     //util
     glideVersion = '4.10.0'
-    jpushVersion = '2.1.8'
     multidexVersion = '2.0.1'
     xxpermissions = '8.2'
     eventbusVersion = '3.1.1'
