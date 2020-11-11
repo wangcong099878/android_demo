@@ -9,7 +9,6 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        rxhttp_okhttp: parent.ext.okhttpVersion, // OkHttp 版本
                         rxhttp_rxjava: parent.ext.rxJava, // RxJava 版本 可传入rxjava2、rxjava3
                         rxhttp_package: 'rxhttp.wrapper.param'
                 ]
