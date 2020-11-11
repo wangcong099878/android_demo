@@ -27,7 +27,6 @@ ext {
     eventbusVersion = '3.1.1'
     loggerVersion = '2.2.0'
     butterknifeVersion = '10.0.0'
-    mmkvVersion = '1.0.23'
     pinyin4jVersion = '2.5.1'
     jsbridgeVersion = '1.0.4'
     mmkvVersion = '1.1.0'
