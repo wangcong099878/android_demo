@@ -122,7 +122,7 @@ public class DownloadTaskFragment extends BaseListFragment<M3U8Task> {
                                             hideLoadingDialog();
                                             task.delete();
                                             mAdapter.getData().remove(position);
-                                            refresh();
+                                            onFirstLoading();
                                         }
                                     });
                                 }

@@ -68,6 +68,7 @@ class HomeV2FragmentK : BaseListFragment<HomeSection>(), HomeViewK {
     private var isLightMode: Boolean = false
     private var isFragmentVisible: Boolean = false
     private lateinit var mPresenter: HomePresenterK
+    private var isBannerFirst :Boolean = true
 
 
     override fun getAdapter(): BaseQuickAdapter<*, *> {
@@ -86,7 +87,7 @@ class HomeV2FragmentK : BaseListFragment<HomeSection>(), HomeViewK {
         ViewUtil.setMargins(mStatusLayout, 0, 0, 0, 0)
         mStatusLayout.fitsSystemWindows = false
         recycleView.setItemViewCacheSize(50)
-        mPresenter.getBanner()
+        mPresenter.getBanner(isBannerFirst)
     }
 
     private fun initBanner() {
@@ -229,6 +230,7 @@ class HomeV2FragmentK : BaseListFragment<HomeSection>(), HomeViewK {
         mBannerBeanData = data
         mBannerViewPager.create(data)
         mBannerViewPager.startLoop()
+        isBannerFirst = false
     }
 
     override fun onHotComplete(data: List<HomeSection>?) {

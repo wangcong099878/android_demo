@@ -197,12 +197,13 @@ public class BaseApplication extends MultiDexApplication {
      * 把下面两个复制过去即可
      */
     protected void initHttp(RxHttpManager.HttpBuilder builder) {
-        // RxHttp.init(RxHttpManager.getHttpClient(builder))
+        // RxHttp.init(RxHttpManager.getHttpClient(builder));
         // RxHttpManager.initCacheMode(builder);
     }
 
     /**
      * 获取默认的OkHttpClient
+     * @deprecated RxHttpManager.getHttpClient(builder)
      */
     @Deprecated
     protected OkHttpClient.Builder getDefaultOkHttpClientBuilder() {

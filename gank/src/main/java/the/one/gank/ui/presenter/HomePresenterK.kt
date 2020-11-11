@@ -44,32 +44,33 @@ import java.util.*
  * @email 625805189@qq.com
  * @remark
  */
-class HomePresenterK(owner: LifecycleOwner,val view : HomeViewK) : BaseScope(owner) {
+class HomePresenterK(owner: LifecycleOwner, val view: HomeViewK) : BaseScope(owner) {
 
-    fun getData(isFirst :Boolean,hotType :String,page: Int){
-        RxLifeScope().launch ({
+    fun getData(isFirst: Boolean, hotType: String, page: Int) {
+        RxLifeScope().launch({
             val response = RxHttp.get(NetUrlConstantV2.getHotUrl(hotType, getCategory(page)))
                     .setDomainTov2UrlIfAbsent()
                     .setCacheMode(if (isFirst) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.NETWORK_SUCCESS_WRITE_CACHE)
                     .toResponse<List<GankBean>>()
                     .await()
-            view.onHotComplete(parseSection(response.data,getCategory(page)))
-        },{
+            view.onHotComplete(parseSection(response.data, getCategory(page)))
+        }, {
             view.onError(it.message)
         })
     }
 
-     fun getBanner(){
-         RxLifeScope().launch {
-            val response =  RxHttp.get(NetUrlConstantV2.BANNER)
-                     .setDomainTov2UrlIfAbsent()
-                     .toResponse<List<BannerBean>>()
-                     .await();
-             view.onBannerComplete(response.data)
-         }
+    fun getBanner(isFirst: Boolean) {
+        RxLifeScope().launch {
+            val response = RxHttp.get(NetUrlConstantV2.BANNER)
+                    .setDomainTov2UrlIfAbsent()
+                    .setCacheMode(if (isFirst) CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK else CacheMode.NETWORK_SUCCESS_WRITE_CACHE)
+                    .toResponse<List<BannerBean>>()
+                    .await();
+            view.onBannerComplete(response.data)
+        }
     }
 
-    private fun parseSection( gankBeans: List<GankBean>, head: String):List<HomeSection> {
+    private fun parseSection(gankBeans: List<GankBean>, head: String): List<HomeSection> {
         val sections: MutableList<HomeSection> = ArrayList()
         sections.add(HomeSection(head))
         for (i in gankBeans.indices) {
@@ -78,9 +79,9 @@ class HomePresenterK(owner: LifecycleOwner,val view : HomeViewK) : BaseScope(own
         return sections
     }
 
-    private fun getCategory(page :Int):String{
+    private fun getCategory(page: Int): String {
         var url = NetUrlConstantV2.CATEGORY_GIRL
-        when(page){
+        when (page) {
             1 -> url = NetUrlConstantV2.CATEGORY_ARTICLE
             2 -> url = NetUrlConstantV2.CATEGORY_GANHUO
         }

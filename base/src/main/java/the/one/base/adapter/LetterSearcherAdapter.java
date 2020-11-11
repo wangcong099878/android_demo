@@ -1,5 +1,6 @@
 package the.one.base.adapter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,7 +10,6 @@ import com.qmuiteam.qmui.widget.section.QMUIStickySectionAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import the.one.base.R;
 import the.one.base.model.LetterSearchSection;
@@ -47,7 +47,7 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
 
     private static final String TAG = "LetterSearcherAdapter";
 
-    private Map<LetterSearchSection,T> mDataMap;
+    private HashMap<LetterSearchSection, T> mDataMap;
     private HashMap<LetterSearchSection, T> selects;
     private boolean showCheckBox = false;
     private onLetterSearchItemClickListener onLetterSearchItemClickListener;
@@ -57,7 +57,7 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
     }
 
     public LetterSearcherAdapter() {
-        super(R.layout.item_letter_search_head,R.layout.item_letter_search_content);
+        super(R.layout.item_letter_search_head, R.layout.item_letter_search_content);
         selects = new HashMap<>();
     }
 
@@ -67,33 +67,42 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
 
     public void setShowCheckBox(boolean showCheckBox) {
         this.showCheckBox = showCheckBox;
-        if(!showCheckBox){
+        if (!showCheckBox) {
             selects.clear();
         }
         notifyDataSetChanged();
     }
 
     public void setSelects(int position) {
+        if (position < 0) return;
         LetterSearchSection section = getSectionItem(position);
         if (selects.containsKey(section))
             selects.remove(section);
-        else{
+        else {
             selects.put(section, mDataMap.get(section));
         }
         notifyItemChanged(position);
     }
 
+    public void setSelects(HashMap<LetterSearchSection, T> selects){
+        this.selects = selects;
+        for (LetterSearchSection section : selects.keySet()) {
+            Log.e(TAG, "setSelects: "+section.toString() );
+        }
+        notifyDataSetChanged();
+    }
+
     public void selectAll(boolean all) {
         selects.clear();
-        if (all){
-            for (LetterSearchSection section:mDataMap.keySet()){
+        if (all) {
+            for (LetterSearchSection section : mDataMap.keySet()) {
                 selects.put(section, mDataMap.get(section));
             }
         }
         notifyDataSetChanged();
     }
 
-    public void setSelectsMap(Map<LetterSearchSection,T> dataMap) {
+    public void setSelectsMap(HashMap<LetterSearchSection, T> dataMap) {
         mDataMap = dataMap;
     }
 
@@ -101,12 +110,12 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
         return (List<T>) new ArrayList<>(selects.values());
     }
 
-    public T getT(int position){
+    public T getT(int position) {
         LetterSearchSection section = getSectionItem(position);
         return mDataMap.get(section);
     }
 
-    public boolean isAllSelect(){
+    public boolean isAllSelect() {
         return selects.size() == mDataMap.size();
     }
 
@@ -127,10 +136,12 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
 
         tvContent.setText(itemSection.name);
         setCircleTextViewData(tvName, itemSection.name.substring(0, 1));
-
         if (showCheckBox) {
             cbSelect.setVisibility(View.VISIBLE);
-            cbSelect.setCheck(selects.containsKey(itemSection));
+            boolean exist= selects.containsKey(itemSection);
+            Log.e(TAG, "onBindSectionItem: "+itemSection.toString() +"   "+exist);
+            cbSelect.setCheck(exist);
+
         } else {
             cbSelect.setVisibility(View.GONE);
         }
@@ -138,16 +149,16 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != onLetterSearchItemClickListener){
-                    onLetterSearchItemClickListener.onSearchItemClick(holder,position);
+                if (null != onLetterSearchItemClickListener) {
+                    onLetterSearchItemClickListener.onSearchItemClick(holder, position);
                 }
             }
         });
         rootView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(null != onLetterSearchItemClickListener){
-                    return onLetterSearchItemClickListener.onSearchItemLongClick(holder,position);
+                if (null != onLetterSearchItemClickListener) {
+                    return onLetterSearchItemClickListener.onSearchItemLongClick(holder, position);
                 }
                 return false;
             }
@@ -159,8 +170,9 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
         textView.setBackColor(ColorUtils.getBackgroundColorId(content, mContext));
     }
 
-    public interface onLetterSearchItemClickListener{
+    public interface onLetterSearchItemClickListener {
         void onSearchItemClick(QMUIStickySectionAdapter.ViewHolder holder, int position);
+
         boolean onSearchItemLongClick(QMUIStickySectionAdapter.ViewHolder holder, int position);
     }
 

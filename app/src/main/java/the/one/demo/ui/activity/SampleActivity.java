@@ -1,18 +1,19 @@
 package the.one.demo.ui.activity;
 
-import android.Manifest;
 import android.os.Bundle;
 
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
+import java.util.List;
+
 import the.one.base.ui.activity.BaseFragmentActivity;
 import the.one.base.ui.fragment.BaseFragment;
-import the.one.demo.ui.fragment.SampleFragment;
 import the.one.demo.skin.SkinManager;
+import the.one.demo.ui.fragment.SampleFragment;
 
 
 //  ┏┓　　　┏┓
@@ -40,12 +41,12 @@ import the.one.demo.skin.SkinManager;
  * @email 625805189@qq.com
  * @remark
  */
-public class SampleActivity extends BaseFragmentActivity implements  Observer<Boolean>,QMUISkinManager.OnSkinChangeListener {
+public class SampleActivity extends BaseFragmentActivity implements QMUISkinManager.OnSkinChangeListener {
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(getSkinManager() != null){
+        if (getSkinManager() != null) {
             getSkinManager().addSkinChangeListener(this);
         }
     }
@@ -53,7 +54,7 @@ public class SampleActivity extends BaseFragmentActivity implements  Observer<Bo
     @Override
     protected void onStop() {
         super.onStop();
-        if(getSkinManager() != null){
+        if (getSkinManager() != null) {
             getSkinManager().removeSkinChangeListener(this);
         }
     }
@@ -74,36 +75,24 @@ public class SampleActivity extends BaseFragmentActivity implements  Observer<Bo
     }
 
     protected void requestPermission() {
-        new RxPermissions(this)
-                .request(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.INTERNET)
-                .subscribe(this);
+        XXPermissions.with(this)
+                .permission(Permission.Group.STORAGE)
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+
+                    }
+                });
     }
 
     @Override
     protected BaseFragment getFirstFragment() {
         return new SampleFragment();
-    }
-
-    @Override
-    public void onSubscribe(Disposable d) {
-
-    }
-
-    @Override
-    public void onNext(Boolean aBoolean) {
-
-    }
-
-    @Override
-    public void onError(Throwable e) {
-
-    }
-
-    @Override
-    public void onComplete() {
-
     }
 
 }

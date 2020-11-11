@@ -73,12 +73,12 @@ public class QSPSearchFragment extends BaseVideoFragment implements TheSearchVie
 
     @Override
     public void onSearch() {
-        refresh();
+        onFirstLoading();
     }
 
     @Override
     public void onClick(View v) {
-        refresh();
+        onFirstLoading();
     }
 
 }

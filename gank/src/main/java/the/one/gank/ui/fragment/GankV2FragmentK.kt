@@ -1,6 +1,7 @@
 package the.one.gank.ui.fragment
 
 import androidx.lifecycle.rxLifeScope
+import rxhttp.wrapper.cahce.CacheMode
 import rxhttp.wrapper.param.RxHttp
 import rxhttp.wrapper.param.toResponse
 import the.one.base.ui.presenter.BasePresenter

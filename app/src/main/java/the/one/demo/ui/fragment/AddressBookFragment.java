@@ -1,19 +1,17 @@
 package the.one.demo.ui.fragment;
 
-import android.Manifest;
-
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.ReadContactCompleteListener;
+import the.one.base.model.Contact;
 import the.one.base.ui.fragment.BaseLetterSearchFragment;
 import the.one.base.ui.presenter.BasePresenter;
-import the.one.base.model.Contact;
 import the.one.base.util.ContactUtil;
 import the.one.base.util.QMUIDialogUtil;
 
@@ -76,35 +74,29 @@ public class AddressBookFragment extends BaseLetterSearchFragment<Contact> {
      * 检查权限
      */
     private void checkPermission() {
-        final RxPermissions permissions = new RxPermissions(this);
-        permissions
-                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.READ_CONTACTS
-                )
-                .subscribe(new Observer<Boolean>() {
+        XXPermissions.with(_mActivity)
+                .permission(Permission.WRITE_EXTERNAL_STORAGE)
+                .permission(Permission.READ_EXTERNAL_STORAGE)
+                .permission(Permission.READ_PHONE_STATE)
+                .permission(Permission.READ_CONTACTS)
+                .request(new OnPermission() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean)
+                    public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {
                             requestServer();
-                        else {
-                            QMUIDialogUtil.showSimpleDialog(_mActivity, "What?", "不给权限怎么加？");
+                        } else {
+                            checkPermission();
                         }
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            showToast("权限被禁止，请在设置里打开权限。");
+                        } else {
+                            showToast("权限被禁止，请手动打开");
+                        }
                     }
                 });
     }

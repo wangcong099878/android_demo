@@ -1,23 +1,23 @@
 package the.one.wallpaper.ui.fragment;
 
-import android.Manifest;
 import android.view.View;
 
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.IOnKeyBackClickListener;
 import the.one.base.ui.fragment.BaseFragment;
 import the.one.base.ui.fragment.BaseTabOnTitleFragment;
 import the.one.wallpaper.R;
 import the.one.wallpaper.constant.WallpaperConstant;
 
-public class WallpaperFragment extends BaseTabOnTitleFragment implements Observer<Boolean> {
+public class WallpaperFragment extends BaseTabOnTitleFragment  {
 
     @Override
     protected boolean isExitFragment() {
@@ -61,35 +61,28 @@ public class WallpaperFragment extends BaseTabOnTitleFragment implements Observe
     }
 
     private void requestPermission() {
-        final RxPermissions permissions = new RxPermissions(this);
-        permissions
-                .request(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(this);
-    }
+        XXPermissions.with(_mActivity)
+                .permission(Permission.Group.STORAGE)
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {
+                            startInit();
+                        } else {
+                            requestPermission();
+                        }
+                    }
 
-    @Override
-    public void onSubscribe(Disposable d) {
-
-    }
-
-    @Override
-    public void onNext(Boolean aBoolean) {
-        if (aBoolean) {
-            startInit();
-        } else {
-            showFailDialog("权限被禁止，请在设置里打开权限。");
-        }
-    }
-
-    @Override
-    public void onError(Throwable e) {
-
-    }
-
-    @Override
-    public void onComplete() {
-
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            showFailDialog("权限被禁止，请在设置里打开权限。");
+                        } else {
+                            showToast("权限被禁止，请手动打开");
+                        }
+                    }
+                });
     }
 
     private void showFailDialog(String tips) {

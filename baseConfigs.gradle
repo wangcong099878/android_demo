@@ -5,6 +5,9 @@ ext {
     compileSdkVersion = 28
     buildVersion = '28.0.3'
 
+
+    lifecycle_version = "2.2.0"
+
     //net
     okhttpVersion = '3.12.6'
     rxjavaVersion ='2.2.8'
@@ -12,7 +15,7 @@ ext {
     okhttpUtilVersion = '2.6.2'
 
     // rxHttp
-    rxhttpVersion = '2.3.5'
+    rxhttpVersion = '2.4.0'
     rxlifeCoroutine = '2.0.0'
     rxlifeVersion = '2.0.0'
     rxJava = 'rxjava2'
@@ -21,7 +24,7 @@ ext {
     glideVersion = '4.10.0'
     jpushVersion = '2.1.8'
     multidexVersion = '2.0.1'
-    rxpermissionsVersion = '0.10.2'
+    xxpermissions = '8.2'
     eventbusVersion = '3.1.1'
     loggerVersion = '2.2.0'
     butterknifeVersion = '10.0.0'

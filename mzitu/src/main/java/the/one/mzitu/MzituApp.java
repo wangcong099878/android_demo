@@ -8,7 +8,7 @@ import the.one.base.BaseApplication;
 import the.one.base.util.RxHttpManager;
 import the.one.mzitu.ui.activity.LauncherActivity;
 
-public class App extends BaseApplication {
+public class MzituApp extends BaseApplication {
 
     @Override
     protected Class<? extends Activity> getStartActivity() {

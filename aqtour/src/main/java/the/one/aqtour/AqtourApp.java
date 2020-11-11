@@ -7,8 +7,10 @@ import com.shuyu.gsyvideoplayer.player.PlayerFactory;
 import org.litepal.LitePal;
 
 import rxhttp.wrapper.cahce.CacheMode;
+import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.ui.activity.Launcher;
 import the.one.base.BaseApplication;
+import the.one.base.util.RxHttpManager;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 
 
@@ -37,7 +39,7 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
  * @email 625805189@qq.com
  * @remark
  */
-public class App extends BaseApplication {
+public class AqtourApp extends BaseApplication {
 
     @Override
     protected Class<? extends Activity> getStartActivity() {
@@ -53,8 +55,14 @@ public class App extends BaseApplication {
     }
 
     @Override
-    protected CacheMode getRxHttpCacheMode() {
-        return CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK;
+    protected void initHttp(RxHttpManager.HttpBuilder builder) {
+        RxHttp.init(RxHttpManager.getHttpClient(builder),BuildConfig.DEBUG);
+        RxHttpManager.initCacheMode(builder);
+    }
+
+    @Override
+    protected RxHttpManager.HttpBuilder getHttpBuilder() {
+        return super.getHttpBuilder().setCacheMode(CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK);
     }
 
     private void initGSYVideoPlayer(){

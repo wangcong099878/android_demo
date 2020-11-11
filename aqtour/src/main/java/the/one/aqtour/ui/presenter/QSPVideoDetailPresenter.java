@@ -8,7 +8,6 @@ import android.view.View;
 import com.rxjava.rxlife.RxLife;
 import com.wx.goodview.GoodView;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.aqtour.bean.QSPVideo;
 import the.one.aqtour.constant.QSPConstant;
@@ -105,6 +104,7 @@ public class QSPVideoDetailPresenter extends BasePresenter<QSPVideoDetailView> {
         if (m3U8Task.save()) {
             if(!M3U8Downloader.getInstance().checkM3U8IsExist(mPlayPath)){
                 //如果已经下载过文件还存在，只需要再保存一次数据即可
+                m3U8Task.setState(M3U8TaskState.SUCCESS);
                 getView().showSuccessTips("下载完成");
             }else{
                 M3U8Downloader.getInstance().download(mPlayPath);

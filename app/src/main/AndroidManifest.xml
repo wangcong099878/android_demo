@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:roundIcon, android:theme,android:label,android:appComponentFactory">
+        tools:replace="android:icon,android:roundIcon, android:theme,android:label">
+
         <activity android:name=".ui.activity.LauncherActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>

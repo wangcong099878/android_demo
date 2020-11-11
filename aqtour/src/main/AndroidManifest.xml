@@ -3,7 +3,7 @@
     package="the.one.aqtour">
 
     <application
-        android:name=".App"
+        android:name=".AqtourApp"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute"
         android:allowBackup="true"
         android:appComponentFactory="aqtour"

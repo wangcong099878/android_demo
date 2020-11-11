@@ -58,11 +58,11 @@ public abstract class BaseListFragment<T> extends BaseFragment
         QMUIPullRefreshLayout.OnPullListener, OnTopBarDoubleClickListener {
 
     /**
-     * List
+     * 列表
      */
     public final static int TYPE_LIST = 1;
     /**
-     * Grid
+     * 网格
      */
     public final static int TYPE_GRID = 2;
     /**
@@ -116,7 +116,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
      * @return
      */
     protected boolean isShowLoadMoreEnd() {
-        return false;
+        return true;
     }
 
     protected RecyclerView recycleView;
@@ -224,7 +224,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
 
     @Override
     protected void onLazyInit() {
-        refresh();
+        onFirstLoading();
     }
 
     @Override
@@ -245,11 +245,11 @@ public abstract class BaseListFragment<T> extends BaseFragment
     }
 
     @Override
-    public void refresh() {
+    public void onFirstLoading() {
+        showLoadingPage();
         page = 1;
         isFirst = true;
         recycleView.scrollToPosition(0);
-        showLoadingPage();
         requestServer();
     }
 
@@ -268,7 +268,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
         onComplete(data, pageInfoBean, emptyString, "刷新试试", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRefresh();
+                onFirstLoading();
             }
         });
     }
@@ -290,8 +290,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
             showErrorPage(errorMsg, "刷新试试", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showLoadingPage();
-                    requestServer();
+                    onFirstLoading();
                 }
             });
         } else if (isHeadFresh) {
@@ -365,7 +364,7 @@ public abstract class BaseListFragment<T> extends BaseFragment
             page++;
             adapter.getLoadMoreModule().loadMoreComplete();
         } else {
-            adapter.getLoadMoreModule().loadMoreEnd(isShowLoadMoreEnd());
+            adapter.getLoadMoreModule().loadMoreEnd(!isShowLoadMoreEnd());
         }
     }
 

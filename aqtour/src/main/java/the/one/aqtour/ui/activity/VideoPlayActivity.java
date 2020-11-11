@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -126,6 +127,7 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
     }
 
     private void initData() {
+        if(null == mVideo) return;
         if (null == ivCover)
             ivCover = new ImageView(this);
         GlideUtil.load(this, mVideo.cover, ivCover);
@@ -280,12 +282,15 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
      */
     protected void getSeriesPlayPath(int position) {
         if (mSeriesAdapter.getSelect() == position) {
+            Log.e(TAG, "getSeriesPlayPath: " +position);
             return;
         }
         QSPSeries series = (QSPSeries) mSeriesAdapter.getItem(position);
         if (null == series) {
+            Log.e(TAG, "getSeriesPlayPath:  null == series" );
             return;
         }
+        Log.e(TAG, "getSeriesPlayPath: "+series.toString() );
         mVideoPlayer.release();
         mVideoPlayer.onLoading();
         mIbDownload.setEnabled(false);

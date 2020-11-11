@@ -19,6 +19,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     api "androidx.legacy:legacy-support-v4:1.0.0"
     api "com.qmuiteam:qmui:$qmuiVersion"
     api "com.qmuiteam:arch:$archVersion"
@@ -30,7 +31,7 @@ dependencies {
     api "org.greenrobot:eventbus:$eventbusVersion"
     api "com.belerweb:pinyin4j:$pinyin4jVersion"
     api "androidx.multidex:multidex:$multidexVersion"
-    api "com.github.tbruyelle:rxpermissions:$rxpermissionsVersion"
+    api "com.hjq:xxpermissions:$xxpermissions"
     api "com.orhanobut:logger:$loggerVersion"
     api "top.androidman:superbutton:$superbuttonVersion"
     api "com.github.lzyzsd:jsbridge:$jsbridgeVersion"

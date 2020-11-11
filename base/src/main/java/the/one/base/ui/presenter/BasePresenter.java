@@ -21,12 +21,16 @@ package the.one.base.ui.presenter;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.rxjava.rxlife.Scope;
+
 import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import the.one.base.ui.view.BaseView;
 import the.one.base.util.ExceptionHelper;
 import the.one.base.util.NetworkFailUtil;
@@ -39,9 +43,12 @@ import the.one.base.util.NetworkFailUtil;
  * @email 625805189@qq.com
  * @remark
  */
-public class BasePresenter<V extends BaseView> implements LifecycleEventObserver,LifecycleOwner {
+public class BasePresenter<V extends BaseView> implements LifecycleEventObserver, Scope  {
 
     protected final String TAG = this.getClass().getSimpleName();
+
+
+    private CompositeDisposable mDisposables;
 
     private LifecycleOwner lifecycleOwner;
     private V baseView;
@@ -53,6 +60,10 @@ public class BasePresenter<V extends BaseView> implements LifecycleEventObserver
         this.baseView = baseView;
         this.lifecycleOwner = lifecycleOwner;
         lifecycleOwner.getLifecycle().addObserver(this);
+    }
+
+    public LifecycleOwner getLifecycleOwner() {
+        return lifecycleOwner;
     }
 
     /**
@@ -136,18 +147,37 @@ public class BasePresenter<V extends BaseView> implements LifecycleEventObserver
         }
     }
 
-    @NonNull
     @Override
-    public Lifecycle getLifecycle() {
-        return lifecycleOwner.getLifecycle();
+    public void onScopeStart(Disposable d) {
+        addDisposable(d);
+    }
+
+    @Override
+    public void onScopeEnd() {
+
+    }
+
+    private void addDisposable(Disposable disposable) {
+        CompositeDisposable disposables = mDisposables;
+        if (disposables == null) {
+            disposables = mDisposables = new CompositeDisposable();
+        }
+        disposables.add(disposable);
+    }
+
+    private void dispose() {
+        final CompositeDisposable disposables = mDisposables;
+        if (disposables == null) return;
+        disposables.dispose();
     }
 
     @Override
     public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
-        if(event == Lifecycle.Event.ON_DESTROY){
+        //Activity/Fragment 生命周期回调
+        if (event == Lifecycle.Event.ON_DESTROY) {  //Activity/Fragment 销毁
             source.getLifecycle().removeObserver(this);
+            dispose(); //中断RxJava管道
             detachView();
         }
     }
-
 }

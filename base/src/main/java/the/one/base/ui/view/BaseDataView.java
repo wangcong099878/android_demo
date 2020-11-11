@@ -33,12 +33,13 @@ import the.one.base.Interface.IPageInfo;
  */
 public interface BaseDataView<T> extends BaseView {
 
+    void onFirstLoading();
+
     void onComplete(List<T> data);
     void onComplete(List<T> data, IPageInfo pageInfoBean);
     void onComplete(List<T> data, IPageInfo pageInfoBean,String emptyString);
     void onComplete(List<T> data, IPageInfo pageInfoBean, String emptyString, String btnString, View.OnClickListener listener);
 
-    void refresh();
     void onFail(Exception e);
     void onFail(String errorMsg);
 

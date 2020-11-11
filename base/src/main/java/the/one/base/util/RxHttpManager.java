@@ -40,7 +40,8 @@ public class RxHttpManager {
 
     public static OkHttpClient getHttpClient(HttpBuilder builder) {
         OkHttpClient.Builder httpBuilder = new OkHttpClient.Builder();
-        httpBuilder.cookieJar(new CookieStore(new File(builder.getCookieFilePath(),builder.getCacheFileName()), false));
+        if (builder.isNeedCookie())
+            httpBuilder.cookieJar(new CookieStore(new File(builder.getCookieFilePath(), builder.getCacheFileName()), false));
         httpBuilder.connectTimeout(builder.getOutTime(), TimeUnit.SECONDS)
                 .readTimeout(builder.getReadTime(), TimeUnit.SECONDS)
                 .writeTimeout(builder.getWriteTime(), TimeUnit.SECONDS)
@@ -51,13 +52,14 @@ public class RxHttpManager {
         return client;
     }
 
-    public static void initCacheMode(HttpBuilder builder){
+    public static void initCacheMode(HttpBuilder builder) {
         File file = new File(builder.getCacheFilePath(), builder.getCacheFileName());
-        RxHttpPlugins.setCache(file, builder.getCacheMaxSize(), builder.getCacheMode(),builder.getCacheValidTime());
+        RxHttpPlugins.setCache(file, builder.getCacheMaxSize(), builder.getCacheMode(), builder.getCacheValidTime());
     }
 
     public static class HttpBuilder {
 
+        private boolean isNeedCookie = false;
         private String cookieFileName = "RxHttpCookie";
         private String cookieFilePath = FileDirectoryUtil.getCachePath();
 
@@ -71,6 +73,14 @@ public class RxHttpManager {
         private int readTime = 10;
         private int writeTime = 10;
 
+        public boolean isNeedCookie() {
+            return isNeedCookie;
+        }
+
+        public HttpBuilder setNeedCookie(boolean needCookie) {
+            isNeedCookie = needCookie;
+            return this;
+        }
 
         public String getCookieFileName() {
             return cookieFileName;

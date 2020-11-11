@@ -1,6 +1,7 @@
 package the.one.gank
 
 import android.app.Activity
+import android.graphics.Bitmap
 import okhttp3.OkHttpClient
 import rxhttp.RxHttpPlugins
 import rxhttp.wrapper.cahce.CacheMode
@@ -59,7 +60,7 @@ class GankApp : BaseApplication() {
     }
 
     override fun initHttp(builder: RxHttpManager.HttpBuilder?) {
-        RxHttp.init(RxHttpManager.getHttpClient(builder),isDebug)
+        RxHttp.init(RxHttpManager.getHttpClient(builder),BuildConfig.DEBUG)
         RxHttpManager.initCacheMode(builder)
     }
 

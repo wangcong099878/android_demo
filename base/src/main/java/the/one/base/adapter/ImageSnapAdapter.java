@@ -1,6 +1,5 @@
 package the.one.base.adapter;
 
-import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -19,7 +18,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.luck.picture.lib.photoview.PhotoView;
 import com.luck.picture.lib.widget.longimage.ImageSource;
-import com.luck.picture.lib.widget.longimage.ImageViewState;
 import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUIProgressBar;
@@ -44,9 +42,9 @@ import the.one.base.util.imagepreview.ImageUtil;
  */
 public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T> {
 
-    private float minScale = 1.0f;// 最小缩放倍数
-    private float mediumScale = 3.0f;// 中等缩放倍数
-    private float maxScale = 5.0f;// 最大缩放倍数
+    private float minScale = -1.0f;// 最小缩放倍数
+    private float mediumScale = 0.5f;// 中等缩放倍数
+    private float maxScale = 2.0f;// 最大缩放倍数
 
     private boolean isWhiteBg;
 
@@ -185,16 +183,16 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
             setImageSpec(imagePath, imageView);
 
-            imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_USE_EXIF);
+            imageView.setOrientation(SubsamplingScaleImageView.ORIENTATION_0);
             ImageSource imageSource = ImageSource.uri(Uri.fromFile(new File(imagePath)));
             if (ImageUtil.isBmpImageWithMime(imagePath)) {
                 imageSource.tilingDisabled();
             }
             imageView.setImage(imageSource);
+            resetProgress(progressBar);
             imageView.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener() {
                 @Override
                 public void onReady() {
-                    resetProgress(progressBar);
                 }
 
                 @Override
@@ -207,7 +205,6 @@ public class ImageSnapAdapter<T extends ImageSnap> extends TheBaseQuickAdapter<T
 
                 @Override
                 public void onImageLoadError(Exception e) {
-                    resetProgress(progressBar);
                     imageGif.setVisibility(View.VISIBLE);
                     imageGif.setImageDrawable(QMUIResHelper.getAttrDrawable(getContext(), R.attr.app_skin_glide_fail_drawable));
                 }

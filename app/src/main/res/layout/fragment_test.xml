@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +9,16 @@
 <!--        android:id="@+id/wave_view"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/qmui_config_color_red"/>
+
+    <the.one.demo.widget.ArcView
+        android:layout_width="match_parent"
+        android:background="@color/qmui_config_color_red"
+        android:layout_height="70dp"/>
 
     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
         style="@style/QMUI.Button.Red.Radius"
@@ -20,4 +30,4 @@
         android:text="登录"
         app:qmui_radius="5dp" />
 
-</RelativeLayout>
+</LinearLayout>

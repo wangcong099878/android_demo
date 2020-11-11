@@ -52,7 +52,6 @@ public class GankPresenter extends BaseDataPresenter<GankBean> {
 
     public void getData(final Context context, final String type, final int page) {
         String url = NetUrlConstant.GANK_CATEGORY + type + "/" + NetUrlConstant.COUNT + "/" + page;
-        Log.e(TAG, "getData: "+url );
         RxHttp.get(url)
                 .asResponseOldList(GankBean.class)
                 .as(RxLife.asOnMain(this))

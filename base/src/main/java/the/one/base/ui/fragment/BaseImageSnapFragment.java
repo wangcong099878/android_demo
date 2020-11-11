@@ -1,15 +1,16 @@
 package the.one.base.ui.fragment;
 
-import android.Manifest;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.qmuiteam.qmui.util.QMUIViewHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.IPageInfo;
 import the.one.base.Interface.ImageSnap;
 import the.one.base.R;
@@ -38,7 +37,7 @@ import the.one.base.util.ViewUtil;
  * 实体需 implements {@link ImageSnap}
  */
 public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseListFragment<T>
-        implements ImageSnapAdapter.OnImageClickListener<T>, Observer<Boolean>, QMUIBottomSheetUtil.OnSheetItemClickListener {
+        implements ImageSnapAdapter.OnImageClickListener<T>, QMUIBottomSheetUtil.OnSheetItemClickListener {
 
     protected ImageSnapAdapter<T> mImageSnapAdapter;
     protected PagerSnapHelper mPagerSnapHelper;
@@ -213,11 +212,28 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
     }
 
     protected void requestPermission() {
-        new RxPermissions(this)
-                .request(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.INTERNET)
-                .subscribe(this);
+        XXPermissions.with(_mActivity)
+                .permission(Permission.Group.STORAGE)
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {
+                            onPermissionComplete(mData,mSheetClickTag,mSheetClickPosition);
+                        } else {
+                            requestPermission();
+                        }
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            showToast("权限被禁止，请在设置里打开权限。");
+                        } else {
+                            showToast("权限被禁止，请手动打开");
+                        }
+                    }
+                });
     }
 
     protected void onPermissionComplete(ImageSnap data,String tag,int position){
@@ -233,30 +249,6 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
         mSheetClickTag = title;
         requestPermission();
         dialog.dismiss();
-    }
-
-    @Override
-    public void onSubscribe(Disposable d) {
-
-    }
-
-    @Override
-    public void onNext(Boolean aBoolean) {
-        if (aBoolean) {
-            onPermissionComplete(mData,mSheetClickTag,mSheetClickPosition);
-        } else {
-            showToast(getString(R.string.no_permissioin_tips));
-        }
-    }
-
-    @Override
-    public void onError(Throwable e) {
-
-    }
-
-    @Override
-    public void onComplete() {
-
     }
 
     /**

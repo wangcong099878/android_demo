@@ -12,4 +12,12 @@ public class QSPSeries {
         this.name = name;
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "QSPSeries{" +
+                "name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }

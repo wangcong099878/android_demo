@@ -4,9 +4,8 @@ import android.view.View;
 
 import com.rxjava.rxlife.RxLife;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rxhttp.wrapper.cahce.CacheMode;
 import rxhttp.wrapper.param.RxHttp;
-import the.one.aqtour.constant.QSPConstant;
 import the.one.aqtour.ui.view.QSPCategoryView;
 import the.one.aqtour.util.QSPSoupUtil;
 import the.one.base.Interface.OnError;

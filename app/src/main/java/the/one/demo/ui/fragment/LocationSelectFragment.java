@@ -1,19 +1,18 @@
 package the.one.demo.ui.fragment;
 
-import android.Manifest;
 import android.view.View;
 
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.grouplist.QMUICommonListItemView;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import the.one.base.Interface.OnProvinceCompleteListener;
 import the.one.base.Interface.OnCitySelectListener;
+import the.one.base.Interface.OnProvinceCompleteListener;
 import the.one.base.model.Area;
 import the.one.base.model.City;
 import the.one.base.model.Province;
@@ -49,7 +48,7 @@ import the.one.demo.R;
  * @email 625805189@qq.com
  * @remark
  */
-public class LocationSelectFragment extends BaseGroupListFragment implements OnCitySelectListener, Observer<Boolean> {
+public class LocationSelectFragment extends BaseGroupListFragment implements OnCitySelectListener {
 
     private QMUICommonListItemView mLetterSearch, mDialog,mUpdate;
     private View mClickView;
@@ -75,11 +74,29 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
     }
 
     protected void requestPermission() {
-        new RxPermissions(this)
-                .request(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.INTERNET)
-                .subscribe(this);
+        XXPermissions.with(_mActivity)
+                .permission(Permission.Group.STORAGE)
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {
+                            onNext(all);
+                        } else {
+                            requestPermission();
+                        }
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            showToast("权限被禁止，请在设置里打开权限。");
+                        } else {
+                            showToast("权限被禁止，请手动打开");
+                        }
+                    }
+                });
+
     }
 
     @Override
@@ -87,12 +104,6 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
         mDialog.setDetailText(address);
     }
 
-    @Override
-    public void onSubscribe(Disposable d) {
-
-    }
-
-    @Override
     public void onNext(Boolean aBoolean) {
         if(aBoolean){
             if (mClickView == mLetterSearch) {
@@ -132,16 +143,6 @@ public class LocationSelectFragment extends BaseGroupListFragment implements OnC
                 }
             });
         }
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        showFailTips("获取权限失败");
-    }
-
-    @Override
-    public void onComplete() {
-
     }
 
 }

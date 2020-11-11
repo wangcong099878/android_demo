@@ -23,6 +23,7 @@ import android.view.View;
 
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.content.ContextCompat;
@@ -45,9 +46,35 @@ public class QMUIBottomSheetUtil {
      * @param listener
      * @return
      */
+    public static QMUIBottomSheet showBottomListSheet(Context context, List<String> items,
+                                                      CharSequence title,
+                                                      int markIndex, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
+        return showBottomListSheet(context, items, title, true, markIndex, true, true, listener);
+    }
+
+    public static QMUIBottomSheet showBottomListSheet(Context context, List<String> items,
+                                                      CharSequence title,
+                                                      boolean allowDragDismiss,
+                                                      int markIndex, boolean gravityCenter,
+                                                      boolean addCancelBtn, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
+        List<PopupItem> popupItems = new ArrayList<>();
+        for (String s:items){
+            popupItems.add(new PopupItem(s));
+        }
+        return showSimpleBottomSheetList(context, popupItems, title, allowDragDismiss, markIndex, gravityCenter, addCancelBtn, listener);
+    }
+
+    /**
+     * @param context
+     * @param items
+     * @param title
+     * @param markIndex
+     * @param listener
+     * @return
+     */
     public static QMUIBottomSheet showSimpleBottomSheetList(Context context, List<PopupItem> items,
-                                                     CharSequence title,
-                                                     int markIndex, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
+                                                            CharSequence title,
+                                                            int markIndex, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
         return showSimpleBottomSheetList(context, items, title, true, markIndex, true, true, listener);
     }
 
@@ -63,10 +90,10 @@ public class QMUIBottomSheetUtil {
      * @return
      */
     public static QMUIBottomSheet showSimpleBottomSheetList(Context context, List<PopupItem> items,
-                                                     CharSequence title,
-                                                     boolean allowDragDismiss,
-                                                     int markIndex, boolean gravityCenter,
-                                                     boolean addCancelBtn, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
+                                                            CharSequence title,
+                                                            boolean allowDragDismiss,
+                                                            int markIndex, boolean gravityCenter,
+                                                            boolean addCancelBtn, QMUIBottomSheet.BottomListSheetBuilder.OnSheetItemClickListener listener) {
         boolean withMark = markIndex != -1;
         QMUIBottomSheet.BottomListSheetBuilder builder = new QMUIBottomSheet.BottomListSheetBuilder(context);
         builder.setGravityCenter(gravityCenter)
@@ -89,7 +116,7 @@ public class QMUIBottomSheetUtil {
     }
 
     public static QMUIBottomSheet showGridBottomSheet(Context context, List<PopupItem> items, OnSheetItemClickListener listener) {
-      return   showGridBottomSheet(context,items,4,true,listener);
+        return   showGridBottomSheet(context,items,4,true,listener);
     }
 
     /**

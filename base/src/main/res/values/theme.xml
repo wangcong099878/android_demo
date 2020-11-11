@@ -13,6 +13,7 @@
     <attr name="app_skin_text_color_2" format="color|reference"/>
 
     <!-- StatusLayout -->
+    <attr name="app_skin_status_layout_loading_text" format="reference|string"/>
     <attr name="app_skin_status_layout_loading_text_color" format="reference|color"/>
     <attr name="app_skin_status_layout_btn_background_color" format="color|reference"/>
     <attr name="app_skin_status_layout_btn_text_color" format="color|reference"/>
@@ -72,6 +73,7 @@
         <item name="app_skin_glide_fail_drawable">@drawable/svg_image_fail</item>
         <item name="CrashLayoutStyle">@style/crash_layout_style</item>
 
+        <item name="app_skin_status_layout_loading_text">@string/loading</item>
         <item name="app_skin_status_layout_loading_text_color">@color/qmui_config_color_gray_2</item>
         <item name="app_skin_status_layout_btn_background_color">@color/qmui_config_color_gray_7</item>
         <item name="app_skin_status_layout_btn_text_color">@color/qmui_config_color_white</item>

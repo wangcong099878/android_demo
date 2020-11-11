@@ -3,6 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="TopBarWhiteTheme">
         <!-- Customize your theme here. -->
+
+        <item name="app_skin_loadmore_loading_text">一念成魔</item>
+        <item name="app_skin_loadmore_end_text">一念成佛</item>
+
+        <item name="app_skin_status_layout_loading_text">色即是空</item>
     </style>
 
 </resources>

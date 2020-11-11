@@ -1,27 +1,23 @@
 package the.one.base.ui.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import java.io.File;
+import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import the.one.base.Interface.IApkUpdate;
 import the.one.base.R;
 import the.one.base.constant.DataConstant;
@@ -31,7 +27,6 @@ import the.one.base.service.DownloadService;
 import the.one.base.ui.presenter.BasePresenter;
 import the.one.base.util.AppInfoManager;
 import the.one.base.util.FileDirectoryUtil;
-import the.one.base.util.QMUIDialogUtil;
 import the.one.base.widge.ProgressButton;
 
 /**
@@ -157,49 +152,29 @@ public class UpdateApkActivity extends BaseActivity {
      * 获取权限
      */
     public void requestPermission() {
-        final RxPermissions permissions = new RxPermissions(this);
-        permissions
-                .request(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Observer<Boolean>() {
+        XXPermissions.with(this)
+                .permission(Permission.Group.STORAGE)
+                .request(new OnPermission() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean) {
+                    public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {
                             doDownload();
                         } else {
-                            //权限未被给予
-                            // 显示无权限弹窗
-                            QMUIDialogUtil.showPositiveDialog(UpdateApkActivity.this, getString(R.string.permission_to_store), "", getString(R.string.cancel), new QMUIDialogAction.ActionListener() {
-                                @Override
-                                public void onClick(QMUIDialog dialog, int index) {
-                                    dialog.dismiss();
-                                }
-                            }, getString(R.string.go_to), new QMUIDialogAction.ActionListener() {
-                                @Override
-                                public void onClick(QMUIDialog dialog, int index) {
-                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    intent.setData(Uri.parse("package:" + getPackageName()));
-                                    startActivity(intent);
-                                }
-                            });
+                            requestPermission();
                         }
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if (quick) {
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            showToast("权限被禁止，请在设置里打开权限。");
+                        } else {
+                            showToast("权限被禁止，请手动打开");
+                        }
                     }
                 });
+
     }
 
     @Override
