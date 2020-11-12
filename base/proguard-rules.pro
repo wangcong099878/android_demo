@@ -281,6 +281,9 @@
 -keep class the.one.base.model.** { *; }
 -keep class the.one.base.constant.** { *; }
 -keep class the.one.base.event.** { *; }
+-keep class the.one.base.Interface.** { *; }
+-keep class the.one.base.util.** { *; }
+-keep class the.one.base.widge.** { *; }
 
 #保留一个完整的包
 #-keep class the.one.base.** { *; }
