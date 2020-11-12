@@ -504,4 +504,9 @@ public class VideoPlayActivity extends GSYBaseDetailActivity<StandardTheVideoPla
         super.onDestroy();
         m3u8Server.finish();
     }
+
+    @Override
+    public void onComplete(String url, Object... objects) {
+
+    }
 }

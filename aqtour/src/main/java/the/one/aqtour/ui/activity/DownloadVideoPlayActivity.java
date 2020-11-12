@@ -122,4 +122,9 @@ public class DownloadVideoPlayActivity extends GSYBaseDetailActivity<StandardThe
     public boolean getDetailOrientationRotateAuto() {
         return false;
     }
+
+    @Override
+    public void onComplete(String url, Object... objects) {
+
+    }
 }

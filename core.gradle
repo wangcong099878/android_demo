@@ -16,42 +16,42 @@ android {
         }
     }
 
-//    applicationVariants.all { variant ->
-//        variant.outputs.all { output ->  // each 改为 all
-//            def fileName = android.defaultConfig.applicationId+"_${variant.versionName}_release.apk"
-//            def outFile = output.outputFile
-//            if (outFile != null && outFile.name.endsWith('.apk')) {
-//                outputFileName = fileName  //  output.outputFile 改为 outputFileName
-//            }
-//        }
-//    }
-//
-//    signingConfigs {
-//        release  {
-////            storeFile file("D:\\GitProject\\TheBase\\keystore\\theone.jks")
-//            storeFile file("D:\\Theone\\TheBase\\keystore\\theone.jks")
-//            storePassword "areyoutheone"
-//            keyAlias "areyou"
-//            keyPassword "areyoutheone"
-//        }
-//    }
-//
-//    buildTypes {
-//        debug {
-//            debuggable true
-//            minifyEnabled false
-//            signingConfig signingConfigs.release
-//        }
-//        release {
-//            signingConfig signingConfigs.release
-//            minifyEnabled true
-//            // 移除无用的resource文件
-//            shrinkResources true
-//            // Zipalign优化
-//            zipAlignEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
-//    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->  // each 改为 all
+            def fileName = android.defaultConfig.applicationId+"_release.apk"
+            fileName = fileName.replaceAll("the.one.","")
+            def outFile = output.outputFile
+            if (outFile != null && outFile.name.endsWith('.apk')) {
+                outputFileName = fileName  //  output.outputFile 改为 outputFileName
+            }
+        }
+    }
+
+    signingConfigs {
+        release  {
+            storeFile file("..\\keystore\\theone.jks")
+            storePassword "areyoutheone"
+            keyAlias "areyou"
+            keyPassword "areyoutheone"
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable false
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            // Zipalign优化
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 configurations.all {
@@ -66,7 +66,8 @@ configurations.all {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation fileTree(include: ['*.aar'], dir: 'libs')
-    implementation project(':base')
+//    implementation project(':base')
+    implementation 'com.gitee.theoneee:TheBase:2.0.12'
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.ljx.rxhttp:rxhttp-compiler:$rxhttpVersion" //生成RxHttp类
 }
