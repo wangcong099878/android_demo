@@ -277,13 +277,11 @@
 #--------(实体Model不能混淆，否则找不到对应的属性获取不到值)-----
 #
 
+# base
+#-keep class the.one.base.** { *; }
+-keep class the.one.base.model.** { *; }
+-keep class the.one.base.constant.** { *; }
+-keep class the.one.base.event.** { *; }
+-keep class the.one.base.Interface.** { *; }
 
-#-keep class the.one.base.model.** { *; }
-#-keep class the.one.base.constant.** { *; }
-#-keep class the.one.base.event.** { *; }
-#-keep class the.one.base.Interface.** { *; }
-#-keep class the.one.base.util.** { *; }
-#-keep class the.one.base.widge.** { *; }
 
-#保留一个完整的包
--keep class the.one.base.** { *; }
