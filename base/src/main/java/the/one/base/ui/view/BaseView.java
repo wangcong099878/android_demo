@@ -35,7 +35,7 @@ public interface BaseView {
      *
      * @param msg
      */
-    void showLoadingDialog(String msg);
+    void showLoadingDialog(CharSequence msg);
     /**
      * 关闭加载弹窗
      *
@@ -47,7 +47,7 @@ public interface BaseView {
      *
      * @param msg
      */
-    void showProgressDialog(String msg);
+    void showProgressDialog(CharSequence msg);
 
     /**
      * 显示进度弹窗
@@ -68,7 +68,7 @@ public interface BaseView {
      *
      * @param percent
      */
-    void showProgressDialog(int percent, int total,String msg);
+    void showProgressDialog(int percent, int total,CharSequence msg);
 
     /**
      * 关闭进度弹窗
@@ -80,7 +80,7 @@ public interface BaseView {
      *
      * @param msg
      */
-    void showToast(String msg);
+    void showToast(CharSequence msg);
 
     /**
      * 显示内容层
@@ -95,72 +95,72 @@ public interface BaseView {
     /**
      * 显示空白层
      */
-    void showEmptyPage(String title);
+    void showEmptyPage(CharSequence title);
 
     /**
      * 显示空白层
      */
-    void showEmptyPage(String title, View.OnClickListener listener);
+    void showEmptyPage(CharSequence title, View.OnClickListener listener);
     /**
      * 显示空白层
      */
-    void showEmptyPage(String title, String btnString, View.OnClickListener listener);
+    void showEmptyPage(CharSequence title, CharSequence btnString, View.OnClickListener listener);
 
     /**
      * 显示空白层
      */
-    void showEmptyPage(String title, String content, String btnString, View.OnClickListener listener);
+    void showEmptyPage(CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener);
 
     /**
      * 显示空白层
      */
-    void showEmptyPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener);
+    void showEmptyPage(Drawable drawable, CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener);
 
     /**
      * 显示空白层
      */
-    void showErrorPage(String title);
+    void showErrorPage(CharSequence title);
 
     /**
      * 显示空白层
      */
-    void showErrorPage(String title, View.OnClickListener listener);
+    void showErrorPage(CharSequence title, View.OnClickListener listener);
     /**
      * 显示空白层
      */
-    void showErrorPage(String title, String btnString, View.OnClickListener listener);
+    void showErrorPage(CharSequence title, CharSequence btnString, View.OnClickListener listener);
 
     /**
      * 显示空白层
      */
-    void showErrorPage(String title, String content, String btnString, View.OnClickListener listener);
+    void showErrorPage(CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener);
 
     /**
      * 显示错误层
      */
-    void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener);
+    void showErrorPage(Drawable drawable, CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener);
 
     /**
      * 显示成功提示
      */
-    void showSuccessTips(String msg);
+    void showSuccessTips(CharSequence msg);
 
     /**
      * 显示成功后退出
      * @param tips
      */
-    void showSuccessExit(String tips);
+    void showSuccessExit(CharSequence tips);
 
     /**
      * 显示成功后退出
      * @param tips
      */
-    void showSuccessExit(String tips,int type);
+    void showSuccessExit(CharSequence tips,int type);
 
     /**
      * 显示错误提示
      */
-    void showFailTips(String msg);
+    void showFailTips(CharSequence msg);
 
     /**
      * 关闭

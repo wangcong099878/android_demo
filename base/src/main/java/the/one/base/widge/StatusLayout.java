@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -215,11 +216,11 @@ public class StatusLayout extends RelativeLayout {
         switchState(LOADING, null, null, null, null, null, skipIds);
     }
 
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle) {
+    public void showEmpty(Drawable emptyImageDrawable, CharSequence emptyTextTitle) {
         showEmpty(emptyImageDrawable, emptyTextTitle, "", "刷新试试", null);
     }
 
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent) {
+    public void showEmpty(Drawable emptyImageDrawable, CharSequence emptyTextTitle, CharSequence emptyTextContent) {
         showEmpty(emptyImageDrawable, emptyTextTitle, emptyTextContent, "刷新试试", null);
     }
 
@@ -230,7 +231,7 @@ public class StatusLayout extends RelativeLayout {
      * @param emptyTextTitle     Title of the empty view to show
      * @param emptyTextContent   Content of the empty view to show
      */
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent, OnClickListener onClickListener) {
+    public void showEmpty(Drawable emptyImageDrawable, CharSequence emptyTextTitle, CharSequence emptyTextContent, OnClickListener onClickListener) {
         showEmpty(emptyImageDrawable, emptyTextTitle, emptyTextContent, "刷新试试", onClickListener);
     }
 
@@ -241,7 +242,7 @@ public class StatusLayout extends RelativeLayout {
      * @param emptyTextTitle     Title of the empty view to show
      * @param emptyTextContent   Content of the empty view to show
      */
-    public void showEmpty(Drawable emptyImageDrawable, String emptyTextTitle, String emptyTextContent, String btnText, OnClickListener onClickListener) {
+    public void showEmpty(Drawable emptyImageDrawable, CharSequence emptyTextTitle, CharSequence emptyTextContent, CharSequence btnText, OnClickListener onClickListener) {
         switchState(EMPTY, emptyImageDrawable, emptyTextTitle, emptyTextContent, btnText, onClickListener, Collections.<Integer>emptyList());
     }
 
@@ -254,7 +255,7 @@ public class StatusLayout extends RelativeLayout {
      * @param errorButtonText    Text on the error view button to show
      * @param onClickListener    Listener of the error view button
      */
-    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener) {
+    public void showError(Drawable errorImageDrawable, CharSequence errorTextTitle, CharSequence errorTextContent, CharSequence errorButtonText, OnClickListener onClickListener) {
         switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, Collections.<Integer>emptyList());
     }
 
@@ -268,7 +269,7 @@ public class StatusLayout extends RelativeLayout {
      * @param onClickListener    Listener of the error view button
      * @param skipIds            Ids of views to not hide
      */
-    public void showError(Drawable errorImageDrawable, String errorTextTitle, String errorTextContent, String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
+    public void showError(Drawable errorImageDrawable, CharSequence errorTextTitle, CharSequence errorTextContent, CharSequence errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
         switchState(ERROR, errorImageDrawable, errorTextTitle, errorTextContent, errorButtonText, onClickListener, skipIds);
     }
 
@@ -317,10 +318,9 @@ public class StatusLayout extends RelativeLayout {
         return state.equals(ERROR);
     }
 
-    private void switchState(String state, Drawable drawable, String errorText, String errorTextContent,
-                             String errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
+    private void switchState(String state, Drawable drawable, CharSequence errorText, CharSequence errorTextContent,
+                             CharSequence errorButtonText, OnClickListener onClickListener, List<Integer> skipIds) {
         this.state = state;
-
         switch (state) {
             case CONTENT:
                 //Hide all state views to display content
@@ -345,8 +345,10 @@ public class StatusLayout extends RelativeLayout {
                 errorStateTitleTextView.setVisibility(VISIBLE);
                 errorStateTitleTextView.setText(errorText);
                 errorStateContentTextView.setText(errorTextContent);
-                if (null == errorButtonText || errorButtonText.isEmpty())
+                if (TextUtils.isEmpty(errorButtonText))
                     errorStateButton.setVisibility(GONE);
+                else
+                    errorStateButton.setVisibility(VISIBLE);
                 errorStateButton.setText(errorButtonText);
                 errorStateButton.setOnClickListener(onClickListener);
                 setContentVisibility(false, skipIds);

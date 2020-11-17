@@ -49,7 +49,7 @@ public class QMUIDialogUtil {
             AppMourningThemeUtil.notify(dialog.getWindow());
     }
 
-    public static QMUIDialog showSimpleDialog(final Context context, final String title, final String content) {
+    public static QMUIDialog showSimpleDialog(final Context context, final CharSequence title, final CharSequence content) {
         return   showPositiveDialog(context, title, content, "", null, "确认", new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
@@ -67,7 +67,7 @@ public class QMUIDialogUtil {
      * @param rightBtnListener 右Btn监听
      * @return
      */
-    public static QMUIDialog showSimpleDialog(final Context context, final String title, final String content, QMUIDialogAction.ActionListener rightBtnListener) {
+    public static QMUIDialog showSimpleDialog(final Context context, final CharSequence title, final CharSequence content, QMUIDialogAction.ActionListener rightBtnListener) {
         return   showPositiveDialog(context, title, content, "取消", new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
@@ -76,10 +76,10 @@ public class QMUIDialogUtil {
         }, "确定", rightBtnListener);
     }
 
-    public static QMUIDialog showPositiveDialog(final Context context, final String title, final String content, final String btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
+    public static QMUIDialog showPositiveDialog(final Context context, final CharSequence title, final CharSequence content, final CharSequence btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final CharSequence btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
         QMUIDialog.MessageDialogBuilder builder = new QMUIDialog.MessageDialogBuilder(context);
         if (!TextUtils.isEmpty(title)) {
-            builder.setTitle(title);
+            builder.setTitle(title.toString());
         }
         if (!TextUtils.isEmpty(content)) {
             builder.setMessage(content);
@@ -96,7 +96,7 @@ public class QMUIDialogUtil {
     }
 
 
-    public static QMUIDialog showNegativeDialog(final Context context, final String title, final CharSequence content, final String btnLeftString, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
+    public static QMUIDialog showNegativeDialog(final Context context, final CharSequence title, final CharSequence content, final CharSequence btnLeftString, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
         return showNegativeDialog(context, title, content, btnLeftString, new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
@@ -114,9 +114,9 @@ public class QMUIDialogUtil {
      * @param btnRightString
      * @param rightBtnListener
      */
-    public static QMUIDialog showNegativeDialog(final Context context, final String title, final CharSequence content, final CharSequence btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final String btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
+    public static QMUIDialog showNegativeDialog(final Context context, final CharSequence title, final CharSequence content, final CharSequence btnLeftString, final QMUIDialogAction.ActionListener leftBtnListener, final CharSequence btnRightString, final QMUIDialogAction.ActionListener rightBtnListener) {
         QMUIDialog dialog = new QMUIDialog.MessageDialogBuilder(context)
-                .setTitle(title)
+                .setTitle(title.toString())
                 .setMessage(content)
                 .addAction(btnLeftString, leftBtnListener)
                 .addAction(0, btnRightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightBtnListener)
@@ -125,15 +125,15 @@ public class QMUIDialogUtil {
         return dialog;
     }
 
-    public static QMUIDialog showMenuDialog(Context context, String title, List<String> list, DialogInterface.OnClickListener listener) {
+    public static QMUIDialog showMenuDialog(Context context, CharSequence title, List<CharSequence> list, DialogInterface.OnClickListener listener) {
         return showMenuDialog(context, title, list2Array(list), listener);
     }
 
-    public static QMUIDialog showMenuDialog(Context context, List<String> list, DialogInterface.OnClickListener listener) {
+    public static QMUIDialog showMenuDialog(Context context, List<CharSequence> list, DialogInterface.OnClickListener listener) {
         return showMenuDialog(context, "", list2Array(list), listener);
     }
 
-    public static QMUIDialog showMenuDialog(Context context, String[] items, DialogInterface.OnClickListener listener) {
+    public static QMUIDialog showMenuDialog(Context context, CharSequence[] items, DialogInterface.OnClickListener listener) {
         return showMenuDialog(context, "", items, listener);
     }
 
@@ -145,9 +145,9 @@ public class QMUIDialogUtil {
      * @param listener
      * @return
      */
-    public static QMUIDialog showMenuDialog(Context context, String title, String[] items, DialogInterface.OnClickListener listener) {
+    public static QMUIDialog showMenuDialog(Context context, CharSequence title, CharSequence[] items, DialogInterface.OnClickListener listener) {
         QMUIDialog dialog = new QMUIDialog.MenuDialogBuilder(context)
-                .setTitle(title)
+                .setTitle(title.toString())
                 .addItems(items, listener).show();
         notifyTheme(dialog);
         return dialog;
@@ -161,12 +161,12 @@ public class QMUIDialogUtil {
      * @param checkedIndex
      * @param listener
      */
-    public static QMUIDialog showSingleChoiceDialog(Context context, List<String> list, final int checkedIndex, DialogInterface.OnClickListener listener) {
+    public static QMUIDialog showSingleChoiceDialog(Context context, List<CharSequence> list, final int checkedIndex, DialogInterface.OnClickListener listener) {
         return showSingleChoiceDialog(context, list2Array(list), checkedIndex, listener);
     }
 
-    private static String[] list2Array(List<String> list) {
-        String[] items = new String[list.size()];
+    private static CharSequence[] list2Array(List<CharSequence> list) {
+        CharSequence[] items = new CharSequence[list.size()];
         for (int i = 0; i < list.size(); i++) {
             items[i] = list.get(i);
         }
@@ -199,7 +199,7 @@ public class QMUIDialogUtil {
      * @param rightBtnString
      * @param onMultiChoiceConfirmClickListener
      */
-    public static QMUIDialog showMultiChoiceDialog(Context context, final String[] items, final int[] checkedItems, String rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
+    public static QMUIDialog showMultiChoiceDialog(Context context, final CharSequence[] items, final int[] checkedItems, String rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
         return showMultiChoiceDialog(context, items, checkedItems, "取消", new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
@@ -218,7 +218,7 @@ public class QMUIDialogUtil {
      * @param rightBtnString
      * @param onMultiChoiceConfirmClickListener
      */
-    public static QMUIDialog showMultiChoiceDialog(Context context, final String[] items, final int[] checkedItems,String title, String rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
+    public static QMUIDialog showMultiChoiceDialog(Context context, final CharSequence[] items, final int[] checkedItems,String title, CharSequence rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
         return showMultiChoiceDialog(context, items, checkedItems,title, "取消", new QMUIDialogAction.ActionListener() {
                     @Override
                     public void onClick(QMUIDialog dialog, int index) {
@@ -239,7 +239,7 @@ public class QMUIDialogUtil {
      * @param rightBtnString
      * @param onMultiChoiceConfirmClickListener
      */
-    public static QMUIDialog showMultiChoiceDialog(Context context, final String[] items, final int[] checkedItems, String leftBtnString, QMUIDialogAction.ActionListener leftBtnListener, String rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
+    public static QMUIDialog showMultiChoiceDialog(Context context, final CharSequence[] items, final int[] checkedItems, CharSequence leftBtnString, QMUIDialogAction.ActionListener leftBtnListener, CharSequence rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
         return showMultiChoiceDialog(context,items,checkedItems,"",leftBtnString,leftBtnListener,rightBtnString,onMultiChoiceConfirmClickListener);
     }
 
@@ -254,9 +254,9 @@ public class QMUIDialogUtil {
      * @param rightBtnString
      * @param onMultiChoiceConfirmClickListener
      */
-    public static QMUIDialog showMultiChoiceDialog(Context context, final String[] items, final int[] checkedItems,String title, String leftBtnString, QMUIDialogAction.ActionListener leftBtnListener, String rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
+    public static QMUIDialog showMultiChoiceDialog(Context context, final CharSequence[] items, final int[] checkedItems,CharSequence title, CharSequence leftBtnString, QMUIDialogAction.ActionListener leftBtnListener, CharSequence rightBtnString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
         final QMUIDialog.MultiCheckableDialogBuilder builder = new QMUIDialog.MultiCheckableDialogBuilder(context)
-                .setTitle(title)
+                .setTitle(title.toString())
                 .setCheckedItems(checkedItems)
                 .addItems(items, null);
         builder.addAction(leftBtnString, leftBtnListener);
@@ -281,7 +281,7 @@ public class QMUIDialogUtil {
      * @param rightString
      * @param onMultiChoiceConfirmClickListener
      */
-    public static QMUIDialog showNumerousMultiChoiceDialog(Context context, final String[] items, int[] checkedItems, DialogInterface.OnClickListener OnItemClickListener, String rightString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
+    public static QMUIDialog showNumerousMultiChoiceDialog(Context context, final CharSequence[] items, int[] checkedItems, DialogInterface.OnClickListener OnItemClickListener, String rightString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
         return showNumerousMultiChoiceDialog(context, items, checkedItems, OnItemClickListener, "取消", new QMUIDialogAction.ActionListener() {
             @Override
             public void onClick(QMUIDialog dialog, int index) {
@@ -301,7 +301,7 @@ public class QMUIDialogUtil {
      * @param leftClickListener
      * @param rightString
      */
-    public static QMUIDialog showNumerousMultiChoiceDialog(Context context, final String[] items, int[] checkedItems, DialogInterface.OnClickListener OnItemClickListener, String leftBtnString, QMUIDialogAction.ActionListener leftClickListener, String rightString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
+    public static QMUIDialog showNumerousMultiChoiceDialog(Context context, final CharSequence[] items, int[] checkedItems, DialogInterface.OnClickListener OnItemClickListener, CharSequence leftBtnString, QMUIDialogAction.ActionListener leftClickListener, CharSequence rightString, final OnMultiChoiceConfirmClickListener onMultiChoiceConfirmClickListener) {
         final QMUIDialog.MultiCheckableDialogBuilder builder = new QMUIDialog.MultiCheckableDialogBuilder(context)
                 .setCheckedItems(checkedItems)
                 .addItems(items, OnItemClickListener);
@@ -330,19 +330,19 @@ public class QMUIDialogUtil {
      * @param listener
      */
 
-    public static QMUIDialog showEditTextDialog(final Context context, String title,String content, String hint, final OnEditTextConfirmClickListener listener) {
+    public static QMUIDialog showEditTextDialog(final Context context, CharSequence title,CharSequence content, CharSequence hint, final OnEditTextConfirmClickListener listener) {
         return showEditTextDialog(context, title,content, hint, "取消", "确定", listener);
     }
 
-    public static QMUIDialog showEditTextDialog(final Context context, String title, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener) {
+    public static QMUIDialog showEditTextDialog(final Context context, CharSequence title, CharSequence hint, CharSequence leftText, CharSequence rightText, final OnEditTextConfirmClickListener listener) {
         return showEditTextDialog(context, title,"", hint, leftText, rightText, listener);
     }
 
-    public static QMUIDialog showEditTextDialog(final Context context, String title,String content, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener) {
+    public static QMUIDialog showEditTextDialog(final Context context, CharSequence title,CharSequence content, CharSequence hint, CharSequence leftText, CharSequence rightText, final OnEditTextConfirmClickListener listener) {
         return showEditTextDialog(context, InputType.TYPE_CLASS_TEXT, title,content, hint, leftText, rightText, listener);
     }
 
-    public static QMUIDialog showEditTextDialog(final Context context, int inputType, String title, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener) {
+    public static QMUIDialog showEditTextDialog(final Context context, int inputType, CharSequence title, CharSequence hint, CharSequence leftText, CharSequence rightText, final OnEditTextConfirmClickListener listener) {
         return showEditTextDialog(context, inputType, title,"", hint, leftText, rightText, listener);
     }
 
@@ -356,11 +356,11 @@ public class QMUIDialogUtil {
      * @param rightText
      * @param listener
      */
-    public static QMUIDialog showEditTextDialog(final Context context, int inputType, String title,String content, String hint, String leftText, String rightText, final OnEditTextConfirmClickListener listener) {
+    public static QMUIDialog showEditTextDialog(final Context context, int inputType, CharSequence title,CharSequence content, CharSequence hint, CharSequence leftText, CharSequence rightText, final OnEditTextConfirmClickListener listener) {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(context);
-        QMUIDialog dialog = builder.setTitle(title)
+        QMUIDialog dialog = builder.setTitle(title.toString())
                 .setDefaultText(content)
-                .setPlaceholder(hint)
+                .setPlaceholder(hint.toString())
                 .setInputType(inputType)
                 .addAction(leftText, new QMUIDialogAction.ActionListener() {
                     @Override
@@ -385,7 +385,7 @@ public class QMUIDialogUtil {
     }
 
     public interface OnEditTextConfirmClickListener {
-        void getEditText(QMUIDialog dialog, String content, int index);
+        void getEditText(QMUIDialog dialog, CharSequence content, int index);
     }
 
     /**
@@ -397,9 +397,9 @@ public class QMUIDialogUtil {
      * @param confirm
      * @param listener
      */
-    public static QMUIDialog showLongMessageDialog(Context context, String title, String content,String cancle,QMUIDialogAction.ActionListener cancelListener, String confirm, QMUIDialogAction.ActionListener listener) {
+    public static QMUIDialog showLongMessageDialog(Context context, CharSequence title, CharSequence content,CharSequence cancle,QMUIDialogAction.ActionListener cancelListener, String confirm, QMUIDialogAction.ActionListener listener) {
         QMUIDialog dialog = new QMUIDialog.MessageDialogBuilder(context)
-                .setTitle(title)
+                .setTitle(title.toString())
                 .setMessage(content)
                 .addAction(cancle, cancelListener)
                 .addAction(0, confirm, QMUIDialogAction.ACTION_PROP_NEGATIVE, listener)
@@ -417,9 +417,9 @@ public class QMUIDialogUtil {
      * @param confirm
      * @param listener
      */
-    public static QMUIDialog showLongMessageDialog(Context context, String title, String content, String confirm, QMUIDialogAction.ActionListener listener) {
+    public static QMUIDialog showLongMessageDialog(Context context, CharSequence title, CharSequence content, CharSequence confirm, QMUIDialogAction.ActionListener listener) {
         QMUIDialog dialog = new QMUIDialog.MessageDialogBuilder(context)
-                .setTitle(title)
+                .setTitle(title.toString())
                 .setMessage(content)
                 .addAction("取消", new QMUIDialogAction.ActionListener() {
                     @Override
@@ -445,7 +445,7 @@ public class QMUIDialogUtil {
      * @param rightString
      * @param rightListener
      */
-    public static void showAutoDialog(Context context, String title, String content, String leftString, QMUIDialogAction.ActionListener leftListener, String rightString, QMUIDialogAction.ActionListener rightListener) {
+    public static void showAutoDialog(Context context, CharSequence title, CharSequence content, CharSequence leftString, QMUIDialogAction.ActionListener leftListener, CharSequence rightString, QMUIDialogAction.ActionListener rightListener) {
         QMAutoTestDialogBuilder autoTestDialogBuilder = (QMAutoTestDialogBuilder) new QMAutoTestDialogBuilder(context, title, content)
                 .addAction(leftString, leftListener)
                 .addAction(0, rightString, QMUIDialogAction.ACTION_PROP_NEGATIVE, rightListener);
@@ -455,10 +455,10 @@ public class QMUIDialogUtil {
 
     static class QMAutoTestDialogBuilder extends QMUIDialog.AutoResizeDialogBuilder {
         private EditText mEditText;
-        private String mTitle;
-        private String mContent;
+        private CharSequence mTitle;
+        private CharSequence mContent;
 
-        public QMAutoTestDialogBuilder(Context context, String title, String content) {
+        public QMAutoTestDialogBuilder(Context context, CharSequence title, CharSequence content) {
             super(context);
             mTitle = title;
             mContent = content;
@@ -493,29 +493,29 @@ public class QMUIDialogUtil {
 
     }
 
-    public static void showTipsDialog(Context context, int Type, String tips, OnTipsDialogDismissListener listener) {
+    public static void showTipsDialog(Context context, int Type, CharSequence tips, OnTipsDialogDismissListener listener) {
         showTips(new QMUITipDialog.Builder(context)
                 .setIconType(Type)
                 .setTipWord(tips)
                 .create(), listener);
     }
 
-    public static void SuccessTipsDialog(Context context, String tips) {
+    public static void SuccessTipsDialog(Context context, CharSequence tips) {
         SuccessTipsDialog(context, tips, null);
     }
 
-    public static void SuccessTipsDialog(Context context, String tips, OnTipsDialogDismissListener listener) {
+    public static void SuccessTipsDialog(Context context, CharSequence tips, OnTipsDialogDismissListener listener) {
         showTips(new QMUITipDialog.Builder(context)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
                 .setTipWord(tips)
                 .create(), listener);
     }
 
-    public static void FailTipsDialog(Context context, String tips) {
+    public static void FailTipsDialog(Context context, CharSequence tips) {
         FailTipsDialog(context, tips, null);
     }
 
-    public static void FailTipsDialog(Context context, String tips, OnTipsDialogDismissListener listener) {
+    public static void FailTipsDialog(Context context, CharSequence tips, OnTipsDialogDismissListener listener) {
         if(null == tips) tips = "错误";
         showTips(new QMUITipDialog.Builder(context)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
@@ -523,14 +523,14 @@ public class QMUIDialogUtil {
                 .create(), listener);
     }
 
-    public static QMUITipDialog LoadingTipsDialog(Context context, String tips) {
+    public static QMUITipDialog LoadingTipsDialog(Context context, CharSequence tips) {
         return new QMUITipDialog.Builder(context)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
                 .setTipWord(tips)
                 .create();
     }
 
-    public static QMUITipDialog WarningTipsDialog(Context context, String tips) {
+    public static QMUITipDialog WarningTipsDialog(Context context, CharSequence tips) {
         return new QMUITipDialog.Builder(context)
                 .setIconType(QMUITipDialog.Builder.ICON_TYPE_INFO)
                 .setTipWord(tips)

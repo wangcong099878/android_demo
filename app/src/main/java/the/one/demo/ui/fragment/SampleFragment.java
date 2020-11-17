@@ -55,7 +55,6 @@ public class SampleFragment extends BaseGroupListFragment {
         PULL_EXTEND = CreateDetailItemView("BasePullExtendFragment", "下拉菜单", true);
         LETTER_SEARCH = CreateDetailItemView("BaseLetterSearchFragment", "侧边快速选择", true);
         IMAGE_SNAP = CreateDetailItemView("BaseImageSnapFragment", "图片分页显示，可以实现加载更多", false, true);
-        ROUND_CHECK_BOX = CreateDetailItemView("TheCheckBox", "普通的CheckBox设置leftPadding无效", false, true);
 
         STATUS_BAR_HELP = CreateDetailItemView("StatusBarHelper", "状态栏工具 QMUI提供", true);
         STRING_UTIL = CreateDetailItemView("StringUtils", "String的工具类", true);
@@ -68,8 +67,11 @@ public class SampleFragment extends BaseGroupListFragment {
         CITY_SELECT = CreateDetailItemView("LocationSelect", "地理位置选择 城市/地址", false, true);
 
         CRASH = CreateDetailItemView("App Crash", "当程序崩溃后...", true);
-        SEARCH_VIEW = CreateDetailItemView("TheSearchView", "带有删除按键的SearchView", true);
+
+        ROUND_CHECK_BOX = CreateDetailItemView("TheCheckBox", "普通的CheckBox设置leftPadding无效", false, true);
+        SEARCH_VIEW = CreateDetailItemView("TheSearchView", "带有删除按键的SearchView", false,true);
         POPUP_WINDOW = CreateDetailItemView("ThePopupWindow", "带有进出动画的PopupWindow", false, true);
+
         STICK_LAYOUT = CreateDetailItemView("StickLayout", "让其任意一个直接子控件滑动时停留在顶部", false, true);
 
         WHITE_BLACK_THEME = CreateDetailItemView("AppMourningThemeUtil", "让整个App黑白化", false, true);
@@ -81,8 +83,8 @@ public class SampleFragment extends BaseGroupListFragment {
         showNewTips(false, IMAGE_SNAP, THEME);
         showNewTips(true, CITY_SELECT);
 
-        addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, ROUND_CHECK_BOX,
-                SEARCH_VIEW, POPUP_WINDOW, COLLAPSING_TOP_BAR, IMAGE_SNAP);
+        addToGroup("UI", PICTURE_SELECTOR, WEB_VIEW, PULL_EXTEND, LETTER_SEARCH, CAMERA, COLLAPSING_TOP_BAR, IMAGE_SNAP,
+                ROUND_CHECK_BOX, SEARCH_VIEW, POPUP_WINDOW);
         addToGroup("工具", THEME, STATUS_BAR_HELP, STRING_UTIL, DATE_PICKER, CITY_SELECT, WHITE_BLACK_THEME, CRASH);
 
         addToGroup(TEST);

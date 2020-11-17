@@ -44,8 +44,9 @@ public class SkinManager {
         int storeSkinIndex = getSkinIndex();
         if (isDarkMode && storeSkinIndex != SKIN_DARK) {
             skinManager.changeSkin(SKIN_DARK);
-        } else if (!isDarkMode && storeSkinIndex == SKIN_DARK) {
-            skinManager.changeSkin(SKIN_BLUE);
+//        }
+//        else if (!isDarkMode && storeSkinIndex == SKIN_DARK) {
+//            skinManager.changeSkin(SKIN_BLUE);
         }else{
             skinManager.changeSkin(storeSkinIndex);
         }
@@ -57,9 +58,9 @@ public class SkinManager {
         SpUtil.getInstance().putInt(SKIN_INDEX,index);
     }
 
-    public static int getCurrentSkin() {
-        return QMUISkinManager.defaultInstance(App.getInstance()).getCurrentSkin();
-    }
+//    public static int getCurrentSkin() {
+//        return QMUISkinManager.defaultInstance(App.getInstance()).getCurrentSkin();
+//    }
 
     private static final String SKIN_INDEX = "skin_index";
 

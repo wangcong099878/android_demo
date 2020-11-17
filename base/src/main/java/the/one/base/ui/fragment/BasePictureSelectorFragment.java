@@ -50,7 +50,7 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
     protected RecyclerView mRecyclerView;
     protected List<LocalMedia> mSelectList = new ArrayList<>();
 
-    protected GridImageAdapter mImageAdapter2;
+    protected GridImageAdapter mImageAdapter;
 
     protected int getMaxSelectNum() {
         return 9;
@@ -74,11 +74,11 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
         initAroundView();
 
         initLayoutManager();
-        mImageAdapter2 = new GridImageAdapter(_mActivity,this);
-        mImageAdapter2.setSelectMax(getMaxSelectNum());
-        mImageAdapter2.setList(mSelectList);
-        mRecyclerView.setAdapter(mImageAdapter2);
-        mImageAdapter2.setOnItemClickListener(this);
+        mImageAdapter = new GridImageAdapter(_mActivity,this);
+        mImageAdapter.setSelectMax(getMaxSelectNum());
+        mImageAdapter.setList(mSelectList);
+        mRecyclerView.setAdapter(mImageAdapter);
+        mImageAdapter.setOnItemClickListener(this);
     }
 
     protected void initLayoutManager() {
@@ -119,7 +119,7 @@ public class BasePictureSelectorFragment extends BaseFragment implements GridIma
     @Override
     public void onResult(List<LocalMedia> result) {
         mSelectList = result;
-        mImageAdapter2.setList(result);
+        mImageAdapter.setList(result);
     }
 
     @Override

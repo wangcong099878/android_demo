@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <com.qmuiteam.qmui.layout.QMUIFrameLayout
             android:id="@+id/fl_top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:padding="15dp" />
 
-        <FrameLayout
+        <com.qmuiteam.qmui.layout.QMUIFrameLayout
             android:id="@+id/fl_bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

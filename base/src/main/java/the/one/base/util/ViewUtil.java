@@ -56,11 +56,19 @@ public class ViewUtil {
     }
 
     public static boolean isVisible(View view) {
-        return view.getVisibility() == View.VISIBLE;
+        return checkVisible(View.VISIBLE,view);
+    }
+
+    public static boolean isInVisible(View view) {
+        return checkVisible(View.INVISIBLE,view);
     }
 
     public static boolean isGone(View view) {
-        return view.getVisibility() == View.GONE;
+        return checkVisible(View.GONE,view);
+    }
+
+    public static boolean checkVisible(int status,View view){
+        return null != view && view.getVisibility() ==  status;
     }
 
     public static void setMargins(View v, int l, int t, int r, int b) {

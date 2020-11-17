@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.arch.SwipeBackLayout;
+import com.qmuiteam.qmui.layout.QMUIFrameLayout;
 import com.qmuiteam.qmui.skin.QMUISkinHelper;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
@@ -40,7 +40,6 @@ import the.one.base.ui.view.BaseView;
 import the.one.base.util.DeviceUtil;
 import the.one.base.util.EventBusUtil;
 import the.one.base.util.QMUIDialogUtil;
-import the.one.base.util.SkinSpUtil;
 import the.one.base.util.StatusBarUtil;
 import the.one.base.util.ToastUtil;
 import the.one.base.util.ViewUtil;
@@ -142,8 +141,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     }
 
-    private void checkLazyInit() {
-        if (mIsFirstLayInit) {
+    private void checkLazyInit(){
+        if(mIsFirstLayInit){
             mIsFirstLayInit = false;
             onLazyInit();
         }
@@ -230,10 +229,10 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     protected ProgressDialog progressDialog;
     protected Activity _mActivity;
 
-    protected FrameLayout flTopLayout;
-    protected FrameLayout flBottomLayout;
-    protected FrameLayout flLeftLayout;
-    protected FrameLayout flRightLayout;
+    protected QMUIFrameLayout flTopLayout;
+    protected QMUIFrameLayout flBottomLayout;
+    protected QMUIFrameLayout flLeftLayout;
+    protected QMUIFrameLayout flRightLayout;
 
     private Unbinder mUnBinder;
 
@@ -265,10 +264,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 注入 QMUISkinManager
-        if (SkinSpUtil.isQMUISkinManger())
-            mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
-        if (getPresenter() != null)
-            getPresenter().attachView(this, this);
+        mSkinManager = QMUISkinManager.defaultInstance(getBaseFragmentActivity());
         getLazyViewLifecycleOwner().getLifecycle().addObserver(this);
     }
 
@@ -296,9 +292,11 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     @Override
     protected View onCreateView() {
-        View mBody = getView(getContentViewId());
+        if (getPresenter() != null)
+            getPresenter().attachView(this, this);
         if (isRegisterEventBus())
             EventBusUtil.register(this);
+        View mBody = getView(getContentViewId());
         if (showTitleBar()) {
             mRootView = getView(isNeedAround() ? R.layout.base_fragment_around : R.layout.base_fragment);
             mStatusLayout = mRootView.findViewById(R.id.status_layout);
@@ -320,7 +318,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
         mUnBinder = ButterKnife.bind(this, mBody);
         initView(mRootView);
 
-        if (null != mTopLayout && mTopLayout.getVisibility() != View.VISIBLE) {
+        if (!ViewUtil.isVisible(mTopLayout)) {
             ViewUtil.setMargins(isNeedAround() ? rlParent : mStatusLayout, 0, 0, 0, 0);
         }
         return mRootView;
@@ -337,6 +335,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
+     *
      * @param parent
      * @param layout
      */
@@ -354,8 +353,8 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     * @param title
      * @deprecated use {@link #setTitleWithBackBtn}
+     * @param title
      */
     protected void initFragmentBack(String title) {
         if (null != mTopLayout) {
@@ -366,7 +365,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置标题并带上返回按钮
-     *
      * @param title
      */
     protected void setTitleWithBackBtn(String title) {
@@ -400,7 +398,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 添加返回按钮
-     *
      * @param drawable 返回键图标
      */
     protected void addTopBarBackBtn(int drawable) {
@@ -413,8 +410,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
-     * 添加返回按钮
-     *
+     *  添加返回按钮
      * @param drawable 返回键图标
      * @param listener 返回键监听
      */
@@ -423,7 +419,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void showLoadingDialog(String msg) {
+    public void showLoadingDialog(CharSequence msg) {
         loadingDialog = QMUIDialogUtil.LoadingTipsDialog(getActivity(), msg);
         loadingDialog.show();
     }
@@ -435,7 +431,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void showProgressDialog(String msg) {
+    public void showProgressDialog(CharSequence msg) {
         showProgressDialog(0, 100, msg);
     }
 
@@ -450,7 +446,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void showProgressDialog(int percent, int total, String msg) {
+    public void showProgressDialog(int percent, int total, CharSequence msg) {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setCanceledOnTouchOutside(false);
@@ -468,7 +464,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void showToast(String msg) {
+    public void showToast(CharSequence msg) {
         ToastUtil.showToast(msg);
     }
 
@@ -485,53 +481,53 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void showEmptyPage(String title) {
+    public void showEmptyPage(CharSequence title) {
         showEmptyPage(title, "", null);
     }
 
     @Override
-    public void showEmptyPage(String title, View.OnClickListener listener) {
+    public void showEmptyPage(CharSequence title, View.OnClickListener listener) {
         showEmptyPage(title, "刷新试试", listener);
     }
 
     @Override
-    public void showEmptyPage(String title, String btnString, View.OnClickListener listener) {
+    public void showEmptyPage(CharSequence title, CharSequence btnString, View.OnClickListener listener) {
         showEmptyPage(title, "", btnString, listener);
     }
 
     @Override
-    public void showEmptyPage(String title, String content, String btnString, View.OnClickListener listener) {
+    public void showEmptyPage(CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         showEmptyPage(null, title, content, btnString, listener);
     }
 
     @Override
-    public void showEmptyPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
+    public void showEmptyPage(Drawable drawable, CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         if (null != mStatusLayout)
             mStatusLayout.showEmpty(drawable, title, content, btnString, listener);
     }
 
     @Override
-    public void showErrorPage(String title) {
+    public void showErrorPage(CharSequence title) {
         showErrorPage(title, "", null);
     }
 
     @Override
-    public void showErrorPage(String title, View.OnClickListener listener) {
+    public void showErrorPage(CharSequence title, View.OnClickListener listener) {
         showErrorPage(title, "刷新试试", listener);
     }
 
     @Override
-    public void showErrorPage(String title, String btnString, View.OnClickListener listener) {
+    public void showErrorPage(CharSequence title, CharSequence btnString, View.OnClickListener listener) {
         showErrorPage(title, "", btnString, listener);
     }
 
     @Override
-    public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
+    public void showErrorPage(CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         showErrorPage(DeviceUtil.isNetworkConnected(_mActivity)?null: QMUISkinHelper.getSkinDrawable(mRootView,R.attr.app_skin_status_layout_net_error_drawable), title, content, btnString, listener);
     }
 
     @Override
-    public void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
+    public void showErrorPage(Drawable drawable, CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         if (null != mStatusLayout)
             mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
@@ -548,13 +544,14 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
 
+
     @Override
-    public void showSuccessExit(String tips) {
-        showSuccessExit(tips, NO_SET);
+    public void showSuccessExit(CharSequence tips) {
+        showSuccessExit(tips,NO_SET);
     }
 
     @Override
-    public void showSuccessExit(String tips, int type) {
+    public void showSuccessExit(CharSequence tips,int type) {
         QMUIDialogUtil.SuccessTipsDialog(_mActivity, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
             @Override
             public void onDismiss() {
@@ -565,12 +562,12 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     @Override
-    public void showSuccessTips(String tips) {
+    public void showSuccessTips(CharSequence tips) {
         QMUIDialogUtil.SuccessTipsDialog(_mActivity, tips);
     }
 
     @Override
-    public void showFailTips(String tips) {
+    public void showFailTips(CharSequence tips) {
         QMUIDialogUtil.FailTipsDialog(_mActivity, tips);
     }
 
@@ -582,6 +579,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (getPresenter() != null) getPresenter().detachView();
         if (isRegisterEventBus()) {
             EventBusUtil.unregister(this);
         }
@@ -615,7 +613,9 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     /**
      * 更新状态栏模式
      *
-     * @param isLight
+     * @param isLight true 设置状态栏黑色字体图标，
+     *
+     * 支持 4.4 以上版本 MIUI 和 Flyme，以及 6.0 以上版本的其他 Android
      */
     protected void updateStatusBarMode(boolean isLight) {
         if (isLight) {
@@ -627,7 +627,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过TopView查找View {@link #getTopLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -638,7 +637,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过LeftView查找View {@link #getLeftLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -649,7 +647,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过RightView查找View {@link #getRightLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -660,7 +657,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 通过BottomView查找View {@link #getBottomLayout()}
-     *
      * @param id
      * @param <T>
      * @return
@@ -670,6 +666,7 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
     }
 
     /**
+     *
      * @param around {@link #getTopLayout()} {@link #getBottomLayout()} {@link #getLeftLayout()} {@link #getRightLayout()}
      * @param id
      * @param <T>
@@ -684,7 +681,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取View
-     *
      * @param layoutId 布局id
      * @return
      */
@@ -694,7 +690,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取Drawable
-     *
      * @param id drawable id
      * @return
      */
@@ -704,7 +699,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取Color
-     *
      * @param id color id
      * @return
      */
@@ -714,7 +708,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取EditText String
-     *
      * @param editText
      * @return
      */
@@ -724,7 +717,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 获取TextView String
-     *
      * @param textView
      * @return
      */
@@ -734,7 +726,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置View为 {@link View.GONE}状态
-     *
      * @param views
      */
     protected void goneView(View... views) {
@@ -743,7 +734,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 设置View为 {@link View.VISIBLE}状态
-     *
      * @param views
      */
     protected void showView(View... views) {
@@ -768,7 +758,6 @@ public abstract class BaseFragment extends QMUIFragment implements BaseView, Lif
 
     /**
      * 显示图片
-     *
      * @param url
      * @param imageView
      */

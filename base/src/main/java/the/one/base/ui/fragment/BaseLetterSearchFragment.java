@@ -18,7 +18,6 @@ package the.one.base.ui.fragment;
 //      ┃┫┫　┃┫┫
 //      ┗┻┛　┗┻┛
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -146,12 +145,11 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         goneView(tvLeft, flBottomLayout, sideLetterBar, flTopLayout);
     }
 
-
     protected void notifyData(List<T> datas, String emptyTitle, String btnString, View.OnClickListener listener) {
-        notifyData(datas,null,emptyTitle,btnString,listener);
+        notifyData(datas, null, emptyTitle, btnString, listener);
     }
 
-    protected void notifyData(List<T> datas,List<T> selects, String emptyTitle, String btnString, View.OnClickListener listener) {
+    protected void notifyData(List<T> datas, List<T> selects, String emptyTitle, String btnString, View.OnClickListener listener) {
         if (null == datas || datas.size() == 0) {
             showEmptyPage(emptyTitle, btnString, listener);
         } else {
@@ -163,7 +161,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
                     _mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mAdapter.setData(parseSectionList(datas,selects));
+                            mAdapter.setData(parseSectionList(datas, selects));
                             mAdapter.setSelectsMap(mDataMap);
                             setSelect(selects);
                             showView(sideLetterBar, flTopLayout);
@@ -175,8 +173,8 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         }
     }
 
-    private void setSelect(List<T> list){
-        if(null== list ) return;
+    private void setSelect(List<T> list) {
+        if (null == list) return;
         startSelect();
         mAdapter.setSelects(mSelectMap);
         updateSelectSum();
@@ -184,7 +182,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
 
     private Map<String, QMUISection<LetterSearchSection, LetterSearchSection>> mBarIndex = new HashMap<>();
 
-    private List<QMUISection<LetterSearchSection, LetterSearchSection>> parseSectionList(List<T> datas,List<T> selects) {
+    private List<QMUISection<LetterSearchSection, LetterSearchSection>> parseSectionList(List<T> datas, List<T> selects) {
         List<QMUISection<LetterSearchSection, LetterSearchSection>> sections = new ArrayList<>();
         String head = datas.get(0).getFirstPinYin();
         List<T> items = new ArrayList<>();
@@ -192,7 +190,7 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         for (int i = 0; i < size; i++) {
             T data = datas.get(i);
             if (!data.getFirstPinYin().equals(head) && items.size() > 0) {
-                QMUISection<LetterSearchSection, LetterSearchSection> section = parseSection(items,selects, head);
+                QMUISection<LetterSearchSection, LetterSearchSection> section = parseSection(items, selects, head);
                 sections.add(section);
                 mBarIndex.put(head, section);
                 items.clear();
@@ -201,21 +199,19 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
             items.add(data);
             // 如果最后一个head还有内容就不会再走上面的判断
             if (i == size - 1 && items.size() > 1) {
-                sections.add(parseSection(items,selects, head));
+                sections.add(parseSection(items, selects, head));
                 items.clear();
                 mBarIndex.put(head, sections.get(sections.size() - 1));
             }
         }
-        for(Map.Entry<String, QMUISection<LetterSearchSection, LetterSearchSection>> entry : mBarIndex.entrySet()){
+        for (Map.Entry<String, QMUISection<LetterSearchSection, LetterSearchSection>> entry : mBarIndex.entrySet()) {
             String mapKey = entry.getKey();
-            Log.e(TAG, "mapKey ： "+mapKey +" \n" );
             QMUISection<LetterSearchSection, LetterSearchSection> mapValue = entry.getValue();
-            Log.e(TAG, "mapValue ： "+mapValue.toString()+" \n" );
         }
         return sections;
     }
 
-    private QMUISection<LetterSearchSection, LetterSearchSection> parseSection(List<T> datas,List<T> selects, String head) {
+    private QMUISection<LetterSearchSection, LetterSearchSection> parseSection(List<T> datas, List<T> selects, String head) {
         List<LetterSearchSection> itemSections = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             T data = datas.get(i);
@@ -223,12 +219,13 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
             section.position = i;
             itemSections.add(section);
             mDataMap.put(section, data);
-            for (T t: selects){
-                if(t.name.equals(data.name)){
-                    mSelectMap.put(section,data);
-                    break;
+            if (null != selects)
+                for (T t : selects) {
+                    if (t.name.equals(data.name)) {
+                        mSelectMap.put(section, data);
+                        break;
+                    }
                 }
-            }
         }
         return new QMUISection<LetterSearchSection, LetterSearchSection>(new LetterSearchSection(head), itemSections);
     }
@@ -325,8 +322,8 @@ public abstract class BaseLetterSearchFragment<T extends LetterSearchSection> ex
         });
     }
 
-    protected void setTitle(int size){
-        mTopLayout.setTitle(size == 0 ?getTitleString():"已选择" + size + "项");
+    protected void setTitle(int size) {
+        mTopLayout.setTitle(size == 0 ? getTitleString() : "已选择" + size + "项");
     }
 
     @Override

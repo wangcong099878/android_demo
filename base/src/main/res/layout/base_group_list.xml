@@ -19,7 +19,7 @@
             android:orientation="vertical"
             tools:ignore="MissingPrefix">
 
-            <FrameLayout
+            <com.qmuiteam.qmui.layout.QMUIFrameLayout
                 android:id="@+id/fl_child_top_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -31,7 +31,7 @@
                 app:qmui_skin_background="?attr/app_skin_background_color_2"
                 android:background="?attr/app_skin_background_color_2"/>
 
-            <FrameLayout
+            <com.qmuiteam.qmui.layout.QMUIFrameLayout
                 android:id="@+id/fl_child_bottom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

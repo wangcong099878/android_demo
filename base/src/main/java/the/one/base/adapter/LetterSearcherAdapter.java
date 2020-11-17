@@ -87,7 +87,6 @@ public class LetterSearcherAdapter<T> extends BaseQMUISectionAdapter<LetterSearc
     public void setSelects(HashMap<LetterSearchSection, T> selects){
         this.selects = selects;
         for (LetterSearchSection section : selects.keySet()) {
-            Log.e(TAG, "setSelects: "+section.toString() );
         }
         notifyDataSetChanged();
     }

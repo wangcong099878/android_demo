@@ -41,7 +41,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     private int mTotal;
     private String[] mMenus = new String[]{"Orientation", "Theme"};
     private String[] mOrientationItems = new String[]{"HORIZONTAL", "VERTICAL"};
-    private String[] mThemeItems = new String[]{"White", "Dark"};
+    private String[] mThemeItems = new String[]{"Light", "Dark"};
     private QMUIAlphaImageButton mSettingIcon;
     private QMUIPopup mSettingPopup;
 
@@ -49,7 +49,8 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     private final String TAG_SHARE_URL = "分享图片地址";
 
     private int mCurrentOrientation = RecyclerView.HORIZONTAL;
-    private boolean isWhite = true;
+
+    private boolean isLightMode;
 
     /**
      * 也就是 RecyclerView.HORIZONTAL or RecyclerView.VERTICAL
@@ -68,7 +69,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
      */
     @Override
     protected boolean isStatusBarLightMode() {
-        return isWhite;
+        return isLightMode;
     }
 
     /**
@@ -79,9 +80,15 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     @Override
     protected void initView(View rootView) {
         // 由于有主题变化，这里判断下
-        isWhite = SkinManager.getCurrentSkin() != SkinManager.SKIN_DARK;
+        isLightMode = SkinManager.getSkinIndex() != SkinManager.SKIN_DARK;
         super.initView(rootView);
         initTestList();
+    }
+
+    @Override
+    protected void updateBgColor(boolean isLight) {
+        super.updateBgColor(isLight);
+        initSettingBtn();
     }
 
     private void showSettingPopup() {
@@ -118,26 +125,24 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (selectIndex != which) {
-                    isWhite = which == 0;
-                    updateBgColor(isWhite);
+                    isLightMode = which == 0;
+                    updateBgColor(isLightMode);
                 }
                 dialog.dismiss();
             }
         });
     }
 
-    @Override
-    protected void updateBgColor(boolean isWhite) {
-        super.updateBgColor(isWhite);
-        int mSettingDrawable = isWhite ? R.drawable.mz_titlebar_ic_more_dark : R.drawable.mz_titlebar_ic_more_light;
+    private void initSettingBtn() {
+        int mSettingDrawable = isLightMode ? R.drawable.mz_titlebar_ic_more_dark : R.drawable.mz_titlebar_ic_more_light;
         if (null == mSettingIcon) {
-            mSettingIcon = mTopLayout.getTopBar().addRightImageButton(mSettingDrawable, false,R.id.topbar_right_button1);
+            mSettingIcon = mTopLayout.getTopBar().addRightImageButton(mSettingDrawable, false, R.id.topbar_right_button1);
             mSettingIcon.setOnClickListener(v -> {
                 showSettingPopup();
             });
             goneView(mSettingIcon);
         } else
-            mSettingIcon.setImageDrawable(getDrawable(mSettingDrawable));
+            mSettingIcon.setImageResource(mSettingDrawable);
     }
 
     @Override
@@ -195,16 +200,16 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
     @Override
     public void onSheetItemClick(int position, String title, QMUIBottomSheet dialog, View itemView) {
         // 默认是直接申请权限，如果有些操作不需要，这里直接判断然后进行操作
-        if(title.equals(TAG_SHARE_URL)){
-            ShareUtil.shareText(_mActivity,"分享图片",mData.getImageUrl());
+        if (title.equals(TAG_SHARE_URL)) {
+            ShareUtil.shareText(_mActivity, "分享图片", mData.getImageUrl());
             dialog.dismiss();
-        }else {
+        } else {
             super.onSheetItemClick(position, title, dialog, itemView);
         }
     }
 
     @Override
-    protected void onPermissionComplete(ImageSnap data, String tag, int position) {
+    protected void onPermissionComplete(Mzitu data, String tag, int position) {
         super.onPermissionComplete(data, tag, position);
         if (tag.equals(TAG_SHARE)) {
             startShare(data);
@@ -228,7 +233,7 @@ public class MzituDetailFragment extends BaseImageSnapFragment<Mzitu> {
                 + DownloadUtil.getFileSuffix(data.getImageUrl(), data.isVideo());
         RxHttp.get(data.getImageUrl())
                 .asDownload(savePath)
-                .doFinally(()->{
+                .doFinally(() -> {
                     hideLoadingDialog();
                 })
                 .as(RxLife.asOnMain(this))

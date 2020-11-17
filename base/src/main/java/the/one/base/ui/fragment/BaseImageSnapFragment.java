@@ -9,7 +9,6 @@ import com.hjq.permissions.OnPermission;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
-import com.qmuiteam.qmui.util.QMUIViewHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUIBottomSheet;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
     protected QMUIBottomSheet mBottomSheet;
     protected List<PopupItem> mSheetItems = new ArrayList<>();
 
-    protected ImageSnap mData;
+    protected T mData;
     protected int mSheetClickPosition;
     protected String mSheetClickTag;
 
@@ -90,6 +89,8 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
     @Override
     protected void initView(View rootView) {
         super.initView(rootView);
+        // 这个界面只提供黑白两种，不随主题色变化
+        mTopLayout.setNeedChangedWithTheme(false);
         updateBgColor(isStatusBarLightMode());
         ViewUtil.setMargins(mStatusLayout, 0, 0, 0, 0);
         mStatusLayout.setFitsSystemWindows(false);
@@ -103,31 +104,37 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
         sheetItems.add(new PopupItem(TAG_DOWNLOAD, R.drawable.icon_more_operation_save));
     }
 
-    /*
+    /**
      * 根据主题更换颜色
+     *
+     * @param isLight 亮色背景，黑色状态栏图标字体
      */
-    protected void updateBgColor(boolean isWhite) {
-        mBgColor = getColor(isWhite ? R.color.qmui_config_color_white : R.color.we_chat_black);
-        mTextColor = getColor(isWhite ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white);
+    protected void updateBgColor(boolean isLight) {
+        mBgColor = getColor(isLight ? R.color.qmui_config_color_white : R.color.we_chat_black);
+        mTextColor = getColor(isLight ? R.color.qmui_config_color_gray_1 : R.color.qmui_config_color_white);
 
         mRootView.setBackgroundColor(mBgColor);
         mStatusLayout.setBackgroundColor(mBgColor);
-        recycleView.setBackgroundColor(getColor(isWhite ? R.color.qmui_config_color_background : R.color.qmui_config_color_black));
-        mImageSnapAdapter.setWhiteBg(isWhite);
+        recycleView.setBackgroundColor(mBgColor);
+        mImageSnapAdapter.setWhiteBg(isLight);
 
         mTopLayout.setBackgroundColor(mBgColor);
         mTopLayout.getTopBar().getTitleView().setTextColor(mTextColor);
-        int backRes = isWhite ? R.drawable.mz_titlebar_ic_back_dark : R.drawable.mz_titlebar_ic_back_light;
+        initTopBarBackBtn(isLight);
+        if (null != mStatusLayout && null != mStatusLayout.getLoadingTipsView()) {
+            mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
+        }
+        updateStatusBarMode(isLight);
+    }
+
+    protected void initTopBarBackBtn(boolean isLightMode){
+        int backRes = isLightMode ? R.drawable.mz_titlebar_ic_back_dark : R.drawable.mz_titlebar_ic_back_light;
         if (null == mBackBtn) {
             mBackBtn = mTopLayout.addLeftImageButton(backRes, R.id.topbar_left_button);
             mBackBtn.setOnClickListener(v -> onBackPressed());
         } else {
-            mBackBtn.setImageDrawable(getDrawable(backRes));
+            mBackBtn.setImageResource(backRes);
         }
-        if (null != mStatusLayout && null != mStatusLayout.getLoadingTipsView()) {
-            mStatusLayout.getLoadingTipsView().setTextColor(mTextColor);
-        }
-        onLazyResume();
     }
 
     @Override
@@ -182,28 +189,30 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
         };
     }
 
+
     /**
      * 点击图片
+     *
      * @param data
      */
     @Override
     public void onImageClick(T data) {
-        // 点击后隐藏或者显示 TopBarLayout和状态栏
-        boolean isVisible = mTopLayout.getVisibility() == View.VISIBLE;
-        mTopLayout.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-        if (isVisible) {
-            QMUIViewHelper.fadeOut(mTopLayout, 500, null, true);
-        } else {
-            QMUIViewHelper.fadeIn(mTopLayout, 500, null, true);
-        }
-        setStatusBarVisible(!isVisible);
+        // 点击后隐藏或者显示 TopBarLayout和 状态栏
+        final boolean isVisible = ViewUtil.isVisible(mTopLayout);
         if (isStatusBarLightMode()) {
             // 如果是白色模式，点击后将变成黑色
             updateBgColor(!isVisible);
         }
+        setStatusBarVisible(!isVisible);
+        ViewUtil.setViewsVisible(!isVisible,mTopLayout);
+//        if (isVisible) {
+//            QMUIViewHelper.fadeOut(mTopLayout, 500, null, true);
+//        } else {
+//            QMUIViewHelper.fadeIn(mTopLayout, 500, null, true);
+//        }
     }
 
-    protected void showBottomSheetDialog(ImageSnap data){
+    protected void showBottomSheetDialog(T data) {
         mData = data;
         if (null == mBottomSheet) {
             mBottomSheet = QMUIBottomSheetUtil.showGridBottomSheet(_mActivity, mSheetItems, 4, true, this);
@@ -218,7 +227,7 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
                     @Override
                     public void hasPermission(List<String> granted, boolean all) {
                         if (all) {
-                            onPermissionComplete(mData,mSheetClickTag,mSheetClickPosition);
+                            onPermissionComplete(mData, mSheetClickTag, mSheetClickPosition);
                         } else {
                             requestPermission();
                         }
@@ -236,10 +245,10 @@ public abstract class BaseImageSnapFragment<T extends ImageSnap> extends BaseLis
                 });
     }
 
-    protected void onPermissionComplete(ImageSnap data,String tag,int position){
-        if(tag.equals(TAG_DOWNLOAD)){
+    protected void onPermissionComplete(T data, String tag, int position) {
+        if (tag.equals(TAG_DOWNLOAD)) {
             // 下载
-            DownloadUtil.startDownload(_mActivity,data);
+            DownloadUtil.startDownload(_mActivity, data);
         }
     }
 

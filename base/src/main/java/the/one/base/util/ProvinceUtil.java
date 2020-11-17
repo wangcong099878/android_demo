@@ -269,7 +269,6 @@ public class ProvinceUtil {
     }
 
     private static List<Province> getProvincesFromJson() {
-        Log.e(TAG, "getProvincesFromJson: " + Thread.currentThread().getName());
         StringBuilder jsonSB = new StringBuilder();
         try {
             File file = new File(FileDirectoryUtil.getProvinceJsonPath());

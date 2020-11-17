@@ -33,6 +33,11 @@ import the.one.base.ui.presenter.BasePresenter;
 public class CitySelectFragment extends BaseCitySelectFragment {
 
     @Override
+    protected boolean isNeedMultiChoose() {
+        return true;
+    }
+
+    @Override
     protected void onItemClick(CitySection citySection) {
         showToast(citySection.getName());
     }

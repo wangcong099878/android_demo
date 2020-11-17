@@ -2,7 +2,7 @@ package the.one.demo.ui.presenter;
 
 import com.rxjava.rxlife.RxLife;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import rxhttp.wrapper.cahce.CacheMode;
 import rxhttp.wrapper.param.RxHttp;
 import the.one.base.Interface.OnError;
 import the.one.base.ui.presenter.BaseDataPresenter;
@@ -45,9 +45,9 @@ public class MzituPresenter extends BaseDataPresenter<Mzitu> {
         RxHttp.get(url)
                 .addHeader("Referer", url)
                 .addHeader("User-Agent", USER_AGENT)
+                .setCacheMode(CacheMode.READ_CACHE_FAILED_REQUEST_NETWORK)
                 .asString()
-                .observeOn(AndroidSchedulers.mainThread())
-                .as(RxLife.as(this))
+                .as(RxLife.asOnMain(this))
                 .subscribe( s -> {
                     onComplete(MzituParseUtil.parseMzituCategory(s, WELFARE_BASE_URL));
                 }, (OnError) error -> {

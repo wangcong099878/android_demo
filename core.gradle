@@ -66,8 +66,7 @@ configurations.all {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation fileTree(include: ['*.aar'], dir: 'libs')
-//    implementation project(':base')
-    implementation 'com.gitee.theoneee:TheBase:2.1.0-alpha'
+    implementation project(':base')
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.ljx.rxhttp:rxhttp-compiler:$rxhttpVersion" //生成RxHttp类
 }

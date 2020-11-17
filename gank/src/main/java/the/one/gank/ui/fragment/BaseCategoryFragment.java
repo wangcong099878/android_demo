@@ -70,7 +70,7 @@ public abstract class BaseCategoryFragment extends BaseTitleTabFragment {
      * @param percent
      */
     @Override
-    public void onScrollChanged(float percent) {
+    protected void onScrollChanged(float percent) {
         mTitle.setTextColor(QMUIColorHelper.setColorAlpha(getColor(R.color.qmui_config_color_gray_1),percent));
     }
 

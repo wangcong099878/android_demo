@@ -2,8 +2,10 @@ package the.one.demo;
 
 import android.app.Activity;
 
+import rxhttp.wrapper.param.RxHttp;
 import the.one.base.BaseApplication;
 import the.one.base.util.FileDirectoryUtil;
+import the.one.base.util.RxHttpManager;
 import the.one.demo.skin.SkinManager;
 import the.one.demo.ui.activity.LauncherActivity;
 
@@ -50,9 +52,16 @@ public class App extends BaseApplication {
         super.onCreate();
         SkinManager.install(this);
 //        initFilePath();
+//        initStatusDrawable();
 //        if (!LeakCanary.isInAnalyzerProcess(this)) {
 //            LeakCanary.install(this);
 //        }
+    }
+
+    @Override
+    protected void initHttp(RxHttpManager.HttpBuilder builder) {
+         RxHttp.init(RxHttpManager.getHttpClient(builder),BuildConfig.DEBUG);
+         RxHttpManager.initCacheMode(builder);
     }
 
     /**

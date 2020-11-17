@@ -71,7 +71,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     protected View mRootView;
     protected StatusLayout mStatusLayout;
     protected QMUITipDialog loadingDialog;
-    protected the.one.base.widge.ProgressDialog progressDialog;
+    protected ProgressDialog progressDialog;
     private Unbinder unbinder;
 
     protected abstract int getContentViewId();
@@ -119,7 +119,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
         updateStatusBarMode();
         setContentView(mRootView);
         unbinder = ButterKnife.bind(this);
-        if (getPresenter() != null) {
+        if (null != getPresenter()) {
             getPresenter().attachView(this, this);
         }
         if (isRegisterEventBus()) {
@@ -137,7 +137,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    public void showLoadingDialog(String msg) {
+    public void showLoadingDialog(CharSequence msg) {
         loadingDialog = QMUIDialogUtil.LoadingTipsDialog(this, msg);
         loadingDialog.setCanceledOnTouchOutside(false);
         loadingDialog.show();
@@ -150,7 +150,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    public void showProgressDialog(String msg) {
+    public void showProgressDialog(CharSequence msg) {
         showProgressDialog(0, 100, msg);
     }
 
@@ -165,7 +165,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    public void showProgressDialog(int percent, int total, String msg) {
+    public void showProgressDialog(int percent, int total, CharSequence msg) {
         if (null == progressDialog) {
             progressDialog = new ProgressDialog(this);
         }
@@ -186,7 +186,7 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    public void showToast(String msg) {
+    public void showToast(CharSequence msg) {
         ToastUtil.showToast(msg);
     }
 
@@ -203,53 +203,53 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    public void showEmptyPage(String title) {
+    public void showEmptyPage(CharSequence title) {
         showEmptyPage(title, "", null);
     }
 
     @Override
-    public void showEmptyPage(String title, View.OnClickListener listener) {
+    public void showEmptyPage(CharSequence title, View.OnClickListener listener) {
         showEmptyPage(title, "刷新试试", listener);
     }
 
     @Override
-    public void showEmptyPage(String title, String btnString, View.OnClickListener listener) {
+    public void showEmptyPage(CharSequence title, CharSequence btnString, View.OnClickListener listener) {
         showEmptyPage(title, "", btnString, listener);
     }
 
     @Override
-    public void showEmptyPage(String title, String content, String btnString, View.OnClickListener listener) {
+    public void showEmptyPage(CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         showEmptyPage(null, title, content, btnString, listener);
     }
 
     @Override
-    public void showEmptyPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
+    public void showEmptyPage(Drawable drawable, CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         if (null != mStatusLayout)
             mStatusLayout.showEmpty(drawable, title, content, btnString, listener);
     }
 
     @Override
-    public void showErrorPage(String title) {
+    public void showErrorPage(CharSequence title) {
         showErrorPage(title, "", null);
     }
 
     @Override
-    public void showErrorPage(String title, View.OnClickListener listener) {
+    public void showErrorPage(CharSequence title, View.OnClickListener listener) {
         showErrorPage(title, "刷新试试", listener);
     }
 
     @Override
-    public void showErrorPage(String title, String btnString, View.OnClickListener listener) {
+    public void showErrorPage(CharSequence title, CharSequence btnString, View.OnClickListener listener) {
         showErrorPage(title, "", btnString, listener);
     }
 
     @Override
-    public void showErrorPage(String title, String content, String btnString, View.OnClickListener listener) {
+    public void showErrorPage(CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         showErrorPage(DeviceUtil.isNetworkConnected(this)?null: QMUISkinHelper.getSkinDrawable(mRootView,R.attr.app_skin_status_layout_net_error_drawable), title, content, btnString, listener);
     }
 
     @Override
-    public void showErrorPage(Drawable drawable, String title, String content, String btnString, View.OnClickListener listener) {
+    public void showErrorPage(Drawable drawable, CharSequence title, CharSequence content, CharSequence btnString, View.OnClickListener listener) {
         if (null != mStatusLayout)
             mStatusLayout.showError(drawable, title, content, btnString, listener);
     }
@@ -268,12 +268,12 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
 
 
     @Override
-    public void showSuccessExit(String tips) {
+    public void showSuccessExit(CharSequence tips) {
         showSuccessExit(tips, -1);
     }
 
     @Override
-    public void showSuccessExit(String tips, int type) {
+    public void showSuccessExit(CharSequence tips, int type) {
         QMUIDialogUtil.SuccessTipsDialog(this, tips, new QMUIDialogUtil.OnTipsDialogDismissListener() {
             @Override
             public void onDismiss() {
@@ -284,18 +284,19 @@ public abstract class BaseActivity extends QMUIActivity implements BaseView {
     }
 
     @Override
-    public void showSuccessTips(String tips) {
+    public void showSuccessTips(CharSequence tips) {
         QMUIDialogUtil.SuccessTipsDialog(this, tips);
     }
 
     @Override
-    public void showFailTips(String tips) {
+    public void showFailTips(CharSequence tips) {
         QMUIDialogUtil.FailTipsDialog(this, tips);
     }
 
 
     @Override
     protected void onDestroy() {
+        if (getPresenter() != null) getPresenter().detachView();
         super.onDestroy();
         if (isRegisterEventBus()) EventBusUtil.unregister(this);
         try {

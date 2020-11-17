@@ -1,34 +1,34 @@
 package the.one.base.service;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Notification;
-import android.app.Service;
-import android.content.Intent;
-import android.media.MediaScannerConnection;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.text.TextUtils;
+        import android.annotation.SuppressLint;
+        import android.app.Activity;
+        import android.app.Notification;
+        import android.app.Service;
+        import android.content.Intent;
+        import android.media.MediaScannerConnection;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.os.IBinder;
+        import android.os.Message;
+        import android.text.TextUtils;
 
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.FileCallBack;
+        import com.zhy.http.okhttp.OkHttpUtils;
+        import com.zhy.http.okhttp.callback.FileCallBack;
 
-import java.io.File;
-import java.util.UUID;
+        import java.io.File;
+        import java.util.UUID;
 
-import androidx.core.app.NotificationCompat;
-import okhttp3.Call;
-import the.one.base.BaseApplication;
-import the.one.base.R;
-import the.one.base.constant.DataConstant;
-import the.one.base.model.Download;
-import the.one.base.util.AppInfoManager;
-import the.one.base.util.BroadCastUtil;
-import the.one.base.util.FileDirectoryUtil;
-import the.one.base.util.NotificationManager;
-import the.one.base.util.ToastUtil;
+        import androidx.core.app.NotificationCompat;
+        import okhttp3.Call;
+        import the.one.base.BaseApplication;
+        import the.one.base.R;
+        import the.one.base.constant.DataConstant;
+        import the.one.base.model.Download;
+        import the.one.base.util.AppInfoManager;
+        import the.one.base.util.BroadCastUtil;
+        import the.one.base.util.FileDirectoryUtil;
+        import the.one.base.util.NotificationManager;
+        import the.one.base.util.ToastUtil;
 
 public class DownloadService extends Service {
 
