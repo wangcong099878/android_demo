@@ -73,7 +73,7 @@ public class DatePickerFragment extends BaseGroupListFragment
 
     @Override
     public void handle(Date date) {
-        String mDate = DateUtil.Date2String(date);
+        String mDate = DateUtil.dateToYMDString(date);
         mCurrentDateType.setDetailText(mDate);
     }
 }
